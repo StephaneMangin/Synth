@@ -1,5 +1,7 @@
 package org.istic.synthlab.components.vcoa;
 
+import com.jsyn.unitgen.UnitOscillator;
+
 /**
  * Created by stephane on 02/02/16.
  */

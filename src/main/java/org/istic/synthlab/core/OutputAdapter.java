@@ -1,5 +1,7 @@
 package org.istic.synthlab.core;
 
+import com.jsyn.ports.UnitOutputPort;
+
 /**
  * Created by stephane on 02/02/16.
  */
