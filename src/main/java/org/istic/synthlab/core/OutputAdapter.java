@@ -13,5 +13,6 @@ public class OutputAdapter implements IOutput {
 
     public void connect(IInput in) {
         Channel.connect(in, this);
+        IOMappingService.connect(in, this);
     }
 }

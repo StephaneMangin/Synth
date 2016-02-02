@@ -1,9 +1,9 @@
 package org.istic.synthlab.components.vcoa;
 
-import com.jsyn.unitgen.*;
+import com.jsyn.unitgen.SineOscillator;
 import org.istic.synthlab.core.IInput;
+import org.istic.synthlab.core.IOMappingService;
 import org.istic.synthlab.core.IOutput;
-import org.istic.synthlab.core.OutputAdapter;
 
 
 public class SineOscillatorAdapter implements Oscillator {
@@ -18,7 +18,7 @@ public class SineOscillatorAdapter implements Oscillator {
         this.amplitude = 0.0;
         this.phase = 0.0;
         this.oscillator = new SineOscillator();
-        this.output = new OutputAdapter(oscillator.output);
+        this.output = IOMappingService.getAdapter(oscillator.output);
     }
 
     @Override
