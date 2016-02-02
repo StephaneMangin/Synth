@@ -1,26 +1,21 @@
 package org.istic.synthlab.core;
 
-import java.util.HashMap;
-import java.util.Map;
+import javafx.util.Pair;
 
-/**
- * Created by stephane on 02/02/16.
- */
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class Channel {
 
-    Map<IInput, IOutput> connections;
+    private static Set<Pair<IInput, IOutput>> connections = new HashSet<>();
 
-    Channel() {
-        connections = new HashMap<IInput, IOutput>();
+    public static void connect(IInput in, IOutput out) {
+        connections.add(new Pair<>(in, out));
     }
 
-    void connect(IInput in, IOutput out) {
-        connections.put(in, out);
-        in.connect(out);
+    public static void disconnect(IInput in , IOutput out) {
+        connections.removeIf(pair -> pair.getKey() == in && pair.getValue() == out);
     }
-
-    void disconnect(IInput in , IOutput out) {
-        connections.remove(in, out);
-    }
-
 }
