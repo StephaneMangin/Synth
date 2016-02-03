@@ -1,6 +1,8 @@
 package org.istic.synthlab.core;
 
 import javafx.util.Pair;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 
 import java.util.HashSet;
 import java.util.Set;

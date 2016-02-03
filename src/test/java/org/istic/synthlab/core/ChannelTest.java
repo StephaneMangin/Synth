@@ -5,6 +5,10 @@ import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import javafx.util.Pair;
 import junit.framework.TestCase;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.io.InputAdapter;
+import org.istic.synthlab.core.modules.io.OutputAdapter;
 
 /**
  * Created by paola on 02/02/16.

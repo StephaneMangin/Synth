@@ -1,6 +1,7 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitOutputPort;
+import org.istic.synthlab.core.IOMappingService;
 
 
 public class OutputAdapter implements IOutput {
@@ -12,7 +13,6 @@ public class OutputAdapter implements IOutput {
     }
 
     public void connect(IInput in) {
-        Channel.connect(in, this);
         IOMappingService.connect(in, this);
     }
 

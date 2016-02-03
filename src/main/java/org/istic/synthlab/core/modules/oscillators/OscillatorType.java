@@ -1,4 +1,4 @@
-package org.istic.synthlab.components.vcoa;
+package org.istic.synthlab.core.modules.oscillators;
 
 /**
  *

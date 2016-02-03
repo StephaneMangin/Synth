@@ -1,13 +1,14 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AComponent;
+import org.istic.synthlab.core.modules.oscillators.IOscillator;
 
 public class Vcoa extends AComponent {
 
-    private Oscillator oscilllator;
+    private IOscillator oscilllator;
     private double frequency;
 
-    public Vcoa(String name, Oscillator oscillator) {
+    public Vcoa(String name, IOscillator oscillator) {
         super(name);
         this.oscilllator = oscillator;
     }

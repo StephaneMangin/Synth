@@ -1,43 +1,105 @@
 package org.istic.synthlab.core;
 
+import com.jsyn.Synthesizer;
+import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import com.jsyn.unitgen.UnitGenerator;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
  */
 public class IOMappingService {
-    private static HashMap<OutputAdapter, UnitOutputPort> mappingOutput = new HashMap<>();
-    private static HashMap<InputAdapter, UnitInputPort> mappingInput = new HashMap<>();
+    private static Map<IComponent, List<UnitGenerator>> mappingGenerator = new HashMap<>();
+    private static Map<IComponent, Map<IInput, UnitInputPort>> mappingInput = new HashMap<>();
+    private static Map<IComponent, Map<IOutput, UnitOutputPort>> mappingOutput = new HashMap<>();
+    private static Synthesizer synthesizer = new SynthesisEngine();
 
-    static void connect(IInput input, IOutput output) {
-        mappingInput.get(input).connect(mappingOutput.get(output));
+    private static void declare(IComponent component, UnitGenerator unitGenerator) {
+        if (!mappingGenerator.containsKey(component)) {
+            mappingGenerator.put(component, new ArrayList<UnitGenerator>());
+        }
+        mappingGenerator.get(component).add(unitGenerator);
+        synthesizer.add(unitGenerator);
     }
 
-    static IInput getInputAdapter(UnitInputPort unit){
-        InputAdapter in = new InputAdapter(unit);
-        mappingInput.put(in, unit);
-        return in;
+    private static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
+        Map<IInput, UnitInputPort> assoc = new HashMap<>();
+        assoc.put(in, unitIn);
+        if (!mappingInput.containsKey(component)) {
+            mappingInput.put(component, assoc);
+        } else {
+            mappingInput.get(component).putAll(assoc);
+        }
     }
 
-    public static IOutput getOutputAdapter(UnitOutputPort unit) {
-        OutputAdapter out = new OutputAdapter(unit);
-        mappingOutput.put(out, unit);
-        return out;
+    private static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
+        Map<IOutput, UnitOutputPort> assoc = new HashMap<>();
+        assoc.put(out, unitOut);
+        if (!mappingOutput.containsKey(component)) {
+            mappingOutput.put(component, assoc);
+        } else {
+            mappingOutput.get(component).putAll(assoc);
+        }
     }
 
-    static void disconnect(IInput input, IOutput output) {
-        mappingInput.get(input).disconnect(mappingOutput.get(output));
+    public static void connect(IInput in, IOutput out) {
+        UnitInputPort unitIn = retrieve(in);
+        UnitOutputPort unitOut = retrieve(out);
+        if (unitIn == null) {
+            throw new ExceptionInInitializerError("IInput has not been declared properly");
+        }
+        if (unitOut == null) {
+            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+        }
+        Channel.connect(in, out);
+        unitOut.connect(unitIn);
     }
 
-    static UnitInputPort getInputPort(InputAdapter input) {
-        return mappingInput.get(input);
+    public static void disconnect(IInput in, IOutput out) {
+        UnitInputPort unitIn = retrieve(in);
+        UnitOutputPort unitOut = retrieve(out);
+        if (unitIn == null) {
+            throw new ExceptionInInitializerError("IInput has not been declared properly");
+        }
+        if (unitOut == null) {
+            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+        }
+        Channel.disconnect(in, out);
+        unitOut.disconnect(unitIn);
     }
 
-    static UnitOutputPort getOutputPort(OutputAdapter output) {
-       return mappingOutput.get(output);
+
+    public static UnitInputPort retrieve(IInput in) {
+        for (IComponent component: mappingInput.keySet()) {
+            for (IInput input: mappingInput.get(component).keySet()) {
+                if (in == input) {
+                    return mappingInput.get(component).get(in);
+                }
+            }
+        }
+        return null;
+    }
+
+    public static UnitOutputPort retrieve(IOutput out) {
+        for (IComponent component: mappingOutput.keySet()) {
+            for (IOutput output: mappingOutput.get(component).keySet()) {
+                if (out == output) {
+                    return mappingOutput.get(component).get(out);
+                }
+            }
+        }
+        return null;
+    }
+    public static Synthesizer getSynthesizer() {
+        return synthesizer;
     }
 
 }
