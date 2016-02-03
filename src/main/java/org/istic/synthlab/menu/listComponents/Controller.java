@@ -11,7 +11,6 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,7 +18,6 @@ import java.util.ResourceBundle;
  * Created by augustin
  */
 public class Controller implements Initializable {
-    private ListComponents listComponents;
     public static int counter = 0;
     @FXML
     private Label labelComponent;
@@ -41,31 +39,22 @@ public class Controller implements Initializable {
     }
 
     public void testListDrag(){
-            imageViewComponent.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
-                System.out.println(paneComponents.getParent());
-                registerDragEvent(paneComponents.getParent());
-                event.consume();
-            });
+        imageViewComponent.addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+            registerDragEvent(paneComponents.getParent());
+            event.consume();
+        });
     }
 
 
     protected void registerDragEvent(Parent root){
         //DRAG DETECTED
         paneComponents.setOnDragDetected(event -> {
-            dragboard = imageViewComponent.startDragAndDrop(TransferMode.COPY);
+            dragboard = labelComponent.startDragAndDrop(TransferMode.COPY);
             ClipboardContent content = new ClipboardContent();
-            content.putImage(imageViewComponent.getImage());
-            //content.putString(labelComponent.getText());
+            content.putString(labelComponent.getText());
             dragboard.setContent(content);
-            System.out.println("Drag detected");
             event.consume();
         });
-        //DRAG OVER
-        //root.setOnDragOver(event -> {
-        //    event.acceptTransferModes(TransferMode.COPY);
-            //System.out.println("Drag over detected");
-        //    event.consume();
-        //});
     }
 
     public Dragboard getDragboard() {
