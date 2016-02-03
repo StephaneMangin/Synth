@@ -7,6 +7,7 @@ import org.istic.synthlab.core.IOutput;
 
 
 public class SineOscillatorAdapter implements Oscillator {
+
     private SineOscillator oscillator;
     private double frequency;
     private double amplitude;
@@ -47,6 +48,22 @@ public class SineOscillatorAdapter implements Oscillator {
     public void setPhase(double phase) {
         this.phase = phase;
         this.oscillator.phase.set(phase);
+    }
+
+    public double getFrequency() {
+        return frequency;
+    }
+
+    public double getAmplitude() {
+        return amplitude;
+    }
+
+    public double getPhase() {
+        return phase;
+    }
+
+    public SineOscillator getOscillator() {
+        return oscillator;
     }
 
 }
