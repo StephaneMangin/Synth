@@ -1,19 +1,15 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 
+import org.istic.synthlab.core.Potentiometer;
+import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
-public interface IOscillator {
+public interface IOscillator extends Resource {
     IInput getInput();
 
     IOutput getOutput();
 
-    void setFrequency(double value);
-
-    void setAmplitude(double amplitude);
-
-    void setPhase(double phase);
-
-    void setActive(boolean b);
+    Potentiometer gePotentiometer();
 }

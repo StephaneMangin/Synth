@@ -1,11 +1,9 @@
 package org.istic.synthlab.components.out;
 
-import com.jsyn.Synthesizer;
 import org.istic.synthlab.core.AComponent;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
-import org.istic.synthlab.core.modules.lineOuts.LineAdapter;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
 
@@ -17,16 +15,17 @@ public class Out extends AComponent {
     public Out(String name) {
         super(name);
         lineOut = AdapterFactory.createLineOut(this, LineType.OUT);
+        input = lineOut.getInput();
     }
 
     @Override
     public void activate() {
-        //?
+        lineOut.activate();
     }
 
     @Override
     public void desactivate() {
-        //?
+        lineOut.desactivate();
     }
 
     @Override
@@ -36,6 +35,10 @@ public class Out extends AComponent {
     @Override
     public void run() {
         //?
+    }
+
+    public IInput getIInput() {
+        return input;
     }
 
 }

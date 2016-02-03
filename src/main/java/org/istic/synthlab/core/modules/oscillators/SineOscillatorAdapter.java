@@ -2,6 +2,8 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SineOscillator;
 import org.istic.synthlab.core.AdapterFactory;
+import org.istic.synthlab.core.Potentiometer;
+import org.istic.synthlab.core.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -10,10 +12,12 @@ public class SineOscillatorAdapter implements IOscillator {
 
     private SineOscillator oscillator;
     private IOutput output;
+    private Potentiometer potentiometer;
 
     public SineOscillatorAdapter() {
         this.oscillator = new SineOscillator();
         this.output = AdapterFactory.createOutput(oscillator.output);
+        this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
     @Override
@@ -27,23 +31,17 @@ public class SineOscillatorAdapter implements IOscillator {
     }
 
     @Override
-    public void setFrequency(double frequency) {
-        this.oscillator.frequency.set(frequency);
+    public Potentiometer gePotentiometer() {
+        return potentiometer;
     }
 
     @Override
-    public void setAmplitude(double amplitude) {
-        this.oscillator.amplitude.set(amplitude);
+    public void activate() {
+        this.oscillator.setEnabled(true);
     }
 
     @Override
-    public void setPhase(double phase) {
-        this.oscillator.phase.set(phase);
+    public void desactivate() {
+        this.oscillator.setEnabled(false);
     }
-
-    @Override
-    public void setActive(boolean b) {
-        this.oscillator.setEnabled(b);
-    }
-
 }
