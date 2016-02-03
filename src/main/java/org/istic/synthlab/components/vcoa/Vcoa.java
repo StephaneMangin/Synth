@@ -24,7 +24,7 @@ public class Vcoa extends AComponent {
     }
 
     @Override
-    public void deactivate() {
+    public void desactivate() {
         sineOscillator.setActive(false);
     }
 

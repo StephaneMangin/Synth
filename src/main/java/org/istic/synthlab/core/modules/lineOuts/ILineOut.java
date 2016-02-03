@@ -7,9 +7,4 @@ import com.jsyn.ports.UnitInputPort;
  */
 public interface ILineOut {
 
-    void setVolume(double value);
-    double getVolume();
-    void start();
-    void stop();
-    UnitInputPort getLineOut();
 }
