@@ -49,7 +49,6 @@ public class Controller implements Initializable {
         });
     }
 
-
     protected void registerDragEvent(Parent root){
         //DRAG DETECTED
         paneComponents.setOnDragDetected(event -> {
@@ -60,7 +59,6 @@ public class Controller implements Initializable {
             event.consume();
         });
     }
-
     public Dragboard getDragboard() {
         return dragboard;
     }
