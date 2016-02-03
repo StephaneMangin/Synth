@@ -11,6 +11,9 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import org.istic.synthlab.core.IHMConnectionManager;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -29,7 +32,8 @@ public class Controller implements Initializable {
     private ImageView imageViewComponent;
 
     private Dragboard dragboard;
-    @FXML
+
+
     public void initialize(URL location, ResourceBundle resources){
         paneComponents.setId("paneComponents"+counter++);
         labelComponent.setText("labelComponent"+counter);

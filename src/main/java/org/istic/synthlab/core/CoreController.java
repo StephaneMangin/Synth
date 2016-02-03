@@ -70,6 +70,7 @@ public class CoreController implements Initializable, IObserver {
                 gridPane.add(p, col, row);
             }
         }
+        IHMConnectionManager.addObserver(this);
     }
 
     @Override
