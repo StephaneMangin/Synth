@@ -14,13 +14,14 @@ public class Out extends AComponent {
         super(name);
     }
 
-    public void start() {
+    public void activate() {
         this.synthesizer.add(this.lineOut.getLineOut());
         this.synthesizer.start();
     }
 
-    public void stop() {
+    public void desactivate() {
         this.synthesizer.stop();
+        this.lineOut.getLineOut().stop();
     }
 
     public void init() {

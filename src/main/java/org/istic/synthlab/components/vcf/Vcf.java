@@ -14,11 +14,11 @@ public class Vcf extends AComponent {
         this.filter = filter;
     }
 
-    public void start() {
+    public void activate() {
 
     }
 
-    public void stop() {
+    public void desactivate() {
 
     }
 

@@ -9,14 +9,19 @@ import java.util.HashMap;
  *
  */
 public class IOMappingService {
-    private static HashMap<OutputAdapter, UnitOutputPort> mappingOutput = new HashMap<>();
-    private static HashMap<InputAdapter, UnitInputPort> mappingInput = new HashMap<>();
+
+    private static HashMap<OutputAdapter, UnitOutputPort> mappingOutput = new HashMap<OutputAdapter, UnitOutputPort>();
+    private static HashMap<InputAdapter, UnitInputPort> mappingInput = new HashMap<InputAdapter, UnitInputPort>();
 
     static void connect(IInput input, IOutput output) {
         mappingInput.get(input).connect(mappingOutput.get(output));
     }
 
-    static IInput getInputAdapter(UnitInputPort unit){
+    static void disconnect(IInput input, IOutput output) {
+        mappingInput.get(input).disconnect(mappingOutput.get(output));
+    }
+
+    public static IInput getInputAdapter(UnitInputPort unit){
         InputAdapter in = new InputAdapter(unit);
         mappingInput.put(in, unit);
         return in;
@@ -26,10 +31,6 @@ public class IOMappingService {
         OutputAdapter out = new OutputAdapter(unit);
         mappingOutput.put(out, unit);
         return out;
-    }
-
-    static void disconnect(IInput input, IOutput output) {
-        mappingInput.get(input).disconnect(mappingOutput.get(output));
     }
 
     static UnitInputPort getInputPort(InputAdapter input) {
