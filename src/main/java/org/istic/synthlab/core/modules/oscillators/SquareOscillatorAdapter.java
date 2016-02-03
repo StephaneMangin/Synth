@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.TriangleOscillator;
+import com.jsyn.unitgen.SquareOscillator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
@@ -10,15 +10,15 @@ import org.istic.synthlab.core.modules.io.IOutput;
 /**
  *
  */
-public class TriangleOscillatorAdapter implements IOscillator{
+public class SquareOscillatorAdapter implements IOscillator{
 
-    private TriangleOscillator triangleOscillator;
+    private SquareOscillator squareOscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
-    public TriangleOscillatorAdapter() {
-        this.triangleOscillator = new TriangleOscillator();
-        this.output = AdapterFactory.createOutput(triangleOscillator.output);
+    public SquareOscillatorAdapter() {
+        this.squareOscillator = new SquareOscillator();
+        this.output = AdapterFactory.createOutput(squareOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
@@ -39,11 +39,11 @@ public class TriangleOscillatorAdapter implements IOscillator{
 
     @Override
     public void activate() {
-        this.triangleOscillator.setEnabled(true);
+        this.squareOscillator.setEnabled(true);
     }
 
     @Override
     public void desactivate() {
-        this.triangleOscillator.setEnabled(false);
+        this.squareOscillator.setEnabled(false);
     }
 }

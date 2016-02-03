@@ -12,19 +12,18 @@ public class Vcoa extends AComponent {
 
     public Vcoa(String name) {
         super(name);
-        sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
-
-        output = sineOscillator.getOutput();
+        this.sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
+        this.output = this.sineOscillator.getOutput();
     }
 
     @Override
     public void activate() {
-        sineOscillator.activate();
+        this.sineOscillator.activate();
     }
 
     @Override
     public void desactivate() {
-        sineOscillator.desactivate();
+        this.sineOscillator.desactivate();
     }
 
     @Override
@@ -36,10 +35,10 @@ public class Vcoa extends AComponent {
     }
 
     public IOutput getOutput() {
-        return output;
+        return this.output;
     }
 
     public IOscillator getSineOscillator() {
-        return sineOscillator;
+        return this.sineOscillator;
     }
 }

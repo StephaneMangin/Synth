@@ -7,9 +7,7 @@ import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.InputAdapter;
 import org.istic.synthlab.core.modules.io.OutputAdapter;
-import org.istic.synthlab.core.modules.oscillators.IOscillator;
-import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
+import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.filters.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
@@ -36,6 +34,16 @@ public class AdapterFactory {
         switch (type) {
             case SINE:
                 return new SineOscillatorAdapter();
+            case TRIANGLE:
+                return new TriangleOscillatorAdapter();
+            case SQUARE:
+                return new SquareOscillatorAdapter();
+            case SAWTOOTH:
+                return new SawtoothOscillatorAdapter();
+            case PULSE:
+                return new PulseOscillatorAdapter();
+            case IMPULSE:
+                return new ImpulseOscillatorAdapter();
             default:
                 return new SineOscillatorAdapter();
         }

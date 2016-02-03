@@ -7,7 +7,9 @@ import org.istic.synthlab.core.modules.io.IOutput;
  *
  */
 public interface IVcoaAlgorithm {
+
     IInput getInput();
 
     IOutput getOutput();
+
 }
