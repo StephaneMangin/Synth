@@ -51,14 +51,12 @@ public class IHMConnectionManager {
             }
             else{
                 connectionTab.put(origin, destination);
-
             }
 
         }
         else{
-            System.out.println("Si tu veux t'autoconnecter va jouer aux Sims !");
+            System.out.println("Tentative de connection multiple sur le même port");
         }
-        System.out.println("On va faire un update");
         update();
         origin = null;
         destination = null;
