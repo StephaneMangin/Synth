@@ -14,7 +14,6 @@ public class IHMConnectionManager {
     private static List<IObserver> listObservers = new ArrayList<>();
 
     public static void addObserver(IObserver obs){
-        System.out.println("plug "+ origin);
         listObservers.add(obs);
     }
 

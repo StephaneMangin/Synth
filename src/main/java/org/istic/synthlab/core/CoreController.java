@@ -97,8 +97,6 @@ public class CoreController implements Initializable, IObserver {
             db.setContent(content);
             event.consume();
         });
-
-
         for(int i=0;i<1;i++){
             try {
                 Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
