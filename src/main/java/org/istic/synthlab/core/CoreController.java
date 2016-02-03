@@ -2,7 +2,9 @@ package org.istic.synthlab.core;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
@@ -11,6 +13,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -53,9 +56,15 @@ public class CoreController implements Initializable {
                     Dragboard db = event.getDragboard();
                     boolean success = false;
                     if (db.hasString()) {
-                        Label copiedLabel = new Label(db.getString());
-                        p.getChildren().add(copiedLabel);
-                        success = true;
+                        //Label copiedLabel = new Label(db.getString());
+                        //p.getChildren().add(copiedLabel);
+                        try {
+                            Node vcoa = FXMLLoader.load(getClass().getResource("/vcoa.fxml"));
+                            p.getChildren().add(vcoa);
+                            success = true;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     event.setDropCompleted(success);
                     event.consume();
