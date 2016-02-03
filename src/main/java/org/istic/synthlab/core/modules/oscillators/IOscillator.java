@@ -15,4 +15,5 @@ public interface IOscillator {
 
     void setPhase(double phase);
 
+    void setActive(boolean b);
 }

@@ -1,31 +1,38 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AComponent;
+import org.istic.synthlab.core.AdapterFactory;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
+import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 
 public class Vcoa extends AComponent {
 
-    private IOscillator oscilllator;
-    private double frequency;
+    private IOscillator sineOscillator;
+    private IOscillator sawToothOscillator;
 
-    public Vcoa(String name, IOscillator oscillator) {
+    public Vcoa(String name) {
         super(name);
-        this.oscilllator = oscillator;
+        sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
+        sawToothOscillator = AdapterFactory.createOscillator(this, OscillatorType.SAWTOOTH);
     }
 
-    public void start() {
-
+    @Override
+    public void activate() {
+        this.sineOscillator.setActive(true);
     }
 
-    public void stop() {
-
+    @Override
+    public void deactivate() {
+        sineOscillator.setActive(false);
     }
 
+    @Override
     public void init() {
-
     }
 
+    @Override
     public void run() {
-
     }
 }

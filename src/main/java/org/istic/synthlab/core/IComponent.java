@@ -5,8 +5,8 @@ package org.istic.synthlab.core;
  */
 public interface IComponent {
 
-    void start();
-    void stop();
+    void activate();
+    void deactivate();
     void init();
     void run();
 

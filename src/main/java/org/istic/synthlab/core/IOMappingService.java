@@ -5,6 +5,7 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
+import com.sun.corba.se.spi.ior.IORFactories;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -20,14 +21,13 @@ public class IOMappingService {
     private static Map<IComponent, List<UnitGenerator>> mappingGenerator = new HashMap<>();
     private static Map<IComponent, Map<IInput, UnitInputPort>> mappingInput = new HashMap<>();
     private static Map<IComponent, Map<IOutput, UnitOutputPort>> mappingOutput = new HashMap<>();
-    private static Synthesizer synthesizer = new SynthesisEngine();
 
     private static void declare(IComponent component, UnitGenerator unitGenerator) {
         if (!mappingGenerator.containsKey(component)) {
             mappingGenerator.put(component, new ArrayList<UnitGenerator>());
         }
         mappingGenerator.get(component).add(unitGenerator);
-        synthesizer.add(unitGenerator);
+        AdapterFactory.createSynthesizer().add(unitGenerator);
     }
 
     private static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
@@ -97,9 +97,6 @@ public class IOMappingService {
             }
         }
         return null;
-    }
-    public static Synthesizer getSynthesizer() {
-        return synthesizer;
     }
 
 }

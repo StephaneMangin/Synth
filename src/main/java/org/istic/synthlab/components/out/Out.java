@@ -18,18 +18,24 @@ public class Out extends AComponent {
         lineOut = AdapterFactory.createLineOut(this, LineType.OUT);
     }
 
-    public void start() {
+    @Override
+    public void activate() {
         this.lineOut.start();
     }
 
-    public void stop() {
+    @Override
+    public void deactivate() {
         this.lineOut.stop();
     }
 
+    @Override
     public void init() {
+        this.lineOut.setVolume(1);
     }
 
+    @Override
     public void run() {
+        this.lineOut.start();
     }
 
 }

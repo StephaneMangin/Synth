@@ -1,5 +1,7 @@
 package org.istic.synthlab.core;
 
+import com.jsyn.Synthesizer;
+import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -19,6 +21,8 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
  *
  */
 public class AdapterFactory {
+
+    private static Synthesizer synthesizer = new SynthesisEngine();
 
     public static IInput createInput(UnitInputPort unitInputPort) {
         return new InputAdapter(unitInputPort);
@@ -57,5 +61,9 @@ public class AdapterFactory {
             default:
                 return new LineAdapter();
         }
+    }
+
+    public static Synthesizer createSynthesizer() {
+        return synthesizer;
     }
 }

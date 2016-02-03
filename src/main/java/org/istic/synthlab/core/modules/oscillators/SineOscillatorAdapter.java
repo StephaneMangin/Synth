@@ -7,16 +7,11 @@ import org.istic.synthlab.core.modules.io.IOutput;
 
 
 public class SineOscillatorAdapter implements IOscillator {
+
     private SineOscillator oscillator;
-    private double frequency;
-    private double amplitude;
-    private double phase;
     private IOutput output;
 
     public SineOscillatorAdapter() {
-        this.frequency = 0.0;
-        this.amplitude = 0.0;
-        this.phase = 0.0;
         this.oscillator = new SineOscillator();
         this.output = AdapterFactory.createOutput(oscillator.output);
     }
@@ -33,20 +28,22 @@ public class SineOscillatorAdapter implements IOscillator {
 
     @Override
     public void setFrequency(double frequency) {
-        this.frequency = frequency;
         this.oscillator.frequency.set(frequency);
     }
 
     @Override
     public void setAmplitude(double amplitude) {
-        this.amplitude = amplitude;
         this.oscillator.amplitude.set(amplitude);
     }
 
     @Override
     public void setPhase(double phase) {
-        this.phase = phase;
         this.oscillator.phase.set(phase);
+    }
+
+    @Override
+    public void setActive(boolean b) {
+        this.oscillator.setEnabled(b);
     }
 
 }
