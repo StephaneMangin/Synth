@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -16,9 +17,12 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
-public class CoreController implements Initializable {
+public class CoreController implements Initializable, IObserver {
     private ObservableList data;
     private Node nodeComponentsList;
 
@@ -26,8 +30,10 @@ public class CoreController implements Initializable {
     public ListView<Label> listView;
     @FXML
     public GridPane gridPane;
+    @FXML
+    private TextArea textarea;
 
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
         // Populate the ListView
         data = FXCollections.observableArrayList();
         listView.setItems(addComponents2List());
@@ -65,6 +71,20 @@ public class CoreController implements Initializable {
             }
         }
     }
+
+    @Override
+    public void update(Map<String, String> arg) {
+        String total = "";
+        Set cles = arg.keySet();
+        Iterator it = cles.iterator();
+        while(it.hasNext()){
+            String origin = (String) it.next();
+            String destination = arg.get(origin);
+            total += origin + " ---------> " + destination + "\n";
+        }
+        textarea.setText(total);
+    }
+
     public ObservableList addComponents2List(){
         data = FXCollections.observableArrayList();
         Label testLabel = new Label("vcoa");
