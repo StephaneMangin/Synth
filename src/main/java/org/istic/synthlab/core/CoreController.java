@@ -3,7 +3,6 @@ package org.istic.synthlab.core;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,11 +20,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CoreController implements Initializable {
-    private ObservableList data;
-    private Node nodeComponentsList;
+    private ObservableList<Node> data;
 
     @FXML
-    public ListView<Label> listView;
+    public ListView<Node> listView;
     @FXML
     public GridPane gridPane;
 
@@ -68,7 +66,7 @@ public class CoreController implements Initializable {
             }
         }
     }
-    public ObservableList addComponents2List(){
+    public ObservableList<Node> addComponents2List(){
         data = FXCollections.observableArrayList();
         Label testLabel = new Label("VCOA");
         data.add(testLabel);
@@ -84,7 +82,7 @@ public class CoreController implements Initializable {
 
         for(int i=0;i<5;i++){
             try {
-                nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
+                Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
                 nodeComponentsList.setId("paneComponents"+i);
                 System.out.println(nodeComponentsList);
                 data.add(nodeComponentsList);
@@ -95,7 +93,8 @@ public class CoreController implements Initializable {
         return data;
     }
 
-    public void onActionClose(ActionEvent actionEvent) {
+    @FXML
+    public void onActionClose() {
         Platform.exit();
     }
 }
