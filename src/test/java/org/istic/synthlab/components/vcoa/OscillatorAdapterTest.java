@@ -242,4 +242,35 @@ public class OscillatorAdapterTest {
         synth.sleepFor(5);
 
     }
+
+    @Test
+    public void test6() throws InterruptedException {
+        // Exemple de code pour l'utilisation de setEnabled
+        // désactivation et activation d'un composant à la volée.
+
+        LineOut myOut = new LineOut();
+        SineOscillator oscA = new SineOscillator();
+
+        synth.add(myOut);
+        synth.add(oscA);
+
+        oscA.frequency.set(666);
+        oscA.amplitude.set(1.0);
+
+        oscA.output.connect(0, myOut.input, 0);
+        oscA.output.connect(0, myOut.input, 1);
+
+        myOut.start();
+        synth.start();
+
+        oscA.setEnabled(false);
+        synth.sleepFor(1);
+
+        oscA.setEnabled(false);
+        synth.sleepFor(1);
+
+        oscA.setEnabled(true);
+        synth.sleepFor(3);
+
+    }
 }
