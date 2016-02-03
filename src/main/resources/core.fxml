@@ -39,19 +39,19 @@
     </top>
     <left>
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-             <TitledPane alignment="CENTER" animated="false" collapsible="false" prefHeight="281.0" prefWidth="158.0" text="Component">
+             <TitledPane alignment="CENTER" animated="false" collapsible="false" text="Component">
                  <font>
                      <Font name="System Bold" size="13.0" />
                  </font>
-                  <ScrollPane prefHeight="254.0" prefWidth="156.0" vbarPolicy="ALWAYS">
-                       <ListView fx:id="listView" />
-                  </ScrollPane>
+                 <ScrollPane>
+                     <ListView fx:id="listView" />
+                 </ScrollPane>
              </TitledPane>
-             <TableView prefHeight="280.0" prefWidth="158.0">
+             <TableView>
                  <columns>
-                     <TableColumn prefWidth="92.0" text="Component" />
-                     <TableColumn prefWidth="72.0" text="In" />
-                     <TableColumn prefWidth="61.0" text="Out" />
+                     <TableColumn text="Component" />
+                     <TableColumn text="In" />
+                     <TableColumn text="Out" />
                  </columns>
              </TableView>
         </SplitPane>

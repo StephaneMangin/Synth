@@ -29,7 +29,7 @@ public class CoreController implements Initializable {
 
         // Label d&d events
         testLabel.setOnDragDetected(event -> {
-            Dragboard db = testLabel.startDragAndDrop(TransferMode.MOVE);
+            Dragboard db = testLabel.startDragAndDrop(TransferMode.COPY);
 
             ClipboardContent content = new ClipboardContent();
             content.putString(testLabel.getText());
@@ -47,7 +47,7 @@ public class CoreController implements Initializable {
                 // Pane d&d events
                 p.setOnDragOver(event -> {
                     if (event.getGestureSource() != p && event.getDragboard().hasString()) {
-                        event.acceptTransferModes(TransferMode.MOVE);
+                        event.acceptTransferModes(TransferMode.COPY);
                     }
                     event.consume();
                 });
