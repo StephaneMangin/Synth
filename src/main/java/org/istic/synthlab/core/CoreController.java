@@ -1,6 +1,7 @@
 package org.istic.synthlab.core;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,6 +19,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class CoreController implements Initializable {
+    private ObservableList data;
+    private Node nodeComponentsList;
+
     @FXML
     public ListView<Label> listView;
     @FXML
@@ -25,20 +29,8 @@ public class CoreController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         // Populate the ListView
-        Label testLabel = new Label("VCOA");
-        listView.setItems(FXCollections.observableArrayList(testLabel));
-
-        // Label d&d events
-        testLabel.setOnDragDetected(event -> {
-            Dragboard db = testLabel.startDragAndDrop(TransferMode.COPY);
-
-            ClipboardContent content = new ClipboardContent();
-            content.putString(testLabel.getText());
-            db.setContent(content);
-
-            event.consume();
-        });
-
+        data = FXCollections.observableArrayList();
+        listView.setItems(addComponents2List());
         // Fill the GridPane with Panes
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) {
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) {
@@ -73,5 +65,31 @@ public class CoreController implements Initializable {
                 gridPane.add(p, col, row);
             }
         }
+    }
+    public ObservableList addComponents2List(){
+        data = FXCollections.observableArrayList();
+        Label testLabel = new Label("VCOA");
+        data.add(testLabel);
+        // Label d&d events
+        testLabel.setOnDragDetected(event -> {
+            Dragboard db = testLabel.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(testLabel.getText());
+            db.setContent(content);
+            event.consume();
+        });
+
+
+        for(int i=0;i<5;i++){
+            try {
+                nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
+                nodeComponentsList.setId("paneComponents"+i);
+                System.out.println(nodeComponentsList);
+                data.add(nodeComponentsList);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return data;
     }
 }
