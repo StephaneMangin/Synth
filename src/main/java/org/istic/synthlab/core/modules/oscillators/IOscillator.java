@@ -11,5 +11,5 @@ public interface IOscillator extends Resource {
 
     IOutput getOutput();
 
-    Potentiometer gePotentiometer();
+    Potentiometer getPotentiometer();
 }
