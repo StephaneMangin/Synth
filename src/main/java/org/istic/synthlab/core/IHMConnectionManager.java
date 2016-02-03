@@ -10,50 +10,50 @@ import java.util.List;
 public class IHMConnectionManager {
     private static String origin;
     private static String destination;
-    private static HashMap<String,String> connectionTab = new HashMap<>();
+    private static HashMap<String, String> connectionTab = new HashMap<>();
     private static List<IObserver> listObservers = new ArrayList<>();
 
-    public static void addObserver(IObserver obs){
+    public static void addObserver(IObserver obs) {
         listObservers.add(obs);
     }
 
-    public static void deleteObserver(IObserver obs){
+    public static void deleteObserver(IObserver obs) {
         listObservers.remove(obs);
     }
 
-    private static void update(){
-        for(IObserver obj : listObservers){
+    private static void update() {
+        for (IObserver obj : listObservers) {
             obj.update(connectionTab);
         }
     }
 
 
-    public static void connect(String port){
-        if(origin != null){
-            make_destination(port);
+    public static void connect(String port) {
+        if (origin != null) {
+            makeDestination(port);
         }
-        else{
-            make_origin(port);
+        else {
+            makeOrigin(port);
         }
     }
 
-    private static void make_origin(String future_connection_origin){
-        origin = future_connection_origin;
+    private static void makeOrigin(String futureConnectionOrigin) {
+        origin = futureConnectionOrigin;
     }
 
-    private static void make_destination(String future_connection_destination){
-        destination = future_connection_destination;
-        if (isValid()){
-            if(connectionTab.containsKey(future_connection_destination) || connectionTab.containsValue(future_connection_destination)) {
+    private static void makeDestination(String futureConnectionDestination) {
+        destination = futureConnectionDestination;
+        if (isValid()) {
+            if (connectionTab.containsKey(futureConnectionDestination) || connectionTab.containsValue(futureConnectionDestination)) {
                 System.out.println("Connection impossible : ports occupés");
 
             }
-            else{
+            else {
                 connectionTab.put(origin, destination);
             }
 
         }
-        else{
+        else {
             System.out.println("Tentative de connection multiple sur le même port");
         }
         update();
@@ -62,7 +62,7 @@ public class IHMConnectionManager {
 
     }
 
-    private static Boolean isValid(){
+    private static Boolean isValid() {
         return !origin.equals(destination);
     }
 }
