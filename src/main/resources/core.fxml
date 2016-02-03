@@ -47,13 +47,7 @@
                      <ListView fx:id="listView" />
                  </ScrollPane>
              </TitledPane>
-             <TableView>
-                 <columns>
-                     <TableColumn text="Component" />
-                     <TableColumn text="In" />
-                     <TableColumn text="Out" />
-                 </columns>
-             </TableView>
+         <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
         </SplitPane>
     </left>
 </BorderPane>
