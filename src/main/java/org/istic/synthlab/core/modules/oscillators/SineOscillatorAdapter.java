@@ -31,7 +31,7 @@ public class SineOscillatorAdapter implements IOscillator {
     }
 
     @Override
-    public Potentiometer gePotentiometer() {
+    public Potentiometer getPotentiometer() {
         return potentiometer;
     }
 
