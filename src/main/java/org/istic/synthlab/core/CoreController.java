@@ -40,7 +40,6 @@ public class CoreController implements Initializable {
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) {
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) {
                 Pane p = new Pane();
-                //p.setStyle("-fx-background-color: red; -fx-border-color: black;");
 
                 // Pane d&d events
                 p.setOnDragOver(event -> {
