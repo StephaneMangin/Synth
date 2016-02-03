@@ -37,7 +37,7 @@ public class IOMappingService {
     }
 
     static UnitOutputPort getOutputPort(OutputAdapter output) {
-        return mappingOutput.get(output);
+       return mappingOutput.get(output);
     }
 
 }
