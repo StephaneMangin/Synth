@@ -18,4 +18,16 @@ public class Channel {
     public static void disconnect(IInput in , IOutput out) {
         connections.removeIf(pair -> pair.getKey() == in && pair.getValue() == out);
     }
+
+    public static boolean isEmpty() {
+        return connections.isEmpty();
+    }
+
+    public static int size() {
+        return connections.size();
+    }
+
+    public static boolean contains(Pair<IInput, IOutput> pair) {
+        return connections.contains(pair);
+    }
 }
