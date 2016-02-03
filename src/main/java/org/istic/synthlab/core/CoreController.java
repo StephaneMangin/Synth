@@ -1,13 +1,11 @@
 package org.istic.synthlab.core;
 
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
@@ -42,7 +40,7 @@ public class CoreController implements Initializable {
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) {
             for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) {
                 Pane p = new Pane();
-                p.setStyle("-fx-background-color: red; -fx-border-color: black;");
+                //p.setStyle("-fx-background-color: red; -fx-border-color: black;");
 
                 // Pane d&d events
                 p.setOnDragOver(event -> {

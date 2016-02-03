@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.core.CoreController">
     <center>
         <GridPane fx:id="gridPane" gridLinesVisible="true" BorderPane.alignment="CENTER">
@@ -40,9 +39,6 @@
     <left>
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
              <TitledPane alignment="CENTER" animated="false" collapsible="false" text="Component">
-                 <font>
-                     <Font name="System Bold" size="13.0" />
-                 </font>
                  <ScrollPane>
                      <ListView fx:id="listView" />
                  </ScrollPane>
