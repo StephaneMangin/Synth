@@ -30,21 +30,21 @@ public class IHMConnectionManager {
 
     public static void connect(String port){
         if(origin != null){
-            make_destination(port);
+            makeDestination(port);
         }
         else{
-            make_origin(port);
+            makeOrigin(port);
         }
     }
 
-    private static void make_origin(String future_connection_origin){
-        origin = future_connection_origin;
+    private static void makeOrigin(String futureConnectionOrigin){
+        origin = futureConnectionOrigin;
     }
 
-    private static void make_destination(String future_connection_destination){
-        destination = future_connection_destination;
+    private static void makeDestination(String futureConnectionDestination){
+        destination = futureConnectionDestination;
         if (isValid()){
-            if(connectionTab.containsKey(future_connection_destination) || connectionTab.containsValue(future_connection_destination)) {
+            if(connectionTab.containsKey(futureConnectionDestination) || connectionTab.containsValue(futureConnectionDestination)) {
                 System.out.println("Connection impossible : ports occupés");
 
             }
