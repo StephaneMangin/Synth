@@ -1,7 +1,9 @@
 package org.istic.synthlab.core;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -91,5 +93,9 @@ public class CoreController implements Initializable {
             }
         }
         return data;
+    }
+
+    public void onActionClose(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
