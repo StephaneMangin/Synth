@@ -26,9 +26,9 @@ public class ChannelTest extends TestCase {
 
         channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
-        assertFalse(channel.getConnections().isEmpty());
-        assertTrue(channel.getConnections().size() == 1);
-        assertTrue(channel.getConnections().contains(pair));
+        assertFalse(channel.isEmpty());
+        assertTrue(channel.size() == 1);
+        assertTrue(channel.contains(pair));
     }
 
     @org.junit.Test
@@ -39,7 +39,7 @@ public class ChannelTest extends TestCase {
         channel.connect(input,outPut);
         channel.disconnect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
-        assertTrue(channel.getConnections().isEmpty());
-        assertFalse(channel.getConnections().contains(pair));
+        assertTrue(channel.isEmpty());
+        assertFalse(channel.contains(pair));
     }
 }
