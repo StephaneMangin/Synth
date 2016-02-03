@@ -2,9 +2,7 @@ package org.istic.synthlab.core;
 
 import javafx.util.Pair;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class Channel {
@@ -30,4 +28,5 @@ public class Channel {
     public static boolean contains(Pair<IInput, IOutput> pair) {
         return connections.contains(pair);
     }
+
 }

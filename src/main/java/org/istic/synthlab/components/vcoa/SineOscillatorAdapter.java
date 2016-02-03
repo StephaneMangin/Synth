@@ -18,7 +18,7 @@ public class SineOscillatorAdapter implements Oscillator {
         this.amplitude = 0.0;
         this.phase = 0.0;
         this.oscillator = new SineOscillator();
-        this.output = IOMappingService.getAdapter(oscillator.output);
+        this.output = IOMappingService.getOutputAdapter(oscillator.output);
     }
 
     @Override
@@ -28,24 +28,25 @@ public class SineOscillatorAdapter implements Oscillator {
 
     @Override
     public IOutput getOutput() {
-        return output;
+        return this.output;
     }
 
     @Override
     public void setFrequency(double frequency) {
         this.frequency = frequency;
-        oscillator.frequency.set(frequency);
+        this.oscillator.frequency.set(frequency);
     }
 
     @Override
     public void setAmplitude(double amplitude) {
         this.amplitude = amplitude;
-        oscillator.amplitude.set(amplitude);
+        this.oscillator.amplitude.set(amplitude);
     }
 
     @Override
     public void setPhase(double phase) {
         this.phase = phase;
-        oscillator.phase.set(phase);
+        this.oscillator.phase.set(phase);
     }
+
 }

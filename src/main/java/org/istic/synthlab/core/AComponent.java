@@ -22,4 +22,5 @@ public abstract class AComponent implements IComponent {
     public void rename(String name) {
         setName(name);
     }
+
 }

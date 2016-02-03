@@ -14,4 +14,5 @@ public class InputAdapter implements IInput {
         Channel.connect(this, out);
         IOMappingService.connect(this, out);
     }
+
 }

@@ -16,13 +16,13 @@ public class IOMappingService {
         mappingInput.get(input).connect(mappingOutput.get(output));
     }
 
-    static IInput getAdapter(UnitInputPort unit){
+    static IInput getInputAdapter(UnitInputPort unit){
         InputAdapter in = new InputAdapter(unit);
         mappingInput.put(in, unit);
         return in;
     }
 
-    public static IOutput getAdapter(UnitOutputPort unit) {
+    public static IOutput getOutputAdapter(UnitOutputPort unit) {
         OutputAdapter out = new OutputAdapter(unit);
         mappingOutput.put(out, unit);
         return out;
@@ -32,10 +32,12 @@ public class IOMappingService {
         mappingInput.get(input).disconnect(mappingOutput.get(output));
     }
 
-    static UnitInputPort getInput(InputAdapter input) {
+    static UnitInputPort getInputPort(InputAdapter input) {
         return mappingInput.get(input);
     }
-    static UnitOutputPort getInput(OutputAdapter output) {
+
+    static UnitOutputPort getOutputPort(OutputAdapter output) {
         return mappingOutput.get(output);
     }
+
 }

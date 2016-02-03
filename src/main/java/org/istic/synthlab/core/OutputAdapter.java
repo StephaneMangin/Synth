@@ -15,4 +15,5 @@ public class OutputAdapter implements IOutput {
         Channel.connect(in, this);
         IOMappingService.connect(in, this);
     }
+
 }
