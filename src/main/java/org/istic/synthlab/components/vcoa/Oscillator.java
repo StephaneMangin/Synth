@@ -3,8 +3,9 @@ package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.IInput;
 import org.istic.synthlab.core.IOutput;
+import org.istic.synthlab.core.Resource;
 
-public interface Oscillator {
+public interface Oscillator extends Resource {
     IInput getInput();
 
     IOutput getOutput();

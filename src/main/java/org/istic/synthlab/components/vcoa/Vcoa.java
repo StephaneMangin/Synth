@@ -12,11 +12,11 @@ public class Vcoa extends AComponent {
         this.oscilllator = oscillator;
     }
 
-    public void start() {
+    public void activate() {
 
     }
 
-    public void stop() {
+    public void desactivate() {
 
     }
 

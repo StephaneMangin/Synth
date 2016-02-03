@@ -1,13 +1,11 @@
 package org.istic.synthlab.components.out;
 
-import com.jsyn.Synthesizer;
 import com.jsyn.unitgen.LineOut;
 
 
 public class LineAdapter implements ILineOut {
 
     private LineOut lineOut;
-    private Synthesizer synthesizer;
 
     public LineAdapter() {
         this.lineOut = new LineOut();
