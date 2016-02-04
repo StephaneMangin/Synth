@@ -21,12 +21,6 @@ public interface ILineOut extends Resource {
 
     void stop();
 
-    UnitInputPort getLineOut(); // Doute, on garde vraiment ça ?
-
     IInput getInput();
-
-    UnitGenerator getUnitGeneratorLineOut();
-
-    UnitGenerator getUnitGeneratorFilter();
 
 }

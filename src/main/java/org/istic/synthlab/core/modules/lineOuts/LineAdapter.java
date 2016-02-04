@@ -91,15 +91,6 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets line out.
-     *
-     * @return the line out
-     */
-    public UnitInputPort getLineOut() {
-        return this.filter.input;
-    }
-
-    /**
      * Gets the input port.
      *
      * @return the input port
@@ -107,20 +98,6 @@ public class LineAdapter implements ILineOut {
     @Override
     public IInput getInput() {
         return input;
-    }
-
-    /**
-     * It activates the line out
-     *
-     */
-    @Override
-    public UnitGenerator getUnitGeneratorLineOut() {
-        return this.lineOut;
-    }
-
-    @Override
-    public UnitGenerator getUnitGeneratorFilter() {
-        return this.filter;
     }
 
     @Override
