@@ -46,6 +46,6 @@ public class Vcoa extends AComponent {
     }
 
     public Potentiometer getPotentiometer() {
-        return this.getPotentiometer();
+        return this.potentiometer;
     }
 }
