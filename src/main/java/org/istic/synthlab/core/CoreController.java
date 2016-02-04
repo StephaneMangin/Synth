@@ -144,12 +144,18 @@ public class CoreController implements Initializable, IObserver {
         Platform.exit();
     }
 
+    /**
+     * Pause the synthesizer
+     */
     @FXML
     public void onPause() {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
     }
 
+    /**
+     * Start the synthesizer
+     */
     @FXML
     public void onPlay() {
         pauseButton.setDisable(false);
