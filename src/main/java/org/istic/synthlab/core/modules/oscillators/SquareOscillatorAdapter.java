@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SquareOscillator;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
@@ -35,6 +36,11 @@ public class SquareOscillatorAdapter implements IOscillator{
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
+    }
+
+    @Override
+    public UnitGenerator getUnitGenerator() {
+        return squareOscillator;
     }
 
     @Override

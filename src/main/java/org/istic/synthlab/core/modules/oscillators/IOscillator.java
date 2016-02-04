@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -12,4 +13,6 @@ public interface IOscillator extends Resource {
     IOutput getOutput();
 
     Potentiometer getPotentiometer();
+
+    UnitGenerator getUnitGenerator();
 }

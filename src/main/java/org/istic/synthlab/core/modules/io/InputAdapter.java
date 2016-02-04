@@ -15,4 +15,9 @@ public class InputAdapter implements IInput {
         IOMappingService.connect(this, out);
     }
 
+    @Override
+    public UnitInputPort getUnitInputPort() {
+        return unitInputPort;
+    }
+
 }
