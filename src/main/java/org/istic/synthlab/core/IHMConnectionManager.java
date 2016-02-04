@@ -26,8 +26,7 @@ public class IHMConnectionManager {
             obj.update(connectionTab);
         }
     }
-
-
+    
     public static void connect(String port){
         if(origin != null){
             makeDestination(port);
