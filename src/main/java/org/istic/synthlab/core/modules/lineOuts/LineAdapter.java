@@ -3,21 +3,20 @@ package org.istic.synthlab.core.modules.lineOuts;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.services.IOMapping;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import com.jsyn.unitgen.UnitGenerator;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.omg.CORBA.COMM_FAILURE;
+import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.ModulesFactory;
 
 
 /**
  * The class Line adapter.
  *
  *
- * The type Line adapter that implements the interface ILineOut
+ * The class Line adapter that implements the interface ILineOut
  */
 public class LineAdapter implements ILineOut {
 
@@ -48,7 +47,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Sets volume.
+     * Sets volume of the filter
      *
      * @param value the value
      */
@@ -57,9 +56,9 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets volume.
+     * Returns the potentiometer
      *
-     * @return the volume
+     * @return Potentiometer
      */
     @Override
     public Potentiometer getPotentiometer() {
@@ -67,16 +66,16 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets volume.
+     * Gets the  volume of the potentiometer.
      *
-     * @return the volume
+     * @return the volume : double
      */
     public double getVolume() {
         return filter.amplitude.getValue();
     }
 
     /**
-     * Start.
+     * Start the filter and the lineOut
      */
     public void start() {
         filter.start();
@@ -84,7 +83,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Stop.
+     * Stop the filter and the lineOut
      */
     public void stop() {
         filter.stop();
@@ -94,7 +93,7 @@ public class LineAdapter implements ILineOut {
     /**
      * Gets line out.
      *
-     * @return the line out
+     * @return UnitInputPort
      */
     public UnitInputPort getLineOut() {
         return this.filter.input;
@@ -103,17 +102,14 @@ public class LineAdapter implements ILineOut {
     /**
      * Gets the input port.
      *
-     * @return the input port
+     * @return  IInput,the input port
      */
     @Override
     public IInput getInput() {
         return input;
     }
 
-    /**
-     * It activates the line out
-     *
-     */
+
     @Override
     public UnitGenerator getUnitGeneratorLineOut() {
         return this.lineOut;
@@ -124,13 +120,17 @@ public class LineAdapter implements ILineOut {
         return this.filter;
     }
 
+    /**
+     * Activates the line out
+     *
+     */
     @Override
     public void activate() {
         this.lineOut.setEnabled(true);
     }
 
     /**
-     * It deactivates the line out
+     *  deactivates the line out
      *
      */
     @Override

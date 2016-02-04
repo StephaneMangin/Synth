@@ -37,7 +37,7 @@ public class InputAdapter implements IInput {
 
     @Override
     public UnitInputPort getUnitInputPort() {
-        return unitInputPort;
+        return this.unitInputPort;
     }
 
 }
