@@ -75,4 +75,16 @@ public class Potentiometer extends GenericsParam<Double> {
         this.min = min;
     }
 
+
+//    public double calculateStep(double wheelInput) {
+//        double value = 0.0;
+//        if (type == PotentiometerType.LINEAR) {
+//            value = (getMax() - getMin()) * wheelInput + getMin();
+//        } else {
+//            //128 à la place de 10 ?
+//            value = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, wheelInput) + getMin();
+//        }
+//        return value;
+//    }
+
 }
