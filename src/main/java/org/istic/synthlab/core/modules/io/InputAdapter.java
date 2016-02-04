@@ -2,7 +2,7 @@ package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.Register;
 
 /**
  *
@@ -19,7 +19,8 @@ public class InputAdapter implements IInput {
      */
     public InputAdapter(IComponent component, UnitInputPort unitInputPort) {
         this.unitInputPort = unitInputPort;
-        IOMapping.declare(component, this, unitInputPort);
+        // Declare this association to the register
+        Register.declare(component, this, unitInputPort);
     }
 
     /**
@@ -29,12 +30,12 @@ public class InputAdapter implements IInput {
      */
 
     public void connect(IOutput out) {
-        IOMapping.connect(this, out);
+        Register.connect(this, out);
     }
 
     @Override
     public void deconnect() {
-        IOMapping.disconnect(this);
+        Register.disconnect(this);
     }
 
     @Override

@@ -32,21 +32,27 @@ public class ModulesFactory {
     /**
      * Return a IInput instance.
      *
+     * @param component IComponent
      * @param unitInputPort UnitInputPort
      * @return IInput
      */
     public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
-        return new InputAdapter(component, unitInputPort);
+        IInput in = new InputAdapter(component, unitInputPort);
+        Register.declare(component, in, unitInputPort);
+        return in;
     }
 
     /**
      * Return an IOutput instance.
      *
+     * @param component IComponent
      * @param unitOutputPort UnitOutputPort
      * @return IOutput
      */
     public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
-        return new OutputAdapter(component, unitOutputPort);
+        IOutput out = new OutputAdapter(component, unitOutputPort);
+        Register.declare(component, out, unitOutputPort);
+        return out;
     }
 
     /**

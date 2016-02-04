@@ -2,7 +2,7 @@ package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.Register;
 
 
 /**
@@ -20,7 +20,8 @@ public class OutputAdapter implements IOutput {
      */
     public OutputAdapter(IComponent component, UnitOutputPort unitOutputPort) {
         this.unitOutputPort = unitOutputPort;
-        IOMapping.declare(component, this, unitOutputPort);
+        // Declare this association to the register
+        Register.declare(component, this, unitOutputPort);
     }
 
     /**
@@ -29,17 +30,12 @@ public class OutputAdapter implements IOutput {
      * @param in:IInput
      */
     public void connect(IInput in) {
-        IOMapping.connect(in, this);
+        Register.connect(in, this);
     }
 
     @Override
     public void deconnect() {
-        IOMapping.disconnect(this);
-    }
-
-    @Override
-    public UnitOutputPort getUnitInputPort() {
-        return unitOutputPort;
+        Register.disconnect(this);
     }
 
 }

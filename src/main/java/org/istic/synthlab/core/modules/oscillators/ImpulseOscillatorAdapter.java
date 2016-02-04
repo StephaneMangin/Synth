@@ -2,12 +2,13 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.ImpulseOscillator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.parametrization.ValueType;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
  * An impulse shape generator.
@@ -16,16 +17,14 @@ import org.istic.synthlab.core.modules.io.IOutput;
 public class ImpulseOscillatorAdapter extends AbstractOscillator {
 
     private ImpulseOscillator impulseOscillator;
-    private IOutput output;
-    private Potentiometer potentiometer;
 
     public ImpulseOscillatorAdapter(IComponent component) {
         super(component);
         this.impulseOscillator = new ImpulseOscillator();
-        // Declare the relation to the mapping
-        IOMapping.declare(component, this.impulseOscillator);
+        // Declare the relation to the register
+        Register.declare(component, this.impulseOscillator);
         this.output = ModulesFactory.createOutput(component, impulseOscillator.output);
-        this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
+        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }
 
@@ -40,20 +39,9 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
     }
 
     @Override
-    public double getFrequencyModulation() {
-        return 0;
+    public void setAmplitude(double value) {
+        impulseOscillator.amplitude.set(value);
     }
-
-    @Override
-    public void setFrequency(double value) {
-
-    }
-
-    @Override
-    public Potentiometer getPotentiometer() {
-        return this.potentiometer;
-    }
-
     @Override
     public void activate() {
         this.impulseOscillator.setEnabled(true);

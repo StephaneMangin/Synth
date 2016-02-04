@@ -5,8 +5,8 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Register;
 
 /**
  *
@@ -24,7 +24,9 @@ public class VcoaAlgorithmAdapter implements IVcoaAlgorithm {
         this.potentiometer = new Potentiometer("Frequency",PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
         // Declare the relation to the mapping
-        IOMapping.declare(component, this.algorithm);
+        Register.declare(component, this.algorithm);
+        this.output = ModulesFactory.createOutput(component, algorithm.output);
+        this.input = ModulesFactory.createInput(component, algorithm.frequencyModulation);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class VcoaAlgorithmAdapter implements IVcoaAlgorithm {
     }
 
     @Override
-    public Potentiometer getPotentiometer() {
+    public Potentiometer getFrequencyPotentiometer() {
         return potentiometer;
     }
 

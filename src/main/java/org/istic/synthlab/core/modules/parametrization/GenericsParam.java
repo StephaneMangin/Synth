@@ -1,15 +1,18 @@
 package org.istic.synthlab.core.modules.parametrization;
 
+import com.jsyn.ports.UnitInputPort;
+
 /**
  *
  * The class Params.
  *
  * @param <T> the type parameter
+ *
+ * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Cyprien Gottstein <gottstein[dot]cyprien[at]gmail[dot]com>
  */
 public class GenericsParam<T> {
 
-    private T max;
-    private T min;
     private T defaultValue = null;
     private T value;
     private String label;
@@ -18,14 +21,10 @@ public class GenericsParam<T> {
      * Instantiates a new Params.
      *
      * @param label the label
-     * @param max   the max
-     * @param min   the min
      * @param value the value
      */
-    public GenericsParam(String label, T max, T min, T value) {
+    public GenericsParam(String label, T value) {
         this.label = label;
-        this.max = max;
-        this.min = min;
         this.value = value;
         this.defaultValue = value;
     }
@@ -48,41 +47,6 @@ public class GenericsParam<T> {
         this.label = label;
     }
 
-    /**
-     * Gets the max value.
-     *
-     * @return the max
-     */
-    public T getMax() {
-        return max;
-    }
-
-    /**
-     * Sets the max value.
-     *
-     * @param max the max
-     */
-    public void setMax(T max) {
-        this.max = max;
-    }
-
-    /**
-     * Gets min value.
-     *
-     * @return the min
-     */
-    public T getMin() {
-        return min;
-    }
-
-    /**
-     * Sets min value.
-     *
-     * @param min the min
-     */
-    public void setMin(T min) {
-        this.min = min;
-    }
 
     /**
      * Gets value.

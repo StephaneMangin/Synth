@@ -1,14 +1,12 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
-import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
 
 
@@ -27,7 +25,7 @@ public class LineAdapter implements ILineOut {
 
     /**
      * Instantiates a new Line adapter.
-     * @param component component that use lineAdapter
+     * @param component
      */
     public LineAdapter(IComponent component) {
         lineOut = new LineOut();
@@ -35,8 +33,9 @@ public class LineAdapter implements ILineOut {
         this.input = ModulesFactory.createInput(component, filter.input);
 
         // First declare the mappings
-        IOMapping.declare(component, filter);
-        IOMapping.declare(component, lineOut);
+        Register.declare(component, filter);
+        Register.declare(component, lineOut);
+        Register.declare(component, input, filter.input);
 
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
@@ -90,15 +89,6 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets line out.
-     *
-     * @return the line out
-     */
-    public UnitInputPort getLineOut() {
-        return this.filter.input;
-    }
-
-    /**
      * Gets the input port.
      *
      * @return the input port
@@ -108,10 +98,6 @@ public class LineAdapter implements ILineOut {
         return input;
     }
 
-    /**
-     * It activates the line out
-     *
-     */
     @Override
     public void activate() {
         this.lineOut.setEnabled(true);

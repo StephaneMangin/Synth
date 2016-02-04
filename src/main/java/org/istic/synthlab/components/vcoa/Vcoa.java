@@ -8,6 +8,9 @@ import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.ModulesFactory;
 
+/**
+ * @author Thibaud Hulin thibaud.hulin.cl[ât]gmail.com
+ */
 public class Vcoa extends AComponent {
 
     private IOscillator sineOscillator;
@@ -23,9 +26,9 @@ public class Vcoa extends AComponent {
         this.pulseOscillator = ModulesFactory.createOscillator(this, OscillatorType.PULSE);
         this.squareOscillator = ModulesFactory.createOscillator(this, OscillatorType.SQUARE);
         this.algorithm = ModulesFactory.createVcoaAlgorithm(this);
-        algorithm.getOutput().connect(sineOscillator.getInput());
         this.input = this.algorithm.getInput();
         this.output = this.sineOscillator.getOutput();
+        algorithm.getOutput().connect(sineOscillator.getInput());
     }
 
     @Override
@@ -48,23 +51,23 @@ public class Vcoa extends AComponent {
     }
 
     public void setFrequencyInput(double value) {
-        algorithm.setPotentiometerFrequency(algorithm.getPotentiometer().calculateStep(value));
+        algorithm.setPotentiometerFrequency(algorithm.getFrequencyPotentiometer().calculateStep(value));
     }
 
     public void setAmplitudeSine(double value) {
-        sineOscillator.setAmplitude(sineOscillator.getPotentiometer().calculateStep(value));
+        sineOscillator.setAmplitude(sineOscillator.getAmplitudePotentiometer().calculateStep(value));
     }
 
     public void setAmplitudePulse(double value) {
-        pulseOscillator.setAmplitude(pulseOscillator.getPotentiometer().calculateStep(value));
+        pulseOscillator.setAmplitude(pulseOscillator.getAmplitudePotentiometer().calculateStep(value));
     }
 
     public void setAmplitudeSquare(double value) {
-        squareOscillator.setAmplitude(squareOscillator.getPotentiometer().calculateStep(value));
+        squareOscillator.setAmplitude(squareOscillator.getAmplitudePotentiometer().calculateStep(value));
     }
     /*
         public void setAmplitudeTriangle(double value) {
-            triangleOscillator.setAmplitude(triangleOscillator.getPotentiometer().calculateStep(value));
+            triangleOscillator.setAmplitude(triangleOscillator.getFrequencyPotentiometer().calculateStep(value));
         }
     */
     public IInput getInput() {

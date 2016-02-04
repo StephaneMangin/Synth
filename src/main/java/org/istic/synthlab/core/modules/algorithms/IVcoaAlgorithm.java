@@ -18,7 +18,7 @@ public interface IVcoaAlgorithm {
      *
      * @return Potentiometer
      */
-    Potentiometer getPotentiometer();
+    Potentiometer getFrequencyPotentiometer();
 
     void setPotentiometerFrequency(double value);
 }

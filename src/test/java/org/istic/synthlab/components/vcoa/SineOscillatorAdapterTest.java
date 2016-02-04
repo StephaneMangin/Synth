@@ -4,6 +4,8 @@ import junit.framework.TestCase;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
 
+import static org.mockito.Mockito.mock;
+
 /**
  * @author stephane on 02/02/16.
  */
