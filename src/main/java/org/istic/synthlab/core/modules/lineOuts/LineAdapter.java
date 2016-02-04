@@ -6,6 +6,7 @@ import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
+import org.istic.synthlab.core.modules.parametrization.ValueType;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
 
@@ -40,7 +41,7 @@ public class LineAdapter implements ILineOut {
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
 
-        this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, 10.0, 0.0, 3.0);
+        this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, filter.amplitude, ValueType.AMPLITUDE, 10.0, 0.0, 3.0);
 
     }
 
