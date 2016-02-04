@@ -12,10 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -46,53 +43,10 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
 
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         populateListView();
-
-        for (int row = 0; row < NB_ROWS; row++) {
-            RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(ROWS_PREF_HEIGHT);
-            gridPane.getRowConstraints().add(rowConstraints);
-        }
-
-        for (int col = 0; col < NB_COLS; col++) {
-            ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setPrefWidth(COLS_PREF_WIDTH);
-            gridPane.getColumnConstraints().add(columnConstraints);
-        }
-
-        // Fill the GridPane with Panes
-        for (int row = 0; row < gridPane.getRowConstraints().size(); row++) {
-            for (int col = 0; col < gridPane.getColumnConstraints().size(); col++) {
-                Pane p = new Pane();
-
-                // Pane d&d events
-                p.setOnDragOver(event -> {
-                    if (event.getGestureSource() != p && event.getDragboard().hasString()) {
-                        event.acceptTransferModes(TransferMode.COPY);
-                    }
-                    event.consume();
-                });
-
-                p.setOnDragDropped(event -> {
-                    Dragboard db = event.getDragboard();
-                    boolean success = false;
-                    if (db.hasString()) {
-                        try {
-                            Node node = FXMLLoader.load(getClass().getResource("/"+db.getString()+".fxml"));
-                            p.getChildren().add(node);
-                            success = true;
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    event.setDropCompleted(success);
-                    event.consume();
-                });
-
-                gridPane.add(p, col, row);
-            }
-        }
+        initializeGridView();
         IHMConnectionManager.addObserver(this);
     }
 
@@ -109,12 +63,12 @@ public class CoreController implements Initializable, IObserver {
     }
 
     private void populateListView() {
-        ObservableList<Node> data = FXCollections.observableArrayList();
-        Label vcoaLabel = new Label("vcoa");
-        Label outLabel = new Label("out");
+        final ObservableList<Node> data = FXCollections.observableArrayList();
+        final Label vcoaLabel = new Label("vcoa");
+        final Label outLabel = new Label("out");
 
-        vcoaLabel.setOnDragDetected(new DragListItemEventHandler());
-        outLabel.setOnDragDetected(new DragListItemEventHandler());
+        vcoaLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
+        outLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
 
         data.add(vcoaLabel);
         data.add(outLabel);
@@ -130,6 +84,34 @@ public class CoreController implements Initializable, IObserver {
         }*/
 
         listView.setItems(data);
+    }
+
+    private void initializeGridView() {
+        for (int row = 0; row < NB_ROWS; row++) {
+            final RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(ROWS_PREF_HEIGHT);
+            gridPane.getRowConstraints().add(rowConstraints);
+        }
+
+        for (int col = 0; col < NB_COLS; col++) {
+            final ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPrefWidth(COLS_PREF_WIDTH);
+            gridPane.getColumnConstraints().add(columnConstraints);
+        }
+
+        // Fill the GridPane with Panes
+        for (int row = 0; row < NB_ROWS; row++) {
+            for (int col = 0; col < NB_COLS; col++) {
+                final Pane p = new Pane();
+
+                p.setOnDragOver(new DragOverPaneEventHandler());
+                p.setOnDragEntered(new DragEnteredPaneEventHandler());
+                p.setOnDragExited(new DragExitedPaneEventHandler());
+                p.setOnDragDropped(new DragDroppedPaneEventHandler());
+
+                gridPane.add(p, col, row);
+            }
+        }
     }
 
     @FXML
@@ -149,14 +131,65 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(true);
     }
 
-    private class DragListItemEventHandler implements EventHandler<MouseEvent> {
+    private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
-            Label label = (Label) event.getSource();
-            Dragboard db = label.startDragAndDrop(TransferMode.COPY);
-            ClipboardContent content = new ClipboardContent();
+            final Label label = (Label) event.getSource();
+            final Dragboard db = label.startDragAndDrop(TransferMode.COPY);
+            final ClipboardContent content = new ClipboardContent();
             content.putString(label.getText());
             db.setContent(content);
+            event.consume();
+        }
+    }
+
+    private class DragOverPaneEventHandler implements EventHandler<DragEvent> {
+        @Override
+        public void handle(DragEvent event) {
+            final Pane p = (Pane) event.getSource();
+            if (event.getGestureSource() != p && event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+            event.consume();
+        }
+    }
+
+    private class DragEnteredPaneEventHandler implements EventHandler<DragEvent> {
+        @Override
+        public void handle(DragEvent event) {
+            final Pane p = (Pane) event.getSource();
+            if (event.getGestureSource() != p && event.getDragboard().hasString()) {
+                p.setStyle("-fx-background-color: fuchsia");
+            }
+            event.consume();
+        }
+    }
+
+    private class DragExitedPaneEventHandler implements EventHandler<DragEvent> {
+        @Override
+        public void handle(DragEvent event) {
+            final Pane p = (Pane) event.getSource();
+            p.setStyle("-fx-background-color: transparent;");
+            event.consume();
+        }
+    }
+
+    private class DragDroppedPaneEventHandler implements EventHandler<DragEvent> {
+        @Override
+        public void handle(DragEvent event) {
+            final Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasString()) {
+                try {
+                    final Pane p = (Pane) event.getSource();
+                    final Node node = FXMLLoader.load(getClass().getResource("/"+db.getString()+".fxml"));
+                    p.getChildren().add(node);
+                    success = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            event.setDropCompleted(success);
             event.consume();
         }
     }
