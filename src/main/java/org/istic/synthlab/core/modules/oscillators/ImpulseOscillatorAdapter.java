@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.ImpulseOscillator;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
@@ -41,6 +42,11 @@ public class ImpulseOscillatorAdapter implements IOscillator{
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
+    }
+
+    @Override
+    public UnitGenerator getUnitGenerator() {
+        return this.impulseOscillator;
     }
 
     @Override

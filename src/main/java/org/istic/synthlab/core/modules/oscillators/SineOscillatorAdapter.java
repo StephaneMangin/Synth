@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
@@ -40,6 +41,11 @@ public class SineOscillatorAdapter implements IOscillator {
     @Override
     public Potentiometer getPotentiometer() {
         return potentiometer;
+    }
+
+    @Override
+    public UnitGenerator getUnitGenerator() {
+        return this.oscillator;
     }
 
     @Override

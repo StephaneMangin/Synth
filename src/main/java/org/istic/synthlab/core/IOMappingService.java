@@ -1,11 +1,8 @@
 package org.istic.synthlab.core;
 
-import com.jsyn.Synthesizer;
-import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
-import com.sun.corba.se.spi.ior.IORFactories;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -22,7 +19,7 @@ public class IOMappingService {
     private static Map<IComponent, Map<IInput, UnitInputPort>> mappingInput = new HashMap<>();
     private static Map<IComponent, Map<IOutput, UnitOutputPort>> mappingOutput = new HashMap<>();
 
-    private static void declare(IComponent component, UnitGenerator unitGenerator) {
+    public static void declare(IComponent component, UnitGenerator unitGenerator) {
         if (!mappingGenerator.containsKey(component)) {
             mappingGenerator.put(component, new ArrayList<UnitGenerator>());
         }
@@ -30,7 +27,7 @@ public class IOMappingService {
         AdapterFactory.createSynthesizer().add(unitGenerator);
     }
 
-    private static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
+    public static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
         Map<IInput, UnitInputPort> assoc = new HashMap<>();
         assoc.put(in, unitIn);
         if (!mappingInput.containsKey(component)) {
@@ -40,7 +37,7 @@ public class IOMappingService {
         }
     }
 
-    private static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
+    public static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
         Map<IOutput, UnitOutputPort> assoc = new HashMap<>();
         assoc.put(out, unitOut);
         if (!mappingOutput.containsKey(component)) {

@@ -30,4 +30,6 @@ public interface IOscillator extends Resource {
      */
     Potentiometer getPotentiometer();
 
+    
+
 }

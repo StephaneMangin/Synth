@@ -3,6 +3,7 @@ package org.istic.synthlab.core.modules.lineOuts;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
@@ -103,6 +104,16 @@ public class LineAdapter implements ILineOut {
      * It activates the line out
      *
      */
+    @Override
+    public UnitGenerator getUnitGeneratorLineOut() {
+        return this.lineOut;
+    }
+
+    @Override
+    public UnitGenerator getUnitGeneratorFilter() {
+        return this.filter;
+    }
+
     @Override
     public void activate() {
         this.lineOut.setEnabled(true);
