@@ -26,11 +26,28 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+/**
+ * FX controller of core.fxml
+ * Represents the global view of the application
+ * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
+ */
 public class CoreController implements Initializable, IObserver {
-    public static final int NB_ROWS = 5;
-    public static final int NB_COLS = 5;
-    public static final int ROWS_PREF_HEIGHT = 200;
-    public static final int COLS_PREF_WIDTH = 300;
+    /**
+     * The default number of rows in the grid
+     */
+    public static final int DEFAULT_NB_ROWS = 5;
+    /**
+     * The default number of cols in the grid
+     */
+    public static final int DEFAULT_NB_COLS = 5;
+    /**
+     * The default height of the rows in the grid
+     */
+    public static final int DEFAULT_ROWS_PREF_HEIGHT = 200;
+    /**
+     * The default width of the columns in the grid
+     */
+    public static final int DEFAULT_COLS_PREF_WIDTH = 300;
 
     @FXML
     private ListView<Node> listView;
@@ -43,15 +60,20 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
 
+    /**
+     * This method initializes the list view and the grid
+     * @param location Not used
+     * @param resources Not used
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        populateListView();
+        initializeListView();
         initializeGridView();
         IHMConnectionManager.addObserver(this);
     }
 
     @Override
-    public void update(Map<IOutput,IInput> arg) {
+    public void update(Map<IOutput, IInput> arg) {
         String total = "";
         Set keys = arg.keySet();
         for (Object key : keys) {
@@ -62,7 +84,7 @@ public class CoreController implements Initializable, IObserver {
         textarea.setText(total);
     }
 
-    private void populateListView() {
+    private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
         final Label vcoaLabel = new Label("vcoa");
         final Label outLabel = new Label("out");
@@ -87,21 +109,21 @@ public class CoreController implements Initializable, IObserver {
     }
 
     private void initializeGridView() {
-        for (int row = 0; row < NB_ROWS; row++) {
+        for (int row = 0; row < DEFAULT_NB_ROWS; row++) {
             final RowConstraints rowConstraints = new RowConstraints();
-            rowConstraints.setPrefHeight(ROWS_PREF_HEIGHT);
+            rowConstraints.setPrefHeight(DEFAULT_ROWS_PREF_HEIGHT);
             gridPane.getRowConstraints().add(rowConstraints);
         }
 
-        for (int col = 0; col < NB_COLS; col++) {
+        for (int col = 0; col < DEFAULT_NB_COLS; col++) {
             final ColumnConstraints columnConstraints = new ColumnConstraints();
-            columnConstraints.setPrefWidth(COLS_PREF_WIDTH);
+            columnConstraints.setPrefWidth(DEFAULT_COLS_PREF_WIDTH);
             gridPane.getColumnConstraints().add(columnConstraints);
         }
 
         // Fill the GridPane with Panes
-        for (int row = 0; row < NB_ROWS; row++) {
-            for (int col = 0; col < NB_COLS; col++) {
+        for (int row = 0; row < DEFAULT_NB_ROWS; row++) {
+            for (int col = 0; col < DEFAULT_NB_COLS; col++) {
                 final Pane p = new Pane();
 
                 p.setOnDragOver(new DragOverPaneEventHandler());
@@ -114,6 +136,9 @@ public class CoreController implements Initializable, IObserver {
         }
     }
 
+    /**
+     * Close the application
+     */
     @FXML
     public void onActionClose() {
         Platform.exit();
