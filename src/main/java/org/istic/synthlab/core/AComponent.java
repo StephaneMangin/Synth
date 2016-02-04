@@ -1,11 +1,8 @@
 package org.istic.synthlab.core;
 
-/**
- * Created by stephane on 02/02/16.
- */
 public abstract class AComponent implements IComponent {
 
-    private String name;
+    protected String name;
 
     public AComponent(String name) {
         setName(name);
@@ -22,4 +19,5 @@ public abstract class AComponent implements IComponent {
     public void rename(String name) {
         setName(name);
     }
+
 }

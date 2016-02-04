@@ -1,10 +1,10 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.modules.io;
 
+import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import org.istic.synthlab.core.IOMappingService;
 
-/**
- * Created by stephane on 02/02/16.
- */
+
 public class OutputAdapter implements IOutput {
 
     private UnitOutputPort unitOutputPort;
@@ -14,6 +14,12 @@ public class OutputAdapter implements IOutput {
     }
 
     public void connect(IInput in) {
-
+        IOMappingService.connect(in, this);
     }
+
+    @Override
+    public UnitOutputPort getUnitInputPort() {
+        return unitOutputPort;
+    }
+
 }
