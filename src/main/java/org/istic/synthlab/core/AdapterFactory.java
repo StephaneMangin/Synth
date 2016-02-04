@@ -18,20 +18,41 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
 
 
 /**
+ * The type Adapter factory that instantiates component
  *
+ * @author Group1
  */
 public class AdapterFactory {
 
     private static Synthesizer synthesizer = new SynthesisEngine();
 
+    /**
+     * Create an input port.
+     *
+     * @param unitInputPort the unit input port
+     * @return the input : IInput
+     */
     public static IInput createInput(UnitInputPort unitInputPort) {
         return new InputAdapter(unitInputPort);
     }
 
+    /**
+     * Create an output port.
+     *
+     * @param unitOutputPort the unit output port
+     * @return the output : IOutput
+     */
     public static IOutput createOutput(UnitOutputPort unitOutputPort) {
         return new OutputAdapter(unitOutputPort);
     }
 
+    /**
+     * Create an oscillator.
+     *
+     * @param component the component
+     * @param type      the type of the oscillator
+     * @return the oscillator
+     */
     public static IOscillator createOscillator(IComponent component, OscillatorType type) {
         switch (type) {
             case SINE:
@@ -41,6 +62,13 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Create a filter.
+     *
+     * @param component the component
+     * @param type      the type of the filter
+     * @return the filter
+     */
     public static IFilter createFilter(IComponent component, FilterType type) {
         switch (type) {
             case ALLPASS:
@@ -54,6 +82,13 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Create a line out.
+     *
+     * @param component the component
+     * @param type      the Linetype
+     * @return the line out
+     */
     public static ILineOut createLineOut(IComponent component, LineType type) {
         switch(type) {
             case OUT:
@@ -63,6 +98,11 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Create a synthesizer.
+     *
+     * @return the synthesizer
+     */
     public static Synthesizer createSynthesizer() {
         return synthesizer;
     }

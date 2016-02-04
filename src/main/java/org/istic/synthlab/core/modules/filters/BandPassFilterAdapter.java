@@ -4,12 +4,18 @@ import com.jsyn.unitgen.FilterBandPass;
 import com.jsyn.unitgen.UnitFilter;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author Group1
+ *
+ * The type Band pass filter adapter.
+ *
  */
 public class BandPassFilterAdapter implements IFilter {
 
     private UnitFilter unitFilter;
 
+    /**
+     * Instantiates a new Band pass filter adapter.
+     */
     public BandPassFilterAdapter() {
         this.unitFilter = new FilterBandPass();
     }

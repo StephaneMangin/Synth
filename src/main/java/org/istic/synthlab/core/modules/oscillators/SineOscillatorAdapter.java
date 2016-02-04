@@ -6,11 +6,18 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 
+/**
+ * @author Group1
+ * The type Sine oscillator adapter.
+ */
 public class SineOscillatorAdapter implements IOscillator {
 
     private SineOscillator oscillator;
     private IOutput output;
 
+    /**
+     * Instantiates a new Sine oscillator adapter.
+     */
     public SineOscillatorAdapter() {
         this.oscillator = new SineOscillator();
         this.output = AdapterFactory.createOutput(oscillator.output);
@@ -45,5 +52,15 @@ public class SineOscillatorAdapter implements IOscillator {
     public void setActive(boolean b) {
         this.oscillator.setEnabled(b);
     }
+
+    /**
+     * Gets oscillator.
+     *
+     * @return the oscillator
+     */
+    public SineOscillator getOscillator() {
+        return oscillator;
+    }
+
 
 }
