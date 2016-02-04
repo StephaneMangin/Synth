@@ -28,26 +28,34 @@
         </ScrollPane>
     </center>
     <top>
-        <MenuBar>
-            <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-                <MenuItem mnemonicParsing="false" text="Delete" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About" />
-            </Menu>
-        </MenuBar>
+        <VBox>
+            <MenuBar>
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem mnemonicParsing="false" text="Delete"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem mnemonicParsing="false" text="About"/>
+                </Menu>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+                <Button fx:id="pauseButton" disable="true" mnemonicParsing="false" onAction="#onPause"
+                        text="Pause"/>
+                <Button fx:id="playButton" defaultButton="true" mnemonicParsing="false" onAction="#onPlay"
+                        text="Play"/>
+            </ToolBar>
+        </VBox>
     </top>
     <left>
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-             <TitledPane alignment="CENTER" collapsible="false" text="Component">
+            <TitledPane alignment="CENTER" collapsible="false" text="Component">
                  <ScrollPane>
                      <ListView fx:id="listView" />
                  </ScrollPane>
-             </TitledPane>
-         <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
+            </TitledPane>
+            <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
         </SplitPane>
     </left>
 </BorderPane>

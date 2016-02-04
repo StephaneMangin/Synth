@@ -3,10 +3,12 @@ package org.istic.synthlab.core;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -26,13 +28,16 @@ import java.util.Set;
 
 public class CoreController implements Initializable, IObserver {
     private ObservableList<Node> data;
-
     @FXML
     public ListView<Node> listView;
     @FXML
     public GridPane gridPane;
     @FXML
     private TextArea textarea;
+    @FXML
+    public Button pauseButton;
+    @FXML
+    public Button playButton;
 
     public void initialize(URL location, ResourceBundle resources){
         // Populate the ListView
@@ -125,5 +130,17 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     public void onActionClose() {
         Platform.exit();
+    }
+
+    @FXML
+    public void onPause(ActionEvent actionEvent) {
+        pauseButton.setDisable(true);
+        playButton.setDisable(false);
+    }
+
+    @FXML
+    public void onPlay(ActionEvent actionEvent) {
+        pauseButton.setDisable(false);
+        playButton.setDisable(true);
     }
 }
