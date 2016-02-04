@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.modules.algorithms.IVcoaAlgorithm;
+import org.istic.synthlab.core.modules.algorithms.IFrequencyModulator;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
@@ -17,7 +17,7 @@ public class Vcoa extends AComponent {
     private IOscillator pulseOscillator;
     private IOscillator squareOscillator;
     private IOutput output;
-    private IVcoaAlgorithm algorithm;
+    private IFrequencyModulator algorithm;
     private IInput input;
 
     public Vcoa(String name) {
@@ -34,11 +34,15 @@ public class Vcoa extends AComponent {
     @Override
     public void activate() {
         this.sineOscillator.activate();
+        this.pulseOscillator.activate();
+        this.squareOscillator.activate();
     }
 
     @Override
     public void desactivate() {
         this.sineOscillator.desactivate();
+        this.pulseOscillator.desactivate();
+        this.squareOscillator.desactivate();
     }
 
     @Override
@@ -51,7 +55,7 @@ public class Vcoa extends AComponent {
     }
 
     public void setFrequencyInput(double value) {
-        algorithm.setPotentiometerFrequency(algorithm.getFrequencyPotentiometer().calculateStep(value));
+        algorithm.setFrequency(algorithm.getFrequency().calculateStep(value));
     }
 
     public void setAmplitudeSine(double value) {
@@ -67,7 +71,7 @@ public class Vcoa extends AComponent {
     }
     /*
         public void setAmplitudeTriangle(double value) {
-            triangleOscillator.setAmplitude(triangleOscillator.getFrequencyPotentiometer().calculateStep(value));
+            triangleOscillator.setAmplitude(triangleOscillator.getFrequency().calculateStep(value));
         }
     */
     public IInput getInput() {

@@ -11,14 +11,14 @@ import org.istic.synthlab.core.services.Register;
 /**
  *
  */
-public class VcoaAlgorithmAdapter implements IVcoaAlgorithm {
+public class FrequencyModulatorAdapter implements IFrequencyModulator {
     private final Potentiometer potentiometer;
     private IOutput output;
     private IInput input;
-    private VcoaAlgorithm algorithm;
+    private FrequencyModulatorGenerator algorithm;
 
-    public VcoaAlgorithmAdapter(IComponent component) {
-        this.algorithm = new VcoaAlgorithm();
+    public FrequencyModulatorAdapter(IComponent component) {
+        this.algorithm = new FrequencyModulatorGenerator();
         this.output = ModulesFactory.createOutput(component, algorithm.output);
         this.input = ModulesFactory.createInput(component, algorithm.frequencyModulation);
         this.potentiometer = new Potentiometer("Frequency",PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
@@ -40,12 +40,12 @@ public class VcoaAlgorithmAdapter implements IVcoaAlgorithm {
     }
 
     @Override
-    public Potentiometer getFrequencyPotentiometer() {
+    public Potentiometer getFrequency() {
         return potentiometer;
     }
 
     @Override
-    public void setPotentiometerFrequency(double value) {
+    public void setFrequency(double value) {
         algorithm.potentiometer.set(value);
     }
 
