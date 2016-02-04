@@ -1,10 +1,9 @@
 package org.istic.synthlab.core;
 
 import com.jsyn.Synthesizer;
-import com.sun.swing.internal.plaf.synth.resources.synth;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-        IOMapping.connect(composantOut.getIInput(), composantVcoa.getOutput());
+        Register.connect(composantOut.getIInput(), composantVcoa.getOutput());
         composantOut.getLineOut().start();
         synth.start();
         synth.sleepUntil(10);

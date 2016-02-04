@@ -4,7 +4,6 @@ import org.istic.synthlab.core.*;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
 
 public class Vcoa extends AComponent {

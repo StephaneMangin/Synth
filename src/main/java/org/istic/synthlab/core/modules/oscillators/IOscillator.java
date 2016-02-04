@@ -26,5 +26,5 @@ public interface IOscillator extends Resource {
      *
      * @return Potentiometer
      */
-    Potentiometer getPotentiometer();
+    Potentiometer getFrequencyPotentiometer();
 }

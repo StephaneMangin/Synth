@@ -2,7 +2,6 @@ package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.core.AComponent;
 import org.istic.synthlab.core.services.ModulesFactory;
-import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;

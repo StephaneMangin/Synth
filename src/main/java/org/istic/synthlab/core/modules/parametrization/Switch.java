@@ -1,5 +1,7 @@
 package org.istic.synthlab.core.modules.parametrization;
 
+import com.jsyn.ports.UnitInputPort;
+
 /**
  * Manager for boolean value inside views.
  *
@@ -10,17 +12,18 @@ package org.istic.synthlab.core.modules.parametrization;
 public class Switch extends GenericsParam<Boolean> {
 
     private boolean defaultValue = false;
+    private UnitInputPort port;
 
     /**
      * Instantiates a new Switch.
      *
      * @param label the label
-     * @param max   the max value
-     * @param min   the min value
-     * @param value the value
+     * @param port   the port
+     * @param defaultValue the value
      */
-    public Switch(String label, Boolean max, Boolean min, Boolean value) {
-        super(label, max, min, value);
+    public Switch(String label, UnitInputPort port, Boolean defaultValue) {
+        super(label, defaultValue);
+        this.port = port;
     }
 
 }

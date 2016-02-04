@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
-public class IOMapping {
+public class Register {
 
     // Keep an eye on components generators
     protected static Map<IComponent, List<UnitGenerator>> mappingGenerator = new HashMap<>();
