@@ -5,6 +5,7 @@ import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import javafx.util.Pair;
 import junit.framework.TestCase;
+import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.InputAdapter;
@@ -15,6 +16,7 @@ import org.istic.synthlab.core.modules.io.OutputAdapter;
  */
 public class ChannelTest extends TestCase {
 
+    private IComponent component;
     private Channel channel;
     private IInput input;
     private IOutput outPut;
@@ -22,11 +24,12 @@ public class ChannelTest extends TestCase {
     @org.junit.Before
     public void setUp() throws Exception {
         channel = new Channel();
+        component = new Vcoa("TEST");
     }
     @org.junit.Test
     public void testConnect() throws Exception {
-        input = new InputAdapter(new UnitInputPort("port"));
-        outPut = new OutputAdapter(new UnitOutputPort("port"));
+        input = new InputAdapter(component, new UnitInputPort("port"));
+        outPut = new OutputAdapter(component, new UnitOutputPort("port"));
 
         channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
@@ -37,8 +40,8 @@ public class ChannelTest extends TestCase {
 
     @org.junit.Test
     public void testDisconnect() throws Exception {
-        input = new InputAdapter(new UnitInputPort("port1"));
-        outPut = new OutputAdapter(new UnitOutputPort("port2"));
+        input = new InputAdapter(component, new UnitInputPort("port1"));
+        outPut = new OutputAdapter(component, new UnitOutputPort("port2"));
 
         channel.connect(input,outPut);
         channel.disconnect(input, outPut);

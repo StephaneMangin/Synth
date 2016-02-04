@@ -6,15 +6,17 @@ import com.jsyn.unitgen.*;
 import org.junit.Test;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author stephane
  */
 public class OscillatorAdapterTest {
 
     Synthesizer synth;
+    Synthesizer inst2;
 
     @org.junit.Before
     public void setUp() throws Exception {
         synth = JSyn.createSynthesizer();
+        inst2 = JSyn.createSynthesizer();
 
     }
 
@@ -142,7 +144,7 @@ public class OscillatorAdapterTest {
 
         int n = 50;
 
-        double m = 0;
+        double m;
         double frequency = 1;
         double jsynREALFrequency = 600;
         int phase = 0;
@@ -211,9 +213,8 @@ public class OscillatorAdapterTest {
     @Test
     public void test5() throws InterruptedException {
         // Objectif : Tester la modulation de phase
-        // debut : phase 0.0
-        // milieu : phase 0.5
-        // fin : phase 1.0
+        // Pas concluant auditivement, aucune différence détectée selon les réglages
+        // (En tout cas pour le SineOscillator)
 
         LineOut myOut = new LineOut();
         SineOscillator oscA = new SineOscillator();
@@ -221,7 +222,7 @@ public class OscillatorAdapterTest {
         synth.add(myOut);
         synth.add(oscA);
 
-        oscA.frequency.set(160);
+        oscA.frequency.set(240);
         oscA.amplitude.set(1.0);
 
         oscA.output.connect(0, myOut.input, 0);
@@ -238,7 +239,7 @@ public class OscillatorAdapterTest {
         oscA.phase.set(1.0);
         synth.sleepFor(1);
 
-        oscA.phase.set(5.0);
+        oscA.phase.set(500.0);
         synth.sleepFor(5);
 
     }
@@ -271,6 +272,50 @@ public class OscillatorAdapterTest {
 
         oscA.setEnabled(true);
         synth.sleepFor(3);
+
+    }
+
+    @Test
+    public void test7() {
+        if (synth.getClass().isInstance(inst2)){
+            System.out.println("OUI");
+        } else {
+            System.out.println("NON");
+        }
+    }
+
+    @Test
+    public void test8() throws InterruptedException {
+        LineOut myOut = new LineOut();
+        SineOscillator oscA = new SineOscillator();
+
+        synth.add(myOut);
+        synth.add(oscA);
+
+        inst2.add(myOut);
+        inst2.add(oscA);
+
+        oscA.frequency.set(666);
+        oscA.amplitude.set(1.0);
+
+        oscA.output.connect(0, myOut.input, 0);
+        oscA.output.connect(0, myOut.input, 1);
+
+        myOut.start();
+        synth.start();
+        inst2.start();
+
+        oscA.setEnabled(false);
+        synth.sleepFor(1);
+        inst2.sleepFor(2);
+
+        oscA.setEnabled(false);
+        synth.sleepFor(1);
+        inst2.sleepFor(2);
+
+        oscA.setEnabled(true);
+        synth.sleepFor(3);
+        inst2.sleepFor(4);
 
     }
 }

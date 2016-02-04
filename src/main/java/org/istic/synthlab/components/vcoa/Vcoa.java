@@ -1,21 +1,31 @@
 package org.istic.synthlab.components.vcoa;
 
-import org.istic.synthlab.core.*;
+import org.istic.synthlab.core.AComponent;
+import org.istic.synthlab.core.modules.algorithms.IVcoaAlgorithm;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.services.ModulesFactory;
 
 public class Vcoa extends AComponent {
 
     private IOscillator sineOscillator;
+    private IOscillator pulseOscillator;
+    private IOscillator squareOscillator;
     private IOutput output;
-    private Potentiometer potentiometer;
+    private IVcoaAlgorithm algorithm;
+    private IInput input;
 
     public Vcoa(String name) {
         super(name);
-        this.sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
+        this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
+        this.pulseOscillator = ModulesFactory.createOscillator(this, OscillatorType.PULSE);
+        this.squareOscillator = ModulesFactory.createOscillator(this, OscillatorType.SQUARE);
+        this.algorithm = ModulesFactory.createVcoaAlgorithm(this);
+        algorithm.getOutput().connect(sineOscillator.getInput());
+        this.input = this.algorithm.getInput();
         this.output = this.sineOscillator.getOutput();
-        this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
     @Override
@@ -34,18 +44,33 @@ public class Vcoa extends AComponent {
 
     @Override
     public void run() {
-        sineOscillator.setFrequency(potentiometer.getValue()*Math.pow(2, sineOscillator.getFrequencyModulation()));
+
     }
 
+    public void setFrequencyInput(double value) {
+        algorithm.setPotentiometerFrequency(algorithm.getPotentiometer().calculateStep(value));
+    }
+
+    public void setAmplitudeSine(double value) {
+        sineOscillator.setAmplitude(sineOscillator.getPotentiometer().calculateStep(value));
+    }
+
+    public void setAmplitudePulse(double value) {
+        pulseOscillator.setAmplitude(pulseOscillator.getPotentiometer().calculateStep(value));
+    }
+
+    public void setAmplitudeSquare(double value) {
+        squareOscillator.setAmplitude(squareOscillator.getPotentiometer().calculateStep(value));
+    }
+    /*
+        public void setAmplitudeTriangle(double value) {
+            triangleOscillator.setAmplitude(triangleOscillator.getPotentiometer().calculateStep(value));
+        }
+    */
+    public IInput getInput() {
+        return this.input;
+    }
     public IOutput getOutput() {
         return this.output;
-    }
-
-    public IOscillator getSineOscillator() {
-        return this.sineOscillator;
-    }
-
-    public Potentiometer getPotentiometer() {
-        return this.potentiometer;
     }
 }

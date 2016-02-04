@@ -13,7 +13,7 @@ public class VcoaAlgorithm extends UnitGenerator {
     public UnitOutputPort output;
 
     public VcoaAlgorithm() {
-        potentiometer = new UnitInputPort("PotentiometerIn", 0.5);
+        potentiometer = new UnitInputPort("PotentiometerInput", 0.5);
         frequencyModulation = new UnitInputPort("FrequencyModulation", 0.0);
         output = new UnitOutputPort("Output");
         addPort(potentiometer);

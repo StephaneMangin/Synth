@@ -1,7 +1,9 @@
 package org.istic.synthlab.core;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author  Group1
+ *
+ * The interface Component
  */
 public interface IComponent {
 
