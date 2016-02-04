@@ -33,8 +33,8 @@ public class ModulesFactory {
      * @param unitInputPort UnitInputPort
      * @return IInput
      */
-    public static IInput createInput(UnitInputPort unitInputPort) {
-        return new InputAdapter(unitInputPort);
+    public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
+        return new InputAdapter(component, unitInputPort);
     }
 
     /**
@@ -43,8 +43,8 @@ public class ModulesFactory {
      * @param unitOutputPort UnitOutputPort
      * @return IOutput
      */
-    public static IOutput createOutput(UnitOutputPort unitOutputPort) {
-        return new OutputAdapter(unitOutputPort);
+    public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
+        return new OutputAdapter(component, unitOutputPort);
     }
 
     /**

@@ -1,6 +1,5 @@
 package org.istic.synthlab.core.modules.algorithms;
 
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -14,8 +13,8 @@ public class VcoaAlgorithmAdapter implements IVcoaAlgorithm {
 
     public VcoaAlgorithmAdapter() {
         this.algorithm = new VcoaAlgorithm();
-        this.output = ModulesFactory.createOutput(algorithm.output);
-        this.input = ModulesFactory.createInput(algorithm.frequencyModulation);
+        //this.output = ModulesFactory.createOutput(algorithm, algorithm.output);
+        //this.input = ModulesFactory.createInput(algorithm, algorithm.frequencyModulation);
     }
 
     @Override
