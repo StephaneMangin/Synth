@@ -29,16 +29,6 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
     }
 
     @Override
-    public IInput getInput() {
-        return null;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return this.output;
-    }
-
-    @Override
     public void setAmplitude(double value) {
         impulseOscillator.amplitude.set(value);
     }

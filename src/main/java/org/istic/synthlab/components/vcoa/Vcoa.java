@@ -28,7 +28,7 @@ public class Vcoa extends AComponent {
         this.algorithm = ModulesFactory.createVcoaAlgorithm(this);
         this.input = this.algorithm.getInput();
         this.output = this.sineOscillator.getOutput();
-        algorithm.getOutput().connect(sineOscillator.getInput());
+        //algorithm.getOutput().connect(sineOscillator.getInput());
     }
 
     @Override
