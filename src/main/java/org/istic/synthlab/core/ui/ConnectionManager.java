@@ -1,9 +1,9 @@
 package org.istic.synthlab.core.ui;
 
-import org.istic.synthlab.core.IOMappingService;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.Register;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class ConnectionManager {
         output = futureConnectionOrigin;
         if(input != null){
             connectionTab.put(output, input);
-            IOMappingService.connect(input, output);
+            Register.connect(input, output);
             update();
             input = null;
             output = null;
@@ -49,7 +49,7 @@ public class ConnectionManager {
         input = futureConnectionDestination;
         if(output != null){
             connectionTab.put(output, input);
-            IOMappingService.connect(input, output);
+            Register.connect(input, output);
             update();
             input = null;
             output = null;
