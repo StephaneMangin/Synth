@@ -1,7 +1,10 @@
 package org.istic.synthlab.components.vcoa;
 
 import junit.framework.TestCase;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
+
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by stephane on 02/02/16.
@@ -9,11 +12,13 @@ import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
 public class SineOscillatorAdapterTest  extends TestCase{
 
     private SineOscillatorAdapter scopeAdapter;
+    private IComponent component;
 
     @org.junit.Before
     public void setUp() throws Exception {
         super.setUp();
-        scopeAdapter = new SineOscillatorAdapter();
+        component = new Vcoa("TEST");
+        scopeAdapter = new SineOscillatorAdapter(component);
     }
 
     /**
@@ -23,7 +28,6 @@ public class SineOscillatorAdapterTest  extends TestCase{
     public void testGetInput() throws Exception {
         assertNull(scopeAdapter.getInput());
     }
-
 
     /**
      * Test method Get frequency.
@@ -48,16 +52,6 @@ public class SineOscillatorAdapterTest  extends TestCase{
         //assertEquals(0.0, scopeAdapter.getPhase());
     }
 
-    /**
-     * Test method Set frequency.
-     */
-    @org.junit.Test
-    public void testSetFrequency() throws Exception {
-        //SineOscillator scope =  scopeAdapter.getOscillator();
-        //scopeAdapter.setFrequency(140.0);
-        //assertEquals(140.0, scopeAdapter.getFrequency());
-        //assertEquals(140.0,scope.frequency.getValue());
-    }
     /**
      * Test method Set amplitude.
      */

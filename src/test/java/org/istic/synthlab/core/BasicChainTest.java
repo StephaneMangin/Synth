@@ -1,9 +1,12 @@
 package org.istic.synthlab.core;
 
+import com.jsyn.Synthesizer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.junit.After;
 import org.junit.Before;
+import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.core.services.ModulesFactory;
 import org.junit.Test;
 
 /**
@@ -11,9 +14,15 @@ import org.junit.Test;
  */
 public class BasicChainTest {
 
+    private Vcoa composantVcoa;
+    private Out composantOut;
+    private Synthesizer synth;
+
     @Before
     public void setUp() throws Exception {
-
+        composantVcoa = new Vcoa("VCOA");
+        composantOut = new Out("OUT");
+        synth = ModulesFactory.createSynthesizer();
     }
 
     @After
@@ -23,19 +32,9 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-
-        // Composant VCOa
-        Vcoa composantVcoa = new Vcoa("VCOA");
-
-        // Composant OUT
-        Out composantOut = new Out("OUT");
-
-        IOMappingService.connect(composantOut.getIInput(), composantVcoa.getOutput());
-
+        Register.connect(composantOut.getIInput(), composantVcoa.getOutput());
         composantOut.getLineOut().start();
-        AdapterFactory.createSynthesizer().start();
-        AdapterFactory.createSynthesizer().sleepUntil(10);
-
-
+        synth.start();
+        synth.sleepUntil(10);
     }
 }

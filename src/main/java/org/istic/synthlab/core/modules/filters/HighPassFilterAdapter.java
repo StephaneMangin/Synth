@@ -2,15 +2,22 @@ package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterHighPass;
 import com.jsyn.unitgen.UnitFilter;
+import org.istic.synthlab.core.IComponent;
 
 /**
- * Created by stephane on 02/02/16.
+ *
+ *
+ * The type High pass filter adapter.
  */
 public class HighPassFilterAdapter implements IFilter {
 
     private UnitFilter unitFilter;
 
-    public HighPassFilterAdapter() {
+    /**
+     * Instantiates a new High pass filter adapter.
+     * @param component
+     */
+    public HighPassFilterAdapter(IComponent component) {
         this.unitFilter = new FilterHighPass();
     }
 }
