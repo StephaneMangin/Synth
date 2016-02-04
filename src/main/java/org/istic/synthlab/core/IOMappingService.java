@@ -51,10 +51,10 @@ public class IOMappingService {
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new IllegalArgumentException("IInput has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new IllegalArgumentException("IOutput has not been declared properly");
         }
         Channel.connect(in, out);
         unitOut.connect(unitIn);
@@ -64,10 +64,10 @@ public class IOMappingService {
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new IllegalArgumentException("IInput has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new IllegalArgumentException("IOutput has not been declared properly");
         }
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
