@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.embed.swing.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Circle fx:id="input" layoutX="39.0" layoutY="367.0" radius="33.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="output" fill="RED" layoutX="567.0" layoutY="367.0" radius="33.0" stroke="BLACK" strokeType="INSIDE" />
+      <SwingNode fx:id="swing" layoutX="300.0" layoutY="200.0" />
+   </children>
+</AnchorPane>
