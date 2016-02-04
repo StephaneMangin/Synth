@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.io;
 
-import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.services.IOMapping;
 
 
@@ -18,8 +18,9 @@ public class OutputAdapter implements IOutput {
      *
      * @param unitOutputPort the unit output port
      */
-    public OutputAdapter(UnitOutputPort unitOutputPort) {
+    public OutputAdapter(IComponent component, UnitOutputPort unitOutputPort) {
         this.unitOutputPort = unitOutputPort;
+        IOMapping.declare(component, this, unitOutputPort);
     }
 
     /**

@@ -35,7 +35,7 @@ public class ModulesFactory {
      * @return IInput
      */
     public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
-        IInput in = new InputAdapter(unitInputPort);
+        IInput in = new InputAdapter(component, unitInputPort);
         IOMapping.declare(component, in, unitInputPort);
         return in;
     }
@@ -48,7 +48,7 @@ public class ModulesFactory {
      * @return IOutput
      */
     public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
-        IOutput out = new OutputAdapter(unitOutputPort);
+        IOutput out = new OutputAdapter(component, unitOutputPort);
         IOMapping.declare(component, out, unitOutputPort);
         return out;
     }

@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitInputPort;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.services.IOMapping;
 
 /**
@@ -16,8 +17,9 @@ public class InputAdapter implements IInput {
      *
      * @param unitInputPort the unit input port
      */
-    public InputAdapter(UnitInputPort unitInputPort) {
+    public InputAdapter(IComponent component, UnitInputPort unitInputPort) {
         this.unitInputPort = unitInputPort;
+        IOMapping.declare(component, this, unitInputPort);
     }
 
     /**

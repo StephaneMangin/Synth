@@ -12,12 +12,13 @@ import static org.mockito.Mockito.mock;
 public class SineOscillatorAdapterTest  extends TestCase{
 
     private SineOscillatorAdapter scopeAdapter;
+    private IComponent component;
 
     @org.junit.Before
     public void setUp() throws Exception {
         super.setUp();
-        IComponent composant = mock(IComponent.class);
-        scopeAdapter = new SineOscillatorAdapter(composant);
+        component = new Vcoa("TEST");
+        scopeAdapter = new SineOscillatorAdapter(component);
     }
 
     /**

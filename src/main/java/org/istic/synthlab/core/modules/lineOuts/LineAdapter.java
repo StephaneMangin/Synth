@@ -3,14 +3,13 @@ package org.istic.synthlab.core.modules.lineOuts;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.services.IOMapping;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import com.jsyn.unitgen.UnitGenerator;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.omg.CORBA.COMM_FAILURE;
+import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.ModulesFactory;
 
 
 /**
