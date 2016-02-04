@@ -11,14 +11,12 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import org.istic.synthlab.core.IHMConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by augustin
+ * @author augustin <augustin.bardou@gmail.com>
  */
 public class Controller implements Initializable {
     public static int counter = 0;

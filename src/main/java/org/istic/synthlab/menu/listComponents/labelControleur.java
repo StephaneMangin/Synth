@@ -5,7 +5,7 @@ import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.IHMConnectionManager;
 
 /**
- * Created by seb on 03/02/16.
+ * @author Sebastien
  */
 public class labelControleur {
     @FXML
