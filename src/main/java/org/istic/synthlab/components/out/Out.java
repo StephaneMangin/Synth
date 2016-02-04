@@ -16,12 +16,7 @@ public class Out extends AComponent {
     public Out(String name) {
         super(name);
         lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
-        lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
-        IOMapping.declare(this, this.lineOut.getUnitGeneratorFilter());
-        IOMapping.declare(this, this.lineOut.getUnitGeneratorLineOut());
-
         input = lineOut.getInput();
-        IOMapping.declare(this, this.input, this.input.getUnitInputPort());
     }
 
     @Override

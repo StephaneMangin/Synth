@@ -30,21 +30,27 @@ public class ModulesFactory {
     /**
      * Return a IInput instance.
      *
+     * @param component IComponent
      * @param unitInputPort UnitInputPort
      * @return IInput
      */
-    public static IInput createInput(UnitInputPort unitInputPort) {
-        return new InputAdapter(unitInputPort);
+    public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
+        IInput in = new InputAdapter(unitInputPort);
+        IOMapping.declare(component, in, unitInputPort);
+        return in;
     }
 
     /**
      * Return an IOutput instance.
      *
+     * @param component IComponent
      * @param unitOutputPort UnitOutputPort
      * @return IOutput
      */
-    public static IOutput createOutput(UnitOutputPort unitOutputPort) {
-        return new OutputAdapter(unitOutputPort);
+    public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
+        IOutput out = new OutputAdapter(unitOutputPort);
+        IOMapping.declare(component, out, unitOutputPort);
+        return out;
     }
 
     /**

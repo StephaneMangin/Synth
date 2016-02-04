@@ -24,7 +24,7 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
         this.impulseOscillator = new ImpulseOscillator();
         // Declare the relation to the mapping
         IOMapping.declare(component, this.impulseOscillator);
-        this.output = ModulesFactory.createOutput(impulseOscillator.output);
+        this.output = ModulesFactory.createOutput(component, impulseOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }

@@ -27,7 +27,7 @@ public class SawtoothOscillatorAdapter extends AbstractOscillator {
         this.sawtoothOscillator = new SawtoothOscillator();
         // Declare the relation to the mapping
         IOMapping.declare(component, this.sawtoothOscillator);
-        this.output = ModulesFactory.createOutput(sawtoothOscillator.output);
+        this.output = ModulesFactory.createOutput(component, sawtoothOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }

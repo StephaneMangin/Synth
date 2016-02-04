@@ -24,7 +24,7 @@ public class SquareOscillatorAdapter extends AbstractOscillator {
         this.squareOscillator = new SquareOscillator();
         // Declare the relation to the mapping
         IOMapping.declare(component, this.squareOscillator);
-        this.output = ModulesFactory.createOutput(squareOscillator.output);
+        this.output = ModulesFactory.createOutput(component, squareOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }
