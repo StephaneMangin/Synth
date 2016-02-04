@@ -7,18 +7,18 @@ import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 /**
  *
  */
-public interface IVcoaAlgorithm {
+public interface IFrequencyModulator {
 
     IInput getInput();
 
     IOutput getOutput();
 
     /**
-     * Returns a frequency potentiometer.
+     * Returns a frequency.
      *
-     * @return Potentiometer
+     * @return double
      */
-    Potentiometer getFrequencyPotentiometer();
+    Potentiometer getFrequency();
 
-    void setPotentiometerFrequency(double value);
+    void setFrequency(double value);
 }
