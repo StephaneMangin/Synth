@@ -1,6 +1,8 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 
+import org.istic.synthlab.core.Potentiometer;
+import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -9,12 +11,9 @@ import org.istic.synthlab.core.modules.io.IOutput;
  *
  * @author Group1
  */
-public interface IOscillator {
-    /**
-     * Gets input.
-     *
-     * @return the input
-     */
+
+public interface IOscillator extends Resource {
+
     IInput getInput();
 
     /**
@@ -25,31 +24,10 @@ public interface IOscillator {
     IOutput getOutput();
 
     /**
-     * Sets frequency.
+     * Gets the potientiometer
      *
-     * @param value the value
+     * @return the potientiometer
      */
-    void setFrequency(double value);
+    Potentiometer getPotentiometer();
 
-    /**
-     * Sets amplitude.
-     *
-     * @param amplitude the amplitude
-     *
-     */
-    void setAmplitude(double amplitude);
-
-    /**
-     * Sets phase.
-     *
-     * @param phase:double ,  the phase
-     */
-    void setPhase(double phase);
-
-    /**
-     * Sets active.
-     *
-     * @param b:boolean
-     */
-    void setActive(boolean b);
 }

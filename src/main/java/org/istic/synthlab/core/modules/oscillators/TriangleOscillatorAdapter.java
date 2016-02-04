@@ -1,29 +1,30 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
-
 /**
  * @author Group1
- * The type Sine oscillator adapter.
+ *
+ * The adapter TriangleOscillator
+ *
  */
-public class SineOscillatorAdapter implements IOscillator {
+public class TriangleOscillatorAdapter implements IOscillator{
 
-    private SineOscillator oscillator;
+    private TriangleOscillator triangleOscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
     /**
-     * Instantiates a new Sine oscillator adapter.
+     * Instantiates a new Triangle oscillator adapter.
      */
-    public SineOscillatorAdapter() {
-        this.oscillator = new SineOscillator();
-        this.output = AdapterFactory.createOutput(oscillator.output);
+    public TriangleOscillatorAdapter() {
+        this.triangleOscillator = new TriangleOscillator();
+        this.output = AdapterFactory.createOutput(triangleOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
@@ -39,27 +40,16 @@ public class SineOscillatorAdapter implements IOscillator {
 
     @Override
     public Potentiometer getPotentiometer() {
-        return potentiometer;
+        return this.potentiometer;
     }
 
     @Override
     public void activate() {
-        this.oscillator.setEnabled(true);
+        this.triangleOscillator.setEnabled(true);
     }
 
     @Override
     public void desactivate() {
-        this.oscillator.setEnabled(false);
+        this.triangleOscillator.setEnabled(false);
     }
-
-    /**
-     * Gets oscillator.
-     *
-     * @return the oscillator
-     */
-    public SineOscillator getOscillator() {
-        return oscillator;
-    }
-
-
 }

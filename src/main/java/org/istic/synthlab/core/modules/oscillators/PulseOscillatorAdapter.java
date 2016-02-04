@@ -1,29 +1,30 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.SineOscillator;
+import com.jsyn.unitgen.PulseOscillator;
 import org.istic.synthlab.core.AdapterFactory;
 import org.istic.synthlab.core.Potentiometer;
 import org.istic.synthlab.core.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
-
 /**
  * @author Group1
- * The type Sine oscillator adapter.
+ *
+ * The adapter  PulseOscillator
+ *
  */
-public class SineOscillatorAdapter implements IOscillator {
+public class PulseOscillatorAdapter implements IOscillator{
 
-    private SineOscillator oscillator;
+    private PulseOscillator pulseOscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
-    /**
-     * Instantiates a new Sine oscillator adapter.
-     */
-    public SineOscillatorAdapter() {
-        this.oscillator = new SineOscillator();
-        this.output = AdapterFactory.createOutput(oscillator.output);
+    /*
+    * the constructor
+    */
+    public PulseOscillatorAdapter() {
+        this.pulseOscillator = new PulseOscillator();
+        this.output = AdapterFactory.createOutput(pulseOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
@@ -39,27 +40,16 @@ public class SineOscillatorAdapter implements IOscillator {
 
     @Override
     public Potentiometer getPotentiometer() {
-        return potentiometer;
+        return this.potentiometer;
     }
 
     @Override
     public void activate() {
-        this.oscillator.setEnabled(true);
+        this.pulseOscillator.setEnabled(true);
     }
 
     @Override
     public void desactivate() {
-        this.oscillator.setEnabled(false);
+        this.pulseOscillator.setEnabled(false);
     }
-
-    /**
-     * Gets oscillator.
-     *
-     * @return the oscillator
-     */
-    public SineOscillator getOscillator() {
-        return oscillator;
-    }
-
-
 }
