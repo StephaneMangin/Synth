@@ -89,12 +89,16 @@ public class CoreController implements Initializable, IObserver {
         final ObservableList<Node> data = FXCollections.observableArrayList();
         final Label vcoaLabel = new Label("vcoa");
         final Label outLabel = new Label("out");
+        final Label oscilloscopeLabel = new Label("oscilloscope");
 
         vcoaLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
         outLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
+        oscilloscopeLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
 
         data.add(vcoaLabel);
         data.add(outLabel);
+        data.add(oscilloscopeLabel);
+
 
         /*for (int i=0; i<1; i++){
             try {
