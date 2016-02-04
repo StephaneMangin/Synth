@@ -6,4 +6,6 @@ package org.istic.synthlab.core.modules.io;
 public interface IOutput {
 
     void connect(IInput in);
+    void deconnect();
+
 }

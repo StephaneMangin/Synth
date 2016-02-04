@@ -1,9 +1,10 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.services;
 
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.InputAdapter;
 import org.istic.synthlab.core.modules.io.OutputAdapter;
@@ -16,20 +17,43 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
 
 
 /**
+ * Helper class to manage adapters creation.
+ *
+ * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
-public class AdapterFactory {
+public class ModulesFactory {
 
+    // A singleton for the synthetizer
     private static Synthesizer synthesizer = new SynthesisEngine();
 
+    /**
+     * Return a IInput instance.
+     *
+     * @param unitInputPort UnitInputPort
+     * @return IInput
+     */
     public static IInput createInput(UnitInputPort unitInputPort) {
         return new InputAdapter(unitInputPort);
     }
 
+    /**
+     * Return an IOutput instance.
+     *
+     * @param unitOutputPort UnitOutputPort
+     * @return IOutput
+     */
     public static IOutput createOutput(UnitOutputPort unitOutputPort) {
         return new OutputAdapter(unitOutputPort);
     }
 
+    /**
+     * Return an IOscillator instance.
+     *
+     * @param component IComponent
+     * @param type OscillatorType
+     * @return IOscillator
+     */
     public static IOscillator createOscillator(IComponent component, OscillatorType type) {
         switch (type) {
             case SINE:
@@ -49,6 +73,13 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Returns an IFilter instance.
+     *
+     * @param component IComponent
+     * @param type FilterType
+     * @return IFilter
+     */
     public static IFilter createFilter(IComponent component, FilterType type) {
         switch (type) {
             case ALLPASS:
@@ -62,6 +93,13 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Returns an ILineOut instance.
+     *
+     * @param component IComponent
+     * @param type LineType
+     * @return ILineOut
+     */
     public static ILineOut createLineOut(IComponent component, LineType type) {
         switch(type) {
             case OUT:
@@ -71,6 +109,11 @@ public class AdapterFactory {
         }
     }
 
+    /**
+     * Return the synthetizer singleton
+     *
+     * @return Synthesizer
+     */
     public static Synthesizer createSynthesizer() {
         return synthesizer;
     }

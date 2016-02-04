@@ -3,9 +3,9 @@ package org.istic.synthlab.core.modules.lineOuts;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
-import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.Potentiometer;
-import org.istic.synthlab.core.PotentiometerType;
+import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 
 
@@ -23,7 +23,7 @@ public class LineAdapter implements ILineOut {
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
 
-        this.input = AdapterFactory.createInput(filter.input);
+        this.input = ModulesFactory.createInput(filter.input);
         this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, 10.0, 0.0, 3.0);
     }
 

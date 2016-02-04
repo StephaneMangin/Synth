@@ -1,6 +1,6 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.modules.parametrization;
 
-public class Potentiometer extends Params<Double> {
+public class Potentiometer extends GenericsParam<Double> {
 
     private double defaultValue = 0.0;
     private PotentiometerType type;

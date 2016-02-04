@@ -1,6 +1,6 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.modules.parametrization;
 
-public class Switch extends Params<Boolean> {
+public class Switch extends GenericsParam<Boolean> {
 
     private boolean defaultValue = false;
 

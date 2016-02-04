@@ -1,6 +1,6 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.modules.parametrization;
 
-public class Params<T> {
+public class GenericsParam<T> {
 
     private T max;
     private T min;
@@ -8,7 +8,7 @@ public class Params<T> {
     private T value;
     private String label;
 
-    public Params(String label, T max, T min, T value) {
+    public GenericsParam(String label, T max, T min, T value) {
         this.label = label;
         this.max = max;
         this.min = min;

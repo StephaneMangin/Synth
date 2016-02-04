@@ -4,6 +4,7 @@ import org.istic.synthlab.core.*;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.services.ModulesFactory;
 
 public class Vcoa extends AComponent {
 
@@ -12,7 +13,7 @@ public class Vcoa extends AComponent {
 
     public Vcoa(String name) {
         super(name);
-        this.sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
+        this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
         this.output = this.sineOscillator.getOutput();
     }
 

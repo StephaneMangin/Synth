@@ -1,9 +1,9 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.PulseOscillator;
-import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.Potentiometer;
-import org.istic.synthlab.core.PotentiometerType;
+import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -18,7 +18,7 @@ public class PulseOscillatorAdapter implements IOscillator{
 
     public PulseOscillatorAdapter() {
         this.pulseOscillator = new PulseOscillator();
-        this.output = AdapterFactory.createOutput(pulseOscillator.output);
+        this.output = ModulesFactory.createOutput(pulseOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 

@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.AdapterFactory;
+import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
@@ -14,7 +14,7 @@ public class Out extends AComponent {
 
     public Out(String name) {
         super(name);
-        lineOut = AdapterFactory.createLineOut(this, LineType.OUT);
+        lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
         input = lineOut.getInput();
     }
 
