@@ -2,6 +2,8 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SawtoothOscillator;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.parametrization.ValueType;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
@@ -25,9 +27,13 @@ public class SawtoothOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.sawtoothOscillator);
         this.output = ModulesFactory.createOutput(component, sawtoothOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, sawtoothOscillator.frequency, ValueType.FREQUENCY, 20000.0, 20.0, 320.0);
-    }
+        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
+    }
+    @Override
+    public void setAmplitude(double value) {
+        sawtoothOscillator.amplitude.set(value);
+    }
     @Override
     public void activate() {
         this.sawtoothOscillator.setEnabled(true);

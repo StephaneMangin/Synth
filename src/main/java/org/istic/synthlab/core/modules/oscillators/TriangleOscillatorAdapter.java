@@ -22,7 +22,7 @@ public class TriangleOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.triangleOscillator);
         this.output = ModulesFactory.createOutput(component, triangleOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, triangleOscillator.frequency, ValueType.FREQUENCY, 20000.0, 20.0, 320.0);
+        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
     @Override
@@ -33,5 +33,10 @@ public class TriangleOscillatorAdapter extends AbstractOscillator {
     @Override
     public void desactivate() {
         this.triangleOscillator.setEnabled(false);
+    }
+
+    @Override
+    public void setAmplitude(double value) {
+        triangleOscillator.amplitude.set(value);
     }
 }

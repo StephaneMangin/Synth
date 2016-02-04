@@ -7,7 +7,7 @@ import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
 import static org.mockito.Mockito.mock;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author stephane on 02/02/16.
  */
 public class SineOscillatorAdapterTest  extends TestCase{
 

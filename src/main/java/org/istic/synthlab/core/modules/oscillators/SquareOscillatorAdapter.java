@@ -22,8 +22,13 @@ public class SquareOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.squareOscillator);
         this.output = ModulesFactory.createOutput(component, squareOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, squareOscillator.frequency, ValueType.FREQUENCY, 20000.0, 20.0, 320.0);
+        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL,20000.0, 20.0, 320.0);
 
+    }
+
+    @Override
+    public void setAmplitude(double value) {
+        squareOscillator.amplitude.set(value);
     }
 
     @Override

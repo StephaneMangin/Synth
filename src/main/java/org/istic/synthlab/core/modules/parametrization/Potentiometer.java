@@ -1,7 +1,5 @@
 package org.istic.synthlab.core.modules.parametrization;
 
-import com.jsyn.ports.UnitInputPort;
-
 /**
  * Manager for linear or exponential values inside views.
  *
@@ -11,31 +9,27 @@ import com.jsyn.ports.UnitInputPort;
  */
 public class Potentiometer extends GenericsParam<Double> {
 
+    private static final int POWER_SCALE = 10;
     private double defaultValue = 0.0;
     private PotentiometerType type;
     private ValueType valType;
     private double max;
     private double min;
-    private UnitInputPort port;
 
     /**
      * Instantiates a new Potentiometer.
      *
      * @param label the label
      * @param type  the type
-     * @param port  the type
-     * @param valType  the type
      * @param max   the max
      * @param min   the min
      * @param value the value
      */
-    public Potentiometer(String label, PotentiometerType type, UnitInputPort port, ValueType valType, double max, double min, double value) {
+    public Potentiometer(String label, PotentiometerType type, double max, double min, double value) {
         super(label, value);
         this.type = type;
         this.max = max;
         this.min = min;
-        this.valType = valType;
-        this.port = port;
     }
 
 
@@ -75,16 +69,14 @@ public class Potentiometer extends GenericsParam<Double> {
         this.min = min;
     }
 
-
-//    public double calculateStep(double wheelInput) {
-//        double value = 0.0;
-//        if (type == PotentiometerType.LINEAR) {
-//            value = (getMax() - getMin()) * wheelInput + getMin();
-//        } else {
-//            //128 à la place de 10 ?
-//            value = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, wheelInput) + getMin();
-//        }
-//        return value;
-//    }
-
+    public double calculateStep(double wheelInput) {
+        double value;
+        if (type == PotentiometerType.LINEAR) {
+            value = (getMax() - getMin()) * wheelInput + getMin();
+        } else {
+            //128 à la place de 10 ?
+            value = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, wheelInput) + getMin();
+        }
+        return value;
+    }
 }

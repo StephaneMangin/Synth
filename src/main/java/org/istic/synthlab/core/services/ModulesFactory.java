@@ -5,15 +5,17 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.modules.algorithms.IVcoaAlgorithm;
+import org.istic.synthlab.core.modules.algorithms.VcoaAlgorithmAdapter;
+import org.istic.synthlab.core.modules.filters.*;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.InputAdapter;
 import org.istic.synthlab.core.modules.io.OutputAdapter;
-import org.istic.synthlab.core.modules.oscillators.*;
-import org.istic.synthlab.core.modules.filters.*;
-import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineAdapter;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.oscillators.*;
 
 
 /**
@@ -113,6 +115,9 @@ public class ModulesFactory {
             default:
                 return new LineAdapter(component);
         }
+    }
+    public static IVcoaAlgorithm createVcoaAlgorithm(IComponent component) {
+        return new VcoaAlgorithmAdapter(component);
     }
 
     /**

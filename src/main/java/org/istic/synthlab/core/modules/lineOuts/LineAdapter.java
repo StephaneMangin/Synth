@@ -41,7 +41,7 @@ public class LineAdapter implements ILineOut {
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
 
-        this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, filter.amplitude, ValueType.AMPLITUDE, 10.0, 0.0, 3.0);
+        this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, 10.0, 0.0, 3.0);
 
     }
 

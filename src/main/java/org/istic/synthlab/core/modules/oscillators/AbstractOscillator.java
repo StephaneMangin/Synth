@@ -15,7 +15,7 @@ abstract class AbstractOscillator implements IOscillator {
     protected IComponent component;
     protected IInput input;
     protected IOutput output;
-    protected Potentiometer frequencyPotentiometer;
+    protected Potentiometer amplitudePotentiometer;
 
     protected AbstractOscillator(IComponent component) {
         this.component = component;
@@ -26,13 +26,13 @@ abstract class AbstractOscillator implements IOscillator {
     }
 
     @Override
-    public Potentiometer getFrequencyPotentiometer() {
-        return this.frequencyPotentiometer;
+    public Potentiometer getAmplitudePotentiometer() {
+        return this.amplitudePotentiometer;
     }
 
     @Override
     public IInput getInput() {
-        return null;
+        return this.input;
     }
 
     @Override
