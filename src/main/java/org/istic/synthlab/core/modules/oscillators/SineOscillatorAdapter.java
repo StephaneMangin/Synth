@@ -12,12 +12,10 @@ public class SineOscillatorAdapter implements IOscillator {
 
     private SineOscillator oscillator;
     private IOutput output;
-    private Potentiometer potentiometer;
 
     public SineOscillatorAdapter() {
         this.oscillator = new SineOscillator();
         this.output = AdapterFactory.createOutput(oscillator.output);
-        this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
     }
 
     @Override
@@ -31,8 +29,13 @@ public class SineOscillatorAdapter implements IOscillator {
     }
 
     @Override
-    public Potentiometer getPotentiometer() {
-        return potentiometer;
+    public double getFrequencyModulation() {
+        return oscillator.frequency.get();
+    }
+
+    @Override
+    public void setFrequency(double value) {
+        oscillator.frequency.set(value);
     }
 
     @Override

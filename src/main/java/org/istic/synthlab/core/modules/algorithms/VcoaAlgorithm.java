@@ -26,6 +26,7 @@ public class VcoaAlgorithm extends UnitGenerator {
         double[] potentiometerFreqs = potentiometer.getValues();
         double[] voltageFreqs = this.frequencyModulation.getValues();
         double[] outputs = output.getValues();
+        frequencyModulation.get(0);
 
         for (int i = start; i < limit; i++) {
             outputs[i] =  potentiometerFreqs[i]*Math.pow(2, voltageFreqs[i]);
