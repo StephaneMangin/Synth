@@ -20,4 +20,9 @@ public class InputAdapter implements IInput {
         IOMapping.disconnect(this);
     }
 
+    @Override
+    public UnitInputPort getUnitInputPort() {
+        return unitInputPort;
+    }
+
 }

@@ -2,6 +2,7 @@ package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.core.AComponent;
 import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.IOMappingService;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
@@ -15,7 +16,12 @@ public class Out extends AComponent {
     public Out(String name) {
         super(name);
         lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
+        lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
+        IOMappingService.declare(this, this.lineOut.getUnitGeneratorFilter());
+        IOMappingService.declare(this, this.lineOut.getUnitGeneratorLineOut());
+
         input = lineOut.getInput();
+        IOMappingService.declare(this, this.input, this.input.getUnitInputPort());
     }
 
     @Override
@@ -39,6 +45,10 @@ public class Out extends AComponent {
 
     public IInput getIInput() {
         return input;
+    }
+
+    public ILineOut getLineOut() {
+        return this.lineOut;
     }
 
 }

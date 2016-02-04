@@ -14,7 +14,11 @@ public class Vcoa extends AComponent {
     public Vcoa(String name) {
         super(name);
         this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
+        IOMappingService.declare(this, this.sineOscillator.getUnitGenerator());
+
         this.output = this.sineOscillator.getOutput();
+        IOMappingService.declare(this, output, output.getUnitInputPort());
+
     }
 
     @Override

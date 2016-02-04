@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.io;
 
+import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.services.IOMapping;
 
@@ -19,6 +20,11 @@ public class OutputAdapter implements IOutput {
     @Override
     public void deconnect() {
         IOMapping.disconnect(this);
+    }
+
+    @Override
+    public UnitOutputPort getUnitInputPort() {
+        return unitOutputPort;
     }
 
 }

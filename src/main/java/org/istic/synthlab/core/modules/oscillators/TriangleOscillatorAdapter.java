@@ -4,6 +4,7 @@ import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -35,6 +36,11 @@ public class TriangleOscillatorAdapter implements IOscillator{
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
+    }
+
+    @Override
+    public UnitGenerator getUnitGenerator() {
+        return triangleOscillator;
     }
 
     @Override

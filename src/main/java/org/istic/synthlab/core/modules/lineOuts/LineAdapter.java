@@ -6,6 +6,7 @@ import com.jsyn.unitgen.LineOut;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.modules.io.IInput;
 
 
@@ -57,6 +58,16 @@ public class LineAdapter implements ILineOut {
     @Override
     public IInput getInput() {
         return input;
+    }
+
+    @Override
+    public UnitGenerator getUnitGeneratorLineOut() {
+        return this.lineOut;
+    }
+
+    @Override
+    public UnitGenerator getUnitGeneratorFilter() {
+        return this.filter;
     }
 
     @Override

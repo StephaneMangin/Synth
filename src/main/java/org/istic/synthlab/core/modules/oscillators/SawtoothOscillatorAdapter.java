@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SawtoothOscillator;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
@@ -35,6 +36,11 @@ public class SawtoothOscillatorAdapter implements IOscillator {
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
+    }
+
+    @Override
+    public UnitGenerator getUnitGenerator() {
+        return this.getUnitGenerator();
     }
 
     @Override
