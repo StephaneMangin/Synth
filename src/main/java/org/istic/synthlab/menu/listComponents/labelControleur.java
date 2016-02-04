@@ -13,6 +13,5 @@ public class labelControleur {
 
     @FXML
     void connectIn(){
-        IHMConnectionManager.connect(in1.getId());
     }
 }

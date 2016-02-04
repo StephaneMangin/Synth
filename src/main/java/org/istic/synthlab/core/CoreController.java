@@ -15,6 +15,8 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 
 import java.io.IOException;
 import java.net.URL;
@@ -73,27 +75,38 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void update(Map<String, String> arg) {
+    public void update(Map<IOutput,IInput> arg) {
         String total = "";
         Set keys = arg.keySet();
         for (Object key : keys) {
-            String origin = (String) key;
-            String destination = arg.get(origin);
-            total += origin + " ---------> " + destination + "\n";
+            IOutput origin = (IOutput) key;
+            IInput destination = arg.get(origin);
+            total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
         textarea.setText(total);
     }
 
     public ObservableList<Node> addComponents2List() {
         data = FXCollections.observableArrayList();
-        Label testLabel = new Label("vcoa");
-        data.add(testLabel);
+        Label vcoaLabel = new Label("vcoa");
+        data.add(vcoaLabel);
+        Label outLabel = new Label("out");
+        data.add(outLabel);
+
 
         // Label d&d events
-        testLabel.setOnDragDetected(event -> {
-            Dragboard db = testLabel.startDragAndDrop(TransferMode.COPY);
+        vcoaLabel.setOnDragDetected(event -> {
+            Dragboard db = vcoaLabel.startDragAndDrop(TransferMode.COPY);
             ClipboardContent content = new ClipboardContent();
-            content.putString(testLabel.getText());
+            content.putString(vcoaLabel.getText());
+            db.setContent(content);
+            event.consume();
+        });
+
+        outLabel.setOnDragDetected(event -> {
+            Dragboard db = outLabel.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(outLabel.getText());
             db.setContent(content);
             event.consume();
         });
