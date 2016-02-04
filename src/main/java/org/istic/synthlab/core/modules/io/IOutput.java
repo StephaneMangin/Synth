@@ -16,7 +16,6 @@ public interface IOutput {
      */
     void connect(IInput in);
     void deconnect();
+    UnitOutputPort getUnitOutputPort();
 
-
-    UnitOutputPort getUnitInputPort();
 }

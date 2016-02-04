@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
-public class IOMapping {
+public class Register {
 
     // Keep an eye on components generators
     protected static Map<IComponent, List<UnitGenerator>> mappingGenerator = new HashMap<>();
@@ -41,7 +41,7 @@ public class IOMapping {
      */
     public static void declare(IComponent component, UnitGenerator unitGenerator) {
         if (!mappingGenerator.containsKey(component)) {
-            mappingGenerator.put(component, new ArrayList<UnitGenerator>());
+            mappingGenerator.put(component, new ArrayList<>());
         }
         mappingGenerator.get(component).add(unitGenerator);
         ModulesFactory.createSynthesizer().add(unitGenerator);

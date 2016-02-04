@@ -1,19 +1,24 @@
 package org.istic.synthlab.components.vcoa;
 
 import junit.framework.TestCase;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
 
+import static org.mockito.Mockito.mock;
+
 /**
- * Created by stephane on 02/02/16.
+ * @author stephane on 02/02/16.
  */
 public class SineOscillatorAdapterTest  extends TestCase{
 
     private SineOscillatorAdapter scopeAdapter;
+    private IComponent component;
 
     @org.junit.Before
     public void setUp() throws Exception {
         super.setUp();
-        scopeAdapter = new SineOscillatorAdapter();
+        component = new Vcoa("TEST");
+        scopeAdapter = new SineOscillatorAdapter(component);
     }
 
     /**

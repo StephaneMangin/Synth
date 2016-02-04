@@ -1,15 +1,13 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
-import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
-import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Register;
 
 
 /**
@@ -32,12 +30,12 @@ public class LineAdapter implements ILineOut {
     public LineAdapter(IComponent component) {
         lineOut = new LineOut();
         filter = new FilterStateVariable();
-        this.input = ModulesFactory.createInput(filter.input);
+        this.input = ModulesFactory.createInput(component, filter.input);
 
         // First declare the mappings
-        IOMapping.declare(component, filter);
-        IOMapping.declare(component, lineOut);
-        IOMapping.declare(component, input, filter.input);
+        Register.declare(component, filter);
+        Register.declare(component, lineOut);
+        Register.declare(component, input, filter.input);
 
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
@@ -91,15 +89,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets line out.
-     *
-     * @return UnitInputPort
-     */
-    public UnitInputPort getLineOut() {
-        return this.filter.input;
-    }
 
-    /**
      * Gets the input port.
      *
      * @return  IInput,the input port
@@ -109,21 +99,11 @@ public class LineAdapter implements ILineOut {
         return input;
     }
 
-
-    @Override
-    public UnitGenerator getUnitGeneratorLineOut() {
-        return this.lineOut;
-    }
-
-    @Override
-    public UnitGenerator getUnitGeneratorFilter() {
-        return this.filter;
-    }
-
     /**
      * Activates the line out
      *
      */
+
     @Override
     public void activate() {
         this.lineOut.setEnabled(true);

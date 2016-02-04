@@ -5,15 +5,17 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.modules.algorithms.IVcoaAlgorithm;
+import org.istic.synthlab.core.modules.algorithms.VcoaAlgorithmAdapter;
+import org.istic.synthlab.core.modules.filters.*;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.InputAdapter;
 import org.istic.synthlab.core.modules.io.OutputAdapter;
-import org.istic.synthlab.core.modules.oscillators.*;
-import org.istic.synthlab.core.modules.filters.*;
-import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineAdapter;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.oscillators.*;
 
 
 /**
@@ -30,21 +32,27 @@ public class ModulesFactory {
     /**
      * Return a IInput instance.
      *
+     * @param component IComponent
      * @param unitInputPort UnitInputPort
      * @return IInput
      */
-    public static IInput createInput(UnitInputPort unitInputPort) {
-        return new InputAdapter(unitInputPort);
+    public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
+        IInput in = new InputAdapter(component, unitInputPort);
+        Register.declare(component, in, unitInputPort);
+        return in;
     }
 
     /**
      * Return an IOutput instance.
      *
+     * @param component IComponent
      * @param unitOutputPort UnitOutputPort
      * @return IOutput
      */
-    public static IOutput createOutput(UnitOutputPort unitOutputPort) {
-        return new OutputAdapter(unitOutputPort);
+    public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
+        IOutput out = new OutputAdapter(component, unitOutputPort);
+        Register.declare(component, out, unitOutputPort);
+        return out;
     }
 
     /**
@@ -107,6 +115,9 @@ public class ModulesFactory {
             default:
                 return new LineAdapter(component);
         }
+    }
+    public static IVcoaAlgorithm createVcoaAlgorithm(IComponent component) {
+        return new VcoaAlgorithmAdapter(component);
     }
 
     /**
