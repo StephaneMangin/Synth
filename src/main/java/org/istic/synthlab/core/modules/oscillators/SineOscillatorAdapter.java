@@ -2,8 +2,6 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SineOscillator;
 import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.Potentiometer;
-import org.istic.synthlab.core.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
