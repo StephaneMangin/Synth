@@ -3,7 +3,7 @@ package org.istic.synthlab.core;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,9 +14,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.RowConstraints;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -27,22 +30,36 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 public class CoreController implements Initializable, IObserver {
-    private ObservableList<Node> data;
+    public static final int NB_ROWS = 5;
+    public static final int NB_COLS = 5;
+    public static final int ROWS_PREF_HEIGHT = 200;
+    public static final int COLS_PREF_WIDTH = 300;
+
     @FXML
-    public ListView<Node> listView;
+    private ListView<Node> listView;
     @FXML
-    public GridPane gridPane;
+    private GridPane gridPane;
     @FXML
     private TextArea textarea;
     @FXML
-    public Button pauseButton;
+    private Button pauseButton;
     @FXML
-    public Button playButton;
+    private Button playButton;
 
-    public void initialize(URL location, ResourceBundle resources){
-        // Populate the ListView
-        data = FXCollections.observableArrayList();
-        listView.setItems(addComponents2List());
+    public void initialize(URL location, ResourceBundle resources) {
+        populateListView();
+
+        for (int row = 0; row < NB_ROWS; row++) {
+            RowConstraints rowConstraints = new RowConstraints();
+            rowConstraints.setPrefHeight(ROWS_PREF_HEIGHT);
+            gridPane.getRowConstraints().add(rowConstraints);
+        }
+
+        for (int col = 0; col < NB_COLS; col++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPrefWidth(COLS_PREF_WIDTH);
+            gridPane.getColumnConstraints().add(columnConstraints);
+        }
 
         // Fill the GridPane with Panes
         for (int row = 0; row < gridPane.getRowConstraints().size(); row++) {
@@ -91,31 +108,18 @@ public class CoreController implements Initializable, IObserver {
         textarea.setText(total);
     }
 
-    public ObservableList<Node> addComponents2List() {
-        data = FXCollections.observableArrayList();
+    private void populateListView() {
+        ObservableList<Node> data = FXCollections.observableArrayList();
         Label vcoaLabel = new Label("vcoa");
-        data.add(vcoaLabel);
         Label outLabel = new Label("out");
+
+        vcoaLabel.setOnDragDetected(new DragListItemEventHandler());
+        outLabel.setOnDragDetected(new DragListItemEventHandler());
+
+        data.add(vcoaLabel);
         data.add(outLabel);
 
-
-        // Label d&d events
-        vcoaLabel.setOnDragDetected(event -> {
-            Dragboard db = vcoaLabel.startDragAndDrop(TransferMode.COPY);
-            ClipboardContent content = new ClipboardContent();
-            content.putString(vcoaLabel.getText());
-            db.setContent(content);
-            event.consume();
-        });
-
-        outLabel.setOnDragDetected(event -> {
-            Dragboard db = outLabel.startDragAndDrop(TransferMode.COPY);
-            ClipboardContent content = new ClipboardContent();
-            content.putString(outLabel.getText());
-            db.setContent(content);
-            event.consume();
-        });
-        for(int i=0;i<1;i++){
+        /*for (int i=0; i<1; i++){
             try {
                 Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
                 nodeComponentsList.setId("paneComponents"+i);
@@ -123,8 +127,9 @@ public class CoreController implements Initializable, IObserver {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        return data;
+        }*/
+
+        listView.setItems(data);
     }
 
     @FXML
@@ -133,14 +138,26 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @FXML
-    public void onPause(ActionEvent actionEvent) {
+    public void onPause() {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
     }
 
     @FXML
-    public void onPlay(ActionEvent actionEvent) {
+    public void onPlay() {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
+    }
+
+    private class DragListItemEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(MouseEvent event) {
+            Label label = (Label) event.getSource();
+            Dragboard db = label.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent content = new ClipboardContent();
+            content.putString(label.getText());
+            db.setContent(content);
+            event.consume();
+        }
     }
 }

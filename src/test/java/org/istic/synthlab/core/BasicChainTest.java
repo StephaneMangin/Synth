@@ -2,6 +2,8 @@ package org.istic.synthlab.core;
 
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -9,12 +11,12 @@ import org.junit.Test;
  */
 public class BasicChainTest {
 
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
 
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
 
     }
