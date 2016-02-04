@@ -1,5 +1,7 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.ui;
 
+import org.istic.synthlab.core.IOMappingService;
+import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -10,7 +12,7 @@ import java.util.List;
 /**
  * Created by seb on 03/02/16.
  */
-public class IHMConnectionManager {
+public class ConnectionManager {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();

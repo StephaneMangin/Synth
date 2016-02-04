@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.ui;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,6 +17,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -69,7 +70,7 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
         initializeGridView();
-        IHMConnectionManager.addObserver(this);
+        ConnectionManager.addObserver(this);
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.istic.synthlab.components.out;
 
 import javafx.fxml.FXML;
 import org.istic.synthlab.core.AbstractController;
-import org.istic.synthlab.core.IHMConnectionManager;
+import org.istic.synthlab.core.ui.ConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +21,7 @@ public class Controller extends AbstractController {
 
     @FXML
     void connectIn(){
-        IHMConnectionManager.makeDestination(componentOut.getIInput());
+        ConnectionManager.makeDestination(componentOut.getIInput());
     }
 
 
