@@ -1,27 +1,25 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SquareOscillator;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
- * @author  Group1
- * the adapter class SquareOscillator
+ * A square shape generator.
+ *
  */
-public class SquareOscillatorAdapter implements IOscillator{
+public class SquareOscillatorAdapter extends AbstractOscillator {
 
     private SquareOscillator squareOscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
-    /**
-     * Instantiates a new Square oscillator adapter.
-     */
-    public SquareOscillatorAdapter() {
+    public SquareOscillatorAdapter(IComponent component) {
+        super(component);
         this.squareOscillator = new SquareOscillator();
         this.output = ModulesFactory.createOutput(squareOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
@@ -40,11 +38,6 @@ public class SquareOscillatorAdapter implements IOscillator{
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
-    }
-
-    @Override
-    public UnitGenerator getUnitGenerator() {
-        return squareOscillator;
     }
 
     @Override

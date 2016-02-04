@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.filters;
 
 /**
- * @author Group1
+ *
  *
  *  The enum Filter type.
  *

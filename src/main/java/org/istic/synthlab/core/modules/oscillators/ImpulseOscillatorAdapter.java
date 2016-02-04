@@ -1,29 +1,25 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.ImpulseOscillator;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
-import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
- * @author Group1
- *
- * The adapter ImpulseOscillator
+ * An impulse shape generator.
  *
  */
-public class ImpulseOscillatorAdapter implements IOscillator{
+public class ImpulseOscillatorAdapter extends AbstractOscillator {
 
     private ImpulseOscillator impulseOscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
-    /*
-    * the constructor
-    */
-    public ImpulseOscillatorAdapter() {
+    public ImpulseOscillatorAdapter(IComponent component) {
+        super(component);
         this.impulseOscillator = new ImpulseOscillator();
         this.output = ModulesFactory.createOutput(impulseOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
@@ -42,11 +38,6 @@ public class ImpulseOscillatorAdapter implements IOscillator{
     @Override
     public Potentiometer getPotentiometer() {
         return this.potentiometer;
-    }
-
-    @Override
-    public UnitGenerator getUnitGenerator() {
-        return this.impulseOscillator;
     }
 
     @Override

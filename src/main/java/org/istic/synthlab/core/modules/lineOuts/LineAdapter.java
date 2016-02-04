@@ -3,17 +3,20 @@ package org.istic.synthlab.core.modules.lineOuts;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import com.jsyn.unitgen.LineOut;
+import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
 import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.core.modules.io.IInput;
+import org.omg.CORBA.COMM_FAILURE;
 
 
 /**
  * The class Line adapter.
  *
- * @author Group1
+ *
  * The type Line adapter that implements the interface ILineOut
  */
 public class LineAdapter implements ILineOut {
@@ -25,16 +28,23 @@ public class LineAdapter implements ILineOut {
 
     /**
      * Instantiates a new Line adapter.
+     * @param component
      */
-    public LineAdapter() {
-        this.lineOut = new LineOut();
-
+    public LineAdapter(IComponent component) {
+        lineOut = new LineOut();
         filter = new FilterStateVariable();
+        this.input = ModulesFactory.createInput(filter.input);
+
+        // First declare the mappings
+        IOMapping.declare(component, filter);
+        IOMapping.declare(component, lineOut);
+        IOMapping.declare(component, input, filter.input);
+
         filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
 
-        this.input = ModulesFactory.createInput(filter.input);
         this.potentiometer = new Potentiometer("Volume", PotentiometerType.LINEAR, 10.0, 0.0, 3.0);
+
     }
 
     /**

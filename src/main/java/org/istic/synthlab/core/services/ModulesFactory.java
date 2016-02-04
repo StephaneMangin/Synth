@@ -57,19 +57,19 @@ public class ModulesFactory {
     public static IOscillator createOscillator(IComponent component, OscillatorType type) {
         switch (type) {
             case SINE:
-                return new SineOscillatorAdapter();
+                return new SineOscillatorAdapter(component);
             case TRIANGLE:
-                return new TriangleOscillatorAdapter();
+                return new TriangleOscillatorAdapter(component);
             case SQUARE:
-                return new SquareOscillatorAdapter();
+                return new SquareOscillatorAdapter(component);
             case SAWTOOTH:
-                return new SawtoothOscillatorAdapter();
+                return new SawtoothOscillatorAdapter(component);
             case PULSE:
-                return new PulseOscillatorAdapter();
+                return new PulseOscillatorAdapter(component);
             case IMPULSE:
-                return new ImpulseOscillatorAdapter();
+                return new ImpulseOscillatorAdapter(component);
             default:
-                return new SineOscillatorAdapter();
+                return new SineOscillatorAdapter(component);
         }
     }
 
@@ -83,13 +83,13 @@ public class ModulesFactory {
     public static IFilter createFilter(IComponent component, FilterType type) {
         switch (type) {
             case ALLPASS:
-                return new BandPassFilterAdapter();
+                return new BandPassFilterAdapter(component);
             case LOWPASS:
-                return new LowPassFilterAdapter();
+                return new LowPassFilterAdapter(component);
             case HIGHPASS:
-                return new HighPassFilterAdapter();
+                return new HighPassFilterAdapter(component);
             default:
-                return new BandPassFilterAdapter();
+                return new BandPassFilterAdapter(component);
         }
     }
 
@@ -103,9 +103,9 @@ public class ModulesFactory {
     public static ILineOut createLineOut(IComponent component, LineType type) {
         switch(type) {
             case OUT:
-                return new LineAdapter();
+                return new LineAdapter(component);
             default:
-                return new LineAdapter();
+                return new LineAdapter(component);
         }
     }
 

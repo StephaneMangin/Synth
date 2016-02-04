@@ -3,7 +3,7 @@ package org.istic.synthlab.core.modules.io;
 import com.jsyn.ports.UnitInputPort;
 
 /**
- * @author Group1
+ *
  * The interface Input.
  *
  */

@@ -3,7 +3,6 @@ package org.istic.synthlab.core;
 /**
  * The type Abstract controller.
  *
- * @author Group1
  */
 public abstract class AbstractController {
 

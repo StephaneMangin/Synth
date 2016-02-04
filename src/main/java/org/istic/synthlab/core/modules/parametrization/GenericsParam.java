@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.parametrization;
 
 /**
- * @author Group1
+ *
  * The class Params.
  *
  * @param <T> the type parameter

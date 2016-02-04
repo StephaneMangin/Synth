@@ -4,7 +4,7 @@ import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.core.services.IOMapping;
 
 /**
- * @author Group1
+ *
  * The type Input adapter
  */
 public class InputAdapter implements IInput {
