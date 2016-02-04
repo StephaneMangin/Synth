@@ -9,6 +9,9 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
+ * @author Group1
+ *
+ * The adapter  SawtoothOscillator
  *
  */
 public class SawtoothOscillatorAdapter implements IOscillator {
@@ -17,6 +20,9 @@ public class SawtoothOscillatorAdapter implements IOscillator {
     private IOutput output;
     private Potentiometer potentiometer;
 
+    /*
+    * the constructor
+    */
     public SawtoothOscillatorAdapter() {
         this.sawtoothOscillator = new SawtoothOscillator();
         this.output = ModulesFactory.createOutput(sawtoothOscillator.output);

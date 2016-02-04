@@ -9,7 +9,8 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
- *
+ * @author  Group1
+ * the adapter class SquareOscillator
  */
 public class SquareOscillatorAdapter implements IOscillator{
 
@@ -17,6 +18,9 @@ public class SquareOscillatorAdapter implements IOscillator{
     private IOutput output;
     private Potentiometer potentiometer;
 
+    /**
+     * Instantiates a new Square oscillator adapter.
+     */
     public SquareOscillatorAdapter() {
         this.squareOscillator = new SquareOscillator();
         this.output = ModulesFactory.createOutput(squareOscillator.output);

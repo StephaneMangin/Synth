@@ -9,6 +9,9 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
+ * @author Group1
+ *
+ * The adapter  PulseOscillator
  *
  */
 public class PulseOscillatorAdapter implements IOscillator{
@@ -17,6 +20,9 @@ public class PulseOscillatorAdapter implements IOscillator{
     private IOutput output;
     private Potentiometer potentiometer;
 
+    /*
+    * the constructor
+    */
     public PulseOscillatorAdapter() {
         this.pulseOscillator = new PulseOscillator();
         this.output = ModulesFactory.createOutput(pulseOscillator.output);

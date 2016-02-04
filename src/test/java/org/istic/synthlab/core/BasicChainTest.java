@@ -1,7 +1,10 @@
 package org.istic.synthlab.core;
 
+import com.jsyn.Synthesizer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.ModulesFactory;
 import org.junit.Test;
 
 /**
@@ -28,11 +31,12 @@ public class BasicChainTest {
         // Composant OUT
         Out composantOut = new Out("OUT");
 
-        IOMappingService.connect(composantOut.getIInput(), composantVcoa.getOutput());
+        IOMapping.connect(composantOut.getIInput(), composantVcoa.getOutput());
 
         composantOut.getLineOut().start();
-        AdapterFactory.createSynthesizer().start();
-        AdapterFactory.createSynthesizer().sleepUntil(10);
+        Synthesizer synth = ModulesFactory.createSynthesizer();
+        synth.start();
+        synth.sleepUntil(10);
 
 
     }

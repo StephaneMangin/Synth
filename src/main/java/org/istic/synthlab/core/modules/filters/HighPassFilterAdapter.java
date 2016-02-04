@@ -4,12 +4,17 @@ import com.jsyn.unitgen.FilterHighPass;
 import com.jsyn.unitgen.UnitFilter;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author Group1
+ *
+ * The type High pass filter adapter.
  */
 public class HighPassFilterAdapter implements IFilter {
 
     private UnitFilter unitFilter;
 
+    /**
+     * Instantiates a new High pass filter adapter.
+     */
     public HighPassFilterAdapter() {
         this.unitFilter = new FilterHighPass();
     }

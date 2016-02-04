@@ -4,6 +4,7 @@ import org.istic.synthlab.core.*;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
 
 public class Vcoa extends AComponent {
@@ -14,10 +15,10 @@ public class Vcoa extends AComponent {
     public Vcoa(String name) {
         super(name);
         this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
-        IOMappingService.declare(this, this.sineOscillator.getUnitGenerator());
+        IOMapping.declare(this, this.sineOscillator.getUnitGenerator());
 
         this.output = this.sineOscillator.getOutput();
-        IOMappingService.declare(this, output, output.getUnitInputPort());
+        IOMapping.declare(this, output, output.getUnitInputPort());
 
     }
 

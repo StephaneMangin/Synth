@@ -9,6 +9,9 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
+ * @author Group1
+ *
+ * The adapter TriangleOscillator
  *
  */
 public class TriangleOscillatorAdapter implements IOscillator{
@@ -17,6 +20,9 @@ public class TriangleOscillatorAdapter implements IOscillator{
     private IOutput output;
     private Potentiometer potentiometer;
 
+    /**
+     * Instantiates a new Triangle oscillator adapter.
+     */
     public TriangleOscillatorAdapter() {
         this.triangleOscillator = new TriangleOscillator();
         this.output = ModulesFactory.createOutput(triangleOscillator.output);

@@ -39,7 +39,7 @@ public class IOMapping {
      * @param component IComponents
      * @param unitGenerator UnitGenerator
      */
-    private static void declare(IComponent component, UnitGenerator unitGenerator) {
+    public static void declare(IComponent component, UnitGenerator unitGenerator) {
         if (!mappingGenerator.containsKey(component)) {
             mappingGenerator.put(component, new ArrayList<UnitGenerator>());
         }
@@ -54,7 +54,7 @@ public class IOMapping {
      * @param in IInput
      * @param unitIn UnitInputPort
      */
-    private static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
+    public static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
         Map<IInput, UnitInputPort> assoc = new HashMap<>();
         assoc.put(in, unitIn);
         if (!mappingInput.containsKey(component)) {
@@ -71,7 +71,7 @@ public class IOMapping {
      * @param out IOutput
      * @param unitOut UnitOutputPort
      */
-    private static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
+    public static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
         Map<IOutput, UnitOutputPort> assoc = new HashMap<>();
         assoc.put(out, unitOut);
         if (!mappingOutput.containsKey(component)) {
