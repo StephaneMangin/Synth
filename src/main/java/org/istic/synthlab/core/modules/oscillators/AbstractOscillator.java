@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.services.IOMapping;
 
 /**
  * Manage the IComponent relation for all Oscillators

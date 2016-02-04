@@ -2,6 +2,7 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.ImpulseOscillator;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.services.IOMapping;
 import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.modules.parametrization.Potentiometer;
 import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
@@ -23,6 +24,8 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
         this.impulseOscillator = new ImpulseOscillator();
         this.output = ModulesFactory.createOutput(impulseOscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
+
+        IOMapping.declare(component, this.impulseOscillator);
     }
 
     @Override
