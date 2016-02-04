@@ -2,15 +2,22 @@ package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterLowPass;
 import com.jsyn.unitgen.UnitFilter;
+import org.istic.synthlab.core.IComponent;
 
 /**
- * Created by stephane on 02/02/16.
+ *
+ *
+ * The adapter of the low pass filter Jsyn
  */
 public class LowPassFilterAdapter implements IFilter {
 
     private UnitFilter unitFilter;
 
-    public LowPassFilterAdapter() {
+    /**
+     * Instantiates a new Low pass filter adapter.
+     * @param component
+     */
+    public LowPassFilterAdapter(IComponent component) {
         this.unitFilter = new FilterLowPass();
     }
 }

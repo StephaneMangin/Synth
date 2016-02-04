@@ -1,11 +1,11 @@
 package org.istic.synthlab.components.vcoa;
 
-import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.IOMappingService;
+import org.istic.synthlab.core.*;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.ModulesFactory;
 
 public class Vcoa extends AComponent {
 
@@ -14,12 +14,8 @@ public class Vcoa extends AComponent {
 
     public Vcoa(String name) {
         super(name);
-        this.sineOscillator = AdapterFactory.createOscillator(this, OscillatorType.SINE);
-        IOMappingService.declare(this, this.sineOscillator.getUnitGenerator());
-
+        this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
         this.output = this.sineOscillator.getOutput();
-        IOMappingService.declare(this, output, output.getUnitInputPort());
-
     }
 
     @Override
@@ -42,9 +38,5 @@ public class Vcoa extends AComponent {
 
     public IOutput getOutput() {
         return this.output;
-    }
-
-    public IOscillator getSineOscillator() {
-        return this.sineOscillator;
     }
 }

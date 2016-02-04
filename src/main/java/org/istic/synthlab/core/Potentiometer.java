@@ -1,5 +1,8 @@
 package org.istic.synthlab.core;
 
+import org.istic.synthlab.core.modules.parametrization.GenericsParam;
+import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
+
 /**
  * Manage the potentiometer and calculate the step
  * for the buttons
@@ -7,7 +10,7 @@ package org.istic.synthlab.core;
  * @author Cyprien Gottstein <>
  * */
 
-public class Potentiometer extends Params<Double> {
+public class Potentiometer extends GenericsParam<Double> {
 
     private double defaultValue = 0.0;
     private PotentiometerType type;

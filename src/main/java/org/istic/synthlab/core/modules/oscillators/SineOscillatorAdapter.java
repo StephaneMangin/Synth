@@ -1,24 +1,36 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SineOscillator;
-import com.jsyn.unitgen.UnitGenerator;
-import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.Potentiometer;
-import org.istic.synthlab.core.PotentiometerType;
+import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.services.IOMapping;
+import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 
-public class SineOscillatorAdapter implements IOscillator {
+/**
+ * A sinusoidal oscillator.
+ *
+ */
+public class SineOscillatorAdapter extends AbstractOscillator {
 
-    private SineOscillator oscillator;
+    private SineOscillator sineoscillator;
     private IOutput output;
     private Potentiometer potentiometer;
 
-    public SineOscillatorAdapter() {
-        this.oscillator = new SineOscillator();
-        this.output = AdapterFactory.createOutput(oscillator.output);
+    /**
+     * Instantiates a new Sine oscillator adapter.
+     */
+    public SineOscillatorAdapter(IComponent component) {
+        super(component);
+        this.sineoscillator = new SineOscillator();
+        // Declare the relation to the mapping
+        IOMapping.declare(component, this.sineoscillator);
+        this.output = ModulesFactory.createOutput(sineoscillator.output);
         this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
+
     }
 
     @Override
@@ -37,17 +49,12 @@ public class SineOscillatorAdapter implements IOscillator {
     }
 
     @Override
-    public UnitGenerator getUnitGenerator() {
-        return this.oscillator;
-    }
-
-    @Override
     public void activate() {
-        this.oscillator.setEnabled(true);
+        this.sineoscillator.setEnabled(true);
     }
 
     @Override
     public void desactivate() {
-        this.oscillator.setEnabled(false);
+        this.sineoscillator.setEnabled(false);
     }
 }

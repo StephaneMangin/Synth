@@ -24,7 +24,6 @@ public class SineOscillatorAdapterTest  extends TestCase{
         assertNull(scopeAdapter.getInput());
     }
 
-
     /**
      * Test method Get frequency.
      */
@@ -48,16 +47,6 @@ public class SineOscillatorAdapterTest  extends TestCase{
         //assertEquals(0.0, scopeAdapter.getPhase());
     }
 
-    /**
-     * Test method Set frequency.
-     */
-    @org.junit.Test
-    public void testSetFrequency() throws Exception {
-        //SineOscillator scope =  scopeAdapter.getOscillator();
-        //scopeAdapter.setFrequency(140.0);
-        //assertEquals(140.0, scopeAdapter.getFrequency());
-        //assertEquals(140.0,scope.frequency.getValue());
-    }
     /**
      * Test method Set amplitude.
      */
