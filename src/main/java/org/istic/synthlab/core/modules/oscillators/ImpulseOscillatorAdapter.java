@@ -24,7 +24,7 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.impulseOscillator);
         this.output = ModulesFactory.createOutput(component, impulseOscillator.output);
-        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
+        this.amplitudePotentiometer = new Potentiometer("Amplitude", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }
 

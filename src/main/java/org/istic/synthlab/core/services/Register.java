@@ -8,10 +8,8 @@ import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * This class pretends to help I/O associations management.
@@ -219,5 +217,19 @@ public class Register {
             }
         }
         return null;
+    }
+
+    public static void start() {
+        Set<IComponent> keys = mappingGenerator.keySet();
+        keys.forEach((key)->
+            mappingGenerator.get(key).forEach(UnitGenerator::start)
+        );
+    }
+
+    public static void stop() {
+        Set<IComponent> keys = mappingGenerator.keySet();
+        keys.forEach((key)->
+                mappingGenerator.get(key).forEach(UnitGenerator::stop)
+        );
     }
 }

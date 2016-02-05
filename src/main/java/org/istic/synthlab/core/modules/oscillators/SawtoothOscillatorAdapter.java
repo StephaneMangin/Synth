@@ -27,7 +27,7 @@ public class SawtoothOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.sawtoothOscillator);
         this.output = ModulesFactory.createOutput(component, sawtoothOscillator.output);
-        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
+        this.amplitudePotentiometer = new Potentiometer("Amplitude", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
     }
     @Override
