@@ -2,11 +2,11 @@ package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SquareOscillator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.parametrization.ValueType;
+import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
-import org.istic.synthlab.core.modules.parametrization.Potentiometer;
-import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * A square shape generator.
@@ -22,13 +22,8 @@ public class SquareOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.squareOscillator);
         this.output = ModulesFactory.createOutput(component, squareOscillator.output);
-        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL,20000.0, 20.0, 320.0);
+        this.frequencyPotentiometer = new Potentiometer("Frequency", squareOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
 
-    }
-
-    @Override
-    public void setAmplitude(double value) {
-        squareOscillator.amplitude.set(value);
     }
 
     @Override

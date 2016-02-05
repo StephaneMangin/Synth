@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.modules.parametrization;
+package org.istic.synthlab.core.modules.modulators;
 
 
 /**
@@ -7,8 +7,9 @@ package org.istic.synthlab.core.modules.parametrization;
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
-public enum ValueType {
+public enum ModulatorType {
     AMPLITUDE,
     FREQUENCY,
+    GAIN,
     VOLUME
 }

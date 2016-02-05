@@ -2,12 +2,12 @@ package org.istic.synthlab.core.modules.algorithms;
 
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  *
  */
-public interface IFrequencyModulator {
+public interface IVcoaFrequencyModulator {
 
     IInput getInput();
 

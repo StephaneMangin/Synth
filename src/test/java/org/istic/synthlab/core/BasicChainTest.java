@@ -25,7 +25,6 @@ public class BasicChainTest {
 
     @org.junit.After
     public void tearDown() throws Exception {
-
     }
 
     @Test

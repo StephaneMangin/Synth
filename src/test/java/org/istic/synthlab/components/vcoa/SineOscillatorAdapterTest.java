@@ -58,7 +58,7 @@ public class SineOscillatorAdapterTest  extends TestCase{
     @org.junit.Test
     public void testSetAmplitude() throws Exception {
         //SineOscillator scope =  scopeAdapter.getOscillator();
-        //scopeAdapter.setAmplitude(0.2);
+        //scopeAdapter.setFrequency(0.2);
         //assertEquals(0.2, scopeAdapter.getAmplitude());
         //assertEquals(0.2,scope.amplitude.getValue());
     }

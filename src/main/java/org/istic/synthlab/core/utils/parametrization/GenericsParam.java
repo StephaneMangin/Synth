@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.modules.parametrization;
+package org.istic.synthlab.core.utils.parametrization;
 
 import com.jsyn.ports.UnitInputPort;
 
@@ -13,7 +13,7 @@ import com.jsyn.ports.UnitInputPort;
  */
 public class GenericsParam<T> {
 
-    private T defaultValue = null;
+    private final T defaultValue;
     private T value;
     private String label;
 
@@ -29,6 +29,13 @@ public class GenericsParam<T> {
         this.defaultValue = value;
     }
 
+    /**
+     * Reset to the default value
+     *
+     */
+    public void reset() {
+        this.value = this.defaultValue;
+    }
     /**
      * Gets label.
      *

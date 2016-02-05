@@ -5,8 +5,8 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.algorithms.IFrequencyModulator;
-import org.istic.synthlab.core.modules.algorithms.FrequencyModulatorAdapter;
+import org.istic.synthlab.core.modules.algorithms.IVcoaFrequencyModulator;
+import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulatorAdapter;
 import org.istic.synthlab.core.modules.filters.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -15,6 +15,7 @@ import org.istic.synthlab.core.modules.io.OutputAdapter;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineAdapter;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
 
 
@@ -116,8 +117,8 @@ public class ModulesFactory {
                 return new LineAdapter(component);
         }
     }
-    public static IFrequencyModulator createVcoaAlgorithm(IComponent component) {
-        return new FrequencyModulatorAdapter(component);
+    public static IVcoaFrequencyModulator createVcoaAlgorithm(IComponent component) {
+        return new VcoaFrequencyModulatorAdapter(component);
     }
 
     /**
@@ -127,5 +128,25 @@ public class ModulesFactory {
      */
     public static Synthesizer createSynthesizer() {
         return synthesizer;
+    }
+
+    /**
+     * Create modular based on potentiometer
+     *
+     * @param component IComponent
+     * @param type ModulatorType
+     * @return IModulator
+     */
+    public static IModulator createModulator(IComponent component, ModulatorType type) {
+        switch(type) {
+            case AMPLITUDE:
+                return new AmplitudeModulatorAdapter(component);
+            case FREQUENCY:
+                return new FrequencyModulatorAdapter(component);
+            case GAIN:
+                return new GainModulatorAdapter(component);
+            default:
+                return new AmplitudeModulatorAdapter(component);
+        }
     }
 }

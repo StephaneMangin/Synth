@@ -3,7 +3,7 @@ package org.istic.synthlab.core.modules.oscillators;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 public interface IOscillator extends Resource {
 
@@ -25,7 +25,7 @@ public interface IOscillator extends Resource {
      *
      * @return Potentiometer
      */
-    Potentiometer getAmplitudePotentiometer();
+    Potentiometer getFrequencyPotentiometer();
 
-    void setAmplitude(double value);
+    void setFrequency(double value);
 }

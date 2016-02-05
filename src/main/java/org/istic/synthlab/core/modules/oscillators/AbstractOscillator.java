@@ -3,7 +3,7 @@ package org.istic.synthlab.core.modules.oscillators;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  * Manage the IComponent relation for all Oscillators
@@ -15,7 +15,7 @@ abstract class AbstractOscillator implements IOscillator {
     protected IComponent component;
     protected IInput input;
     protected IOutput output;
-    protected Potentiometer amplitudePotentiometer;
+    protected Potentiometer frequencyPotentiometer;
 
     protected AbstractOscillator(IComponent component) {
         this.component = component;
@@ -26,8 +26,8 @@ abstract class AbstractOscillator implements IOscillator {
     }
 
     @Override
-    public Potentiometer getAmplitudePotentiometer() {
-        return this.amplitudePotentiometer;
+    public Potentiometer getFrequencyPotentiometer() {
+        return this.frequencyPotentiometer;
     }
 
     @Override
@@ -38,5 +38,10 @@ abstract class AbstractOscillator implements IOscillator {
     @Override
     public IOutput getOutput() {
         return this.output;
+    }
+
+    @Override
+    public void setFrequency(double value) {
+        frequencyPotentiometer.setValue(value);
     }
 }

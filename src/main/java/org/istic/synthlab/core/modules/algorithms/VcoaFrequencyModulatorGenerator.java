@@ -7,12 +7,12 @@ import com.jsyn.unitgen.UnitGenerator;
 /**
  *
  */
-class FrequencyModulatorGenerator extends UnitGenerator {
+class VcoaFrequencyModulatorGenerator extends UnitGenerator {
     public UnitInputPort potentiometer;
     public UnitInputPort frequencyModulation;
     public UnitOutputPort output;
 
-    public FrequencyModulatorGenerator() {
+    public VcoaFrequencyModulatorGenerator() {
         potentiometer = new UnitInputPort("PotentiometerInput", 0.5);
         frequencyModulation = new UnitInputPort("FrequencyModulation", 0.0);
         output = new UnitOutputPort("Output");
