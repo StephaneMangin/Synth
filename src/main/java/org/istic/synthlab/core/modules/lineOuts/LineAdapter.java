@@ -9,13 +9,14 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Register;
 
 
 /**
  * The class Line adapter.
  *
  *
- * The type Line adapter that implements the interface ILineOut
+ * The class Line adapter that implements the interface ILineOut
  */
 public class LineAdapter implements ILineOut {
 
@@ -46,7 +47,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Sets volume.
+     * Sets volume of the filter
      *
      * @param value the value
      */
@@ -55,9 +56,9 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets volume.
+     * Returns the potentiometer
      *
-     * @return the volume
+     * @return Potentiometer
      */
     @Override
     public Potentiometer getPotentiometer() {
@@ -65,16 +66,16 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Gets volume.
+     * Gets the  volume of the potentiometer.
      *
-     * @return the volume
+     * @return the volume : double
      */
     public double getVolume() {
         return filter.amplitude.getValue();
     }
 
     /**
-     * Start.
+     * Start the filter and the lineOut
      */
     public void start() {
         filter.start();
@@ -82,7 +83,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * Stop.
+     * Stop the filter and the lineOut
      */
     public void stop() {
         filter.stop();
@@ -90,14 +91,20 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
+
      * Gets the input port.
      *
-     * @return the input port
+     * @return  IInput,the input port
      */
     @Override
     public IInput getInput() {
         return input;
     }
+
+    /**
+     * Activates the line out
+     *
+     */
 
     @Override
     public void activate() {
@@ -105,7 +112,7 @@ public class LineAdapter implements ILineOut {
     }
 
     /**
-     * It deactivates the line out
+     *  deactivates the line out
      *
      */
     @Override

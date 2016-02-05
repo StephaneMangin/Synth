@@ -38,4 +38,8 @@ public class OutputAdapter implements IOutput {
         Register.disconnect(this);
     }
 
+    public UnitOutputPort getUnitOutputPort() {
+        return this.unitOutputPort;
+    }
+
 }
