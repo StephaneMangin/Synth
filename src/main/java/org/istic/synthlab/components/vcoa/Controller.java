@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import org.istic.synthlab.core.AbstractController;
-import org.istic.synthlab.core.IHMConnectionManager;
+import org.istic.synthlab.core.ui.ConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -33,6 +33,8 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     void connectIn(){
+        ConnectionManager.makeOrigin(composantVcoa.getOutput());
+        IHMConnectionManager.makeOrigin(circleEvent, composantVcoa.getOutput());
         IHMConnectionManager.makeOrigin(circleEvent, composantVcoa.getOutput());
 
     }

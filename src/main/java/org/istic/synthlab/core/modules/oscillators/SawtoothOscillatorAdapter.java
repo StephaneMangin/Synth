@@ -1,48 +1,39 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import com.jsyn.unitgen.SawtoothOscillator;
-import com.jsyn.unitgen.UnitGenerator;
-import org.istic.synthlab.core.AdapterFactory;
-import org.istic.synthlab.core.Potentiometer;
-import org.istic.synthlab.core.PotentiometerType;
+import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.parametrization.ValueType;
+import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.modules.parametrization.Potentiometer;
+import org.istic.synthlab.core.modules.parametrization.PotentiometerType;
 
 /**
+ * A saw teeth generator.
  *
  */
-public class SawtoothOscillatorAdapter implements IOscillator {
+public class SawtoothOscillatorAdapter extends AbstractOscillator {
 
     private SawtoothOscillator sawtoothOscillator;
-    private IOutput output;
-    private Potentiometer potentiometer;
 
-    public SawtoothOscillatorAdapter() {
+    /*
+    * the constructor
+    */
+    public SawtoothOscillatorAdapter(IComponent component) {
+        super(component);
         this.sawtoothOscillator = new SawtoothOscillator();
-        this.output = AdapterFactory.createOutput(sawtoothOscillator.output);
-        this.potentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
-    }
+        // Declare the relation to the register
+        Register.declare(component, this.sawtoothOscillator);
+        this.output = ModulesFactory.createOutput(component, sawtoothOscillator.output);
+        this.amplitudePotentiometer = new Potentiometer("Frequency", PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
+    }
     @Override
-    public IInput getInput() {
-        return null;
+    public void setAmplitude(double value) {
+        sawtoothOscillator.amplitude.set(value);
     }
-
-    @Override
-    public IOutput getOutput() {
-        return this.output;
-    }
-
-    @Override
-    public Potentiometer getPotentiometer() {
-        return this.potentiometer;
-    }
-
-    @Override
-    public UnitGenerator getUnitGenerator() {
-        return this.getUnitGenerator();
-    }
-
     @Override
     public void activate() {
         this.sawtoothOscillator.setEnabled(true);

@@ -1,53 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.core.ui.CoreController">
 <?import javafx.scene.layout.*?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.core.CoreController">
     <center>
         <ScrollPane>
             <GridPane fx:id="gridPane" alignment="CENTER" gridLinesVisible="true">
-                <columnConstraints>
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                    <ColumnConstraints prefWidth="300.0" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints prefHeight="200.0" />
-                    <RowConstraints prefHeight="200.0" />
-                    <RowConstraints prefHeight="200.0" />
-                    <RowConstraints prefHeight="200.0" />
-                    <RowConstraints prefHeight="200.0" />
-                    <RowConstraints prefHeight="200.0" />
-                </rowConstraints>
             </GridPane>
         </ScrollPane>
     </center>
     <top>
-        <MenuBar>
-            <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-                <MenuItem mnemonicParsing="false" text="Delete" />
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About" />
-            </Menu>
-        </MenuBar>
+        <VBox>
+            <MenuBar>
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem mnemonicParsing="false" text="About" />
+                </Menu>
+            </MenuBar>
+            <ToolBar prefHeight="40.0" prefWidth="200.0">
+                <Button fx:id="pauseButton" disable="true" mnemonicParsing="false" onAction="#onPause" text="Pause" />
+                <Button fx:id="playButton" defaultButton="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
+            </ToolBar>
+        </VBox>
     </top>
     <left>
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
-             <TitledPane alignment="CENTER" collapsible="false" text="Component">
+            <TitledPane alignment="CENTER" collapsible="false" text="Component">
                  <ScrollPane>
                      <ListView fx:id="listView" />
                  </ScrollPane>
-             </TitledPane>
-         <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
+            </TitledPane>
+            <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
         </SplitPane>
     </left>
 </BorderPane>

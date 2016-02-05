@@ -6,7 +6,7 @@ import com.jsyn.unitgen.*;
 import org.junit.Test;
 
 /**
- * Created by stephane on 02/02/16.
+ * @author stephane
  */
 public class OscillatorAdapterTest {
 

@@ -1,11 +1,13 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.core.ui;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.plugins.cable.BoundLine;
 import org.istic.synthlab.plugins.cable.Center;
+import org.istic.synthlab.core.services.Register;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * @author Sebastien
  */
-public class IHMConnectionManager {
+public class ConnectionManager {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
@@ -59,6 +61,7 @@ public class IHMConnectionManager {
 
     private static void makeConnection(){
         connectionTab.put(output, input);
+        Register.connect(input, output);
         IOMappingService.connect(input, output);
         drawCable();
         update();

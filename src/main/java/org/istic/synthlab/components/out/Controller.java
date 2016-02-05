@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.AbstractController;
-import org.istic.synthlab.core.IHMConnectionManager;
+import org.istic.synthlab.core.ui.ConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,6 +30,7 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     void connectIn(){
         IHMConnectionManager.makeDestination(circleEvent, componentOut.getIInput());
+        ConnectionManager.makeDestination(componentOut.getIInput());
     }
 
     private class getIdWithClick implements EventHandler<Event> {

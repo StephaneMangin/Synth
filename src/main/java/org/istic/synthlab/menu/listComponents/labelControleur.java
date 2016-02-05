@@ -2,7 +2,6 @@ package org.istic.synthlab.menu.listComponents;
 
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;
-import org.istic.synthlab.core.IHMConnectionManager;
 
 /**
  * @author Sebastien
