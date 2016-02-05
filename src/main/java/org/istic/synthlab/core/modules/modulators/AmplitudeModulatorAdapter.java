@@ -22,13 +22,8 @@ public class AmplitudeModulatorAdapter implements IModulator {
 
     public AmplitudeModulatorAdapter(IComponent component) {
         filter = new FilterBandPass();
-        potentiometer = new Potentiometer(
-                "Gain",
-                filter.amplitude,
-                PotentiometerType.LINEAR,
-                5.0,
-                -5.0,
-                0.0
+        potentiometer = new Potentiometer("Gain", filter.amplitude, PotentiometerType.LINEAR,
+                5.0, -5.0, 0.0
         );
 
         // Declare the relation to the mapping

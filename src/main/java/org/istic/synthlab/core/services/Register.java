@@ -8,10 +8,7 @@ import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class pretends to help I/O associations management.
@@ -96,6 +93,7 @@ public class Register {
     public static void connect(IInput in, IOutput out) {
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
+        System.out.println(prettyPrint());
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
@@ -227,5 +225,39 @@ public class Register {
             }
         }
         return null;
+    }
+
+    // Helper class to prety print content
+    public static String prettyPrint() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Mapping INPUTS :");
+        Iterator<Map.Entry<IComponent, Map<IInput, UnitInputPort>>> iter = mappingInput.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<IComponent, Map<IInput, UnitInputPort>> entry = iter.next();
+            sb.append("\n\t" + entry.getKey());
+            Iterator<Map.Entry<IInput, UnitInputPort>> iter01 = entry.getValue().entrySet().iterator();
+            while (iter01.hasNext()) {
+                Map.Entry<IInput, UnitInputPort> entry01 = iter01.next();
+                sb.append("\n\t\t" + entry01.getKey());
+                sb.append(" => ");
+                sb.append(entry01.getValue());
+            }
+        }
+        sb.append("\n" + "Mapping OUTPUTS :");
+        Iterator<Map.Entry<IComponent, Map<IOutput, UnitOutputPort>>> iter2 = mappingOutput.entrySet().iterator();
+        while (iter2.hasNext()) {
+            Map.Entry<IComponent, Map<IOutput, UnitOutputPort>> entry = iter2.next();
+            sb.append("\n\t" + entry.getKey());
+            Iterator<Map.Entry<IOutput, UnitOutputPort>> iter02 = entry.getValue().entrySet().iterator();
+            while (iter02.hasNext()) {
+                Map.Entry<IOutput, UnitOutputPort> entry02 = iter02.next();
+                sb.append("\n\t\t" + entry02.getKey());
+                sb.append(" => ");
+                sb.append(entry02.getValue());
+            }
+        }
+        return sb.toString();
+
     }
 }
