@@ -59,35 +59,32 @@ public class ConnectionManager {
     }
 
     private static void makeConnection(){
-        connectionTab.put(output, input);
-        Register.connect(input, output);
-        drawCable();
-        update();
-        input = null;
-        output = null;
+        if(drawCable()) {
+            connectionTab.put(output, input);
+            Register.connect(input, output);
+            update();
+            input = null;
+            output = null;
+        }
     }
 
-    private static void drawCable(){
-        Center endCenter = new Center(circleInput);
-        Center startCenter = new Center(circleOutput);
-        //endCenter.setBounds(circleOutput.localToScreen(circleInput.getBoundsInLocal()));
-        //startCenter.setBounds(circleInput.localToScreen(circleInput.getBoundsInLocal()));
-        System.out.println("GLOBAL POSITION: "+circleInput.localToScreen(circleInput.getBoundsInLocal()));
-        System.out.println("GLOBAL POSITION: "+circleOutput.localToScreen(circleOutput.getBoundsInLocal()));
-        //System.out.println("CIRCLE INPUT: "+circleInput.getRadius());
-        //System.out.println("CIRCLE INPUT: "+circleInput.getLayoutX()+" --- "+circleInput.getLayoutY());
-        //System.out.println("CIRCLE OUTPUT: "+circleOutput.getLayoutX()+" ---- "+circleOutput.getLayoutY());
-        //System.out.println("CENTER INPUT: "+startCenter.centerXProperty()+" ---- "+startCenter.centerYProperty());
-        //System.out.println("CENTER OUTPUT: "+endCenter.centerXProperty()+" ---- "+endCenter.centerYProperty());
-        Line line = new BoundLine(
-                startCenter.centerXProperty(),
-                startCenter.centerYProperty(),
-                endCenter.centerXProperty(),
-                endCenter.centerYProperty()
-        );
-
+    private static boolean drawCable(){
         HashMap <IOutput, IInput> map = new HashMap<>();
+        HashMap <IInput, IOutput> mapReverse = new HashMap<>();
         map.put(output, input);
-        lineConnection.put(line, map);
+        mapReverse.put(input, output);
+        if((!lineConnection.containsValue(map)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
+            Center endCenter = new Center(circleInput);
+            Center startCenter = new Center(circleOutput);
+            Line line = new BoundLine(
+                    startCenter.centerXProperty(),
+                    startCenter.centerYProperty(),
+                    endCenter.centerXProperty(),
+                    endCenter.centerYProperty()
+            );
+            lineConnection.put(line, map);
+            return true;
+        }
+        return false;
     }
 }

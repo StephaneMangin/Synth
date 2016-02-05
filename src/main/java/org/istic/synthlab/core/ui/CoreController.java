@@ -92,7 +92,6 @@ public class CoreController implements Initializable, IObserver {
     public void drawLine(HashMap<Line, HashMap<IOutput, IInput>> arg) {
         Set keys = arg.keySet();
         for(Object key : keys){
-            System.out.println("Je suis dans la boucle for avec comme key: "+key);
             borderPane.getChildren().add((Line)key);
         }
     }
