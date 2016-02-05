@@ -42,4 +42,8 @@ public class OutputAdapter implements IOutput {
         return this.unitOutputPort;
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "<" + this.hashCode() + ">";
+    }
 }

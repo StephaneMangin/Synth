@@ -16,18 +16,6 @@ public abstract class AComponent implements IComponent {
      */
     private String name;
 
-    private IInput input;
-    private IInput inputGate;
-    private IInput inputFm;
-    private IInput inputAm;
-    private IOutput output;
-    private IOutput outputGate;
-    private IInput modInput;
-    private IInput modInputGate;
-    private IInput modInputFm;
-    private IInput modInputAm;
-    private IOutput modOutput;
-    private IOutput modOutputGate;
     private IModulator inputModulator;
     private IModulator frequencyModulator;
     private IModulator amplitudeModulator;
@@ -36,7 +24,7 @@ public abstract class AComponent implements IComponent {
     private IModulator outputGateModulator;
 
     /**
-     * Instantiates a new  component.
+     * Instantiates a new component.
      *
      * @param name the name
      */
@@ -50,22 +38,6 @@ public abstract class AComponent implements IComponent {
         inputGateModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
         outputModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
         outputGateModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
-
-        // Link modulators to inside modulators ports
-        modInput = inputModulator.getInput();
-        modInputGate = inputGateModulator.getInput();
-        modInputFm = frequencyModulator.getInput();
-        modInputAm = amplitudeModulator.getInput();
-        modOutput = outputModulator.getOutput();
-        modOutputGate = outputGateModulator.getOutput();
-
-        // link modulator's ports to component's ports
-        input = modInput;
-        inputGate = modInputGate;
-        inputFm = modInputFm;
-        inputAm = modInputAm;
-        output = modOutput;
-        outputGate = modOutputGate;
     }
 
     /**
@@ -112,23 +84,100 @@ public abstract class AComponent implements IComponent {
 
     }
 
+    /**
+     * Returns the input for external connexions
+     * @return
+     */
     public IInput getInput() {
-        return this.input;
+        return inputModulator.getInput();
     }
+
+    /**
+     * Returns the input for external connexions
+     * @return
+     */
     public IInput getInputGate() {
-        return this.inputGate;
+        return inputGateModulator.getInput();
     }
+
+    /**
+     * Returns the input for external connexions
+     * @return
+     */
     public IInput getFm() {
-        return this.inputFm;
+        return frequencyModulator.getInput();
     }
+
+    /**
+     * Returns the input for external connexions
+     * @return
+     */
     public IInput getAm() {
-        return this.inputAm;
+        return amplitudeModulator.getInput();
     }
+
+    /**
+     * Returns the output for external connexions
+     * @return
+     */
     public IOutput getOutput() {
-        return this.output;
+        return outputModulator.getOutput();
     }
-    public IOutput getOutputGate() {
-        return this.outputGate;
+
+    /**
+     * Returns the output for external connexions
+     * @return
+     */
+    protected IOutput getOutputGate() {
+        return outputGateModulator.getOutput();
+    }
+
+    /**
+     * Returns the input for internal connexions
+     * @return
+     */
+    protected IOutput getSource() {
+        return inputModulator.getOutput();
+    }
+
+    /**
+     * Returns the input for internal connexions
+     * @return
+     */
+    protected IOutput getSourceGate() {
+        return inputGateModulator.getOutput();
+    }
+
+    /**
+     * Returns the input for internal connexions
+     * @return
+     */
+    protected IOutput getSourceFm() {
+        return frequencyModulator.getOutput();
+    }
+
+    /**
+     * Returns the input for internal connexions
+     * @return
+     */
+    protected IOutput getSourceAm() {
+        return amplitudeModulator.getOutput();
+    }
+
+    /**
+     * Returns the output for internal connexions
+     * @return
+     */
+    protected IInput getSink() {
+        return outputModulator.getInput();
+    }
+
+    /**
+     * Returns the output for internal connexions
+     * @return
+     */
+    protected IInput getSinkGate() {
+        return outputGateModulator.getInput();
     }
 
     public IModulator getInputModulator() {
@@ -148,5 +197,10 @@ public abstract class AComponent implements IComponent {
     }
     public IModulator getOutputGateModulator() {
         return outputGateModulator;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + "<" + this.hashCode() + ">";
     }
 }

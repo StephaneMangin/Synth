@@ -43,4 +43,9 @@ public class InputAdapter implements IInput {
         return this.unitInputPort;
     }
 
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "<" + this.hashCode() + ">";
+    }
 }

@@ -45,6 +45,7 @@ public class Register {
         }
         mappingGenerator.get(component).add(unitGenerator);
         ModulesFactory.createSynthesizer().add(unitGenerator);
+        System.out.println(component + " connected to " + unitGenerator);
     }
 
     /**
@@ -62,6 +63,7 @@ public class Register {
         } else {
             mappingInput.get(component).putAll(assoc);
         }
+        System.out.println(component + " with input " + in + " connected to " + unitIn);
     }
 
     /**
@@ -79,6 +81,7 @@ public class Register {
         } else {
             mappingOutput.get(component).putAll(assoc);
         }
+        System.out.println(component + " with output " + out + " connected to " + unitOut);
     }
 
     /**
@@ -94,14 +97,15 @@ public class Register {
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new ExceptionInInitializerError( in + " has not been declared properly");
         }
         Channel.connect(in, out);
         unitOut.connect(unitIn);
         associations.put(in, out);
+        System.out.println(in + " connected to " + out);
     }
 
     /**
@@ -117,13 +121,15 @@ public class Register {
         IOutput out = associations.get(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
+        associations.remove(in, out);
+        System.out.println(in + " disconnected");
     }
 
     /**
@@ -144,13 +150,15 @@ public class Register {
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
+        associations.remove(in, out);
+        System.out.println(out + " disconnected");
     }
 
     /**
