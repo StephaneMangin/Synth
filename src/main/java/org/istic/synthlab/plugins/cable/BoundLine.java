@@ -8,14 +8,14 @@ import javafx.scene.shape.StrokeLineCap;
 /**
  * @author augustin <augustin.bardou@gmail.com>
  */
-class BoundLine extends Line {
+public class BoundLine extends Line {
     public BoundLine(ReadOnlyDoubleProperty startX, ReadOnlyDoubleProperty startY, ReadOnlyDoubleProperty endX, ReadOnlyDoubleProperty endY) {
         startXProperty().bind(startX);
         startYProperty().bind(startY);
         endXProperty().bind(endX);
         endYProperty().bind(endY);
         setStrokeWidth(2);
-        setStroke(Color.GRAY.deriveColor(0, 1, 1, 0.5));
+        setStroke(Color.BLACK.deriveColor(0, 1, 1, 1));
         setStrokeLineCap(StrokeLineCap.ROUND);
         setMouseTransparent(true);
     }

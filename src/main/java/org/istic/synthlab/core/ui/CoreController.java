@@ -13,10 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -25,6 +23,7 @@ import org.istic.synthlab.core.services.Register;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -54,6 +53,8 @@ public class CoreController implements Initializable, IObserver {
 
     private static final String DRAG_N_DROP_MOVE_GUARD = "panda";
 
+    @FXML
+    private BorderPane borderPane;
     @FXML
     private ListView<Node> listView;
     @FXML
@@ -87,6 +88,14 @@ public class CoreController implements Initializable, IObserver {
             total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
         textarea.setText(total);
+    }
+
+    @Override
+    public void drawLine(HashMap<Line, HashMap<IOutput, IInput>> arg) {
+        Set keys = arg.keySet();
+        for(Object key : keys){
+            borderPane.getChildren().add((Line)key);
+        }
     }
 
     private void initializeListView() {
