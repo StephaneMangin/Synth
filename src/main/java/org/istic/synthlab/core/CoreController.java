@@ -13,20 +13,24 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
 public class CoreController implements Initializable, IObserver {
     private ObservableList<Node> data;
-
+    @FXML
+    public BorderPane borderPane;
     @FXML
     public ListView<Node> listView;
     @FXML
@@ -84,6 +88,15 @@ public class CoreController implements Initializable, IObserver {
             total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
         textarea.setText(total);
+    }
+
+    @Override
+    public void drawLine(HashMap<Line, HashMap<IOutput, IInput>> arg) {
+        Set keys = arg.keySet();
+        for(Object key : keys){
+            System.out.println("Je suis dans la boucle for avec comme key: "+key);
+            borderPane.getChildren().add((Line)key);
+        }
     }
 
     public ObservableList<Node> addComponents2List() {

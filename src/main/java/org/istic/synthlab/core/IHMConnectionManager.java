@@ -1,20 +1,30 @@
 package org.istic.synthlab.core;
 
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.plugins.cable.BoundLine;
+import org.istic.synthlab.plugins.cable.Center;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by seb on 03/02/16.
+ * @author Sebastien
  */
 public class IHMConnectionManager {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> listObservers = new ArrayList<>();
+
+    public static HashMap<Line, HashMap<IOutput, IInput>> lineConnection = new HashMap<>();
+    private static Circle circleInput;
+    private static Circle circleOutput;
+    private static Line line;
+
 
     public static void addObserver(IObserver obs){
         listObservers.add(obs);
@@ -27,31 +37,56 @@ public class IHMConnectionManager {
     private static void update(){
         for(IObserver obj : listObservers){
             obj.update(connectionTab);
+            obj.drawLine(lineConnection);
         }
     }
 
-
-    public static void makeOrigin(IOutput futureConnectionOrigin){
+    public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
+        circleOutput = circle;
         if(input != null){
-            connectionTab.put(output, input);
-            IOMappingService.connect(input, output);
-            update();
-            input = null;
-            output = null;
+            makeConnection();
         }
-
     }
 
-    public static void makeDestination(IInput futureConnectionDestination){
+    public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
+        circleInput = circle;
         if(output != null){
-            connectionTab.put(output, input);
-            IOMappingService.connect(input, output);
-            update();
-            input = null;
-            output = null;
+            makeConnection();
         }
+    }
 
+    private static void makeConnection(){
+        connectionTab.put(output, input);
+        IOMappingService.connect(input, output);
+        drawCable();
+        update();
+        input = null;
+        output = null;
+    }
+
+    private static void drawCable(){
+        Center endCenter = new Center(circleInput);
+        Center startCenter = new Center(circleOutput);
+        //endCenter.setBounds(circleOutput.localToScreen(circleInput.getBoundsInLocal()));
+        //startCenter.setBounds(circleInput.localToScreen(circleInput.getBoundsInLocal()));
+        System.out.println("GLOBAL POSITION: "+circleInput.localToScreen(circleInput.getBoundsInLocal()));
+        System.out.println("GLOBAL POSITION: "+circleOutput.localToScreen(circleOutput.getBoundsInLocal()));
+        //System.out.println("CIRCLE INPUT: "+circleInput.getRadius());
+        //System.out.println("CIRCLE INPUT: "+circleInput.getLayoutX()+" --- "+circleInput.getLayoutY());
+        //System.out.println("CIRCLE OUTPUT: "+circleOutput.getLayoutX()+" ---- "+circleOutput.getLayoutY());
+        //System.out.println("CENTER INPUT: "+startCenter.centerXProperty()+" ---- "+startCenter.centerYProperty());
+        //System.out.println("CENTER OUTPUT: "+endCenter.centerXProperty()+" ---- "+endCenter.centerYProperty());
+        Line line = new BoundLine(
+                startCenter.centerXProperty(),
+                startCenter.centerYProperty(),
+                endCenter.centerXProperty(),
+                endCenter.centerYProperty()
+        );
+
+        HashMap <IOutput, IInput> map = new HashMap<>();
+        map.put(output, input);
+        lineConnection.put(line, map);
     }
 }
