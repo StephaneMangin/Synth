@@ -43,4 +43,8 @@ public class InputAdapter implements IInput {
         return unitInputPort;
     }
 
+    @Override
+    public String toString() {
+        return unitInputPort.getName();
+    }
 }

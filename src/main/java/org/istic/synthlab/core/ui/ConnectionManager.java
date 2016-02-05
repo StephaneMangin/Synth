@@ -16,22 +16,21 @@ public class ConnectionManager {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
-    private static List<IObserver> listObservers = new ArrayList<>();
+    private static List<IObserver> observers = new ArrayList<>();
 
-    public static void addObserver(IObserver obs){
-        listObservers.add(obs);
+    public static void addObserver(IObserver observer) {
+        observers.add(observer);
     }
 
-    public static void deleteObserver(IObserver obs){
-        listObservers.remove(obs);
+    public static void removeObserver(IObserver observer) {
+        observers.remove(observer);
     }
 
-    private static void update(){
-        for(IObserver obj : listObservers){
-            obj.update(connectionTab);
+    private static void update() {
+        for (IObserver observer : observers) {
+            observer.update(connectionTab);
         }
     }
-
 
     public static void makeOrigin(IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
@@ -42,7 +41,6 @@ public class ConnectionManager {
             input = null;
             output = null;
         }
-
     }
 
     public static void makeDestination(IInput futureConnectionDestination){
@@ -54,6 +52,5 @@ public class ConnectionManager {
             input = null;
             output = null;
         }
-
     }
 }
