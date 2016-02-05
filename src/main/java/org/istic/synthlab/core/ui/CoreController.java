@@ -20,6 +20,8 @@ import javafx.scene.layout.RowConstraints;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Register;
 
 import java.io.IOException;
 import java.net.URL;
@@ -87,9 +89,9 @@ public class CoreController implements Initializable, IObserver {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        final Label vcoaLabel = new Label("vcoa");
-        final Label outLabel = new Label("out");
-        final Label oscilloscopeLabel = new Label("oscilloscope");
+        final Label vcoaLabel = new Label("VCOA");
+        final Label outLabel = new Label("OUT");
+        final Label oscilloscopeLabel = new Label("Oscilloscope");
 
         vcoaLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
         outLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
@@ -98,17 +100,6 @@ public class CoreController implements Initializable, IObserver {
         data.add(vcoaLabel);
         data.add(outLabel);
         data.add(oscilloscopeLabel);
-
-
-        /*for (int i=0; i<1; i++){
-            try {
-                Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
-                nodeComponentsList.setId("paneComponents"+i);
-                data.add(nodeComponentsList);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
 
         listView.setItems(data);
     }
@@ -156,6 +147,8 @@ public class CoreController implements Initializable, IObserver {
     public void onPause() {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
+
+        ModulesFactory.createSynthesizer().stop();
     }
 
     /**
@@ -165,6 +158,10 @@ public class CoreController implements Initializable, IObserver {
     public void onPlay() {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
+
+        Register.uglyPatchWork();
+        ModulesFactory.createSynthesizer().start();
+        Register.uglyPatchWork();
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
@@ -183,7 +180,7 @@ public class CoreController implements Initializable, IObserver {
         @Override
         public void handle(DragEvent event) {
             final Pane p = (Pane) event.getSource();
-            if (event.getGestureSource() != p && event.getDragboard().hasString()) {
+            if (event.getGestureSource() != p && event.getDragboard().hasString() && p.getChildren().size() == 0) {
                 event.acceptTransferModes(TransferMode.COPY);
             }
             event.consume();
@@ -195,7 +192,7 @@ public class CoreController implements Initializable, IObserver {
         public void handle(DragEvent event) {
             final Pane p = (Pane) event.getSource();
             if (event.getGestureSource() != p && event.getDragboard().hasString()) {
-                p.setStyle("-fx-background-color: fuchsia");
+                p.setStyle("-fx-border-color: #CCC; -fx-border-style: dashed; -fx-border-width: 3px;");
             }
             event.consume();
         }
@@ -205,7 +202,7 @@ public class CoreController implements Initializable, IObserver {
         @Override
         public void handle(DragEvent event) {
             final Pane p = (Pane) event.getSource();
-            p.setStyle("-fx-background-color: transparent;");
+            p.setStyle("-fx-border: none;");
             event.consume();
         }
     }
@@ -218,7 +215,7 @@ public class CoreController implements Initializable, IObserver {
             if (db.hasString()) {
                 try {
                     final Pane p = (Pane) event.getSource();
-                    final Node node = FXMLLoader.load(getClass().getResource("/"+db.getString()+".fxml"));
+                    final Node node = FXMLLoader.load(getClass().getResource("/" + db.getString().toLowerCase() + ".fxml"));
                     p.getChildren().add(node);
                     success = true;
                 } catch (IOException e) {

@@ -32,8 +32,8 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-        Register.connect(composantOut.getIInput(), composantVcoa.getOutput());
         composantOut.getLineOut().start();
+        Register.connect(composantOut.getIInput(), composantVcoa.getOutput());
         synth.start();
         synth.sleepUntil(10);
     }

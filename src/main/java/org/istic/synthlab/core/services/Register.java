@@ -3,10 +3,12 @@ package org.istic.synthlab.core.services;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
+import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -219,5 +221,17 @@ public class Register {
             }
         }
         return null;
+    }
+
+
+    // FIXME
+    // #SigneScrumMaster
+    public static void uglyPatchWork(){
+        for (IComponent component : mappingGenerator.keySet()){
+            if (component instanceof Out){
+                Out ugly = (Out) component;
+                ugly.getLineOut().start();
+            }
+        }
     }
 }

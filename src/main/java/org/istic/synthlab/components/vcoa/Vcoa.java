@@ -27,18 +27,18 @@ public class Vcoa extends AComponent {
         this.squareOscillator = ModulesFactory.createOscillator(this, OscillatorType.SQUARE);
         this.algorithm = ModulesFactory.createVcoaAlgorithm(this);
         this.input = this.algorithm.getInput();
-        this.output = this.sineOscillator.getOutput();
+        this.output = this.squareOscillator.getOutput();
         //algorithm.getOutput().connect(sineOscillator.getInput());
     }
 
     @Override
     public void activate() {
-        this.sineOscillator.activate();
+        this.squareOscillator.activate();
     }
 
     @Override
     public void desactivate() {
-        this.sineOscillator.desactivate();
+        this.squareOscillator.desactivate();
     }
 
     @Override

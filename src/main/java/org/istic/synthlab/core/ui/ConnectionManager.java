@@ -5,9 +5,9 @@ import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.plugins.cable.BoundLine;
 import org.istic.synthlab.plugins.cable.Center;
-import org.istic.synthlab.core.services.Register;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,26 +20,25 @@ public class ConnectionManager {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
-    private static List<IObserver> listObservers = new ArrayList<>();
+    private static List<IObserver> observers = new ArrayList<>();
 
     public static HashMap<Line, HashMap<IOutput, IInput>> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
     private static Line line;
 
-
-    public static void addObserver(IObserver obs){
-        listObservers.add(obs);
+    public static void addObserver(IObserver observer) {
+        observers.add(observer);
     }
 
-    public static void deleteObserver(IObserver obs){
-        listObservers.remove(obs);
+    public static void removeObserver(IObserver observer) {
+        observers.remove(observer);
     }
 
-    private static void update(){
-        for(IObserver obj : listObservers){
-            obj.update(connectionTab);
-            obj.drawLine(lineConnection);
+    private static void update() {
+        for (IObserver observer : observers) {
+            observer.update(connectionTab);
+            observer.drawLine(lineConnection);
         }
     }
 
@@ -62,7 +61,6 @@ public class ConnectionManager {
     private static void makeConnection(){
         connectionTab.put(output, input);
         Register.connect(input, output);
-        IOMappingService.connect(input, output);
         drawCable();
         update();
         input = null;
