@@ -52,6 +52,8 @@ public class CoreController implements Initializable, IObserver {
      */
     public static final int DEFAULT_COLS_PREF_WIDTH = 300;
 
+    private static final String DRAG_N_DROP_MOVE_GUARD = "panda";
+
     @FXML
     private ListView<Node> listView;
     @FXML
@@ -213,16 +215,35 @@ public class CoreController implements Initializable, IObserver {
             final Dragboard db = event.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                try {
-                    final Pane p = (Pane) event.getSource();
-                    final Node node = FXMLLoader.load(getClass().getResource("/" + db.getString().toLowerCase() + ".fxml"));
-                    p.getChildren().add(node);
+                final Pane p = (Pane) event.getSource();
+                if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
+                    p.getChildren().add((Node) event.getGestureSource());
                     success = true;
-                } catch (IOException e) {
-                    e.printStackTrace();
+                }
+                else {
+                    try {
+                        final Node node = FXMLLoader.load(getClass().getResource("/" + db.getString().toLowerCase() + ".fxml"));
+                        node.setOnDragDetected(new DragDetectedComponentEventHandler());
+                        p.getChildren().add(node);
+                        success = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             event.setDropCompleted(success);
+            event.consume();
+        }
+    }
+
+    private class DragDetectedComponentEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(MouseEvent event) {
+            final Node node = (Node) event.getSource();
+            final Dragboard db = node.startDragAndDrop(TransferMode.COPY);
+            final ClipboardContent content = new ClipboardContent();
+            content.putString(DRAG_N_DROP_MOVE_GUARD);
+            db.setContent(content);
             event.consume();
         }
     }
