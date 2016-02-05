@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.ui.ConnectionManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -75,7 +76,7 @@ public class CoreController implements Initializable, IObserver {
                 gridPane.add(p, col, row);
             }
         }
-        IHMConnectionManager.addObserver(this);
+        ConnectionManager.addObserver(this);
     }
 
     @Override
