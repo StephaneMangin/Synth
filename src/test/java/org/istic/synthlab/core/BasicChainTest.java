@@ -12,14 +12,18 @@ import org.junit.Test;
  */
 public class BasicChainTest {
 
-    private Vcoa composantVcoa;
-    private Out composantOut;
+    private Vcoa vcoa;
+    private Out out;
     private Synthesizer synth;
 
     @org.junit.Before
     public void setUp() throws Exception {
-        composantVcoa = new Vcoa("VCOA");
-        composantOut = new Out("OUT");
+        vcoa = new Vcoa("VCOA");
+        vcoa.activate();
+        out = new Out("OUT");
+        out.activate();
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setFrequencyInput(1000);
         synth = ModulesFactory.createSynthesizer();
     }
 
@@ -29,8 +33,8 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-        Register.connect(composantOut.getIInput(), composantVcoa.getOutput());
-        composantOut.getLineOut().start();
+        Register.connect(out.getIInput(), vcoa.getOutput());
+        out.getLineOut().start();
         synth.start();
         synth.sleepUntil(10);
     }

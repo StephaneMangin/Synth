@@ -32,7 +32,7 @@ public class LineAdapter implements ILineOut {
     public LineAdapter(IComponent component) {
         lineOut = new LineOut();
         filter = new FilterStateVariable();
-        this.input = ModulesFactory.createInput(component, filter.input);
+        this.input = ModulesFactory.createInput("In", component, filter.input);
 
         // First declare the mappings
         Register.declare(component, filter);

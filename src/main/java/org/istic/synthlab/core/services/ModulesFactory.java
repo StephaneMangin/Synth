@@ -37,8 +37,8 @@ public class ModulesFactory {
      * @param unitInputPort UnitInputPort
      * @return IInput
      */
-    public static IInput createInput(IComponent component, UnitInputPort unitInputPort) {
-        IInput in = new InputAdapter(component, unitInputPort);
+    public static IInput createInput(String name, IComponent component, UnitInputPort unitInputPort) {
+        IInput in = new InputAdapter(name, component, unitInputPort);
         Register.declare(component, in, unitInputPort);
         return in;
     }
@@ -50,8 +50,8 @@ public class ModulesFactory {
      * @param unitOutputPort UnitOutputPort
      * @return IOutput
      */
-    public static IOutput createOutput(IComponent component, UnitOutputPort unitOutputPort) {
-        IOutput out = new OutputAdapter(component, unitOutputPort);
+    public static IOutput createOutput(String name, IComponent component, UnitOutputPort unitOutputPort) {
+        IOutput out = new OutputAdapter(name, component, unitOutputPort);
         Register.declare(component, out, unitOutputPort);
         return out;
     }

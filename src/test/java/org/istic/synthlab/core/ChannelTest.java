@@ -28,8 +28,8 @@ public class ChannelTest extends TestCase {
     }
     @org.junit.Test
     public void testConnect() throws Exception {
-        input = new InputAdapter(component, new UnitInputPort("port"));
-        outPut = new OutputAdapter(component, new UnitOutputPort("port"));
+        input = new InputAdapter("In", component, new UnitInputPort("port"));
+        outPut = new OutputAdapter("Out", component, new UnitOutputPort("port"));
 
         channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
@@ -40,8 +40,8 @@ public class ChannelTest extends TestCase {
 
     @org.junit.Test
     public void testDisconnect() throws Exception {
-        input = new InputAdapter(component, new UnitInputPort("port1"));
-        outPut = new OutputAdapter(component, new UnitOutputPort("port2"));
+        input = new InputAdapter("In", component, new UnitInputPort("port1"));
+        outPut = new OutputAdapter("Out", component, new UnitOutputPort("port2"));
 
         channel.connect(input,outPut);
         channel.disconnect(input, outPut);

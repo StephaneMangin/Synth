@@ -103,7 +103,6 @@ public class Register {
         assert out != null;
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
-        System.out.println(prettyPrint());
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
@@ -114,6 +113,8 @@ public class Register {
         unitOut.connect(unitIn);
         associations.put(in, out);
         System.out.println(in + " connected to " + out);
+
+        System.out.println(prettyPrint());
     }
 
     /**
@@ -139,6 +140,8 @@ public class Register {
         unitOut.disconnect(unitIn);
         associations.remove(in, out);
         System.out.println(in + " disconnected");
+
+        System.out.println(prettyPrint());
     }
 
     /**
@@ -168,6 +171,8 @@ public class Register {
         unitOut.disconnect(unitIn);
         associations.remove(in, out);
         System.out.println(out + " disconnected");
+
+        System.out.println(prettyPrint());
     }
 
     /**
@@ -246,7 +251,7 @@ public class Register {
     public static String prettyPrint() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Mapping INPUTS :");
+/*        sb.append("Mapping INPUTS :");
         Iterator<Map.Entry<IComponent, Map<IInput, UnitInputPort>>> iter = mappingInput.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<IComponent, Map<IInput, UnitInputPort>> entry = iter.next();
@@ -271,6 +276,14 @@ public class Register {
                 sb.append(" => ");
                 sb.append(entry02.getValue());
             }
+        }*/
+        sb.append("\n" + "Association OUTPUTS :");
+        Iterator<Map.Entry<IInput, IOutput>> iter3 = associations.entrySet().iterator();
+        while (iter3.hasNext()) {
+            Map.Entry<IInput, IOutput> entry = iter3.next();
+            sb.append("\n\t" + entry.getValue());
+            sb.append(" => ");
+            sb.append(entry.getKey());
         }
         return sb.toString();
 

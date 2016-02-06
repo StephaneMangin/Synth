@@ -28,8 +28,8 @@ public class AmplitudeModulatorAdapter implements IModulator {
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
-        input = ModulesFactory.createInput(component, filter.input);
-        output = ModulesFactory.createOutput(component, filter.output);
+        input = ModulesFactory.createInput("In", component, filter.input);
+        output = ModulesFactory.createOutput("Out", component, filter.output);
     }
 
     @Override

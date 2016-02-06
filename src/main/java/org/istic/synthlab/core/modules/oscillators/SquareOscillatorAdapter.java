@@ -22,11 +22,10 @@ public class SquareOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.squareOscillator);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.fm = ModulesFactory.createInput(component, squareOscillator.frequency);
-        this.am = ModulesFactory.createInput(component, squareOscillator.amplitude);
-        this.output = ModulesFactory.createOutput(component, squareOscillator.output);
+        this.fm = ModulesFactory.createInput("Fm", component, squareOscillator.frequency);
+        this.am = ModulesFactory.createInput("Am", component, squareOscillator.amplitude);
+        this.output = ModulesFactory.createOutput("Out", component, squareOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", squareOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
-
     }
 
     @Override

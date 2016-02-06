@@ -20,4 +20,6 @@ public interface IInput {
 
     UnitInputPort getUnitInputPort();
 
+    String getName();
+
 }

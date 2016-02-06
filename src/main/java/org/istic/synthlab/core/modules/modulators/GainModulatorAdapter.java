@@ -33,8 +33,8 @@ public class GainModulatorAdapter implements IModulator {
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
-        output = ModulesFactory.createOutput(component, filter.output);
-        input = ModulesFactory.createInput(component, filter.input);
+        input = ModulesFactory.createInput("In", component, filter.input);
+        output = ModulesFactory.createOutput("Out", component, filter.output);
     }
 
     @Override

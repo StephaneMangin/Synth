@@ -12,14 +12,19 @@ import org.istic.synthlab.core.services.Register;
 public class OutputAdapter implements IOutput {
 
     private UnitOutputPort unitOutputPort;
+    private IComponent component;
+    private String name;
 
     /**
      * Instantiates a new Output adapter.
      *
+     * @param name
      * @param unitOutputPort the unit output port
      */
-    public OutputAdapter(IComponent component, UnitOutputPort unitOutputPort) {
+    public OutputAdapter(String name, IComponent component, UnitOutputPort unitOutputPort) {
+        this.name = name;
         this.unitOutputPort = unitOutputPort;
+        this.component = component;
         // Declare this association to the register
         Register.declare(component, this, unitOutputPort);
     }
@@ -43,7 +48,12 @@ public class OutputAdapter implements IOutput {
     }
 
     @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "<" + this.hashCode() + ">";
+        return this.component + "::" + this.getName() + "<" + this.hashCode() + ">";
     }
 }

@@ -34,7 +34,7 @@ public class ModulesFactoryTest extends TestCase {
     @Test
     public void createInputTest()  {
         UnitInputPort Port= new UnitInputPort("in");
-        IInput inputPort= ModulesFactory.createInput(vcoa,Port);
+        IInput inputPort= ModulesFactory.createInput("In", vcoa,Port);
         UnitInputPort input =  inputPort.getUnitInputPort();
         assertEquals(Port,input);
     }
@@ -45,7 +45,7 @@ public class ModulesFactoryTest extends TestCase {
     @Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
-        IOutput outputPort= ModulesFactory.createOutput(vcoa,Port);
+        IOutput outputPort= ModulesFactory.createOutput("Out", vcoa,Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
     }

@@ -22,9 +22,9 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
         // Declare the relation to the register
         Register.declare(component, this.impulseOscillator);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.fm = ModulesFactory.createInput(component, impulseOscillator.frequency);
-        this.am = ModulesFactory.createInput(component, impulseOscillator.amplitude);
-        this.output = ModulesFactory.createOutput(component, impulseOscillator.output);
+        this.fm = ModulesFactory.createInput("Fm", component, impulseOscillator.frequency);
+        this.am = ModulesFactory.createInput("Am", component, impulseOscillator.amplitude);
+        this.output = ModulesFactory.createOutput("Out", component, impulseOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", impulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
 
     }

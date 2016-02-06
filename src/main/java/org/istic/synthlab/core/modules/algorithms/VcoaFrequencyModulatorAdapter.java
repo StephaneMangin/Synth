@@ -23,8 +23,8 @@ public class VcoaFrequencyModulatorAdapter implements IVcoaFrequencyModulator {
 
         // Declare the relation to the mapping
         Register.declare(component, this.algorithm);
-        this.output = ModulesFactory.createOutput(component, algorithm.output);
-        this.input = ModulesFactory.createInput(component, algorithm.frequencyModulation);
+        this.output = ModulesFactory.createOutput("Out", component, algorithm.output);
+        this.input = ModulesFactory.createInput("In", component, algorithm.frequencyModulation);
     }
 
     @Override
