@@ -24,9 +24,9 @@ public class GainModulatorAdapter extends AbstractModulatorAdapter {
                 "Gain",
                 filter.gain,
                 PotentiometerType.LINEAR,
-                5.0,
-                -5.0,
-                0.0
+                1D,
+                0D,
+                0.8D
         );
 
         // Declare the relation to the mapping

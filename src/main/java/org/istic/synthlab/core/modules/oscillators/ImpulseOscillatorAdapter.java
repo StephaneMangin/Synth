@@ -25,7 +25,7 @@ public class ImpulseOscillatorAdapter extends AbstractOscillator {
         this.fm = ModulesFactory.createInput("Fm", component, impulseOscillator.frequency);
         this.am = ModulesFactory.createInput("Am", component, impulseOscillator.amplitude);
         this.output = ModulesFactory.createOutput("Out", component, impulseOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", impulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.frequencyPotentiometer = new Potentiometer("Frequency", impulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
 
     }
 

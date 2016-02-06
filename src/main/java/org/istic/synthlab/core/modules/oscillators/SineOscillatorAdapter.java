@@ -28,7 +28,7 @@ public class SineOscillatorAdapter extends AbstractOscillator {
         this.fm = ModulesFactory.createInput("Fm", component, sineOscillator.frequency);
         this.am = ModulesFactory.createInput("Am", component, sineOscillator.amplitude);
         this.output = ModulesFactory.createOutput("Out", component, sineOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Volume", sineOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.frequencyPotentiometer = new Potentiometer("Volume", sineOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
     }
 
     @Override

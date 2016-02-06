@@ -28,7 +28,7 @@ public class PulseOscillatorAdapter extends AbstractOscillator {
         this.fm = ModulesFactory.createInput("Fm", component, pulseOscillator.frequency);
         this.am = ModulesFactory.createInput("Am", component, pulseOscillator.amplitude);
         this.output = ModulesFactory.createOutput("Out", component, pulseOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", pulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.frequencyPotentiometer = new Potentiometer("Frequency", pulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
     }
 
     @Override

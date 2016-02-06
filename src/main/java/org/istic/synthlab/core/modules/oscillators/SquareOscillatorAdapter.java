@@ -25,7 +25,7 @@ public class SquareOscillatorAdapter extends AbstractOscillator {
         this.fm = ModulesFactory.createInput("Fm", component, squareOscillator.frequency);
         this.am = ModulesFactory.createInput("Am", component, squareOscillator.amplitude);
         this.output = ModulesFactory.createOutput("Out", component, squareOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", squareOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.frequencyPotentiometer = new Potentiometer("Frequency", squareOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
     }
 
     @Override

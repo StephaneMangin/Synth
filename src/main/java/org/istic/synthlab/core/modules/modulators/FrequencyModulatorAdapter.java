@@ -24,9 +24,9 @@ public class FrequencyModulatorAdapter extends AbstractModulatorAdapter {
                 "Gain",
                 filter.frequency,
                 PotentiometerType.EXPONENTIAL,
-                20000.0,
-                20.0,
-                20.0
+                20000.0D,
+                20.0D,
+                1000.0D
         );
 
         // Declare the relation to the mapping

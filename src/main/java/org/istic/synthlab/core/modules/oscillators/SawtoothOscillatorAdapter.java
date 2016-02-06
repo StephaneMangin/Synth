@@ -28,7 +28,7 @@ public class SawtoothOscillatorAdapter extends AbstractOscillator {
         this.fm = ModulesFactory.createInput("Fm", component, sawtoothOscillator.frequency);
         this.am = ModulesFactory.createInput("Am", component, sawtoothOscillator.amplitude);
         this.output = ModulesFactory.createOutput("Out", component, sawtoothOscillator.output);
-        this.frequencyPotentiometer = new Potentiometer("Frequency", sawtoothOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.frequencyPotentiometer = new Potentiometer("Frequency", sawtoothOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
 
     }
 

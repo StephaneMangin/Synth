@@ -1,6 +1,7 @@
 package org.istic.synthlab.core;
 
 import com.jsyn.Synthesizer;
+import com.jsyn.engine.SynthesisEngine;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.services.Register;
@@ -36,6 +37,7 @@ public class BasicChainTest {
         Register.connect(out.getIInput(), vcoa.getOutput());
         out.getLineOut().start();
         synth.start();
-        synth.sleepUntil(10);
+        synth.sleepUntil(2);
+        ((SynthesisEngine)synth).printConnections();
     }
 }
