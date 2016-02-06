@@ -78,14 +78,15 @@ public class LineAdapter implements ILineOut {
      * Start the filter and the lineOut
      */
     public void start() {
-        ModulesFactory.createSynthesizer().start();
         lineOut.start();
+        ModulesFactory.createSynthesizer().start();
     }
 
     /**
      * Stop the filter and the lineOut
      */
     public void stop() {
+        ModulesFactory.createSynthesizer().stop();
         lineOut.stop();
     }
 
