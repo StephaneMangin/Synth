@@ -28,27 +28,27 @@ public class RegisterTest {
     private Vcoa vcoa;
     private Out out;
     private IInput input1;
-    private IInput input;
+    private IInput input2;
     private IOutput output1;
-    private IOutput output;
+    private IOutput output2;
     private UnitGenerator unitGenerator;
-    private UnitInputPort unitInputPort;
+    private UnitInputPort unitInputPort2;
     private UnitInputPort unitInputPort1;
     private UnitOutputPort unitOutputPort1;
-    private UnitOutputPort unitOutputPort;
+    private UnitOutputPort unitOutputPort2;
 
     @Before
     public void setUp() throws Exception {
         this.vcoa = Mockito.mock(Vcoa.class);
         this.out = Mockito.mock(Out.class);
         this.unitGenerator = Mockito.mock(UnitGenerator.class);
-        this.unitInputPort = Mockito.mock(UnitInputPort.class);
+        this.unitInputPort2 = Mockito.mock(UnitInputPort.class);
         this.unitInputPort1 = Mockito.mock(UnitInputPort.class);
         this.unitOutputPort1 = Mockito.mock(UnitOutputPort.class);
-        this.unitOutputPort = Mockito.mock(UnitOutputPort.class);
-        this.input = Mockito.mock(IInput.class);
+        this.unitOutputPort2 = Mockito.mock(UnitOutputPort.class);
+        this.input2 = Mockito.mock(IInput.class);
         this.input1 = Mockito.mock(IInput.class);
-        this.output = Mockito.mock(IOutput.class);
+        this.output2 = Mockito.mock(IOutput.class);
         this.output1 = Mockito.mock(IOutput.class);
     }
 
@@ -76,10 +76,10 @@ public class RegisterTest {
      */
     @Test
     public void testDeclareForComponentInUnitIn() throws Exception {
-        Register.declare(this.vcoa, this.input1, this.unitInputPort);
+        Register.declare(this.vcoa, this.input1, this.unitInputPort2);
         Assert.assertTrue(Register.mappingInput.containsKey(this.vcoa));
         Assert.assertTrue(Register.mappingInput.get(this.vcoa).containsKey(this.input1));
-        Assert.assertTrue(Register.mappingInput.get(this.vcoa).containsValue(unitInputPort));
+        Assert.assertTrue(Register.mappingInput.get(this.vcoa).containsValue(unitInputPort2));
     }
 
     /**
@@ -104,11 +104,11 @@ public class RegisterTest {
      */
     @Test
     public void testConnect() throws Exception {
-        Register.declare(this.vcoa, this.output, this.unitOutputPort);
+        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
         Register.declare(this.out, this.input1, this.unitInputPort1);
         Register.declare(this.out, this.output1, this.unitOutputPort1);
-        Mockito.when(this.vcoa.getOutput()).thenReturn(output);
-        Register.connect(this.input1, output);
+        Mockito.when(this.vcoa.getOutput()).thenReturn(output2);
+        Register.connect(this.input1, output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
         Mockito.verify(this.vcoa).getOutput();
     }
@@ -120,14 +120,14 @@ public class RegisterTest {
      */
     @Test
     public void testDisconnectIn() throws Exception {
-        Register.declare(this.vcoa, this.output, this.unitOutputPort);
-        Register.declare(this.vcoa, this.input, this.unitInputPort);
+        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
+        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
         Register.declare(this.out, this.input1, this.unitInputPort1);
         Register.declare(this.out, this.output1, this.unitOutputPort1);
-        Mockito.when(this.vcoa.getOutput()).thenReturn(this.output);
-        Mockito.when(this.vcoa.getInput()).thenReturn(this.input);
+        Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
+        Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
         Mockito.when(this.out.getIInput()).thenReturn(this.input1);
-        Register.connect(this.input1, this.output);
+        Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
         Register.disconnect(this.out.getIInput());
         Assert.assertFalse(this.unitInputPort1.isConnected());
@@ -144,17 +144,17 @@ public class RegisterTest {
      */
     @Test
     public void testDisconnectOut() throws Exception {
-        Register.declare(this.vcoa, this.output, this.unitOutputPort);
-        Register.declare(this.vcoa, this.input, this.unitInputPort);
+        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
+        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
         Register.declare(this.out, this.input1, this.unitInputPort1);
         Register.declare(this.out, this.output1, this.unitOutputPort1);
-        Mockito.when(this.vcoa.getOutput()).thenReturn(this.output);
-        Mockito.when(this.vcoa.getInput()).thenReturn(this.input);
+        Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
+        Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
         Mockito.when(this.out.getIInput()).thenReturn(this.input1);
-        Register.connect(this.input1, this.output);
+        Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
         Register.disconnect(this.vcoa.getOutput());
-        Assert.assertFalse(this.unitOutputPort.isConnected());
+        Assert.assertFalse(this.unitOutputPort2.isConnected());
     }
 
     /**
@@ -164,8 +164,8 @@ public class RegisterTest {
      */
     @Test
     public void testRetrieveIn() throws Exception {
-        Register.declare(this.vcoa, this.input1, this.unitInputPort);
-        Assert.assertEquals(this.unitInputPort ,Register.retrieve(this.input1));
+        Register.declare(this.vcoa, this.input1, this.unitInputPort2);
+        Assert.assertEquals(this.unitInputPort2,Register.retrieve(this.input1));
     }
 
     /**
@@ -186,7 +186,7 @@ public class RegisterTest {
      */
     @Test
     public void testGetComponentIn() throws Exception {
-        Register.declare(this.vcoa, this.input1, this.unitInputPort);
+        Register.declare(this.vcoa, this.input1, this.unitInputPort2);
         Assert.assertEquals(this.vcoa, Register.getComponent(this.input1));
     }
 
@@ -200,7 +200,6 @@ public class RegisterTest {
         Register.declare(this.vcoa, this.output1, this.unitOutputPort1);
         Mockito.when(this.vcoa.getOutput()).thenReturn(output1);
         Assert.assertEquals(this.vcoa, Register.getComponent(this.output1));
-        Mockito.verify(this.vcoa).getOutput();
     }
 
 }

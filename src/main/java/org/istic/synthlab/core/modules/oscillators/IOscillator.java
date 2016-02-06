@@ -8,11 +8,18 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 public interface IOscillator extends Resource {
 
     /**
-     * Returns an input instance.
+     * Returns an frequency modulation input instance.
      *
      * @return IInput
      */
-    IInput getInput();
+    IInput getFm();
+
+    /**
+     * Returns an amplitude modulation input instance.
+     *
+     * @return IInput
+     */
+    IInput getAm();
 
     /**
      * Returns an output instance.

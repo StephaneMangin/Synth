@@ -29,7 +29,12 @@ public class Vcoa extends AComponent {
 
         // Connect internally
         //algorithm.getOutput().connect(squareOscillator.getInput());
-        getSource().connect(squareOscillator.getInput());
+        System.out.println("Source => " + getSourceFm());
+        System.out.println("Source => " + getSourceAm());
+        System.out.println("Input => " + squareOscillator.getAm());
+        System.out.println("Input => " + squareOscillator.getFm());
+        getSourceFm().connect(squareOscillator.getFm());
+        getSourceAm().connect(squareOscillator.getAm());
         squareOscillator.getOutput().connect(getSink());
     }
 

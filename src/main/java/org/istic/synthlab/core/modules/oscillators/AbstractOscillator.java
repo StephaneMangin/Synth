@@ -13,7 +13,8 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 abstract class AbstractOscillator implements IOscillator {
 
     protected IComponent component;
-    protected IInput input;
+    protected IInput am;
+    protected IInput fm;
     protected IOutput output;
     protected Potentiometer frequencyPotentiometer;
 
@@ -31,8 +32,13 @@ abstract class AbstractOscillator implements IOscillator {
     }
 
     @Override
-    public IInput getInput() {
-        return this.input;
+    public IInput getFm() {
+        return this.fm;
+    }
+
+    @Override
+    public IInput getAm() {
+        return this.am;
     }
 
     @Override

@@ -21,6 +21,9 @@ public class TriangleOscillatorAdapter extends AbstractOscillator {
         this.triangleOscillator = new TriangleOscillator();
         // Declare the relation to the register
         Register.declare(component, this.triangleOscillator);
+        // Link input to the frequency input of the oscillator to modulate it with the input signal
+        this.fm = ModulesFactory.createInput(component, triangleOscillator.frequency);
+        this.am = ModulesFactory.createInput(component, triangleOscillator.amplitude);
         this.output = ModulesFactory.createOutput(component, triangleOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", triangleOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
     }
