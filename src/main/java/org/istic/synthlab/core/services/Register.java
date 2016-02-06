@@ -101,20 +101,23 @@ public class Register {
     public static void connect(IInput in, IOutput out) {
         assert in != null;
         assert out != null;
-        UnitInputPort unitIn = retrieve(in);
-        UnitOutputPort unitOut = retrieve(out);
-        if (unitIn == null) {
-            throw new ExceptionInInitializerError(out + " has not been declared properly");
-        }
-        if (unitOut == null) {
-            throw new ExceptionInInitializerError( in + " has not been declared properly");
-        }
-        Channel.connect(in, out);
-        unitOut.connect(unitIn);
-        associations.put(in, out);
-        System.out.println(in + " connected to " + out);
 
-        System.out.println(prettyPrint());
+        if (!associations.containsKey(out)) {
+            UnitInputPort unitIn = retrieve(in);
+            UnitOutputPort unitOut = retrieve(out);
+            if (unitIn == null) {
+                throw new ExceptionInInitializerError(out + " has not been declared properly");
+            }
+            if (unitOut == null) {
+                throw new ExceptionInInitializerError( in + " has not been declared properly");
+            }
+            Channel.connect(in, out);
+            unitOut.connect(unitIn);
+            associations.put(in, out);
+            System.out.println(in + " connected to " + out);
+
+            System.out.println(prettyPrint());
+        }
     }
 
     /**
@@ -277,13 +280,13 @@ public class Register {
                 sb.append(entry02.getValue());
             }
         }*/
-        sb.append("\n" + "Association OUTPUTS :");
+        sb.append("\n" + "Associated ports");
+        sb.append("\n" + "================");
         Iterator<Map.Entry<IInput, IOutput>> iter3 = associations.entrySet().iterator();
         while (iter3.hasNext()) {
             Map.Entry<IInput, IOutput> entry = iter3.next();
             sb.append("\n\t" + entry.getValue());
-            sb.append(" => ");
-            sb.append(entry.getKey());
+            sb.append("\n\t\t => " + entry.getKey());
         }
         return sb.toString();
 

@@ -32,12 +32,12 @@ public abstract class AComponent implements IComponent {
         setName(name);
 
         // Define all modulators
-        inputModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
-        frequencyModulator = ModulesFactory.createModulator(this, ModulatorType.FREQUENCY);
-        amplitudeModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
-        inputGateModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
-        outputModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
-        outputGateModulator = ModulesFactory.createModulator(this, ModulatorType.AMPLITUDE);
+        inputModulator = ModulesFactory.createModulator("modIn", this, ModulatorType.AMPLITUDE);
+        frequencyModulator = ModulesFactory.createModulator("modFreq", this, ModulatorType.FREQUENCY);
+        amplitudeModulator = ModulesFactory.createModulator("modAmp", this, ModulatorType.AMPLITUDE);
+        inputGateModulator = ModulesFactory.createModulator("modInGate", this, ModulatorType.AMPLITUDE);
+        outputModulator = ModulesFactory.createModulator("modOut", this, ModulatorType.AMPLITUDE);
+        outputGateModulator = ModulesFactory.createModulator("modOutGate", this, ModulatorType.AMPLITUDE);
     }
 
     /**

@@ -14,13 +14,11 @@ import org.istic.synthlab.core.services.Register;
  *
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class AmplitudeModulatorAdapter implements IModulator {
-    private Potentiometer potentiometer;
-    private IOutput output;
-    private IInput input;
+public class AmplitudeModulatorAdapter extends AbstractModulatorAdapter {
     private FilterBandPass filter;
 
-    public AmplitudeModulatorAdapter(IComponent component) {
+    public AmplitudeModulatorAdapter(String name, IComponent component) {
+        super(name, component);
         filter = new FilterBandPass();
         potentiometer = new Potentiometer("Gain", filter.amplitude, PotentiometerType.LINEAR,
                 5.0, -5.0, 0.0
@@ -28,8 +26,8 @@ public class AmplitudeModulatorAdapter implements IModulator {
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
-        input = ModulesFactory.createInput("In", component, filter.input);
-        output = ModulesFactory.createOutput("Out", component, filter.output);
+        input = ModulesFactory.createInput(name + "::ampIn", component, filter.input);
+        output = ModulesFactory.createOutput(name + "::ampOut", component, filter.output);
     }
 
     @Override

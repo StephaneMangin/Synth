@@ -15,11 +15,15 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public abstract class AbstractModulatorAdapter implements IModulator {
-    private Potentiometer potentiometer;
-    private IOutput output;
-    private IInput input;
+    protected final IComponent component;
+    protected Potentiometer potentiometer;
+    protected IOutput output;
+    protected IInput input;
+    private final String name;
 
-    public AbstractModulatorAdapter(IComponent component) {
+    public AbstractModulatorAdapter(String name, IComponent component) {
+        this.name = name;
+        this.component = component;
     }
 
     @Override
@@ -61,5 +65,9 @@ public abstract class AbstractModulatorAdapter implements IModulator {
     public double restoreStep(double wheelInput) {
         // TODO: code the revert calculateStep function
         return wheelInput;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

@@ -14,13 +14,11 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class GainModulatorAdapter implements IModulator {
-    private Potentiometer potentiometer;
-    private IOutput output;
-    private IInput input;
+public class GainModulatorAdapter extends AbstractModulatorAdapter {
     private FilterAllPass filter;
 
-    public GainModulatorAdapter(IComponent component) {
+    public GainModulatorAdapter(String name, IComponent component) {
+        super(name, component);
         filter = new FilterAllPass();
         potentiometer = new Potentiometer(
                 "Gain",
@@ -33,8 +31,8 @@ public class GainModulatorAdapter implements IModulator {
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
-        input = ModulesFactory.createInput("In", component, filter.input);
-        output = ModulesFactory.createOutput("Out", component, filter.output);
+        input = ModulesFactory.createInput(name + "::gainIn", component, filter.input);
+        output = ModulesFactory.createOutput(name + "::gainOut", component, filter.output);
     }
 
     @Override

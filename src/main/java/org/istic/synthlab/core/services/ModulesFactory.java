@@ -137,16 +137,16 @@ public class ModulesFactory {
      * @param type ModulatorType
      * @return IModulator
      */
-    public static IModulator createModulator(IComponent component, ModulatorType type) {
+    public static IModulator createModulator(String name, IComponent component, ModulatorType type) {
         switch(type) {
             case AMPLITUDE:
-                return new AmplitudeModulatorAdapter(component);
+                return new AmplitudeModulatorAdapter(name, component);
             case FREQUENCY:
-                return new FrequencyModulatorAdapter(component);
+                return new FrequencyModulatorAdapter(name, component);
             case GAIN:
-                return new GainModulatorAdapter(component);
+                return new GainModulatorAdapter(name, component);
             default:
-                return new AmplitudeModulatorAdapter(component);
+                return new AmplitudeModulatorAdapter(name, component);
         }
     }
 }

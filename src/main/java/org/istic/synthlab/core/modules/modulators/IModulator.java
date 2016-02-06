@@ -34,4 +34,6 @@ public interface IModulator {
      *
      */
     void setValue(double value);
+
+    String getName();
 }
