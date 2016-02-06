@@ -26,14 +26,14 @@ public class SineOscillatorAdapterTest  extends TestCase{
      */
     @org.junit.Test
     public void testGetFm() throws Exception {
-        assertNull(scopeAdapter.getFm());
+        assertNotNull(scopeAdapter.getFm());
     }
     /**
      * Test method Get amplitude modulation.
      */
     @org.junit.Test
     public void testGetAm() throws Exception {
-        assertNull(scopeAdapter.getAm());
+        assertNotNull(scopeAdapter.getAm());
     }
 
     /**
