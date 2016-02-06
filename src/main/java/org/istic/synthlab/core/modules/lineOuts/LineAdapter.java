@@ -78,7 +78,7 @@ public class LineAdapter implements ILineOut {
      * Start the filter and the lineOut
      */
     public void start() {
-        filter.start();
+        ModulesFactory.createSynthesizer().start();
         lineOut.start();
     }
 
@@ -86,7 +86,6 @@ public class LineAdapter implements ILineOut {
      * Stop the filter and the lineOut
      */
     public void stop() {
-        filter.stop();
         lineOut.stop();
     }
 
