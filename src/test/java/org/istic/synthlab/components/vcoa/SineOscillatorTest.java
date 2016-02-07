@@ -2,23 +2,23 @@ package org.istic.synthlab.components.vcoa;
 
 import junit.framework.TestCase;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
+import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 
 import static org.mockito.Mockito.mock;
 
 /**
  * @author stephane on 02/02/16.
  */
-public class SineOscillatorAdapterTest  extends TestCase{
+public class SineOscillatorTest extends TestCase{
 
-    private SineOscillatorAdapter scopeAdapter;
+    private SineOscillator scopeAdapter;
     private IComponent component;
 
     @org.junit.Before
     public void setUp() throws Exception {
         super.setUp();
         component = new Vcoa("TEST");
-        scopeAdapter = new SineOscillatorAdapter(component);
+        scopeAdapter = new SineOscillator(component);
     }
 
     /**

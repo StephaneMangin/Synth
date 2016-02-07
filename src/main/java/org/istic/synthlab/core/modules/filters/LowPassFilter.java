@@ -9,7 +9,7 @@ import org.istic.synthlab.core.IComponent;
  *
  * The adapter of the low pass filter Jsyn
  */
-public class LowPassFilterAdapter implements IFilter {
+public class LowPassFilter implements IFilter {
 
     private UnitFilter unitFilter;
 
@@ -17,7 +17,7 @@ public class LowPassFilterAdapter implements IFilter {
      * Instantiates a new Low pass filter adapter.
      * @param component
      */
-    public LowPassFilterAdapter(IComponent component) {
+    public LowPassFilter(IComponent component) {
         this.unitFilter = new FilterLowPass();
     }
 }

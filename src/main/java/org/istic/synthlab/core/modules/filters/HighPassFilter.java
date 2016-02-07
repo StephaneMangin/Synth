@@ -9,7 +9,7 @@ import org.istic.synthlab.core.IComponent;
  *
  * The type High pass filter adapter.
  */
-public class HighPassFilterAdapter implements IFilter {
+public class HighPassFilter implements IFilter {
 
     private UnitFilter unitFilter;
 
@@ -17,7 +17,7 @@ public class HighPassFilterAdapter implements IFilter {
      * Instantiates a new High pass filter adapter.
      * @param component
      */
-    public HighPassFilterAdapter(IComponent component) {
+    public HighPassFilter(IComponent component) {
         this.unitFilter = new FilterHighPass();
     }
 }

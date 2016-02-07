@@ -8,8 +8,8 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.core.modules.oscillators.SineOscillatorAdapter;
-import org.istic.synthlab.core.modules.oscillators.SquareOscillatorAdapter;
+import org.istic.synthlab.core.modules.oscillators.SineOscillator;
+import org.istic.synthlab.core.modules.oscillators.SquareOscillator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -18,7 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
  * The type Modules factory test.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ModulesFactoryTest extends TestCase {
+public class FactoryTest extends TestCase {
 
     private Vcoa vcoa;
 
@@ -34,7 +34,7 @@ public class ModulesFactoryTest extends TestCase {
     @Test
     public void createInputTest()  {
         UnitInputPort Port= new UnitInputPort("in");
-        IInput inputPort= ModulesFactory.createInput("In", vcoa,Port);
+        IInput inputPort= Factory.createInput("In", vcoa,Port);
         UnitInputPort input =  inputPort.getUnitInputPort();
         assertEquals(Port,input);
     }
@@ -45,7 +45,7 @@ public class ModulesFactoryTest extends TestCase {
     @Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
-        IOutput outputPort= ModulesFactory.createOutput("Out", vcoa,Port);
+        IOutput outputPort= Factory.createOutput("Out", vcoa,Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
     }
@@ -55,8 +55,8 @@ public class ModulesFactoryTest extends TestCase {
      */
     @Test
     public void createOscillatorTest() {
-        SineOscillatorAdapter sineOscillatorAdapter = (SineOscillatorAdapter) ModulesFactory.createOscillator(vcoa, OscillatorType.SINE);
-        Vcoa component = (Vcoa) sineOscillatorAdapter.getComponent();
+        SineOscillator sineOscillator = (SineOscillator) Factory.createOscillator(vcoa, OscillatorType.SINE);
+        Vcoa component = (Vcoa) sineOscillator.getComponent();
         assertEquals(vcoa,component);
     }
 
@@ -65,8 +65,8 @@ public class ModulesFactoryTest extends TestCase {
      */
     @Test
     public void createSquareTest()  {
-        SquareOscillatorAdapter  squareOscillatorAdapter = (SquareOscillatorAdapter) ModulesFactory.createOscillator(vcoa, OscillatorType.SQUARE);
-        Vcoa component = (Vcoa) squareOscillatorAdapter.getComponent();
+        SquareOscillator squareOscillator = (SquareOscillator) Factory.createOscillator(vcoa, OscillatorType.SQUARE);
+        Vcoa component = (Vcoa) squareOscillator.getComponent();
         assertEquals(vcoa, component);
     }
 
@@ -76,7 +76,7 @@ public class ModulesFactoryTest extends TestCase {
      */
     @Test
     public void createLineOutTest()  {
-        ModulesFactory.createLineOut(vcoa, LineType.OUT);
+        Factory.createLineOut(vcoa, LineType.OUT);
         assertTrue(Register.mappingInput.containsKey(vcoa));
         assertTrue(Register.mappingGenerator.containsKey(vcoa));
     }

@@ -3,28 +3,28 @@ package org.istic.synthlab.core.modules.algorithms;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.services.Register;
 
 /**
  *
  */
-public class VcoaFrequencyModulatorAdapter implements IVcoaFrequencyModulator {
+public class VcoaFrequencyModulator implements IVcoaFrequencyModulator {
     private final Potentiometer potentiometer;
     private IOutput output;
     private IInput input;
     private VcoaFrequencyModulatorGenerator algorithm;
 
-    public VcoaFrequencyModulatorAdapter(IComponent component) {
+    public VcoaFrequencyModulator(IComponent component) {
         this.algorithm = new VcoaFrequencyModulatorGenerator();
         this.potentiometer = new Potentiometer("Frequency", algorithm.potentiometer, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 320.0);
 
         // Declare the relation to the mapping
         Register.declare(component, this.algorithm);
-        this.output = ModulesFactory.createOutput("Out", component, algorithm.output);
-        this.input = ModulesFactory.createInput("In", component, algorithm.frequencyModulation);
+        this.output = Factory.createOutput("Out", component, algorithm.output);
+        this.input = Factory.createInput("In", component, algorithm.frequencyModulation);
     }
 
     @Override

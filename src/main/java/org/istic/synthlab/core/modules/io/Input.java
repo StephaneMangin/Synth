@@ -8,7 +8,7 @@ import org.istic.synthlab.core.services.Register;
  *
  * The type Input adapter
  */
-public class InputAdapter implements IInput {
+public class Input implements IInput {
 
     private UnitInputPort unitInputPort;
     private IComponent component;
@@ -19,7 +19,7 @@ public class InputAdapter implements IInput {
      *
      * @param unitInputPort the unit input port
      */
-    public InputAdapter(String name, IComponent component, UnitInputPort unitInputPort) {
+    public Input(String name, IComponent component, UnitInputPort unitInputPort) {
         this.name = name;
         this.unitInputPort = unitInputPort;
         this.component = component;

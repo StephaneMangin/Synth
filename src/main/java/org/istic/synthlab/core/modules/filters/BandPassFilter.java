@@ -10,7 +10,7 @@ import org.istic.synthlab.core.IComponent;
  * The type Band pass filter adapter.
  *
  */
-public class BandPassFilterAdapter implements IFilter {
+public class BandPassFilter implements IFilter {
 
     private UnitFilter unitFilter;
 
@@ -18,7 +18,7 @@ public class BandPassFilterAdapter implements IFilter {
      * Instantiates a new Band pass filter adapter.
      * @param component
      */
-    public BandPassFilterAdapter(IComponent component) {
+    public BandPassFilter(IComponent component) {
         this.unitFilter = new FilterBandPass();
     }
 }

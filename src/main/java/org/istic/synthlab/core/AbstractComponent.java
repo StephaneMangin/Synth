@@ -4,13 +4,13 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
-import org.istic.synthlab.core.services.ModulesFactory;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
+import org.istic.synthlab.core.services.Factory;
 
 /**
  * The abstract class component.
  */
-public abstract class AComponent implements IComponent {
+public abstract class AbstractComponent implements IComponent {
+
     /**
      * The Name.
      */
@@ -28,16 +28,16 @@ public abstract class AComponent implements IComponent {
      *
      * @param name the name
      */
-    public AComponent(String name) {
+    public AbstractComponent(String name) {
         setName(name);
 
         // Define all modulators
-        inputModulator = ModulesFactory.createModulator("modIn", this, ModulatorType.AMPLITUDE);
-        frequencyModulator = ModulesFactory.createModulator("modFreq", this, ModulatorType.FREQUENCY);
-        amplitudeModulator = ModulesFactory.createModulator("modAmp", this, ModulatorType.AMPLITUDE);
-        inputGateModulator = ModulesFactory.createModulator("modInGate", this, ModulatorType.AMPLITUDE);
-        outputModulator = ModulesFactory.createModulator("modOut", this, ModulatorType.AMPLITUDE);
-        outputGateModulator = ModulesFactory.createModulator("modOutGate", this, ModulatorType.AMPLITUDE);
+        inputModulator = Factory.createModulator("modIn", this, ModulatorType.AMPLITUDE);
+        frequencyModulator = Factory.createModulator("modFreq", this, ModulatorType.FREQUENCY);
+        amplitudeModulator = Factory.createModulator("modAmp", this, ModulatorType.AMPLITUDE);
+        inputGateModulator = Factory.createModulator("modInGate", this, ModulatorType.AMPLITUDE);
+        outputModulator = Factory.createModulator("modOut", this, ModulatorType.AMPLITUDE);
+        outputGateModulator = Factory.createModulator("modOutGate", this, ModulatorType.AMPLITUDE);
     }
 
     /**

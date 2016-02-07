@@ -1,14 +1,11 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
 import com.jsyn.unitgen.FilterStateVariable;
-import com.jsyn.unitgen.LineOut;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
-import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.services.Register;
 
 
@@ -18,9 +15,9 @@ import org.istic.synthlab.core.services.Register;
  *
  * The class Line adapter that implements the interface ILineOut
  */
-public class LineAdapter implements ILineOut {
+public class LineOut implements ILineOut {
 
-    private LineOut lineOut;
+    private com.jsyn.unitgen.LineOut lineOut;
     private FilterStateVariable filter;
     private Potentiometer potentiometer;
     private IInput input;
@@ -29,20 +26,18 @@ public class LineAdapter implements ILineOut {
      * Instantiates a new Line adapter.
      * @param component
      */
-    public LineAdapter(IComponent component) {
-        lineOut = new LineOut();
+    public LineOut(IComponent component) {
+        lineOut = new com.jsyn.unitgen.LineOut();
         filter = new FilterStateVariable();
-        this.input = ModulesFactory.createInput("In", component, filter.input);
+        this.input = Factory.createInput("In", component, filter.input);
 
         // First declare the mappings
         Register.declare(component, filter);
         Register.declare(component, lineOut);
         Register.declare(component, input, filter.input);
 
-        filter.amplitude.setDefault(0.5);
         filter.output.connect(this.lineOut.input);
-
-        this.potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 10.0, 0.0, 3.0);
+        this.potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
 
     }
 
@@ -52,7 +47,7 @@ public class LineAdapter implements ILineOut {
      * @param value the value
      */
     public void setVolume(double value) {
-        filter.amplitude.set(value);
+        potentiometer.setValue(value);
     }
 
     /**
@@ -71,7 +66,7 @@ public class LineAdapter implements ILineOut {
      * @return the volume : double
      */
     public double getVolume() {
-        return filter.amplitude.getValue();
+        return potentiometer.getValue();
     }
 
     /**
@@ -79,14 +74,12 @@ public class LineAdapter implements ILineOut {
      */
     public void start() {
         lineOut.start();
-        ModulesFactory.createSynthesizer().start();
     }
 
     /**
      * Stop the filter and the lineOut
      */
     public void stop() {
-        ModulesFactory.createSynthesizer().stop();
         lineOut.stop();
     }
 

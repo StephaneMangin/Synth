@@ -1,20 +1,20 @@
 package org.istic.synthlab.components.out;
 
-import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
 
-public class Out extends AComponent {
+public class Out extends AbstractComponent {
 
     private ILineOut lineOut;
     private IInput input;
 
     public Out(String name) {
         super(name);
-        lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
+        lineOut = Factory.createLineOut(this, LineType.OUT);
         input = lineOut.getInput();
     }
 

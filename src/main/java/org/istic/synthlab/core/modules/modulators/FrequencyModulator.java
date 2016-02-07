@@ -1,33 +1,38 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterBandPass;
+import com.jsyn.unitgen.FilterStateVariable;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.ModulesFactory;
-import org.istic.synthlab.core.services.Register;
 
 /**
  * Create an abstraction to manage a gain potentiometer throught a filterAllpass
  *
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class AmplitudeModulatorAdapter extends AbstractModulatorAdapter {
-    private FilterBandPass filter;
+public class FrequencyModulator extends AbstractModulator {
+    private FilterStateVariable filter;
 
-    public AmplitudeModulatorAdapter(String name, IComponent component) {
+    public FrequencyModulator(String name, IComponent component) {
         super(name, component);
-        filter = new FilterBandPass();
-        potentiometer = new Potentiometer("Gain", filter.amplitude, PotentiometerType.LINEAR,
-                10E5D, 0D, 1D
+        filter = new FilterStateVariable();
+        potentiometer = new Potentiometer(
+                "Gain",
+                filter.frequency,
+                PotentiometerType.EXPONENTIAL,
+                20000.0D,
+                20.0D,
+                1000.0D
         );
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
-        input = ModulesFactory.createInput(name + "::ampIn", component, filter.input);
-        output = ModulesFactory.createOutput(name + "::ampOut", component, filter.output);
+        input = Factory.createInput(name + "::freqIn", component, filter.input);
+        output = Factory.createOutput(name + "::freqOut", component, filter.output);
     }
 
     @Override

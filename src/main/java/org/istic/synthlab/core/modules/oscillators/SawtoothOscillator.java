@@ -1,10 +1,8 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.SawtoothOscillator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
@@ -12,22 +10,22 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * A saw teeth generator.
  *
  */
-public class SawtoothOscillatorAdapter extends AbstractOscillator {
+public class SawtoothOscillator extends AbstractOscillator {
 
-    private SawtoothOscillator sawtoothOscillator;
+    private com.jsyn.unitgen.SawtoothOscillator sawtoothOscillator;
 
     /*
     * the constructor
     */
-    public SawtoothOscillatorAdapter(IComponent component) {
+    public SawtoothOscillator(IComponent component) {
         super(component);
-        this.sawtoothOscillator = new SawtoothOscillator();
+        this.sawtoothOscillator = new com.jsyn.unitgen.SawtoothOscillator();
         // Declare the relation to the register
         Register.declare(component, this.sawtoothOscillator);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.fm = ModulesFactory.createInput("Fm", component, sawtoothOscillator.frequency);
-        this.am = ModulesFactory.createInput("Am", component, sawtoothOscillator.amplitude);
-        this.output = ModulesFactory.createOutput("Out", component, sawtoothOscillator.output);
+        this.fm = Factory.createInput("Fm", component, sawtoothOscillator.frequency);
+        this.am = Factory.createInput("Am", component, sawtoothOscillator.amplitude);
+        this.output = Factory.createOutput("Out", component, sawtoothOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", sawtoothOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
 
     }

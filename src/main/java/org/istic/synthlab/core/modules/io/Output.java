@@ -9,7 +9,7 @@ import org.istic.synthlab.core.services.Register;
  * @author  Group1
  * The type Output adapter
  */
-public class OutputAdapter implements IOutput {
+public class Output implements IOutput {
 
     private UnitOutputPort unitOutputPort;
     private IComponent component;
@@ -21,7 +21,7 @@ public class OutputAdapter implements IOutput {
      * @param name
      * @param unitOutputPort the unit output port
      */
-    public OutputAdapter(String name, IComponent component, UnitOutputPort unitOutputPort) {
+    public Output(String name, IComponent component, UnitOutputPort unitOutputPort) {
         this.name = name;
         this.unitOutputPort = unitOutputPort;
         this.component = component;
@@ -30,7 +30,7 @@ public class OutputAdapter implements IOutput {
     }
 
     /**
-     * Connect the OutputAdapter to the input
+     * Connect the Output to the input
      *
      * @param in:IInput
      */

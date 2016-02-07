@@ -1,11 +1,8 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterBandPass;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.services.ModulesFactory;
-import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
@@ -14,14 +11,14 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public abstract class AbstractModulatorAdapter implements IModulator {
+public abstract class AbstractModulator implements IModulator {
     protected final IComponent component;
     protected Potentiometer potentiometer;
     protected IOutput output;
     protected IInput input;
     private final String name;
 
-    public AbstractModulatorAdapter(String name, IComponent component) {
+    public AbstractModulator(String name, IComponent component) {
         this.name = name;
         this.component = component;
     }

@@ -5,7 +5,7 @@ import com.jsyn.engine.SynthesisEngine;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Factory;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ public class BasicChainTest {
         out.activate();
         vcoa.setAmplitudeSquare(1);
         vcoa.setFrequencyInput(1000);
-        synth = ModulesFactory.createSynthesizer();
+        synth = Factory.createSynthesizer();
     }
 
     @org.junit.After

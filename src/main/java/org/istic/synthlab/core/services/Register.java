@@ -43,7 +43,7 @@ public class Register {
             mappingGenerator.put(component, new ArrayList<>());
         }
         mappingGenerator.get(component).add(unitGenerator);
-        ModulesFactory.createSynthesizer().add(unitGenerator);
+        Factory.createSynthesizer().add(unitGenerator);
         System.out.println(component + " connected to " + unitGenerator);
     }
 

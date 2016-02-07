@@ -1,10 +1,8 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
@@ -12,19 +10,19 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * A triangle shape generator
  *
  */
-public class TriangleOscillatorAdapter extends AbstractOscillator {
+public class TriangleOscillator extends AbstractOscillator {
 
-    private TriangleOscillator triangleOscillator;
+    private com.jsyn.unitgen.TriangleOscillator triangleOscillator;
 
-    public TriangleOscillatorAdapter(IComponent component) {
+    public TriangleOscillator(IComponent component) {
         super(component);
-        this.triangleOscillator = new TriangleOscillator();
+        this.triangleOscillator = new com.jsyn.unitgen.TriangleOscillator();
         // Declare the relation to the register
         Register.declare(component, this.triangleOscillator);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.fm = ModulesFactory.createInput("Fm", component, triangleOscillator.frequency);
-        this.am = ModulesFactory.createInput("Am", component, triangleOscillator.amplitude);
-        this.output = ModulesFactory.createOutput("Out", component, triangleOscillator.output);
+        this.fm = Factory.createInput("Fm", component, triangleOscillator.frequency);
+        this.am = Factory.createInput("Am", component, triangleOscillator.amplitude);
+        this.output = Factory.createOutput("Out", component, triangleOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", triangleOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
     }
 

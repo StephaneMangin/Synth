@@ -1,10 +1,8 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import com.jsyn.unitgen.PulseOscillator;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.ModulesFactory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
@@ -12,22 +10,22 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * A pulse generator.
  *
  */
-public class PulseOscillatorAdapter extends AbstractOscillator {
+public class PulseOscillator extends AbstractOscillator {
 
-    private PulseOscillator pulseOscillator;
+    private com.jsyn.unitgen.PulseOscillator pulseOscillator;
 
     /*
     * the constructor
     */
-    public PulseOscillatorAdapter(IComponent component) {
+    public PulseOscillator(IComponent component) {
         super(component);
-        this.pulseOscillator = new PulseOscillator();
+        this.pulseOscillator = new com.jsyn.unitgen.PulseOscillator();
         // Declare the relation to the register
         Register.declare(component, this.pulseOscillator);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.fm = ModulesFactory.createInput("Fm", component, pulseOscillator.frequency);
-        this.am = ModulesFactory.createInput("Am", component, pulseOscillator.amplitude);
-        this.output = ModulesFactory.createOutput("Out", component, pulseOscillator.output);
+        this.fm = Factory.createInput("Fm", component, pulseOscillator.frequency);
+        this.am = Factory.createInput("Am", component, pulseOscillator.amplitude);
+        this.output = Factory.createOutput("Out", component, pulseOscillator.output);
         this.frequencyPotentiometer = new Potentiometer("Frequency", pulseOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0D, 20.0D, 1000.0D);
     }
 

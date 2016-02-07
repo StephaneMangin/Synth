@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 /**
  * Created by stephane on 02/02/16.
  */
-public class OutputAdapterTest {
+public class OutputTest {
 
     @org.junit.Before
     public void setUp() throws Exception {

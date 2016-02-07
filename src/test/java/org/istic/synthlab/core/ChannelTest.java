@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.io.InputAdapter;
-import org.istic.synthlab.core.modules.io.OutputAdapter;
+import org.istic.synthlab.core.modules.io.Input;
+import org.istic.synthlab.core.modules.io.Output;
 
 /**
  * Created by paola on 02/02/16.
@@ -28,8 +28,8 @@ public class ChannelTest extends TestCase {
     }
     @org.junit.Test
     public void testConnect() throws Exception {
-        input = new InputAdapter("In", component, new UnitInputPort("port"));
-        outPut = new OutputAdapter("Out", component, new UnitOutputPort("port"));
+        input = new Input("In", component, new UnitInputPort("port"));
+        outPut = new Output("Out", component, new UnitOutputPort("port"));
 
         channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
@@ -40,8 +40,8 @@ public class ChannelTest extends TestCase {
 
     @org.junit.Test
     public void testDisconnect() throws Exception {
-        input = new InputAdapter("In", component, new UnitInputPort("port1"));
-        outPut = new OutputAdapter("Out", component, new UnitOutputPort("port2"));
+        input = new Input("In", component, new UnitInputPort("port1"));
+        outPut = new Output("Out", component, new UnitOutputPort("port2"));
 
         channel.connect(input,outPut);
         channel.disconnect(input, outPut);
