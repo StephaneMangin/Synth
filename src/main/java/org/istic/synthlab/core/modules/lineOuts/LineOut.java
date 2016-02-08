@@ -67,6 +67,7 @@ public class LineOut implements ILineOut {
      */
     public void start() {
         lineOut.start();
+        Factory.createSynthesizer().start();
     }
 
     /**
@@ -74,6 +75,7 @@ public class LineOut implements ILineOut {
      */
     public void stop() {
         lineOut.stop();
+        Factory.createSynthesizer().stop();
     }
 
     /**
