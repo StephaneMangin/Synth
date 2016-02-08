@@ -1,6 +1,8 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -51,6 +53,7 @@ public class CoreController implements Initializable, IObserver {
      */
     public static final int DEFAULT_COLS_PREF_WIDTH = 300;
 
+    // Be sure there's never a component named "panda" for this to work
     private static final String DRAG_N_DROP_MOVE_GUARD = "panda";
 
     @FXML
