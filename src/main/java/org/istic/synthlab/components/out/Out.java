@@ -14,20 +14,20 @@ public class Out extends AbstractComponent {
     public Out(String name) {
         super(name);
 
-        lineOut = Factory.createLineOut(this, LineType.OUT);
+        this.lineOut = Factory.createLineOut(this, LineType.OUT);
         getSourceFm().connect(getAmModulator().getInput());
-        getAmModulator().getOutput().connect(lineOut.getInput());
+        getAmModulator().getOutput().connect(this.lineOut.getInput());
 
     }
 
     @Override
     public void activate(){
-        lineOut.activate();
+        this.lineOut.activate();
     }
 
     @Override
     public void desactivate(){
-        lineOut.desactivate();
+        this.lineOut.desactivate();
     }
 
     @Override
@@ -41,11 +41,15 @@ public class Out extends AbstractComponent {
     }
 
     public IInput getInput() {
-        return lineOut.getInput();
+        return this.lineOut.getInput();
     }
 
     public void start(){
-        lineOut.start();
+        this.lineOut.start();
+    }
+
+    public boolean isEnable(){
+       return this.lineOut.isEnable();
     }
 
 }

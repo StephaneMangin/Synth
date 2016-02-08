@@ -122,4 +122,5 @@ public class Potentiometer extends GenericsParam<Double> {
     public PotentiometerType getType() {
         return type;
     }
+
 }

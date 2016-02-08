@@ -77,17 +77,6 @@ public class FactoryTest extends TestCase {
         assertTrue(Register.mappingGenerator.containsKey(vcoa));
     }
 
-    /**
-     * Testing method createVcoaAlgorithm(IComponent component)
-     *
-     */
-    @Test
-    public void createVcoaAlgorithmTest()  {
-        Factory.createVcoaAlgorithm(vcoa);
-        assertTrue(Register.mappingInput.containsKey(vcoa));
-        assertTrue(Register.mappingGenerator.containsKey(vcoa));
-    }
-
     @org.junit.After
     public void tearDown() throws Exception {
         super.tearDown();
