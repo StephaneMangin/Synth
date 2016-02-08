@@ -7,6 +7,7 @@ import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
@@ -44,7 +45,7 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator.getOutput().connect(getSink());
         redNoiseOscillator.getOutput().connect(getSink());
 
-        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
+        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY, PotentiometerType.EXPONENTIAL);
 
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
