@@ -99,15 +99,12 @@ public class CoreController implements Initializable, IObserver {
     }
 
     public void unDrawLine(HashMap<Line, Connection> arg){
-        Set keys = arg.keySet();
-        for(Object key : keys){
-            System.out.println("------------BEFORE:THUGLIFE!----------------");
-            System.out.println(borderPane.getChildren().toString());
-            System.out.println("-------------------------------------");
-            borderPane.getChildren().remove(key);
-            System.out.println("------------AFTER:THUGLIFE!----------------");
-            System.out.println(borderPane.getChildren().toString());
-            System.out.println("-------------------------------------");
+        ObservableList<Node> list = borderPane.getChildren();
+
+        for(Node node : list){
+            if(node instanceof Line){
+                borderPane.getChildren().remove(node);
+            }
         }
     }
 
