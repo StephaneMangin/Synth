@@ -45,13 +45,9 @@ public class ConnectionManager {
         output = futureConnectionOrigin;
         circleOutput = circle;
 
-        System.out.println("------------------------");
-        System.out.println("Output : "+ output);
-        System.out.println("Input : "+ input);
-        System.out.println("------------------------");
 
         if(!cable_selected && connectionTab.containsKey(output)){
-            System.out.println("Je débranche un cable !");
+
             cable_selected = true;
             IInput value = connectionTab.get(output);
             Line key_line = getKeyLine(value);
@@ -62,10 +58,7 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             update();
-            System.out.println("*************************");
-            System.out.println("Output : " + output);
-            System.out.println("Input : " + input);
-            System.out.println("*************************");
+
         }
         else{
             if(input != null){
@@ -80,14 +73,11 @@ public class ConnectionManager {
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
-        System.out.println("------------------------");
-        System.out.println("Output : "+ output);
-        System.out.println("Input : "+ input);
-        System.out.println("------------------------");
+
 
         if(!cable_selected && connectionTab.containsValue(input)){
             cable_selected = true;
-            System.out.println("Je débranche un cable !");
+
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
@@ -98,10 +88,6 @@ public class ConnectionManager {
 
             update();
             output = key;
-            System.out.println("*************************");
-            System.out.println("Output : " + output);
-            System.out.println("Input : " + input);
-            System.out.println("*************************");
 
         }
         else{
