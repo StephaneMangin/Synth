@@ -21,6 +21,7 @@ abstract class AbstractOscillator implements IOscillator {
     private IInput fm;
     private IOutput output;
     private Potentiometer frequencyPotentiometer;
+    private Potentiometer amplitudePotentiometer;
     private UnitOscillator unitOscillator;
 
     protected AbstractOscillator(IComponent component, UnitOscillator unitOscillator) {
@@ -34,6 +35,7 @@ abstract class AbstractOscillator implements IOscillator {
         this.output = Factory.createOutput("Out", component, getOscillator().output);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
         this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.amplitudePotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.LINEAR, 20000.0, 20.0, 1000.0);
     }
 
     @Override
@@ -77,6 +79,16 @@ abstract class AbstractOscillator implements IOscillator {
     @Override
     public double getFrequency() {
         return frequencyPotentiometer.getValue();
+    }
+
+    @Override
+    public void setAmplitude(double value) {
+        amplitudePotentiometer.setValue(value);
+    }
+
+    @Override
+    public double getAmplitude() {
+        return amplitudePotentiometer.getValue();
     }
 
 }
