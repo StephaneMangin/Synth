@@ -1,20 +1,19 @@
-package org.istic.synthlab.core.modules.algorithms;
+package org.istic.synthlab.core.utils.jsyn;
 
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
-import com.jsyn.unitgen.UnitFilter;
 import com.jsyn.unitgen.UnitGenerator;
 
 /**
  *
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
-public class VcoaFrequencyModulatorGenerator extends UnitGenerator {
+public class VcoaFunction extends UnitGenerator {
     public UnitInputPort potentiometer;
     public UnitInputPort frequencyModulation;
     public UnitOutputPort output;
 
-    public VcoaFrequencyModulatorGenerator() {
+    public VcoaFunction() {
         potentiometer = new UnitInputPort("PotentiometerInput");
         frequencyModulation = new UnitInputPort("FrequencyModulation");
         output = new UnitOutputPort("Output");
