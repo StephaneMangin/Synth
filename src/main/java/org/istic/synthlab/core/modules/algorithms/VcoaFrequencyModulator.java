@@ -10,6 +10,7 @@ import org.istic.synthlab.core.services.Register;
 
 /**
  *
+ * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
 public class VcoaFrequencyModulator implements IVcoaFrequencyModulator {
     private final Potentiometer potentiometer;

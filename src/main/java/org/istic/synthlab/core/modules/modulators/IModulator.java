@@ -5,6 +5,7 @@ import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
  *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public interface IModulator {
 

@@ -5,7 +5,7 @@ import com.jsyn.ports.UnitInputPort;
 /**
  * Manager for boolean value inside views.
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Cyprien Gottstein <gottstein[dot]cyprien[at]gmail[dot]com>
  *
  */

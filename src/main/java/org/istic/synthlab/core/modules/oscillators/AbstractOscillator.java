@@ -12,7 +12,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * Manage the IComponent relation for all Oscillators
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 abstract class AbstractOscillator implements IOscillator {
 

@@ -12,7 +12,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * Create an abstraction to manage a gain potentiometer throught a filterAllpass
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class GainModulator extends AbstractModulator {
     private FilterAllPass filter;

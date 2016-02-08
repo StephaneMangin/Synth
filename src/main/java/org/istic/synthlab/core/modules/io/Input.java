@@ -7,6 +7,8 @@ import org.istic.synthlab.core.services.Register;
 /**
  *
  * The type Input adapter
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Input implements IInput {
 

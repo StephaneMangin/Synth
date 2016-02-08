@@ -5,9 +5,9 @@ import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.core.IComponent;
 
 /**
- *
- *
  * The adapter of the low pass filter Jsyn
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class LowPassFilter implements IFilter {
 

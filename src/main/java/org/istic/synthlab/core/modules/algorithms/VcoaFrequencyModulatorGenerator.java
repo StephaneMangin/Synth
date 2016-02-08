@@ -6,6 +6,7 @@ import com.jsyn.unitgen.UnitGenerator;
 
 /**
  *
+ * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
 class VcoaFrequencyModulatorGenerator extends UnitGenerator {
     public UnitInputPort potentiometer;

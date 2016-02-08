@@ -5,6 +5,7 @@ import org.istic.synthlab.core.IComponent;
 /**
  * An impulse shape generator.
  *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class ImpulseOscillator extends AbstractOscillator {
 

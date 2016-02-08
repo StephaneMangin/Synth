@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.oscillators;
 
+import com.jsyn.unitgen.RedNoise;
 import org.istic.synthlab.core.IComponent;
 
 /**
@@ -7,9 +8,9 @@ import org.istic.synthlab.core.IComponent;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class TriangleOscillator extends AbstractOscillator {
+public class RedNoiseOscillator extends AbstractOscillator {
 
-    public TriangleOscillator(IComponent component) {
-        super(component, new com.jsyn.unitgen.TriangleOscillator());
+    public RedNoiseOscillator(IComponent component) {
+        super(component, new RedNoise());
     }
 }

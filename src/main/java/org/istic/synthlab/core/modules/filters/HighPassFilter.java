@@ -5,9 +5,9 @@ import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.core.IComponent;
 
 /**
- *
- *
  * The type High pass filter adapter.
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class HighPassFilter implements IFilter {
 

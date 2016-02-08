@@ -8,6 +8,9 @@ import org.istic.synthlab.core.services.Factory;
 
 /**
  * The abstract class component.
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ *
  */
 public abstract class AbstractComponent implements IComponent {
 

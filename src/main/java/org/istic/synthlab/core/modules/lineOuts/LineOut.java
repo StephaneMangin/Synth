@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
 import com.jsyn.unitgen.FilterStateVariable;
+import com.jsyn.unitgen.Pan;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
@@ -12,8 +13,9 @@ import org.istic.synthlab.core.services.Register;
 /**
  * The class Line adapter.
  *
- *
  * The class Line adapter that implements the interface ILineOut
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class LineOut implements ILineOut {
 
@@ -29,15 +31,15 @@ public class LineOut implements ILineOut {
     public LineOut(IComponent component) {
         lineOut = new com.jsyn.unitgen.LineOut();
         filter = new FilterStateVariable();
-        this.input = Factory.createInput("In", component, filter.input);
+        input = Factory.createInput("In", component, filter.input);
 
         // First declare the mappings
         Register.declare(component, filter);
         Register.declare(component, lineOut);
         Register.declare(component, input, filter.input);
 
-        filter.output.connect(this.lineOut.input);
-        this.potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.5);
+        filter.output.connect(lineOut.input);
+        potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
 
     }
 
@@ -91,7 +93,7 @@ public class LineOut implements ILineOut {
 
     @Override
     public void activate() {
-        this.lineOut.setEnabled(true);
+        lineOut.setEnabled(true);
     }
 
     /**
@@ -100,6 +102,6 @@ public class LineOut implements ILineOut {
      */
     @Override
     public void desactivate() {
-        this.lineOut.setEnabled(false);
+        lineOut.setEnabled(false);
     }
 }

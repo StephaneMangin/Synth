@@ -6,6 +6,7 @@ import org.istic.synthlab.core.IComponent;
 /**
  * A sinusoidal oscillator.
  *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class SineOscillator extends AbstractOscillator {
 

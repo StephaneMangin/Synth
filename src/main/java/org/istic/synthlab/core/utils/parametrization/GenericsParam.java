@@ -8,7 +8,7 @@ import com.jsyn.ports.UnitInputPort;
  *
  * @param <T> the type parameter
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Cyprien Gottstein <gottstein[dot]cyprien[at]gmail[dot]com>
  */
 public class GenericsParam<T> {

@@ -6,6 +6,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  *
+ * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
 public interface IVcoaFrequencyModulator {
 

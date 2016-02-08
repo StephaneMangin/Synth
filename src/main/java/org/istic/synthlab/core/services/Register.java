@@ -16,6 +16,8 @@ import java.util.*;
  *
  * It can be viewed as an active register that manage JSin equivalent semantics.
  *
+ * All adapters MUST implement their own calls to the register when creating jsyn adaptee instances
+ *
  * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */

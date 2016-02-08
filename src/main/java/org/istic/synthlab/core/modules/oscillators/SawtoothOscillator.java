@@ -5,6 +5,7 @@ import org.istic.synthlab.core.IComponent;
 /**
  * A saw teeth generator.
  *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class SawtoothOscillator extends AbstractOscillator {
 

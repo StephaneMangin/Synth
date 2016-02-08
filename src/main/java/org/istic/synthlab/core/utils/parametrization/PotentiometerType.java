@@ -4,7 +4,7 @@ package org.istic.synthlab.core.utils.parametrization;
 /**
  * Param flow type modifier.
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Cyprien Gottstein <gottstein[dot]cyprien[at]gmail[dot]com>
  *
  */

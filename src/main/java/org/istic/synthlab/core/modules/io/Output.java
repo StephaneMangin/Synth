@@ -8,6 +8,8 @@ import org.istic.synthlab.core.services.Register;
 /**
  * @author  Group1
  * The type Output adapter
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Output implements IOutput {
 

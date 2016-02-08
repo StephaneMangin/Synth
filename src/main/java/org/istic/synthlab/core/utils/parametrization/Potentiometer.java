@@ -5,7 +5,7 @@ import com.jsyn.ports.UnitInputPort;
 /**
  * Manager for linear or exponential values inside views.
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Cyprien Gottstein <gottstein[dot]cyprien[at]gmail[dot]com>
  *
  */
@@ -32,11 +32,17 @@ public class Potentiometer extends GenericsParam<Double> {
 
         // Set the value of the port
         this.port.setDefault(value);
+        // Call the super because of convertion in the current setter
         setValue(value);
         setMin(min);
         setMax(max);
     }
 
+    /**
+     * Set the value of the potentiometer
+     *
+     * @param value double between 0 to 1
+     */
     public void setValue(double value) {
         if (value <= getMax() && value >= getMin()) {
             super.setValue(value);
@@ -80,17 +86,24 @@ public class Potentiometer extends GenericsParam<Double> {
         this.port.setMinimum(min);
     }
 
-    public double calculateStep(double wheelInput) {
-        double value;
+    /**
+     * Return the corrected value
+     *
+     * @param value double between 0 to 1
+     * @return double
+     */
+    public double calculateStep(double value) {
+        double result;
+        //
         if (type == PotentiometerType.LINEAR) {
-            value = (getMax() - getMin()) * wheelInput + getMin();
+            result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
             //128 à la place de 10 ?
-            value = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, wheelInput) + getMin();
+            result = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, value) + getMin();
         } else {
-            value = wheelInput;
+            result = value;
         }
-        return value;
+        return result;
     }
 
     /**
