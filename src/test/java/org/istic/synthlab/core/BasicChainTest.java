@@ -7,6 +7,8 @@ import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +58,7 @@ public class BasicChainTest {
         impulseOscillator.getOutput().connect(vcoa1.getSink());
         Register.connect(vcoa.getInput(), vcoa1.getOutput());
         Register.connect(out.getInput(), vcoa1.getOutput());
-        out.getLineOut().start();
+        out.start();
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
@@ -85,7 +87,7 @@ public class BasicChainTest {
         Register.connect(impulseOscillator.getFm(), vcoa1.getOutput());
         Register.connect(vca.getAm(), vcoa1.getOutput());
 
-        out.getLineOut().start();
+        out.start();
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
