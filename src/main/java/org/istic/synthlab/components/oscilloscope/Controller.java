@@ -23,7 +23,6 @@ public class Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         final SwingNode swingNode = new SwingNode();
         swingNode.setContent(new JButton("Click me!"));
-        System.out.println("Je l'ai fait bordel : c'est ajouté !!!");
         pane.getChildren().add(swingNode);
 
     }
