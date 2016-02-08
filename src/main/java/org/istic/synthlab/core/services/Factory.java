@@ -124,7 +124,7 @@ public class Factory {
         if (synthesizer == null) {
             synthesizer = new SynthesisEngine();
             //synthesizer.setRealTime(true); // By default
-            synthesizer.start();
+            // Parametrization of the synthetizer
         }
         return synthesizer;
     }

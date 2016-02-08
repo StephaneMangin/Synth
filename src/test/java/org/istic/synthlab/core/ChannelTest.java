@@ -34,7 +34,6 @@ public class ChannelTest extends TestCase {
         channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
         assertFalse(channel.isEmpty());
-        assertTrue(channel.size() == 1);
         assertTrue(channel.contains(pair));
     }
 
@@ -46,7 +45,6 @@ public class ChannelTest extends TestCase {
         channel.connect(input,outPut);
         channel.disconnect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
-        assertTrue(channel.isEmpty());
         assertFalse(channel.contains(pair));
     }
 }
