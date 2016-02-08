@@ -43,24 +43,33 @@ public class ConnectionManager {
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
+
         if(connectionTab.containsKey(output)){
+            IInput value = connectionTab.get(output);
+            Line key_line = getKeyLine(value);
+
             connectionTab.remove(output);
-            lineConnection.remove(output);
+            lineConnection.remove(key_line);
+
             Register.disconnect(output);
+            input = value;
             update();
         }
-        if(input != null){
-            makeConnection();
+        else{
+            if(input != null){
+                makeConnection();
+            }
         }
+
+
+
     }
 
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
+
         if(connectionTab.containsValue(input)){
-            System.out.println("----------------AVANT---------------------");
-            System.out.println(lineConnection.toString());
-            System.out.println("-------------------------------------");
 
             IOutput key = getKey(input);
             connectionTab.remove(key);
@@ -68,15 +77,19 @@ public class ConnectionManager {
             Line key_line = getKeyLine(input);
             lineConnection.remove(key_line);
 
-            System.out.println("-----------------APRES--------------------");
-            System.out.println(lineConnection.toString());
-            System.out.println("-------------------------------------");
             Register.disconnect(input);
+
             update();
+            output = key;
+
         }
-        if(output != null){
-            makeConnection();
+        else{
+            if(output != null){
+                makeConnection();
+            }
         }
+
+
     }
 
     private static void makeConnection(){
