@@ -37,12 +37,12 @@ public class Controller implements Initializable{
 
     }
     @FXML
-    void connectOut(){
+    void connectOutput(){
         ConnectionManager.makeOrigin(circleEvent, generic.getOutput());
     }
 
     @FXML
-    void connectIn(){
+    void connectInput(){
         ConnectionManager.makeDestination(circleEvent, generic.getInput());
     }
 

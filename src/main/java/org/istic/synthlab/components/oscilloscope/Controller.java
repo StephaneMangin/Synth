@@ -45,7 +45,7 @@ public class Controller implements Initializable{
         Dimension dim = new Dimension();
         dim.setSize(80, 120);
         panel.setPreferredSize(dim);
-        //swingNode.setContent(panel);
+        swingNode.setContent(panel);
         pane.getChildren().add(swingNode);
 
     }

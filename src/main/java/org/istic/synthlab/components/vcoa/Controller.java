@@ -29,7 +29,7 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     void connectOut(){
-        ConnectionManager.makeDestination(circleEvent, composantVcoa.getInput());
+        ConnectionManager.makeOrigin(circleEvent, composantVcoa.getOutput());
     }
 
     private class getIdWithClick implements EventHandler<Event> {
