@@ -9,9 +9,7 @@ import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.BoundLine;
 import org.istic.synthlab.ui.plugins.cable.Center;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Sebastien
@@ -21,11 +19,11 @@ public class ConnectionManager {
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
+    private static Boolean cable_selected = false;
 
-    public static HashMap<Line, HashMap<IOutput, IInput>> lineConnection = new HashMap<>();
+    public static HashMap<Line, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
-    private static Line line;
 
     public static void addObserver(IObserver observer) {
         observers.add(observer);
@@ -38,6 +36,7 @@ public class ConnectionManager {
     private static void update() {
         for (IObserver observer : observers) {
             observer.update(connectionTab);
+            observer.unDrawLine(lineConnection);
             observer.drawLine(lineConnection);
         }
     }
@@ -45,17 +44,59 @@ public class ConnectionManager {
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
-        if(input != null){
-            makeConnection();
+
+
+        if(!cable_selected && connectionTab.containsKey(output)){
+
+            cable_selected = true;
+            IInput value = connectionTab.get(output);
+            Line key_line = getKeyLine(value);
+
+            connectionTab.remove(output);
+            lineConnection.remove(key_line);
+
+            Register.disconnect(output);
+            input = value;
+            update();
+
         }
+        else{
+            if(input != null){
+                makeConnection();
+            }
+        }
+
+
+
     }
 
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
-        if(output != null){
-            makeConnection();
+
+
+        if(!cable_selected && connectionTab.containsValue(input)){
+            cable_selected = true;
+
+            IOutput key = getKey(input);
+            connectionTab.remove(key);
+
+            Line key_line = getKeyLine(input);
+            lineConnection.remove(key_line);
+
+            Register.disconnect(input);
+
+            update();
+            output = key;
+
         }
+        else{
+            if(output != null){
+                makeConnection();
+            }
+        }
+
+
     }
 
     private static void makeConnection(){
@@ -65,15 +106,13 @@ public class ConnectionManager {
             update();
             input = null;
             output = null;
+            cable_selected = false;
         }
     }
 
     private static boolean drawCable(){
-        HashMap <IOutput, IInput> map = new HashMap<>();
-        HashMap <IInput, IOutput> mapReverse = new HashMap<>();
-        map.put(output, input);
-        mapReverse.put(input, output);
-        if((!lineConnection.containsValue(map)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
+        Connection connection = new Connection(output, input);
+        if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
             Center endCenter = new Center(circleInput);
             Center startCenter = new Center(circleOutput);
             Line line = new BoundLine(
@@ -82,9 +121,35 @@ public class ConnectionManager {
                     endCenter.centerXProperty(),
                     endCenter.centerYProperty()
             );
-            lineConnection.put(line, map);
+            lineConnection.put(line, connection);
             return true;
         }
         return false;
+    }
+
+    private static Line getKeyLine(IInput value){
+        Set keys = lineConnection.keySet();
+        Iterator it = keys.iterator();
+        while(it.hasNext()) {
+            Line key = (Line) it.next();
+            Connection co = lineConnection.get(key);
+            if(co.getInput() == value){
+                return key;
+            }
+        }
+        return null;
+    }
+
+    private static IOutput getKey(IInput value){
+        Set keys = connectionTab.keySet();
+        Iterator it = keys.iterator();
+        while(it.hasNext()){
+            IOutput key = (IOutput) it.next();
+            IInput value_key = connectionTab.get(key);
+            if(value_key == value){
+                return key;
+            }
+        }
+        return null;
     }
 }
