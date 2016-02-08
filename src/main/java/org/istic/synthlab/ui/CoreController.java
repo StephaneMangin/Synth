@@ -227,6 +227,7 @@ public class CoreController implements Initializable, IObserver {
                 final Pane p = (Pane) event.getSource();
                 if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
                     p.getChildren().add((Node) event.getGestureSource());
+                    System.out.println("P.GETCHILDREN: "+p.getChildren().toString());
                     success = true;
                 }
                 else {

@@ -25,7 +25,6 @@ public class ConnectionManager {
     public static HashMap<Line, HashMap<IOutput, IInput>> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
-    private static Line line;
 
     public static void addObserver(IObserver observer) {
         observers.add(observer);
@@ -70,9 +69,7 @@ public class ConnectionManager {
 
     private static boolean drawCable(){
         HashMap <IOutput, IInput> map = new HashMap<>();
-        HashMap <IInput, IOutput> mapReverse = new HashMap<>();
         map.put(output, input);
-        mapReverse.put(input, output);
         if((!lineConnection.containsValue(map)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
             Center endCenter = new Center(circleInput);
             Center startCenter = new Center(circleOutput);
