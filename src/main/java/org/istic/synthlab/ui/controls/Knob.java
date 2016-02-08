@@ -1,4 +1,4 @@
-package org.istic.synthlab;
+package org.istic.synthlab.ui.controls;
 
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -18,8 +18,10 @@ public class Knob implements Initializable {
     @FXML
     public Button rotatorHandle;
 
-    public static final int MIN_ANGLE = 120;
-    public static final int MAX_ANGLE = 60;
+    // JavaFX has a weird behavior, see docs/knob.png to check how the angles look like on the circle
+    // The MIN_ANGLE is bigger than the MAX_ANGLE because the upper part of the circle is negative
+    private static final int MIN_ANGLE = 120;
+    private static final int MAX_ANGLE = 60;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

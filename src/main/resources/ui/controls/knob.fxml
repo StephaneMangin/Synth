@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.Knob">
+<StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.controls.Knob">
     <Button fx:id="rotatorDial" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseDragged="#rotatorDragged" onMousePressed="#rotatorPressed" onMouseReleased="#rotatorReleased" prefHeight="36.0" prefWidth="36.0" styleClass="rotation-dial" stylesheets="@../stylesheets/components.css" text="" />
     <Button fx:id="rotatorHandle" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" opacity="1.0" prefHeight="36.0" prefWidth="36.0" styleClass="rotation-handle" stylesheets="@../stylesheets/components.css" text="" />
 </StackPane>
