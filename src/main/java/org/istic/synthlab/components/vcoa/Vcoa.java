@@ -1,6 +1,7 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
@@ -19,6 +20,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator triangleOscillator;
     private IOscillator redNoiseOscillator;
     //private IVcoaFrequencyModulator algorithm;
+    private IOutput output;
 
     public Vcoa(String name) {
         super(name);
@@ -30,6 +32,15 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
+        // Mix all oscillator's output to the sink port
+        sineOscillator.getOutput().connect(getSink());
+        pulseOscillator.getOutput().connect(getSink());
+        squareOscillator.getOutput().connect(getSink());
+        impulseOscillator.getOutput().connect(getSink());
+        sawToothOscillator.getOutput().connect(getSink());
+        triangleOscillator.getOutput().connect(getSink());
+        redNoiseOscillator.getOutput().connect(getSink());
+
         //algorithm = Factory.createVcoaAlgorithm(this);
         //algorithm.getOutput().connect(sineOscillator.getInput());
 
@@ -38,7 +49,6 @@ public class Vcoa extends AbstractComponent {
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
         //getSourceAm().connect(squareOscillator.getAm());
-        squareOscillator.getOutput().connect(getSink());
     }
 
     @Override
@@ -102,5 +112,33 @@ public class Vcoa extends AbstractComponent {
 
     public void setAmplitudeRedNoise(double value) {
         redNoiseOscillator.setFrequency(value);
+    }
+
+    public IOutput getSineOutput() {
+        return sineOscillator.getOutput();
+    }
+
+    public IOutput getPulseOutput() {
+        return pulseOscillator.getOutput();
+    }
+
+    public IOutput getSquareOutput() {
+        return squareOscillator.getOutput();
+    }
+
+    public IOutput getImpulsesineOutput() {
+        return impulseOscillator.getOutput();
+    }
+
+    public IOutput getSawToothOutput() {
+        return sawToothOscillator.getOutput();
+    }
+
+    public IOutput getTriangleOutput() {
+        return triangleOscillator.getOutput();
+    }
+
+    public IOutput getRedNoiseOutput() {
+        return redNoiseOscillator.getOutput();
     }
 }
