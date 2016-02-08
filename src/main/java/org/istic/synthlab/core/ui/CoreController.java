@@ -18,7 +18,7 @@ import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
 import java.io.IOException;
@@ -159,7 +159,7 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
 
-        ModulesFactory.createSynthesizer().stop();
+        Factory.createSynthesizer().stop();
     }
 
     /**
@@ -171,7 +171,7 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(true);
 
         Register.uglyPatchWork();
-        ModulesFactory.createSynthesizer().start();
+        Factory.createSynthesizer().start();
         Register.uglyPatchWork();
     }
 

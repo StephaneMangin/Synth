@@ -31,7 +31,7 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     void connectIn(){
-        ConnectionManager.makeDestination(circleEvent, componentOut.getIInput());
+        ConnectionManager.makeDestination(circleEvent, componentOut.getInput());
     }
 
     private class getIdWithClick implements EventHandler<Event> {
