@@ -4,7 +4,6 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.services.Factory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +23,8 @@ public class BasicChainTest {
         vcoa.activate();
         out = new Out("OUT");
         out.activate();
-        vcoa.setAmplitudeSquare(1);
-        vcoa.setLinearFrequency(1000);
+        vcoa.setAmplitudeSine(10000);
+        vcoa.setAmplitudeSquare(10000);
         synth = Factory.createSynthesizer();
         out.getInput().connect(vcoa.getOutput());
     }
