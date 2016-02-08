@@ -18,6 +18,7 @@ import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 
 /**
@@ -143,16 +144,16 @@ public class Factory {
      * @param type ModulatorType
      * @return IModulator
      */
-    public static IModulator createModulator(String name, IComponent component, ModulatorType type) {
+    public static IModulator createModulator(String name, IComponent component, ModulatorType type, PotentiometerType potentiometerType) {
         switch(type) {
             case AMPLITUDE:
-                return new AmplitudeModulator(name, component);
+                return new AmplitudeModulator(name, component, potentiometerType);
             case FREQUENCY:
-                return new FrequencyModulator(name, component);
+                return new FrequencyModulator(name, component, potentiometerType);
             case GAIN:
-                return new GainModulator(name, component);
+                return new GainModulator(name, component, potentiometerType);
             default:
-                return new AmplitudeModulator(name, component);
+                return new AmplitudeModulator(name, component, potentiometerType);
         }
     }
 }

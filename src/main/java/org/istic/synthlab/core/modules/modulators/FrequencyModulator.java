@@ -17,13 +17,13 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 public class FrequencyModulator extends AbstractModulator {
     private FilterStateVariable filter;
 
-    public FrequencyModulator(String name, IComponent component) {
-        super(name, component);
+    public FrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
+        super(name, component, potentiometerType);
         filter = new FilterStateVariable();
         potentiometer = new Potentiometer(
                 "Gain",
                 filter.frequency,
-                PotentiometerType.EXPONENTIAL,
+                potentiometerType,
                 20000.0D,
                 20.0D,
                 1000.0D
