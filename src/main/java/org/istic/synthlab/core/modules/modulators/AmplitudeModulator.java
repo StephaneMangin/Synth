@@ -18,9 +18,9 @@ public class AmplitudeModulator extends AbstractModulator {
     private FilterBandPass filter;
 
     public AmplitudeModulator(String name, IComponent component, PotentiometerType potentiometerType) {
-        super(name, component, potentiometerType);
+        super(name, component);
         filter = new FilterBandPass();
-        potentiometer = new Potentiometer("Amplitude", filter.amplitude, PotentiometerType.LINEAR,
+        potentiometer = new Potentiometer("Amplitude", filter.amplitude, potentiometerType,
                 10E5D, 0D, 1D
         );
 

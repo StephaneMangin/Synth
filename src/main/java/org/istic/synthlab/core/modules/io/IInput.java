@@ -1,5 +1,7 @@
 package org.istic.synthlab.core.modules.io;
 
+import com.jsyn.ports.UnitInputPort;
+
 /**
  *
  * The interface Input.
@@ -18,4 +20,5 @@ public interface IInput {
 
     String getName();
 
+    UnitInputPort getUnitInputPort();
 }

@@ -7,6 +7,7 @@ import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
@@ -23,7 +24,6 @@ public class Vcoa extends AbstractComponent {
     private IOscillator redNoiseOscillator;
     private IModulator exponentialModulator;
     private IModulator linearModulator;
-    private IOutput output;
 
     public Vcoa(String name) {
         super(name);
@@ -37,22 +37,18 @@ public class Vcoa extends AbstractComponent {
 
         // Mix all oscillator's output to the sink port
         squareOscillator.getOutput().connect(getSink());
-        //sineOscillator.getOutput().connect(getSink());
-        //pulseOscillator.getOutput().connect(getSink());
-        //impulseOscillator.getOutput().connect(getSink());
-        //sawToothOscillator.getOutput().connect(getSink());
-        //triangleOscillator.getOutput().connect(getSink());
-        //redNoiseOscillator.getOutput().connect(getSink());
+        sineOscillator.getOutput().connect(getSink());
+        pulseOscillator.getOutput().connect(getSink());
+        impulseOscillator.getOutput().connect(getSink());
+        sawToothOscillator.getOutput().connect(getSink());
+        triangleOscillator.getOutput().connect(getSink());
+        redNoiseOscillator.getOutput().connect(getSink());
 
-        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
-        linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY);
+        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
+        linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
-        // TODO : does not work, how ?
-        //getSourceFm().connect(squareOscillator.getFm());
-        //getSourceAm().connect(squareOscillator.getAm());
-
-        getSourceFm().connect(linearModulator.getInput());
-        //exponentialModulator.getOutput().connect(linearModulator.getInput());
+        getSourceFm().connect(exponentialModulator.getInput());
+        exponentialModulator.getOutput().connect(linearModulator.getInput());
         linearModulator.getOutput().connect(squareOscillator.getFm());
     }
 

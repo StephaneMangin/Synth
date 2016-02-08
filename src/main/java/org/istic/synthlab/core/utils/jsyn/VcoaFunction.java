@@ -29,7 +29,6 @@ public class VcoaFunction extends UnitGenerator {
         double[] wheelFrequencies = potentiometer.getValues();
         double[] inputFrequencies = frequencyModulation.getValues();
         double[] outputs = output.getValues();
-        frequencyModulation.get(0);
 
         for (int i = start; i < limit; i++) {
             outputs[i] =  wheelFrequencies[i]*Math.pow(2, inputFrequencies[i]);

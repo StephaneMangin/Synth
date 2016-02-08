@@ -110,7 +110,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return input of the component
      */
     public IInput getInput() {
         return inputModulator.getInput();
@@ -118,7 +118,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return gate input of the component
      */
     public IInput getInputGate() {
         return inputGateModulator.getInput();
@@ -126,7 +126,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return FM input of the component
      */
     public IInput getFm() {
         return frequencyModulator.getInput();
@@ -134,7 +134,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return AM input of the component
      */
     public IInput getAm() {
         return amplitudeModulator.getInput();
@@ -142,7 +142,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for external connexions
-     * @return
+     * @return output of the component
      */
     public IOutput getOutput() {
         return outputModulator.getOutput();
@@ -150,7 +150,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for external connexions
-     * @return
+     * @return gate output of the component
      */
     protected IOutput getOutputGate() {
         return outputGateModulator.getOutput();
@@ -158,7 +158,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern output of the component
      */
     protected IOutput getSource() {
         return inputModulator.getOutput();
@@ -166,7 +166,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern gate output of the component
      */
     protected IOutput getSourceGate() {
         return inputGateModulator.getOutput();
@@ -174,7 +174,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern FM output of the component
      */
     protected IOutput getSourceFm() {
         return frequencyModulator.getOutput();
@@ -182,15 +182,15 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern AM output of the component
      */
     protected IOutput getSourceAm() {
         return amplitudeModulator.getOutput();
     }
 
     /**
-     * Returns the output for internal connexions
-     * @return
+     * Returns the input for internal connexions
+     * @return intern input of the component
      */
     protected IInput getSink() {
         return outputModulator.getInput();
@@ -198,7 +198,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for internal connexions
-     * @return
+     * @return intern gate input of the component
      */
     protected IInput getSinkGate() {
         return outputGateModulator.getInput();

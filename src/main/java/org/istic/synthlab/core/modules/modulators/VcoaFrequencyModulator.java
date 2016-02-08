@@ -1,10 +1,9 @@
 package org.istic.synthlab.core.modules.modulators;
 
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulatorGenerator;
+import org.istic.synthlab.core.utils.jsyn.VcoaFunction;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.modulators.AbstractModulator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
@@ -15,15 +14,15 @@ import org.istic.synthlab.core.services.Register;
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
 public class VcoaFrequencyModulator extends AbstractModulator {
-    private VcoaFrequencyModulatorGenerator algorithm;
+    private VcoaFunction algorithm;
 
-    public VcoaFrequencyModulator(String name, IComponent component) {
+    public VcoaFrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        algorithm = new VcoaFrequencyModulatorGenerator();
+        algorithm = new VcoaFunction();
         potentiometer = new Potentiometer(
                 "Frequency",
                 algorithm.potentiometer,
-                PotentiometerType.EXPONENTIAL,
+                potentiometerType,
                 20000.0D,
                 20.0D,
                 1000.0D
