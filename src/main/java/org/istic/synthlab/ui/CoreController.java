@@ -91,10 +91,23 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<Line, HashMap<IOutput, IInput>> arg) {
+    public void drawLine(HashMap<Line, Connection> arg) {
         Set keys = arg.keySet();
         for(Object key : keys){
             borderPane.getChildren().add((Line)key);
+        }
+    }
+
+    public void unDrawLine(HashMap<Line, Connection> arg){
+        Set keys = arg.keySet();
+        for(Object key : keys){
+            System.out.println("------------BEFORE:THUGLIFE!----------------");
+            System.out.println(borderPane.getChildren().toString());
+            System.out.println("-------------------------------------");
+            borderPane.getChildren().remove(key);
+            System.out.println("------------AFTER:THUGLIFE!----------------");
+            System.out.println(borderPane.getChildren().toString());
+            System.out.println("-------------------------------------");
         }
     }
 
