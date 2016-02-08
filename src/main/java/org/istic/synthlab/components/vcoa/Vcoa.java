@@ -36,24 +36,24 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
         // Mix all oscillator's output to the sink port
-        sineOscillator.getOutput().connect(getSink());
-        pulseOscillator.getOutput().connect(getSink());
         squareOscillator.getOutput().connect(getSink());
-        impulseOscillator.getOutput().connect(getSink());
-        sawToothOscillator.getOutput().connect(getSink());
-        triangleOscillator.getOutput().connect(getSink());
-        redNoiseOscillator.getOutput().connect(getSink());
+        //sineOscillator.getOutput().connect(getSink());
+        //pulseOscillator.getOutput().connect(getSink());
+        //impulseOscillator.getOutput().connect(getSink());
+        //sawToothOscillator.getOutput().connect(getSink());
+        //triangleOscillator.getOutput().connect(getSink());
+        //redNoiseOscillator.getOutput().connect(getSink());
 
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
+        linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY);
 
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
         //getSourceAm().connect(squareOscillator.getAm());
 
-        getSourceFm().connect(exponentialModulator.getInput());
-        exponentialModulator.getOutput().connect(linearModulator.getInput());
+        getSourceFm().connect(linearModulator.getInput());
+        //exponentialModulator.getOutput().connect(linearModulator.getInput());
         linearModulator.getOutput().connect(squareOscillator.getFm());
-
     }
 
     @Override
@@ -96,31 +96,31 @@ public class Vcoa extends AbstractComponent {
     }
 
     public void setAmplitudeSine(double value) {
-        sineOscillator.setFrequency(value);
+        sineOscillator.setAmplitude(value);
     }
 
     public void setAmplitudePulse(double value) {
-        pulseOscillator.setFrequency(value);
+        pulseOscillator.setAmplitude(value);
     }
 
     public void setAmplitudeSquare(double value) {
-        squareOscillator.setFrequency(value);
+        squareOscillator.setAmplitude(value);
     }
 
     public void setAmplitudeImpulse(double value) {
-        impulseOscillator.setFrequency(value);
+        impulseOscillator.setAmplitude(value);
     }
 
     public void setAmplitudeSawTooth(double value) {
-        sawToothOscillator.setFrequency(value);
+        sawToothOscillator.setAmplitude(value);
     }
 
     public void setAmplitudeTriangle(double value) {
-        triangleOscillator.setFrequency(value);
+        triangleOscillator.setAmplitude(value);
     }
 
     public void setAmplitudeRedNoise(double value) {
-        redNoiseOscillator.setFrequency(value);
+        redNoiseOscillator.setAmplitude(value);
     }
 
     public IOutput getSineOutput() {

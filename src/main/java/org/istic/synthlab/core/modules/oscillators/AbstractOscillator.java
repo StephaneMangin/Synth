@@ -21,6 +21,7 @@ abstract class AbstractOscillator implements IOscillator {
     private IInput fm;
     private IOutput output;
     private Potentiometer frequencyPotentiometer;
+    private Potentiometer amplitudePotentiometer;
     private UnitOscillator unitOscillator;
 
     protected AbstractOscillator(IComponent component, UnitOscillator unitOscillator) {
@@ -30,10 +31,12 @@ abstract class AbstractOscillator implements IOscillator {
         Register.declare(component, unitOscillator);
         // Link differents ports
         this.fm = Factory.createInput("Fm", component, getOscillator().frequency);
+        System.out.println("[~] "+getOscillator().frequency.getMaximum()+"-"+getOscillator().frequency.getMinimum()+" "+getOscillator().frequency.getDefault());
         this.am = Factory.createInput("Am", component, getOscillator().amplitude);
         this.output = Factory.createOutput("Out", component, getOscillator().output);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
         this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+        this.amplitudePotentiometer = new Potentiometer("Amplitude", getOscillator().amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 1.0);
     }
 
     @Override
@@ -77,5 +80,15 @@ abstract class AbstractOscillator implements IOscillator {
     @Override
     public double getFrequency() {
         return frequencyPotentiometer.getValue();
+    }
+
+    @Override
+    public void setAmplitude(double value) {
+        amplitudePotentiometer.setValue(value);
+    }
+
+    @Override
+    public double getAmplitude() {
+        return amplitudePotentiometer.getValue();
     }
 }

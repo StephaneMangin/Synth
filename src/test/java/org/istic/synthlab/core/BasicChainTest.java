@@ -26,7 +26,7 @@ public class BasicChainTest {
         out = new Out("OUT");
         out.activate();
         vcoa.setAmplitudeSquare(1);
-        vcoa.setFrequencyInput(1000);
+        vcoa.setExponentialFrequency(1000);
         synth = Factory.createSynthesizer();
         out.getInput().connect(vcoa.getOutput());
     }
