@@ -18,7 +18,7 @@ public abstract class AbstractModulator implements IModulator {
     protected IInput input;
     private final String name;
 
-    public AbstractModulator(String name, IComponent component, PotentiometerType potentiometerType) {
+    public AbstractModulator(String name, IComponent component) {
         this.name = name;
         this.component = component;
     }
@@ -67,4 +67,9 @@ public abstract class AbstractModulator implements IModulator {
     public String getName() {
         return this.name;
     }
+    
+    public Potentiometer getPotentiometer() {
+        return potentiometer;
+    }
+
 }

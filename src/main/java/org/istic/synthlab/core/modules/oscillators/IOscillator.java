@@ -41,5 +41,24 @@ public interface IOscillator extends Resource {
      */
     double getFrequency();
 
+    /**
+     * test if the oscillator is enabled or not
+     *
+     * @return boolean
+     */
     public boolean isActivated();
+
+    /**
+     * Set the oscillator amplitude in percentage
+     *
+     * @param value double
+     */
+    void setAmplitude(double value);
+
+    /**
+     * Returns the oscillator amplitude in percentage
+     *
+     * @return double
+     */
+    double getAmplitude();
 }

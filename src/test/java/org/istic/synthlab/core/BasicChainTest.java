@@ -6,8 +6,6 @@ import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.junit.After;
 import org.junit.Before;
-import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.Factory;
 import org.junit.Test;
 
 /**
@@ -25,6 +23,8 @@ public class BasicChainTest {
         vcoa.activate();
         out = new Out("OUT");
         out.activate();
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setExponentialFrequency(200);
         vcoa.setAmplitudeSine(10000);
         vcoa.setAmplitudeSquare(10000);
         synth = Factory.createSynthesizer();
@@ -37,7 +37,7 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-        out.getLineOut().start();
+        out.start();
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();

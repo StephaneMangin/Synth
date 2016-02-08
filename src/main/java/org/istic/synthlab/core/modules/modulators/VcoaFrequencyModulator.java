@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterBandPass;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.utils.jsyn.VcoaFunction;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
@@ -10,25 +10,30 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 import org.istic.synthlab.core.services.Register;
 
 /**
- * Create an abstraction to manage a gain potentiometer throught a filterAllpass
  *
- * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
-public class AmplitudeModulator extends AbstractModulator {
-    private FilterBandPass filter;
+public class VcoaFrequencyModulator extends AbstractModulator {
+    private VcoaFunction algorithm;
 
-    public AmplitudeModulator(String name, IComponent component, PotentiometerType potentiometerType) {
+    public VcoaFrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        filter = new FilterBandPass();
-        potentiometer = new Potentiometer("Amplitude", filter.amplitude, potentiometerType,
-                10E5D, 0D, 1D
+        algorithm = new VcoaFunction();
+        potentiometer = new Potentiometer(
+                "Frequency",
+                algorithm.potentiometer,
+                potentiometerType,
+                20000.0D,
+                20.0D,
+                1000.0D
         );
 
         // Declare the relation to the mapping
-        Register.declare(component, this.filter);
-        input = Factory.createInput(name + "::ampIn", component, filter.input);
-        output = Factory.createOutput(name + "::ampOut", component, filter.output);
+        Register.declare(component, this.algorithm);
+        input = Factory.createInput(name + "::freqIn", component, algorithm.frequencyModulation);
+        output = Factory.createOutput(name + "::freqOut", component, algorithm.output);
     }
+
 
     @Override
     public IInput getInput() {
