@@ -3,9 +3,7 @@ package org.istic.synthlab.components.oscilloscope;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 import javax.swing.*;
 import java.net.URL;
@@ -27,7 +25,5 @@ public class Controller implements Initializable{
         pane.getChildren().add(swingNode);
 
     }
-
-
 
 }

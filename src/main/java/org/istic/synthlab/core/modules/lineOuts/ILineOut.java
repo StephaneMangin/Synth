@@ -42,4 +42,11 @@ public interface ILineOut extends Resource {
      */
     IInput getInput();
 
+    /**
+     * Returns true if the lineout is activate or false
+     *
+     * @return boolean
+     */
+    boolean isEnable();
+
 }
