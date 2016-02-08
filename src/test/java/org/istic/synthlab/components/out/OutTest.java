@@ -22,13 +22,13 @@ public class OutTest {
     @org.junit.Test
     public void testActivate() throws Exception {
         this.out.activate();
-        //Assert.assertTrue(this.out.getLineOut().isEnable());
+        Assert.assertTrue(this.out.isEnable());
     }
 
     @org.junit.Test
     public void testDesactivate() throws Exception {
         this.out.desactivate();
-        //Assert.assertFalse(this.out.getLineOut().isEnable());
+        Assert.assertFalse(this.out.isEnable());
     }
 
     @org.junit.Test
