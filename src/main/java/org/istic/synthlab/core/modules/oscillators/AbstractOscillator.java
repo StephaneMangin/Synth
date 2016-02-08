@@ -78,4 +78,5 @@ abstract class AbstractOscillator implements IOscillator {
     public double getFrequency() {
         return frequencyPotentiometer.getValue();
     }
+
 }

@@ -1,6 +1,5 @@
 package org.istic.synthlab.core.utils.parametrization;
 
-import com.jsyn.ports.UnitInputPort;
 
 /**
  *

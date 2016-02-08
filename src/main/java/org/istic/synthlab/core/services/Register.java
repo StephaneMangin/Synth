@@ -265,7 +265,7 @@ public class Register {
         for (IComponent component : mappingGenerator.keySet()) {
             if (component instanceof Out) {
                 Out ugly = (Out) component;
-                ugly.getLineOut().start();
+                ugly.start();
             }
         }
     }

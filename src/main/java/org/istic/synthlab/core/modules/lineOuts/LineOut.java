@@ -1,13 +1,12 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
 import com.jsyn.unitgen.FilterStateVariable;
-import com.jsyn.unitgen.Pan;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.Register;
 
 
 /**
@@ -105,5 +104,15 @@ public class LineOut implements ILineOut {
     @Override
     public void desactivate() {
         lineOut.setEnabled(false);
+    }
+
+    /**
+     * Returns true if the lineout is activate or false
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isEnable() {
+        return this.lineOut.isEnabled();
     }
 }

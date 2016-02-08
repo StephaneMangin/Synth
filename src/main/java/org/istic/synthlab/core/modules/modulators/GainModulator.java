@@ -18,7 +18,7 @@ public class GainModulator extends AbstractModulator {
     private FilterAllPass filter;
 
     public GainModulator(String name, IComponent component, PotentiometerType potentiometerType) {
-        super(name, component, potentiometerType);
+        super(name, component);
         filter = new FilterAllPass();
         potentiometer = new Potentiometer(
                 "Gain",
