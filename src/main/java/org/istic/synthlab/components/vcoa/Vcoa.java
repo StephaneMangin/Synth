@@ -2,6 +2,8 @@ package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.modulators.IModulator;
+import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
@@ -19,7 +21,8 @@ public class Vcoa extends AbstractComponent {
     private IOscillator sawToothOscillator;
     private IOscillator triangleOscillator;
     private IOscillator redNoiseOscillator;
-    //private IVcoaFrequencyModulator algorithm;
+    private IModulator exponentialModulator;
+    private IModulator linearModulator;
     private IOutput output;
 
     public Vcoa(String name) {
@@ -41,14 +44,16 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator.getOutput().connect(getSink());
         redNoiseOscillator.getOutput().connect(getSink());
 
-        //algorithm = Factory.createVcoaAlgorithm(this);
-        //algorithm.getOutput().connect(sineOscillator.getInput());
+        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
 
-        // Connect internally
-        //algorithm.getOutput().connect(squareOscillator.getInput());
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
         //getSourceAm().connect(squareOscillator.getAm());
+
+        getSourceFm().connect(exponentialModulator.getInput());
+        exponentialModulator.getOutput().connect(linearModulator.getInput());
+        linearModulator.getOutput().connect(squareOscillator.getFm());
+
     }
 
     @Override
@@ -82,8 +87,12 @@ public class Vcoa extends AbstractComponent {
 
     }
 
-    public void setFrequencyInput(double value) {
-        //algorithm.setFrequency(algorithm.getFrequency().calculateStep(value));
+    public void setExponentialFrequency(double value) {
+        exponentialModulator.setValue(value);
+    }
+
+    public void setLinearFrequency(double value) {
+        linearModulator.setValue(value);
     }
 
     public void setAmplitudeSine(double value) {

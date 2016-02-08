@@ -21,7 +21,7 @@ public class FrequencyModulator extends AbstractModulator {
         super(name, component, potentiometerType);
         filter = new FilterStateVariable();
         potentiometer = new Potentiometer(
-                "Gain",
+                "Frequency",
                 filter.frequency,
                 potentiometerType,
                 20000.0D,
