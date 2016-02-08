@@ -120,6 +120,18 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator.setAmplitude(value);
     }
 
+    public IOscillator getPulseOscillator() {
+        return this.pulseOscillator;
+    }
+
+    public IOscillator getSineOscillator() {
+        return this.sineOscillator;
+    }
+
+    public IOscillator getSquareOscillator() {
+        return this.squareOscillator;
+    }
+
     public IOutput getSineOutput() {
         return sineOscillator.getOutput();
     }

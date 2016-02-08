@@ -12,4 +12,9 @@ public class TriangleOscillator extends AbstractOscillator {
     public TriangleOscillator(IComponent component) {
         super(component, new com.jsyn.unitgen.TriangleOscillator());
     }
+
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
 }

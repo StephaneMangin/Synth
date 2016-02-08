@@ -31,8 +31,9 @@ public class Potentiometer extends GenericsParam<Double> {
         this.port = port;
 
         // Set the value of the port
-        this.port.setDefault(value);
-        // Call the super because of conversion in the current setter
+        //this.port.setDefault(value);
+        this.port.set(value);
+        // Call the super because of convertion in the current setter
         setValue(value);
         setMin(min);
         setMax(max);
@@ -48,6 +49,15 @@ public class Potentiometer extends GenericsParam<Double> {
             super.setValue(value);
             this.port.set(value);
         }
+    }
+
+    /**
+     * Get the value of the potentiometer
+     *
+     * @return  value Double between 0 to 1
+     */
+    public Double getValue() {
+       return this.port.getValue();
     }
 
     /**
