@@ -4,10 +4,9 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.istic.synthlab.core.services.Factory;
 import org.junit.After;
 import org.junit.Before;
-import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.services.Factory;
 import org.junit.Test;
 
 /**
@@ -26,7 +25,7 @@ public class BasicChainTest {
         out = new Out("OUT");
         out.activate();
         vcoa.setAmplitudeSquare(1);
-        vcoa.setFrequencyInput(1000);
+        vcoa.setLinearFrequency(1000);
         synth = Factory.createSynthesizer();
         out.getInput().connect(vcoa.getOutput());
     }
@@ -37,7 +36,7 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
-        out.getLineOut().start();
+        out.start();
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
