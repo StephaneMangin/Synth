@@ -1,48 +1,66 @@
 package org.istic.synthlab.components.vcoa;
 
-import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.modules.algorithms.IFrequencyModulator;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.AbstractComponent;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.services.Factory;
 
 /**
- * @author Thibaud Hulin thibaud.hulin.cl[ât]gmail.com
+ * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Vcoa extends AComponent {
+public class Vcoa extends AbstractComponent {
 
     private IOscillator sineOscillator;
     private IOscillator pulseOscillator;
     private IOscillator squareOscillator;
-    private IOutput output;
-    private IFrequencyModulator algorithm;
-    private IInput input;
+    private IOscillator impulseOscillator;
+    private IOscillator sawToothOscillator;
+    private IOscillator triangleOscillator;
+    private IOscillator redNoiseOscillator;
+    //private IVcoaFrequencyModulator algorithm;
 
     public Vcoa(String name) {
         super(name);
-        this.sineOscillator = ModulesFactory.createOscillator(this, OscillatorType.SINE);
-        this.pulseOscillator = ModulesFactory.createOscillator(this, OscillatorType.PULSE);
-        this.squareOscillator = ModulesFactory.createOscillator(this, OscillatorType.SQUARE);
-        this.algorithm = ModulesFactory.createVcoaAlgorithm(this);
-        this.input = this.algorithm.getInput();
-        this.output = this.sineOscillator.getOutput();
+        sineOscillator = Factory.createOscillator(this, OscillatorType.SINE);
+        pulseOscillator = Factory.createOscillator(this, OscillatorType.PULSE);
+        squareOscillator = Factory.createOscillator(this, OscillatorType.SQUARE);
+        impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
+        sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
+        triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
+        redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
+
+        //algorithm = Factory.createVcoaAlgorithm(this);
         //algorithm.getOutput().connect(sineOscillator.getInput());
+
+        // Connect internally
+        //algorithm.getOutput().connect(squareOscillator.getInput());
+        // TODO : does not work, how ?
+        //getSourceFm().connect(squareOscillator.getFm());
+        //getSourceAm().connect(squareOscillator.getAm());
+        squareOscillator.getOutput().connect(getSink());
     }
 
     @Override
     public void activate() {
-        this.sineOscillator.activate();
-        this.pulseOscillator.activate();
-        this.squareOscillator.activate();
+        sineOscillator.activate();
+        pulseOscillator.activate();
+        squareOscillator.activate();
+        impulseOscillator.activate();
+        sawToothOscillator.activate();
+        triangleOscillator.activate();
+        redNoiseOscillator.activate();
     }
 
     @Override
     public void desactivate() {
-        this.sineOscillator.desactivate();
-        this.pulseOscillator.desactivate();
-        this.squareOscillator.desactivate();
+        sineOscillator.desactivate();
+        pulseOscillator.desactivate();
+        squareOscillator.desactivate();
+        impulseOscillator.desactivate();
+        sawToothOscillator.desactivate();
+        triangleOscillator.desactivate();
+        redNoiseOscillator.desactivate();
     }
 
     @Override
@@ -55,29 +73,34 @@ public class Vcoa extends AComponent {
     }
 
     public void setFrequencyInput(double value) {
-        algorithm.setFrequency(algorithm.getFrequency().calculateStep(value));
+        //algorithm.setFrequency(algorithm.getFrequency().calculateStep(value));
     }
 
     public void setAmplitudeSine(double value) {
-        sineOscillator.setAmplitude(sineOscillator.getAmplitudePotentiometer().calculateStep(value));
+        sineOscillator.setFrequency(value);
     }
 
     public void setAmplitudePulse(double value) {
-        pulseOscillator.setAmplitude(pulseOscillator.getAmplitudePotentiometer().calculateStep(value));
+        pulseOscillator.setFrequency(value);
     }
 
     public void setAmplitudeSquare(double value) {
-        squareOscillator.setAmplitude(squareOscillator.getAmplitudePotentiometer().calculateStep(value));
+        squareOscillator.setFrequency(value);
     }
-    /*
-        public void setAmplitudeTriangle(double value) {
-            triangleOscillator.setAmplitude(triangleOscillator.getFrequency().calculateStep(value));
-        }
-    */
-    public IInput getInput() {
-        return this.input;
+
+    public void setAmplitudeImpulse(double value) {
+        impulseOscillator.setFrequency(value);
     }
-    public IOutput getOutput() {
-        return this.output;
+
+    public void setAmplitudeSawTooth(double value) {
+        sawToothOscillator.setFrequency(value);
+    }
+
+    public void setAmplitudeTriangle(double value) {
+        triangleOscillator.setFrequency(value);
+    }
+
+    public void setAmplitudeRedNoise(double value) {
+        redNoiseOscillator.setFrequency(value);
     }
 }
