@@ -5,6 +5,7 @@ import org.istic.synthlab.core.modules.modulators.GainModulator;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,14 +27,14 @@ public class Vca extends AbstractComponent{
     public Vca(String name) {
         super(name);
         // Instanciate GainModulator
-        this.gainModulator = new GainModulator("Gain", this);
+        this.gainModulator = new GainModulator("Gain", this, PotentiometerType.LINEAR);
         // Connect the source port with the input port modulator
         this.getSource().connect(this.gainModulator.getInput());
         // Connect the gain output port with the
         this.gainModulator.getOutput().connect(this.getSink());
 
         // Create the amplitude modulator
-        this.amplitudeModulator = Factory.createModulator("AM", this, ModulatorType.AMPLITUDE);
+        this.amplitudeModulator = Factory.createModulator("AM", this, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
         // Connect the sourceAm port with the input port modulator
         this.getSourceAm().connect(this.amplitudeModulator.getInput());
         // Save the old value of amplitude modulator
