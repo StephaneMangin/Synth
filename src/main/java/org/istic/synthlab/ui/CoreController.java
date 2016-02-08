@@ -100,11 +100,16 @@ public class CoreController implements Initializable, IObserver {
 
     public void unDrawLine(HashMap<Line, Connection> arg){
         ObservableList<Node> list = borderPane.getChildren();
+        ObservableList<Node> temp = FXCollections.observableArrayList();
 
         for(Node node : list){
             if(node instanceof Line){
-                borderPane.getChildren().remove(node);
+                temp.add(node);
             }
+        }
+
+        for(Node node : temp){
+            list.remove(node);
         }
     }
 
