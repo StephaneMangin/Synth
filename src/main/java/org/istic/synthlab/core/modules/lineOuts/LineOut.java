@@ -38,7 +38,9 @@ public class LineOut implements ILineOut {
         Register.declare(component, lineOut);
         Register.declare(component, input, filter.input);
 
-        filter.output.connect(lineOut.input);
+        // Needed to make mono to stereo
+        filter.output.connect(0, lineOut.input, 0);
+        filter.output.connect(0, lineOut.input, 1);
         potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
 
     }

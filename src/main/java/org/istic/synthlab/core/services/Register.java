@@ -142,7 +142,7 @@ public class Register {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
-        unitOut.disconnect(unitIn);
+        unitOut.connect(unitIn);
         associations.remove(in, out);
         System.out.println(in + " disconnected");
 
@@ -173,7 +173,8 @@ public class Register {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
-        unitOut.disconnect(unitIn);
+        // Stereo connections
+        unitIn.disconnect(unitOut);
         associations.remove(in, out);
         System.out.println(out + " disconnected");
 
