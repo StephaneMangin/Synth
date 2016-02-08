@@ -41,4 +41,18 @@ public interface IOscillator extends Resource {
      * @return double
      */
     double getFrequency();
+
+    /**
+     * Set the oscillator amplitude in percentage
+     *
+     * @param value double
+     */
+    void setAmplitude(double value);
+
+    /**
+     * Returns the oscillator amplitude in percentage
+     *
+     * @return double
+     */
+    double getAmplitude();
 }

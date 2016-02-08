@@ -1,13 +1,10 @@
 package org.istic.synthlab.core.services;
 
 import com.jsyn.Synthesizer;
-import com.jsyn.devices.AudioDeviceManager;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.algorithms.IVcoaFrequencyModulator;
-import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulator;
 import org.istic.synthlab.core.modules.filters.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -40,8 +37,7 @@ public class Factory {
      * @return IInput
      */
     public static IInput createInput(String name, IComponent component, UnitInputPort unitInputPort) {
-        IInput in = new Input(name, component, unitInputPort);
-        return in;
+        return new Input(name, component, unitInputPort);
     }
 
     /**
@@ -52,8 +48,7 @@ public class Factory {
      * @return IOutput
      */
     public static IOutput createOutput(String name, IComponent component, UnitOutputPort unitOutputPort) {
-        IOutput out = new Output(name, component, unitOutputPort);
-        return out;
+        return new Output(name, component, unitOutputPort);
     }
 
     /**
@@ -119,9 +114,6 @@ public class Factory {
                 return new LineOut(component);
         }
     }
-    public static IVcoaFrequencyModulator createVcoaAlgorithm(IComponent component) {
-        return new VcoaFrequencyModulator(component);
-    }
 
     /**
      * Return the synthetizer singleton
@@ -152,6 +144,8 @@ public class Factory {
                 return new FrequencyModulator(name, component, potentiometerType);
             case GAIN:
                 return new GainModulator(name, component, potentiometerType);
+            case VCOA:
+                return new VcoaFrequencyModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
