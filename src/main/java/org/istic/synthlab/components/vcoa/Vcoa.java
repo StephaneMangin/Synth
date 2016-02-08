@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AbstractComponent;
-import org.istic.synthlab.core.modules.modulators.FrequencyModulator;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
@@ -23,6 +23,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator redNoiseOscillator;
     private IModulator exponentialModulator;
     private IModulator linearModulator;
+    private IOutput output;
 
     public Vcoa(String name) {
         super(name);
@@ -34,18 +35,25 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
+        // Mix all oscillator's output to the sink port
+        sineOscillator.getOutput().connect(getSink());
+        pulseOscillator.getOutput().connect(getSink());
+        squareOscillator.getOutput().connect(getSink());
+        impulseOscillator.getOutput().connect(getSink());
+        sawToothOscillator.getOutput().connect(getSink());
+        triangleOscillator.getOutput().connect(getSink());
+        redNoiseOscillator.getOutput().connect(getSink());
+
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
 
-        //algorithm = Factory.createVcoaAlgorithm(this);
-        //algorithm.getOutput().connect(sineOscillator.getInput());
-
-        // Connect internally
-        //algorithm.getOutput().connect(squareOscillator.getInput());
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
         //getSourceAm().connect(squareOscillator.getAm());
+
         getSourceFm().connect(exponentialModulator.getInput());
-        squareOscillator.getOutput().connect(getSink());
+        exponentialModulator.getOutput().connect(linearModulator.getInput());
+        linearModulator.getOutput().connect(squareOscillator.getFm());
+
     }
 
     @Override
@@ -79,8 +87,12 @@ public class Vcoa extends AbstractComponent {
 
     }
 
-    public void setFrequencyInput(double value) {
-        //algorithm.setFrequency(algorithm.getFrequency().calculateStep(value));
+    public void setExponentialFrequency(double value) {
+        exponentialModulator.setValue(value);
+    }
+
+    public void setLinearFrequency(double value) {
+        linearModulator.setValue(value);
     }
 
     public void setAmplitudeSine(double value) {
@@ -109,5 +121,33 @@ public class Vcoa extends AbstractComponent {
 
     public void setAmplitudeRedNoise(double value) {
         redNoiseOscillator.setFrequency(value);
+    }
+
+    public IOutput getSineOutput() {
+        return sineOscillator.getOutput();
+    }
+
+    public IOutput getPulseOutput() {
+        return pulseOscillator.getOutput();
+    }
+
+    public IOutput getSquareOutput() {
+        return squareOscillator.getOutput();
+    }
+
+    public IOutput getImpulsesineOutput() {
+        return impulseOscillator.getOutput();
+    }
+
+    public IOutput getSawToothOutput() {
+        return sawToothOscillator.getOutput();
+    }
+
+    public IOutput getTriangleOutput() {
+        return triangleOscillator.getOutput();
+    }
+
+    public IOutput getRedNoiseOutput() {
+        return redNoiseOscillator.getOutput();
     }
 }
