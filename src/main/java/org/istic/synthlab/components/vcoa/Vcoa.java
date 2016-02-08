@@ -1,6 +1,9 @@
 package org.istic.synthlab.components.vcoa;
 
 import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.modules.modulators.FrequencyModulator;
+import org.istic.synthlab.core.modules.modulators.IModulator;
+import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
@@ -18,7 +21,8 @@ public class Vcoa extends AbstractComponent {
     private IOscillator sawToothOscillator;
     private IOscillator triangleOscillator;
     private IOscillator redNoiseOscillator;
-    //private IVcoaFrequencyModulator algorithm;
+    private IModulator exponentialModulator;
+    private IModulator linearModulator;
 
     public Vcoa(String name) {
         super(name);
@@ -30,6 +34,8 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
+        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.FREQUENCY);
+
         //algorithm = Factory.createVcoaAlgorithm(this);
         //algorithm.getOutput().connect(sineOscillator.getInput());
 
@@ -38,6 +44,7 @@ public class Vcoa extends AbstractComponent {
         // TODO : does not work, how ?
         //getSourceFm().connect(squareOscillator.getFm());
         //getSourceAm().connect(squareOscillator.getAm());
+        getSourceFm().connect(exponentialModulator.getInput());
         squareOscillator.getOutput().connect(getSink());
     }
 
