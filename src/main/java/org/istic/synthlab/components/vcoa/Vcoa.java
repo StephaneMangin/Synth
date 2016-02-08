@@ -47,6 +47,7 @@ public class Vcoa extends AbstractComponent {
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
         linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
+
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
         linearModulator.getOutput().connect(squareOscillator.getFm());
