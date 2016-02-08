@@ -14,7 +14,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-abstract class AbstractOscillator implements IOscillator {
+public abstract class AbstractOscillator implements IOscillator {
 
     private IComponent component;
     private IInput am;
@@ -78,4 +78,10 @@ abstract class AbstractOscillator implements IOscillator {
     public double getFrequency() {
         return frequencyPotentiometer.getValue();
     }
+
+    public Potentiometer getFrequencyPotentiometer() {
+        return frequencyPotentiometer;
+    }
+
+
 }
