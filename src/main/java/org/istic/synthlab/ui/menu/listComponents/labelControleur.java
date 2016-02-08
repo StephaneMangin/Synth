@@ -1,4 +1,4 @@
-package org.istic.synthlab.menu.listComponents;
+package org.istic.synthlab.ui.menu.listComponents;
 
 import javafx.fxml.FXML;
 import javafx.scene.shape.Circle;

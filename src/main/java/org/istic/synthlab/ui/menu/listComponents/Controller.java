@@ -1,4 +1,4 @@
-package org.istic.synthlab.menu.listComponents;
+package org.istic.synthlab.ui.menu.listComponents;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,7 +35,7 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources){
         paneComponents.setId("paneComponents"+counter++);
         labelComponent.setText("labelComponent"+counter);
-        imageComponent = new Image(getClass().getResourceAsStream("/images/logo.jpg"), 150, 0, true, true);
+        imageComponent = new Image(getClass().getResourceAsStream("/ui/images/logo.jpg"), 150, 0, true, true);
         imageViewComponent.setImage(imageComponent);
         testListDrag();
     }

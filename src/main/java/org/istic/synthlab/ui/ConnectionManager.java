@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.ui;
+package org.istic.synthlab.ui;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -6,8 +6,8 @@ import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.plugins.cable.BoundLine;
-import org.istic.synthlab.plugins.cable.Center;
+import org.istic.synthlab.ui.plugins.cable.BoundLine;
+import org.istic.synthlab.ui.plugins.cable.Center;
 
 import java.util.ArrayList;
 import java.util.HashMap;

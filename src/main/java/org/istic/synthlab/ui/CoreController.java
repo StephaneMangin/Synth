@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.ui;
+package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -231,7 +231,7 @@ public class CoreController implements Initializable, IObserver {
                 }
                 else {
                     try {
-                        final Node node = FXMLLoader.load(getClass().getResource("/" + db.getString().toLowerCase() + ".fxml"));
+                        final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
                         node.setOnDragDetected(new DragDetectedComponentEventHandler());
                         p.getChildren().add(node);
                         success = true;

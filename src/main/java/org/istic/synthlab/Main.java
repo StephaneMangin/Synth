@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/core.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
         primaryStage.setTitle("Synth");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);

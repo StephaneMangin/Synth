@@ -1,4 +1,4 @@
-package org.istic.synthlab.plugins.cable;
+package org.istic.synthlab.ui.plugins.cable;
 
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.paint.Color;

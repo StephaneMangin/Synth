@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,9 +17,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.ui.ConnectionManager;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class CoreController implements Initializable, IObserver {
+public class NotUsedCoreController implements Initializable, IObserver {
     private ObservableList<Node> data;
     @FXML
     public BorderPane borderPane;
@@ -104,7 +104,7 @@ public class CoreController implements Initializable, IObserver {
         data = FXCollections.observableArrayList();
         Label vcoaLabel = new Label("vcoa");
         data.add(vcoaLabel);
-        Label outLabel = new Label("out");
+        Label outLabel = new Label("ui/components/vcoa/out");
         data.add(outLabel);
 
 
@@ -126,7 +126,7 @@ public class CoreController implements Initializable, IObserver {
         });
         for(int i=0;i<1;i++){
             try {
-                Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ListViewComponents.fxml"));
+                Node nodeComponentsList = FXMLLoader.load(getClass().getResource("/ui/ListViewComponents.fxml"));
                 nodeComponentsList.setId("paneComponents"+i);
                 data.add(nodeComponentsList);
             } catch (IOException e) {

@@ -7,7 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.AbstractController;
-import org.istic.synthlab.core.ui.ConnectionManager;
+import org.istic.synthlab.ui.ConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;
