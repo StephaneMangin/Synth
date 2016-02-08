@@ -27,12 +27,18 @@ public interface IOscillator extends Resource {
      * @return IOutput
      */
     IOutput getOutput();
-    /**
-     * Returns an amplitude potentiometer.
-     *
-     * @return Potentiometer
-     */
-    Potentiometer getFrequencyPotentiometer();
 
+    /**
+     * Set the oscillator frequency in Hertz
+     *
+     * @param value double
+     */
     void setFrequency(double value);
+
+    /**
+     * Returns the oscillator frequency in hertz
+     *
+     * @return double
+     */
+    double getFrequency();
 }

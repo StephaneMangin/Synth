@@ -1,9 +1,13 @@
 package org.istic.synthlab.core.modules.oscillators;
 
+import com.jsyn.unitgen.UnitOscillator;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * Manage the IComponent relation for all Oscillators
@@ -12,23 +16,42 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
  */
 abstract class AbstractOscillator implements IOscillator {
 
-    protected IComponent component;
-    protected IInput am;
-    protected IInput fm;
-    protected IOutput output;
-    protected Potentiometer frequencyPotentiometer;
+    private IComponent component;
+    private IInput am;
+    private IInput fm;
+    private IOutput output;
+    private Potentiometer frequencyPotentiometer;
+    private UnitOscillator unitOscillator;
 
-    protected AbstractOscillator(IComponent component) {
+    protected AbstractOscillator(IComponent component, UnitOscillator unitOscillator) {
         this.component = component;
+        this.unitOscillator = unitOscillator;
+        // Declare the generator to the register
+        Register.declare(component, unitOscillator);
+        // Link differents ports
+        this.fm = Factory.createInput("Fm", component, getOscillator().frequency);
+        this.am = Factory.createInput("Am", component, getOscillator().amplitude);
+        this.output = Factory.createOutput("Out", component, getOscillator().output);
+        // Link input to the frequency input of the oscillator to modulate it with the input signal
+        this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
+    }
+
+    @Override
+    public void activate() {
+        getOscillator().setEnabled(true);
+    }
+
+    @Override
+    public void desactivate() {
+        getOscillator().setEnabled(false);
     }
 
     public IComponent getComponent() {
         return component;
     }
 
-    @Override
-    public Potentiometer getFrequencyPotentiometer() {
-        return this.frequencyPotentiometer;
+    public UnitOscillator getOscillator() {
+        return unitOscillator;
     }
 
     @Override
@@ -49,5 +72,10 @@ abstract class AbstractOscillator implements IOscillator {
     @Override
     public void setFrequency(double value) {
         frequencyPotentiometer.setValue(value);
+    }
+
+    @Override
+    public double getFrequency() {
+        return frequencyPotentiometer.getValue();
     }
 }

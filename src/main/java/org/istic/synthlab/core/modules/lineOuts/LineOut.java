@@ -37,7 +37,7 @@ public class LineOut implements ILineOut {
         Register.declare(component, input, filter.input);
 
         filter.output.connect(this.lineOut.input);
-        this.potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
+        this.potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.5);
 
     }
 
@@ -48,16 +48,6 @@ public class LineOut implements ILineOut {
      */
     public void setVolume(double value) {
         potentiometer.setValue(value);
-    }
-
-    /**
-     * Returns the potentiometer
-     *
-     * @return Potentiometer
-     */
-    @Override
-    public Potentiometer getPotentiometer() {
-        return potentiometer;
     }
 
     /**

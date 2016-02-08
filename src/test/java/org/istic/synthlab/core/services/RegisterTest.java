@@ -58,7 +58,7 @@ public class RegisterTest {
 
     /**
      *
-     * Method: declare(IComponent component, UnitGenerator unitGenerator)
+     * Method: declare(IComponent component, UnitGenerator unitOscillator)
      *
      */
     @Test

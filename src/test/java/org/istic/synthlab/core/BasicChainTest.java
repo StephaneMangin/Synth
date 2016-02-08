@@ -37,7 +37,7 @@ public class BasicChainTest {
         Register.connect(out.getIInput(), vcoa.getOutput());
         out.getLineOut().start();
         synth.start();
-        synth.sleepUntil(2);
+        synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
     }
 }
