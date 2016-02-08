@@ -126,15 +126,15 @@ public class RegisterTest {
         Register.declare(this.out, this.output1, this.unitOutputPort1);
         Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
         Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
-        Mockito.when(this.out.getIInput()).thenReturn(this.input1);
+        Mockito.when(this.out.getInput()).thenReturn(this.input1);
         Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
-        Register.disconnect(this.out.getIInput());
+        Register.disconnect(this.out.getInput());
         Assert.assertFalse(this.unitInputPort1.isConnected());
         //Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
         //Mockito.verify(this.vcoa).getOutput();
         //Mockito.verify(this.vcoa).getInput();
-        //Mockito.verify(this.out).getIInput();
+        //Mockito.verify(this.out).getInput();
     }
 
     /**
@@ -150,7 +150,7 @@ public class RegisterTest {
         Register.declare(this.out, this.output1, this.unitOutputPort1);
         Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
         Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
-        Mockito.when(this.out.getIInput()).thenReturn(this.input1);
+        Mockito.when(this.out.getInput()).thenReturn(this.input1);
         Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
         Register.disconnect(this.vcoa.getOutput());

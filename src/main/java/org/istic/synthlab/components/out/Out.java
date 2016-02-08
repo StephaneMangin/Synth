@@ -37,7 +37,7 @@ public class Out extends AbstractComponent {
         //?
     }
 
-    public IInput getIInput() {
+    public IInput getInput() {
         return input;
     }
 

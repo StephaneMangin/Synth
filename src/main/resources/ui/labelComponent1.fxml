@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
+            prefWidth="300.0" style="-fx-background-color: #ffb6c1;" xmlns="http://javafx.com/javafx/8.0.40"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.menu.listComponents.labelControleur">
+    <Label layoutX="88.0" layoutY="95.0" text="labelComponent1"/>
+    <Circle fx:id="in1" fill="#e8e819" layoutX="226.0" layoutY="158.0" onMouseClicked="#connectIn" radius="10.0"
+            stroke="BLACK" strokeType="INSIDE"/>
+</AnchorPane>

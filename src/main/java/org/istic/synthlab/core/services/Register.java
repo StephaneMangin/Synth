@@ -3,6 +3,7 @@ package org.istic.synthlab.core.services;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
+import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -18,7 +19,7 @@ import java.util.*;
  *
  * All adapters MUST implement their own calls to the register when creating jsyn adaptee instances
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
 public class Register {
@@ -253,7 +254,25 @@ public class Register {
         return null;
     }
 
-    // Helper class to prety print content
+
+    /**
+     *
+     * TODO: WTF ??
+     */
+    // FIXME
+    // #SigneScrumMaster
+    public static void uglyPatchWork() {
+        for (IComponent component : mappingGenerator.keySet()) {
+            if (component instanceof Out) {
+                Out ugly = (Out) component;
+                ugly.getLineOut().start();
+            }
+        }
+    }
+
+    /**
+     * Helper class to prety print content
+      */
     public static String prettyPrint() {
         StringBuilder sb = new StringBuilder();
 
@@ -293,17 +312,5 @@ public class Register {
         }
         return sb.toString();
     }
-    public static void start() {
-        Set<IComponent> keys = mappingGenerator.keySet();
-        keys.forEach((key)->
-                mappingGenerator.get(key).forEach(UnitGenerator::start)
-        );
-    }
 
-    public static void stop() {
-        Set<IComponent> keys = mappingGenerator.keySet();
-        keys.forEach((key) ->
-                mappingGenerator.get(key).forEach(UnitGenerator::stop)
-        );
-    }
 }
