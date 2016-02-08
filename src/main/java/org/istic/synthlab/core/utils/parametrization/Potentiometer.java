@@ -16,7 +16,7 @@ public class Potentiometer extends GenericsParam<Double> {
     private PotentiometerType type;
 
     /**
-     * Instantiates a new Potentiometer.
+   0  * Instantiates a new Potentiometer.
      *
      *  @param label the label
      * @param port
@@ -32,7 +32,7 @@ public class Potentiometer extends GenericsParam<Double> {
 
         // Set the value of the port
         this.port.setDefault(value);
-        // Call the super because of convertion in the current setter
+        // Call the super because of conversion in the current setter
         setValue(value);
         setMin(min);
         setMax(max);
