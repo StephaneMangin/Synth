@@ -19,11 +19,11 @@ public class ConnectionManager {
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
+    private static Boolean cable_selected = false;
 
     public static HashMap<Line, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
-    private static Line line;
 
     public static void addObserver(IObserver observer) {
         observers.add(observer);
@@ -45,7 +45,14 @@ public class ConnectionManager {
         output = futureConnectionOrigin;
         circleOutput = circle;
 
-        if(connectionTab.containsKey(output)){
+        System.out.println("------------------------");
+        System.out.println("Output : "+ output);
+        System.out.println("Input : "+ input);
+        System.out.println("------------------------");
+
+        if(!cable_selected && connectionTab.containsKey(output)){
+            System.out.println("Je débranche un cable !");
+            cable_selected = true;
             IInput value = connectionTab.get(output);
             Line key_line = getKeyLine(value);
 
@@ -55,6 +62,10 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             update();
+            System.out.println("*************************");
+            System.out.println("Output : " + output);
+            System.out.println("Input : " + input);
+            System.out.println("*************************");
         }
         else{
             if(input != null){
@@ -69,9 +80,14 @@ public class ConnectionManager {
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
+        System.out.println("------------------------");
+        System.out.println("Output : "+ output);
+        System.out.println("Input : "+ input);
+        System.out.println("------------------------");
 
-        if(connectionTab.containsValue(input)){
-
+        if(!cable_selected && connectionTab.containsValue(input)){
+            cable_selected = true;
+            System.out.println("Je débranche un cable !");
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
@@ -82,6 +98,10 @@ public class ConnectionManager {
 
             update();
             output = key;
+            System.out.println("*************************");
+            System.out.println("Output : " + output);
+            System.out.println("Input : " + input);
+            System.out.println("*************************");
 
         }
         else{
@@ -100,6 +120,7 @@ public class ConnectionManager {
             update();
             input = null;
             output = null;
+            cable_selected = false;
         }
     }
 
