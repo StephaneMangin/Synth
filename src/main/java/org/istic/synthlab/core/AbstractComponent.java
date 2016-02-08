@@ -5,6 +5,9 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
+
+import java.lang.reflect.ParameterizedType;
 
 /**
  * The abstract class component.
@@ -35,12 +38,30 @@ public abstract class AbstractComponent implements IComponent {
         setName(name);
 
         // Define all modulators
-        inputModulator = Factory.createModulator("modIn", this, ModulatorType.AMPLITUDE);
-        frequencyModulator = Factory.createModulator("modFreq", this, ModulatorType.FREQUENCY);
-        amplitudeModulator = Factory.createModulator("modAmp", this, ModulatorType.AMPLITUDE);
-        inputGateModulator = Factory.createModulator("modInGate", this, ModulatorType.AMPLITUDE);
-        outputModulator = Factory.createModulator("modOut", this, ModulatorType.AMPLITUDE);
-        outputGateModulator = Factory.createModulator("modOutGate", this, ModulatorType.AMPLITUDE);
+        inputModulator = Factory.createModulator(
+                "modIn", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.EXPONENTIAL);
+        frequencyModulator = Factory.createModulator(
+                "modFreq", this,
+                ModulatorType.FREQUENCY,
+                PotentiometerType.EXPONENTIAL);
+        amplitudeModulator = Factory.createModulator(
+                "modAmp", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.EXPONENTIAL);
+        inputGateModulator = Factory.createModulator(
+                "modInGate", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.EXPONENTIAL);
+        outputModulator = Factory.createModulator(
+                "modOut", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.EXPONENTIAL);
+        outputGateModulator = Factory.createModulator(
+                "modOutGate", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.EXPONENTIAL);
     }
 
     /**

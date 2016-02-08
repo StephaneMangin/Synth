@@ -16,7 +16,7 @@ public class Potentiometer extends GenericsParam<Double> {
     private PotentiometerType type;
 
     /**
-     * Instantiates a new Potentiometer.
+   0  * Instantiates a new Potentiometer.
      *
      *  @param label the label
      * @param port
