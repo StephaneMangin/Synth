@@ -15,25 +15,18 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  */
 public class Vcoa extends AbstractComponent {
 
-    private IOscillator sineOscillator;
-    private IOscillator pulseOscillator;
-    private IOscillator squareOscillator;
-    private IOscillator impulseOscillator;
-    private IOscillator sawToothOscillator;
-    private IOscillator triangleOscillator;
-    private IOscillator redNoiseOscillator;
-    private IModulator exponentialModulator;
-    private IModulator linearModulator;
+    private IOscillator sineOscillator = Factory.createOscillator(this, OscillatorType.SINE);
+    private IOscillator pulseOscillator = Factory.createOscillator(this, OscillatorType.PULSE);
+    private IOscillator squareOscillator = Factory.createOscillator(this, OscillatorType.SQUARE);
+    private IOscillator impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
+    private IOscillator sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
+    private IOscillator triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
+    private IOscillator redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
+    private IModulator exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
+    private IModulator linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
     public Vcoa(String name) {
         super(name);
-        sineOscillator = Factory.createOscillator(this, OscillatorType.SINE);
-        pulseOscillator = Factory.createOscillator(this, OscillatorType.PULSE);
-        squareOscillator = Factory.createOscillator(this, OscillatorType.SQUARE);
-        impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
-        sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
-        triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
-        redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
         // Mix all oscillator's output to the sink port
         squareOscillator.getOutput().connect(getSink());
@@ -43,10 +36,6 @@ public class Vcoa extends AbstractComponent {
         // sawToothOscillator.getOutput().connect(getSink());
         // triangleOscillator.getOutput().connect(getSink());
         // redNoiseOscillator.getOutput().connect(getSink());
-
-        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
-        linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
-
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
