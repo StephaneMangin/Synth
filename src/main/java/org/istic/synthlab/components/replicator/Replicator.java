@@ -9,7 +9,7 @@ import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Created by cyprien on 08/02/16.
+ * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class Replicator extends AbstractComponent {
 
@@ -29,12 +29,12 @@ public class Replicator extends AbstractComponent {
         passThrough = Factory.createPassThrough(this);
 
         outputModulatorReplicated1 = Factory.createModulator(
-                "modOut", this,
+                "modOut1", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.EXPONENTIAL);
 
         outputModulatorReplicated2 = Factory.createModulator(
-                "modOut", this,
+                "modOut2", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.EXPONENTIAL);
 

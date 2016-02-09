@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by cyprien on 09/02/16.
+ * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class ReplicatorTest extends TestCase {
 
