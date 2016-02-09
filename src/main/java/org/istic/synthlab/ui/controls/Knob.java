@@ -1,5 +1,7 @@
 package org.istic.synthlab.ui.controls;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,18 +20,21 @@ public class Knob implements Initializable {
     @FXML
     public Button rotatorHandle;
 
+    private DoubleProperty value;
+
     // JavaFX has a weird behavior, see docs/knob.png to check how the angles look like on the circle
     // The MIN_ANGLE is bigger than the MAX_ANGLE because the upper part of the circle is negative
-    private static final int MIN_ANGLE = 120;
-    private static final int MAX_ANGLE = 60;
+    private static final double MIN_ANGLE = 120;
+    private static final double MAX_ANGLE = 60;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        rotatorHandle.setRotate(-90);
+    public void initialize(final URL location, final ResourceBundle resources) {
+        rotatorHandle.setRotate(MIN_ANGLE);
+        value = new SimpleDoubleProperty(angleToValue(MIN_ANGLE));
     }
 
     @FXML
-    public void rotatorDragged(MouseEvent event) {
+    public void rotatorDragged(final MouseEvent event) {
         final Parent p = rotatorDial.getParent();
         final Bounds b = rotatorDial.getLayoutBounds();
         final Double centerX = b.getMinX() + (b.getWidth() / 2), centerY = b.getMinY() + (b.getHeight() / 2);
@@ -40,22 +45,23 @@ public class Knob implements Initializable {
         rotate(Math.toDegrees(radians));
     }
 
-    private void rotate(Double degrees) {
+    private void rotate(double degrees) {
         if (degrees >= 90 && degrees < MIN_ANGLE) {
-            degrees = (double) MIN_ANGLE;
+            degrees = MIN_ANGLE;
         }
         if (degrees < 90 && degrees > MAX_ANGLE) {
-            degrees = (double) MAX_ANGLE;
+            degrees = MAX_ANGLE;
         }
         rotatorHandle.setRotate(degrees);
+        value.set(angleToValue(degrees));
     }
 
     /**
      * Return a value between 0 and 1 for a given angle for this button
-     * @param degree Thhe value to normalize
+     * @param degree The angle to convert to a value
      * @return A value between 0 and 1 for a given angle for this button
      */
-    private Double normalize(final Double degree) {
+    private double angleToValue(final double degree) {
         final int totalRange = 300;
         if (degree >= 120 && degree < 180) {
             return (degree - 120) / totalRange;
@@ -63,6 +69,20 @@ public class Knob implements Initializable {
         else {
             return (degree + 240) / totalRange;
         }
+    }
+
+    // TODO
+    private double valueToAngle(double value) {
+        if (value < 0) {
+            value = 0;
+        }
+        else if (value > 1) {
+            value = 1;
+        }
+
+
+
+        return 0.;
     }
 
     @FXML
@@ -73,5 +93,18 @@ public class Knob implements Initializable {
     @FXML
     public void rotatorReleased(Event event) {
 
+    }
+
+    public double getValue() {
+        return value.get();
+    }
+
+    public DoubleProperty valueProperty() {
+        return value;
+    }
+
+    public void setValue(double newValue) {
+        value.set(newValue);
+        // TODO: change the angle
     }
 }

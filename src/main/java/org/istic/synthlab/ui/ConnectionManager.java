@@ -21,7 +21,7 @@ public class ConnectionManager {
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
 
-    public static HashMap<Line, Connection> lineConnection = new HashMap<>();
+    private static HashMap<Line, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
 
@@ -129,11 +129,10 @@ public class ConnectionManager {
 
     private static Line getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
-        Iterator it = keys.iterator();
-        while(it.hasNext()) {
-            Line key = (Line) it.next();
+        for (Object key1 : keys) {
+            Line key = (Line) key1;
             Connection co = lineConnection.get(key);
-            if(co.getInput() == value){
+            if (co.getInput() == value) {
                 return key;
             }
         }
@@ -142,11 +141,10 @@ public class ConnectionManager {
 
     private static IOutput getKey(IInput value){
         Set keys = connectionTab.keySet();
-        Iterator it = keys.iterator();
-        while(it.hasNext()){
-            IOutput key = (IOutput) it.next();
+        for (Object key1 : keys) {
+            IOutput key = (IOutput) key1;
             IInput value_key = connectionTab.get(key);
-            if(value_key == value){
+            if (value_key == value) {
                 return key;
             }
         }

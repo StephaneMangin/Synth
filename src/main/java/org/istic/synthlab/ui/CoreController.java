@@ -1,8 +1,6 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -29,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * FX controller of core.fxml
@@ -105,15 +104,8 @@ public class CoreController implements Initializable, IObserver {
         ObservableList<Node> list = borderPane.getChildren();
         ObservableList<Node> temp = FXCollections.observableArrayList();
 
-        for(Node node : list){
-            if(node instanceof Line){
-                temp.add(node);
-            }
-        }
-
-        for(Node node : temp){
-            list.remove(node);
-        }
+        temp.addAll(list.stream().filter(node -> node instanceof Line).collect(Collectors.toList()));
+        temp.forEach(list::remove);
     }
 
     private void initializeListView() {
