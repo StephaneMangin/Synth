@@ -24,6 +24,8 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private AnchorPane mainPane;
     @FXML
+    private Circle output;
+    @FXML
     private Circle input;
     @FXML
     private Circle circleEvent;
@@ -34,8 +36,8 @@ public class Controller extends AbstractController implements Initializable {
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
-        try {
+        output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
+        /*try {
             final FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/controls/knob.fxml"));
             final Node knob = loader.load();
             final Knob knobController = loader.getController();
@@ -46,11 +48,11 @@ public class Controller extends AbstractController implements Initializable {
             mainPane.getChildren().add(knob);
         } catch (final IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @FXML
-    void connectIn() {
+    public void connectOut() {
         ConnectionManager.makeOrigin(circleEvent, vcoa.getOutput());
     }
 

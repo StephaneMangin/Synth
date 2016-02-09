@@ -1,13 +1,10 @@
 package org.istic.synthlab.core.services;
 
 import com.jsyn.Synthesizer;
-import com.jsyn.devices.AudioDeviceManager;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.algorithms.IVcoaFrequencyModulator;
-import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulator;
 import org.istic.synthlab.core.modules.filters.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -18,6 +15,9 @@ import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.passThrough.IPassThrough;
+import org.istic.synthlab.core.modules.passThrough.PassThrough;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 
 /**
@@ -39,8 +39,7 @@ public class Factory {
      * @return IInput
      */
     public static IInput createInput(String name, IComponent component, UnitInputPort unitInputPort) {
-        IInput in = new Input(name, component, unitInputPort);
-        return in;
+        return new Input(name, component, unitInputPort);
     }
 
     /**
@@ -51,8 +50,7 @@ public class Factory {
      * @return IOutput
      */
     public static IOutput createOutput(String name, IComponent component, UnitOutputPort unitOutputPort) {
-        IOutput out = new Output(name, component, unitOutputPort);
-        return out;
+        return new Output(name, component, unitOutputPort);
     }
 
     /**
@@ -118,9 +116,6 @@ public class Factory {
                 return new LineOut(component);
         }
     }
-    public static IVcoaFrequencyModulator createVcoaAlgorithm(IComponent component) {
-        return new VcoaFrequencyModulator(component);
-    }
 
     /**
      * Return the synthetizer singleton
@@ -131,7 +126,7 @@ public class Factory {
         if (synthesizer == null) {
             synthesizer = new SynthesisEngine();
             //synthesizer.setRealTime(true); // By default
-            synthesizer.start();
+            // Parametrization of the synthetizer
         }
         return synthesizer;
     }
@@ -143,16 +138,28 @@ public class Factory {
      * @param type ModulatorType
      * @return IModulator
      */
-    public static IModulator createModulator(String name, IComponent component, ModulatorType type) {
+    public static IModulator createModulator(String name, IComponent component, ModulatorType type, PotentiometerType potentiometerType) {
         switch(type) {
             case AMPLITUDE:
-                return new AmplitudeModulator(name, component);
+                return new AmplitudeModulator(name, component, potentiometerType);
             case FREQUENCY:
-                return new FrequencyModulator(name, component);
+                return new FrequencyModulator(name, component, potentiometerType);
             case GAIN:
-                return new GainModulator(name, component);
+                return new GainModulator(name, component, potentiometerType);
+            case VCOA:
+                return new VcoaFrequencyModulator(name, component, potentiometerType);
             default:
-                return new AmplitudeModulator(name, component);
+                return new AmplitudeModulator(name, component, potentiometerType);
         }
+    }
+
+    /**
+     * Create a simple passThrough module for the Replicator component
+     *
+     * @param component IComponent
+     * @return IPassThrough
+     */
+    public static IPassThrough createPassThrough(IComponent component){
+        return new PassThrough(component);
     }
 }

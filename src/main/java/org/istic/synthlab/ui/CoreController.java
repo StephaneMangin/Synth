@@ -20,13 +20,16 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -110,7 +113,7 @@ public class CoreController implements Initializable, IObserver {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        final Label vcoaLabel = new Label("VCOA");
+        /*final Label vcoaLabel = new Label("VCOA");
         final Label outLabel = new Label("OUT");
         final Label oscilloscopeLabel = new Label("Oscilloscope");
 
@@ -120,7 +123,13 @@ public class CoreController implements Initializable, IObserver {
 
         data.add(vcoaLabel);
         data.add(outLabel);
-        data.add(oscilloscopeLabel);
+        data.add(oscilloscopeLabel);*/
+
+        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
+            final Label label = new Label(component);
+            label.setOnDragDetected(new DragDetectedListItemEventHandler());
+            data.add(label);
+        }
 
         listView.setItems(data);
     }
@@ -265,5 +274,30 @@ public class CoreController implements Initializable, IObserver {
             db.setContent(content);
             event.consume();
         }
+    }
+
+    /**
+     * Finds all package names starting with prefix
+     * @return Set of package names
+     */
+    public Set<String> findAllPackagesStartingWith(String prefix) {
+        List<ClassLoader> classLoadersList = new LinkedList<>();
+        classLoadersList.add(ClasspathHelper.contextClassLoader());
+        classLoadersList.add(ClasspathHelper.staticClassLoader());
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
+                .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[classLoadersList.size()])))
+                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
+        Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+
+        Set<String> packageNameSet = new TreeSet<>();
+        for (Class classInstance : classes) {
+            String packageName = classInstance.getPackage().getName();
+            if (packageName.startsWith(prefix)) {
+                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toUpperCase();
+                packageNameSet.add(packageName);
+            }
+        }
+        return packageNameSet;
     }
 }

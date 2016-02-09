@@ -26,7 +26,7 @@ public class Controller extends AbstractController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new getIdWithClick());
-        componentOut.getLineOut().start();
+        componentOut.start();
     }
 
     @FXML

@@ -1,28 +1,28 @@
 package org.istic.synthlab.core.services;
 
-import com.jsyn.ports.UnitInputPort;
-import com.jsyn.ports.UnitOutputPort;
-import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.modules.oscillators.SquareOscillator;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * The type Modules factory test.
+ * Modules factory  Tester.
+ *
+ * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @since <pre>Feb 3, 2016</pre>
  */
-@RunWith(MockitoJUnitRunner.class)
-public class FactoryTest extends TestCase {
+public class FactoryTest {
 
     private Vcoa vcoa;
 
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
         vcoa = new Vcoa("VCOA");
     }
@@ -31,24 +31,24 @@ public class FactoryTest extends TestCase {
      * Testing method createInput(UnitInputPort unitInputPort).
      *
      */
-    @Test
+    /*@Test
     public void createInputTest()  {
         UnitInputPort Port= new UnitInputPort("in");
         IInput inputPort= Factory.createInput("In", vcoa,Port);
         UnitInputPort input =  inputPort.getUnitInputPort();
         assertEquals(Port,input);
-    }
+    }*/
 
     /**
      * Testing method createOutput(UnitOutputPort unitOutputPort)
      */
-    @Test
+    /*@Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
-        IOutput outputPort= Factory.createOutput("Out", vcoa,Port);
+        IOutput outputPort= Factory.createOutput("Out",vcoa, Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
-    }
+    }*/
 
     /**
      * Testing method createOscillator(IComponent component, OscillatorType type)
@@ -81,8 +81,8 @@ public class FactoryTest extends TestCase {
         assertTrue(Register.mappingGenerator.containsKey(vcoa));
     }
 
-    @org.junit.After
+    @After
     public void tearDown() throws Exception {
-        super.tearDown();
+
     }
 }
