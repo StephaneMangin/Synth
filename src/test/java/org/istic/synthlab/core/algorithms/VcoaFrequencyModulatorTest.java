@@ -22,14 +22,16 @@ public class VcoaFrequencyModulatorTest extends TestCase {
     @org.junit.Before
     public void setUp() throws Exception {
         vcoa = new Vcoa("VCOA");
-        frequencyModulator = new VcoaFrequencyModulator("Freg Mod",vcoa, PotentiometerType.EXPONENTIAL);
+        frequencyModulator = new VcoaFrequencyModulator("Freq Mod",vcoa, PotentiometerType.EXPONENTIAL);
     }
 
     @org.junit.Test
     public void testVcoaFrequencyModulator(){
         Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         assertNotNull(frequencyModulator.getInput());
+        assertEquals(frequencyModulator.getInput().getName(), "Freq Mod::freqIn");
         assertNotNull(frequencyModulator.getOutput());
+        assertEquals(frequencyModulator.getOutput().getName(), "Freq Mod::freqOut");
         assertTrue(potentiometer.getMin() == 20.0);
         assertTrue(potentiometer.getMax() == 20000.0);
         assertTrue(potentiometer.getType() == PotentiometerType.EXPONENTIAL);
@@ -49,8 +51,8 @@ public class VcoaFrequencyModulatorTest extends TestCase {
 
     @org.junit.Test
     public void testGetValue(){
-        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         double value = frequencyModulator.getValue();
+        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         assertEquals(potentiometer.getValue(), value);
     }
 

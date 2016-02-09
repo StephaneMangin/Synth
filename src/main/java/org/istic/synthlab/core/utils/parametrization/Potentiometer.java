@@ -56,7 +56,7 @@ public class Potentiometer extends GenericsParam<Double> {
      * @return  value Double between 0 to 1
      */
     public Double getValue() {
-       return this.port.getValue();
+       return this.port.get();
     }
 
     /**

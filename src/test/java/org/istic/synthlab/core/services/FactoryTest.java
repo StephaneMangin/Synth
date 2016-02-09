@@ -1,12 +1,18 @@
 package org.istic.synthlab.core.services;
 
-import junit.framework.TestCase;
+import com.jsyn.ports.UnitInputPort;
+import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.modules.oscillators.SquareOscillator;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Modules factory  Tester.
@@ -14,7 +20,7 @@ import org.junit.Test;
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
  * @since <pre>Feb 3, 2016</pre>
  */
-public class FactoryTest extends TestCase {
+public class FactoryTest  {
 
     private Vcoa vcoa;
 
@@ -27,24 +33,24 @@ public class FactoryTest extends TestCase {
      * Testing method createInput(UnitInputPort unitInputPort).
      *
      */
-    /*@Test
+    @Test
     public void createInputTest()  {
         UnitInputPort Port= new UnitInputPort("in");
         IInput inputPort= Factory.createInput("In", vcoa,Port);
         UnitInputPort input =  inputPort.getUnitInputPort();
         assertEquals(Port,input);
-    }*/
+    }
 
     /**
      * Testing method createOutput(UnitOutputPort unitOutputPort)
      */
-    /*@Test
+    @Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
         IOutput outputPort= Factory.createOutput("Out",vcoa, Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
-    }*/
+    }
 
     /**
      * Testing method createOscillator(IComponent component, OscillatorType type)
@@ -75,10 +81,5 @@ public class FactoryTest extends TestCase {
         Factory.createLineOut(vcoa, LineType.OUT);
         assertTrue(Register.mappingInput.containsKey(vcoa));
         assertTrue(Register.mappingGenerator.containsKey(vcoa));
-    }
-
-    @org.junit.After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 }

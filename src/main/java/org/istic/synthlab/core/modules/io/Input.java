@@ -50,6 +50,11 @@ public class Input implements IInput {
     }
 
     @Override
+    public IComponent getComponent() {
+        return this.component;
+    }
+
+    @Override
     public UnitInputPort getUnitInputPort() {
         return unitInputPort;
     }

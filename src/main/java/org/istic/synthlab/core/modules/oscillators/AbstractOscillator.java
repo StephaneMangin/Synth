@@ -85,6 +85,10 @@ public abstract class AbstractOscillator implements IOscillator {
         return frequencyPotentiometer;
     }
 
+    public Potentiometer getAmplitudePotentiometer() {
+        return amplitudePotentiometer;
+    }
+
     @Override
     public void setAmplitude(double value) {
         amplitudePotentiometer.setValue(value);
