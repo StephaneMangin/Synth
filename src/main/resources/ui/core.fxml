@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
-<?import org.istic.synthlab.ui.controls.Knob2?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <ScrollPane>
@@ -32,8 +31,6 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
                 <Button fx:id="playButton" disable="true" defaultButton="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
-                <fx:include source="controls/knob.fxml"/>
-                <Knob2 />
             </ToolBar>
         </VBox>
     </top>
