@@ -1,6 +1,8 @@
 package org.istic.synthlab.core.utils.parametrization;
 
 import com.jsyn.ports.UnitInputPort;
+import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 
 /**
  * Manager for linear or exponential values inside views.
