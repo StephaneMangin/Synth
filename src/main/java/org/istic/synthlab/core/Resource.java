@@ -12,8 +12,8 @@ public interface Resource {
     void activate();
 
     /**
-     * Desactivate a component
+     * Deactivate a component
      */
-    void desactivate();
+    void deactivate();
 
 }

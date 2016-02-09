@@ -18,8 +18,7 @@ public interface IInput {
     void connect(IOutput out);
     void deconnect();
 
-    UnitInputPort getUnitInputPort();
-
     String getName();
 
+    UnitInputPort getUnitInputPort();
 }

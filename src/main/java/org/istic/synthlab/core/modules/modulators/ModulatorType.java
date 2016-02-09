@@ -11,5 +11,7 @@ public enum ModulatorType {
     AMPLITUDE,
     FREQUENCY,
     GAIN,
-    VOLUME
+    VOLUME,
+    VCOA,
+    PHASE
 }

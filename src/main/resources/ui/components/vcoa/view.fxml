@@ -3,8 +3,23 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
-    <Label layoutX="15.0" layoutY="15.0" text="VCOA" />
-    <Circle fx:id="input" fill="RED" layoutX="270.0" layoutY="170.0" onMouseClicked="#connectIn" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-   <Label layoutX="256.0" layoutY="144.0" text="OUT" />
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
+            prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css"
+            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.istic.synthlab.components.vcoa.Controller">
+
+    <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="VCOA">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
+
+    <Label layoutX="272.0" layoutY="158.0" text="OUT">
+        <font>
+            <Font size="10.0"/>
+        </font>
+    </Label>
+    <Circle fx:id="output" layoutX="283.0" layoutY="182.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED"
+            strokeType="INSIDE" strokeWidth="5.0"/>
 </AnchorPane>

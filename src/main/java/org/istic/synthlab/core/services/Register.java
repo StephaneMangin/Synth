@@ -265,7 +265,7 @@ public class Register {
         for (IComponent component : mappingGenerator.keySet()) {
             if (component instanceof Out) {
                 Out ugly = (Out) component;
-                ugly.getLineOut().start();
+                ugly.start();
             }
         }
     }
@@ -302,14 +302,13 @@ public class Register {
                 sb.append(entry02.getValue());
             }
         }*/
-        sb.append("\n" + "Associated ports");
-        sb.append("\n" + "================");
-        Iterator<Map.Entry<IInput, IOutput>> iter3 = associations.entrySet().iterator();
-        while (iter3.hasNext()) {
-            Map.Entry<IInput, IOutput> entry = iter3.next();
-            sb.append("\n\t" + entry.getValue());
-            sb.append("\n\t\t => " + entry.getKey());
+        sb.append("\nAssociated ports");
+        sb.append("\n================");
+        for (Map.Entry<IInput, IOutput> entry : associations.entrySet()) {
+            sb.append("\n\t").append(entry.getValue());
+            sb.append("\n\t\t => ").append(entry.getKey());
         }
         return sb.toString();
     }
+
 }

@@ -45,13 +45,13 @@ public class Input implements IInput {
     }
 
     @Override
-    public UnitInputPort getUnitInputPort() {
-        return this.unitInputPort;
+    public String getName() {
+        return this.name;
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public UnitInputPort getUnitInputPort() {
+        return unitInputPort;
     }
 
     @Override

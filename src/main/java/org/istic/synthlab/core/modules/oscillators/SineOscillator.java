@@ -14,4 +14,8 @@ public class SineOscillator extends AbstractOscillator {
         super(component, new com.jsyn.unitgen.SineOscillator());
     }
 
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
 }

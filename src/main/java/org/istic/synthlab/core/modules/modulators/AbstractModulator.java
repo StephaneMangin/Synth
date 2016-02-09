@@ -67,4 +67,9 @@ public abstract class AbstractModulator implements IModulator {
     public String getName() {
         return this.name;
     }
+    
+    public Potentiometer getPotentiometer() {
+        return potentiometer;
+    }
+
 }

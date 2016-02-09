@@ -19,8 +19,9 @@ public class ConnectionManager {
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
+    private static Boolean cable_selected = false;
 
-    public static HashMap<Line, Connection> lineConnection = new HashMap<>();
+    private static HashMap<Line, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
 
@@ -44,7 +45,10 @@ public class ConnectionManager {
         output = futureConnectionOrigin;
         circleOutput = circle;
 
-        if(connectionTab.containsKey(output)){
+
+        if(!cable_selected && connectionTab.containsKey(output)){
+
+            cable_selected = true;
             IInput value = connectionTab.get(output);
             Line key_line = getKeyLine(value);
 
@@ -54,6 +58,7 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             update();
+
         }
         else{
             if(input != null){
@@ -69,7 +74,9 @@ public class ConnectionManager {
         input = futureConnectionDestination;
         circleInput = circle;
 
-        if(connectionTab.containsValue(input)){
+
+        if(!cable_selected && connectionTab.containsValue(input)){
+            cable_selected = true;
 
             IOutput key = getKey(input);
             connectionTab.remove(key);
@@ -99,6 +106,7 @@ public class ConnectionManager {
             update();
             input = null;
             output = null;
+            cable_selected = false;
         }
     }
 
@@ -121,11 +129,10 @@ public class ConnectionManager {
 
     private static Line getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
-        Iterator it = keys.iterator();
-        while(it.hasNext()) {
-            Line key = (Line) it.next();
+        for (Object key1 : keys) {
+            Line key = (Line) key1;
             Connection co = lineConnection.get(key);
-            if(co.getInput() == value){
+            if (co.getInput() == value) {
                 return key;
             }
         }
@@ -134,11 +141,10 @@ public class ConnectionManager {
 
     private static IOutput getKey(IInput value){
         Set keys = connectionTab.keySet();
-        Iterator it = keys.iterator();
-        while(it.hasNext()){
-            IOutput key = (IOutput) it.next();
+        for (Object key1 : keys) {
+            IOutput key = (IOutput) key1;
             IInput value_key = connectionTab.get(key);
-            if(value_key == value){
+            if (value_key == value) {
                 return key;
             }
         }
