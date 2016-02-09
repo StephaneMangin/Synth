@@ -33,7 +33,7 @@
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
                 <Button fx:id="playButton" disable="true" defaultButton="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
                 <fx:include source="controls/knob.fxml"/>
-                <Knob2 text="meep" />
+                <Knob2 />
             </ToolBar>
         </VBox>
     </top>
