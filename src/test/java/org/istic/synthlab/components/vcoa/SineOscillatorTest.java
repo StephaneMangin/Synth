@@ -1,82 +1,118 @@
 package org.istic.synthlab.components.vcoa;
 
+import com.jsyn.unitgen.UnitOscillator;
 import junit.framework.TestCase;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 
 /**
- * @author stephane on 02/02/16.
+ * Sine Oscillator Tester.
+ * We test all the function of Abstract Oscillator
+ *
+ * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @since <pre>Feb 9, 2016</pre>
  */
 public class SineOscillatorTest extends TestCase{
 
-    private SineOscillator scopeAdapter;
+    private SineOscillator sineOscillator;
     private IComponent component;
 
     @org.junit.Before
     public void setUp() throws Exception {
         super.setUp();
-        component = new Vcoa("TEST");
-        scopeAdapter = new SineOscillator(component);
+        component = new Vcoa("VCOA");
+        sineOscillator = new SineOscillator(component);
     }
 
-    /**
-     * Test method Get frequency modulation.
-     */
     @org.junit.Test
-    public void testGetFm() throws Exception {
-        assertNotNull(scopeAdapter.getFm());
-    }
-    /**
-     * Test method Get amplitude modulation.
-     */
-    @org.junit.Test
-    public void testGetAm() throws Exception {
-        assertNotNull(scopeAdapter.getAm());
-    }
-
-    /**
-     * Test method Get frequency.
-     */
-    @org.junit.Test
-    public void testGetFrequency() throws Exception {
-        //assertEquals(0.0, scopeAdapter.getFrequency());
-    }
-    /**
-     * Test method Get amplitude
-     */
-    @org.junit.Test
-    public void testGetAmplitude() throws Exception {
-        //assertEquals(0.0, scopeAdapter.getAmplitude());
+    public void testSineOscillatorConstruct(){
+        assertNotNull(sineOscillator.getAm());
+        assertNotNull(sineOscillator.getFm());
+        assertNotNull(sineOscillator.getOutput());
+        assertNotNull(sineOscillator.getOscillator());
+        assertNotNull(sineOscillator.getAmplitudePotentiometer());
+        assertNotNull(sineOscillator.getFrequencyPotentiometer());
+        assertEquals(sineOscillator.getFrequencyPotentiometer().getMax(),20000.0);
+        assertEquals(sineOscillator.getFrequencyPotentiometer().getMin(), 20.0);
+        assertEquals(sineOscillator.getAmplitudePotentiometer().getMin(), 0.0);
+        assertEquals(sineOscillator.getAmplitudePotentiometer().getMax(), 10000.0);
     }
 
-    /**
-     * Test method Get phase
-     */
+
     @org.junit.Test
-    public void testGetPhase() throws Exception {
-        //assertEquals(0.0, scopeAdapter.getPhase());
+    public void testActivate() {
+        sineOscillator.activate();
+        assertTrue(sineOscillator.getOscillator().isEnabled());
     }
 
-    /**
-     * Test method Set amplitude.
-     */
+    @org.junit.Test
+    public void testDesactivate(){
+        sineOscillator.activate();
+        sineOscillator.desactivate();
+        assertFalse(sineOscillator.getOscillator().isEnabled());
+    }
+
+    @org.junit.Test
+    public void testGetComponent(){
+        IComponent vcoa= sineOscillator.getComponent();
+        assertEquals(vcoa, component);
+    }
+
+    @org.junit.Test
+    public void testGetOscillator(){
+        UnitOscillator oscillator= sineOscillator.getOscillator();
+        assertNotNull(oscillator);
+    }
+
+    @org.junit.Test
+    public void testGetFm(){
+        IInput fm = sineOscillator.getFm();
+        assertNotNull(fm);
+        assertTrue(fm.getName()=="Fm");
+        assertEquals(fm.getComponent(), component);
+    }
+
+    @org.junit.Test
+    public void testGetAm(){
+        IInput am = sineOscillator.getAm();
+        assertNotNull(am);
+        assertTrue(am.getName()=="Am");
+        assertEquals(am.getComponent(),component);
+    }
+
+
+    @org.junit.Test
+    public void testGetOutput() {
+        IOutput output= sineOscillator.getOutput();
+        assertNotNull(output);
+        assertTrue(output.getName() == "Out");
+        assertEquals(output.getComponent(),component);
+    }
+
+    @org.junit.Test
+    public void testSetFrequency() {
+        sineOscillator.setFrequency(30.0);
+        assertEquals(30.0, sineOscillator.getFrequencyPotentiometer().getValue());
+    }
+
+    @org.junit.Test
+    public void testGetFrequency() {
+        double frequency = sineOscillator.getFrequency();
+        assertEquals(1000.0, frequency);
+    }
+
     @org.junit.Test
     public void testSetAmplitude() throws Exception {
-        //SineOscillator scope =  scopeAdapter.getOscillator();
-        //scopeAdapter.setFrequency(0.2);
-        //assertEquals(0.2, scopeAdapter.getAmplitude());
-        //assertEquals(0.2,scope.amplitude.getValue());
+        sineOscillator.setAmplitude(2.0);
+        assertEquals(2.0, sineOscillator.getAmplitude());
     }
 
-    /**
-     * Test method Set phase.
-     */
     @org.junit.Test
-    public void testSetPhase() throws Exception {
-        //SineOscillator scope =  scopeAdapter.getOscillator();
-        //scopeAdapter.setPhase(0.5);
-        //assertEquals(0.5, scopeAdapter.getPhase());
-        //assertEquals(0.5,scope.phase.getValue());
+    public void testGetAmplitude() throws Exception {
+        double amplitude = sineOscillator.getAmplitude();
+        assertEquals(1.0, amplitude);
     }
 
     @org.junit.After

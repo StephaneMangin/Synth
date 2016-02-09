@@ -2,6 +2,8 @@ package org.istic.synthlab.components.vcoa;
 
 import junit.framework.TestCase;
 import org.istic.synthlab.core.Channel;
+import org.istic.synthlab.core.modules.io.IInput;
+import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 
@@ -76,6 +78,54 @@ public class VcoaTest extends TestCase{
         assertEquals(value, squareOscillatorOscillator.getFrequency());
     }
 
+   //    Testing method of Abstract Component
+
+   @org.junit.Test
+   public void testAbstractComponentConstruct(){
+       assertTrue(vcoa.getName() == "VCOA");
+       assertNotNull(vcoa.getInputModulator());
+       assertTrue(vcoa.getInputModulator().getName() == "modIn");
+       assertNotNull(vcoa.getFmModulator());
+       assertTrue(vcoa.getFmModulator().getName() == "modFreq");
+       assertNotNull(vcoa.getAmModulator());
+       assertTrue(vcoa.getAmModulator().getName() == "modAmp");
+       assertNotNull(vcoa.getInputGate());
+       assertTrue(vcoa.getInputGateModulator().getName() == "modInGate");
+       assertNotNull(vcoa.getInputGateModulator());
+       assertTrue(vcoa.getInputGateModulator().getName() == "modInGate");
+       assertNotNull(vcoa.getOutputGateModulator());
+       assertTrue(vcoa.getOutputGateModulator().getName() == "modOutGate");
+       assertNotNull(vcoa.getOutputModulator());
+       assertTrue(vcoa.getOutputModulator().getName() == "modOut");
+   }
+
+    @org.junit.Test
+    public void testGetInput() throws Exception {
+        IInput input =  vcoa.getInput();
+        assertEquals(vcoa.getInputModulator().getInput(),input);
+    }
+
+    @org.junit.Test
+    public void testGetInputGate() throws Exception {
+        IInput input =  vcoa.getInputGate();
+        assertEquals(vcoa.getInputGateModulator().getInput(), input);
+    }
+
+    @org.junit.Test
+    public void testGetFm() throws Exception {
+        IInput input = vcoa.getFm();
+        assertEquals(vcoa.getFmModulator().getInput(), input);
+    }
+    @org.junit.Test
+    public void testGetAm() throws Exception {
+        IInput input = vcoa.getAm();
+        assertEquals(vcoa.getAmModulator().getInput(), input);
+    }
+    @org.junit.Test
+    public void testGetOutput() throws Exception {
+        IOutput output =  vcoa.getOutput();
+        assertEquals(vcoa.getOutputModulator().getOutput(), output);
+    }
     @org.junit.After
     public void tearDown() throws Exception {
         super.tearDown();
