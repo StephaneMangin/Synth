@@ -15,8 +15,7 @@ public class Out extends AbstractComponent {
         super(name);
 
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSourceFm().connect(getAmModulator().getInput());
-        getAmModulator().getOutput().connect(this.lineOut.getInput());
+        getSource().connect(this.lineOut.getInput());
     }
 
     @Override

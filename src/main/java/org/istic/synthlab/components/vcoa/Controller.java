@@ -1,5 +1,7 @@
 package org.istic.synthlab.components.vcoa;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -9,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,12 +20,18 @@ import java.util.ResourceBundle;
  * @author stephane
  */
 public class Controller extends AbstractController implements Initializable {
+
     @FXML
     private AnchorPane mainPane;
+
     @FXML
     private Circle output;
+
     @FXML
     private Circle circleEvent;
+
+    @FXML
+    private Potentiometer squareFrequency;
 
     private static int numInstance = 0;
 
@@ -31,20 +40,23 @@ public class Controller extends AbstractController implements Initializable {
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
+
         vcoa.setAmplitudeSquare(1);
+        vcoa.setAmplitudeSine(1);
+        vcoa.setAmplitudeTriangle(1);
+        vcoa.setAmplitudePulse(1);
+        vcoa.setAmplitudeImpulse(1);
+        vcoa.setAmplitudeTriangle(1);
+        vcoa.setAmplitudeRedNoise(1);
+        vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);
-        /*try {
-            final FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/controls/knob.fxml"));
-            final Node knob = loader.load();
-            final Knob knobController = loader.getController();
-            knobController.valueProperty().addListener((observable, oldValue, newValue) -> {
-                System.out.println(newValue);
-            });
-            AnchorPane.setBottomAnchor(knob, 10.);
-            mainPane.getChildren().add(knob);
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }*/
+        squareFrequency.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
+                vcoa.setExponentialFrequency((double)newValue);
+            }
+        });
     }
 
     @FXML

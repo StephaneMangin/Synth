@@ -21,7 +21,7 @@ public class AmplitudeModulator extends AbstractModulator {
         super(name, component);
         filter = new FilterBandPass();
         potentiometer = new Potentiometer("Amplitude", filter.amplitude, potentiometerType,
-                10E5D, 0D, 1D
+                1, 0, 1
         );
 
         // Declare the relation to the mapping
