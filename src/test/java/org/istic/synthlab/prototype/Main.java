@@ -5,10 +5,16 @@ package org.istic.synthlab.prototype;
  */
 public class Main {
 
-    public static void main(String args[]) throws InterruptedException {
+    public static void main(String args[]) throws Exception {
 
-        EnveloppeGeneratorTest egt = new EnveloppeGeneratorTest();
-        egt.envelopeLongTiming();
+        //EnveloppeGeneratorTest egt = new EnveloppeGeneratorTest();
+        //egt.envelopeLongTiming();
+
+        PassThroughTesting ptt = new PassThroughTesting();
+        ptt.setUp();
+        //ptt.SimpleTestOneInputToThreeOutput();
+        ptt.SimpleTest();
+
     }
 
 }
