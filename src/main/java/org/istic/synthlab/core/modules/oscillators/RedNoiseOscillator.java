@@ -13,4 +13,9 @@ public class RedNoiseOscillator extends AbstractOscillator {
     public RedNoiseOscillator(IComponent component) {
         super(component, new RedNoise());
     }
+
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
 }

@@ -34,7 +34,7 @@ public class Vca extends AbstractComponent{
         this.gainModulator.getOutput().connect(this.getSink());
 
         // Create the amplitude modulator
-        this.amplitudeModulator = Factory.createModulator("AM", this, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
+        this.amplitudeModulator = Factory.createModulator("AM", this, ModulatorType.AMPLITUDE, PotentiometerType.LINEAR);
         // Connect the sourceAm port with the input port modulator
         this.getSourceAm().connect(this.amplitudeModulator.getInput());
         // Save the old value of amplitude modulator

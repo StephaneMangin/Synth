@@ -13,4 +13,8 @@ public class PulseOscillator extends AbstractOscillator {
         super(component, new com.jsyn.unitgen.PulseOscillator());
     }
 
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
 }

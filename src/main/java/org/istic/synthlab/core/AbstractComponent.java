@@ -7,8 +7,6 @@ import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
-import java.lang.reflect.ParameterizedType;
-
 /**
  * The abstract class component.
  *
@@ -97,6 +95,11 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public void desactivate() {
+    }
+
+    @Override
+    public boolean isActivated(){
+        return true;
     }
 
     @Override

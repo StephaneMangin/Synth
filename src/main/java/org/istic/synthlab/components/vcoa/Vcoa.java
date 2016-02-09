@@ -37,12 +37,12 @@ public class Vcoa extends AbstractComponent {
 
         // Mix all oscillator's output to the sink port
         squareOscillator.getOutput().connect(getSink());
-        sineOscillator.getOutput().connect(getSink());
-        pulseOscillator.getOutput().connect(getSink());
-        impulseOscillator.getOutput().connect(getSink());
-        sawToothOscillator.getOutput().connect(getSink());
-        triangleOscillator.getOutput().connect(getSink());
-        redNoiseOscillator.getOutput().connect(getSink());
+        // sineOscillator.getOutput().connect(getSink());
+        // pulseOscillator.getOutput().connect(getSink());
+        // impulseOscillator.getOutput().connect(getSink());
+        // sawToothOscillator.getOutput().connect(getSink());
+        // triangleOscillator.getOutput().connect(getSink());
+        // redNoiseOscillator.getOutput().connect(getSink());
 
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
         linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
@@ -118,6 +118,18 @@ public class Vcoa extends AbstractComponent {
 
     public void setAmplitudeRedNoise(double value) {
         redNoiseOscillator.setAmplitude(value);
+    }
+
+    public IOscillator getPulseOscillator() {
+        return this.pulseOscillator;
+    }
+
+    public IOscillator getSineOscillator() {
+        return this.sineOscillator;
+    }
+
+    public IOscillator getSquareOscillator() {
+        return this.squareOscillator;
     }
 
     public IOutput getSineOutput() {

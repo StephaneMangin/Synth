@@ -15,6 +15,8 @@ import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.passThrough.IPassThrough;
+import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 
@@ -149,5 +151,15 @@ public class Factory {
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
+    }
+
+    /**
+     * Create a simple passThrough module for the Replicator component
+     *
+     * @param component IComponent
+     * @return IPassThrough
+     */
+    public static IPassThrough createPassThrough(IComponent component){
+        return new PassThrough(component);
     }
 }

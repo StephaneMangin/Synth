@@ -9,6 +9,7 @@ public interface IComponent {
 
     void activate();
     void desactivate();
+    boolean isActivated();
     void init();
     void run();
 

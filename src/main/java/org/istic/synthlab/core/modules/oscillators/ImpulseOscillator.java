@@ -13,4 +13,9 @@ public class ImpulseOscillator extends AbstractOscillator {
         super(component, new com.jsyn.unitgen.ImpulseOscillator());
 
     }
+
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
 }
