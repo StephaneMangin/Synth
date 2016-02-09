@@ -44,8 +44,13 @@ public abstract class AbstractOscillator implements IOscillator {
     }
 
     @Override
-    public void desactivate() {
+    public void deactivate() {
         getOscillator().setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
     }
 
     public IComponent getComponent() {

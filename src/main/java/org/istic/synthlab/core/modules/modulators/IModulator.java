@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
+import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -7,7 +8,7 @@ import org.istic.synthlab.core.modules.io.IOutput;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public interface IModulator {
+public interface IModulator extends Resource {
 
     /**
      * Return the input
@@ -37,4 +38,5 @@ public interface IModulator {
     void setValue(double value);
 
     String getName();
+
 }

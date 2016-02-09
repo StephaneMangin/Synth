@@ -26,9 +26,12 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void desactivate(){
-        this.lineOut.desactivate();
+    public void deactivate(){
+        this.lineOut.deactivate();
     }
+
+    @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
 
     @Override
     public void init() {
@@ -48,10 +51,6 @@ public class Out extends AbstractComponent {
 
     public void start(){
         this.lineOut.start();
-    }
-
-    public boolean isEnable(){
-       return this.lineOut.isEnable();
     }
 
 }

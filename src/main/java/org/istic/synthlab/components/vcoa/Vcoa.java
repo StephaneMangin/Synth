@@ -65,14 +65,25 @@ public class Vcoa extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        sineOscillator.desactivate();
-        pulseOscillator.desactivate();
-        squareOscillator.desactivate();
-        impulseOscillator.desactivate();
-        sawToothOscillator.desactivate();
-        triangleOscillator.desactivate();
-        redNoiseOscillator.desactivate();
+    public void deactivate() {
+        sineOscillator.deactivate();
+        pulseOscillator.deactivate();
+        squareOscillator.deactivate();
+        impulseOscillator.deactivate();
+        sawToothOscillator.deactivate();
+        triangleOscillator.deactivate();
+        redNoiseOscillator.deactivate();
+    }
+
+    @Override
+    public boolean isActivated() {
+        return sineOscillator.isActivated() ||
+        pulseOscillator.isActivated() ||
+        squareOscillator.isActivated() ||
+        impulseOscillator.isActivated() ||
+        sawToothOscillator.isActivated() ||
+        triangleOscillator.isActivated() ||
+        redNoiseOscillator.isActivated();
     }
 
     @Override
@@ -81,7 +92,6 @@ public class Vcoa extends AbstractComponent {
 
     @Override
     public void run() {
-
     }
 
     public void setExponentialFrequency(double value) {

@@ -122,13 +122,13 @@ public class PassThroughTest extends TestCase {
     @Test
     public void testActivate() throws Exception {
         passThrough.activate();
-        assertTrue(passThrough.isEnable());
+        assertTrue(passThrough.isActivated());
     }
 
     @Test
     public void testDesactivate() throws Exception {
-        passThrough.desactivate();
-        assertFalse(passThrough.isEnable());
+        passThrough.deactivate();
+        assertFalse(passThrough.isActivated());
     }
 
     public void testIsEnable() throws Exception {

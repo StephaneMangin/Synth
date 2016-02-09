@@ -45,12 +45,17 @@ public class Vca extends AbstractComponent{
 
     @Override
     public void activate() {
-        super.activate();
+        gainModulator.activate();
     }
 
     @Override
-    public void desactivate() {
-        super.desactivate();
+    public void deactivate() {
+        gainModulator.deactivate();
+    }
+
+    @Override
+    public boolean isActivated() {
+        return gainModulator.isActivated();
     }
 
     public double getAmplitudeModulatorValue() {
@@ -71,7 +76,7 @@ public class Vca extends AbstractComponent{
 
     private void calculateGainValue(){
         if (!this.getSourceAm().getUnitOutputPort().isConnected() || this.getSourceAm() == null){
-            this.desactivate();
+            this.deactivate();
         }
 
         if (this.getAmplitudeModulatorValue() == 1.0){

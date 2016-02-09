@@ -22,7 +22,7 @@ public class Eg extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
+    public void deactivate() {
 
     }
 

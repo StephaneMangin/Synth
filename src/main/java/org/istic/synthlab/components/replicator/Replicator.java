@@ -52,16 +52,31 @@ public class Replicator extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        passThrough.desactivate();
+    public void deactivate() {
+        passThrough.deactivate();
     }
 
     @Override
-    public boolean isActivated() { return passThrough.isEnable(); }
+    public boolean isActivated() { return passThrough.isActivated(); }
 
+    /**
+     * Return the first replicated output, corresponding to output number two.
+     *
+     * @return IOutput
+     */
     public IOutput getOutputReplicated1(){ return outputModulatorReplicated1.getOutput(); }
 
+    /**
+     * Return the second replicated output, corresponding to output number three.
+     *
+     * @return IOutput
+     */
     public IOutput getOutputReplicated2(){ return outputModulatorReplicated2.getOutput(); }
 
+    /**
+     * Return the module handling the signal replication.
+     *
+     * @return IPassThrough
+     */
     public IPassThrough getPassThrough(){ return passThrough; }
 }

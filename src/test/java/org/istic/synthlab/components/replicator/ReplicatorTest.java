@@ -21,14 +21,14 @@ public class ReplicatorTest extends TestCase {
     public void testActivate() throws Exception {
         replicator.activate();
         assertTrue(replicator.isActivated());
-        assertTrue(replicator.getPassThrough().isEnable());
+        assertTrue(replicator.getPassThrough().isActivated());
     }
 
     @Test
     public void testDesactivate() throws Exception {
-        replicator.desactivate();
+        replicator.deactivate();
         assertFalse(replicator.isActivated());
-        assertFalse(replicator.getPassThrough().isEnable());
+        assertFalse(replicator.getPassThrough().isActivated());
     }
 
     @Test

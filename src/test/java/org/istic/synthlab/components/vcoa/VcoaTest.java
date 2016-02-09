@@ -43,7 +43,7 @@ public class VcoaTest extends TestCase{
     @org.junit.Test
     public void testDesactivate() throws Exception {
         vcoa.activate();
-        vcoa.desactivate();
+        vcoa.deactivate();
         IOscillator sineOscillator= vcoa.getSineOscillator();
         IOscillator pulseOscillator= vcoa.getPulseOscillator();
         IOscillator squareOscillator= vcoa.getSquareOscillator();

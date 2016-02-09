@@ -94,7 +94,7 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public void desactivate() {
+    public void deactivate() {
     }
 
     @Override
