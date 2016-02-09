@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.controls.Potentiometer?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
             prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css"
             xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
@@ -14,6 +15,13 @@
             <Font name="System" size="20.0"/>
         </font>
     </Label>
+
+    <Label layoutX="215.0" layoutY="130.0"  text="Square Frequency" textAlignment="CENTER">
+        <font>
+            <Font size="10.0"/>
+        </font>
+    </Label>
+    <Potentiometer fx:id="squareFrequency" layoutX="220.0" layoutY="150.0" />
 
     <Label layoutX="272.0" layoutY="158.0" text="OUT">
         <font>

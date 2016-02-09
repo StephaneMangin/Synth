@@ -39,7 +39,7 @@ public abstract class AbstractComponent implements IComponent {
         inputModulator = Factory.createModulator(
                 "modIn", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
         frequencyModulator = Factory.createModulator(
                 "modFreq", this,
                 ModulatorType.FREQUENCY,
@@ -47,19 +47,19 @@ public abstract class AbstractComponent implements IComponent {
         amplitudeModulator = Factory.createModulator(
                 "modAmp", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
         inputGateModulator = Factory.createModulator(
                 "modInGate", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
         outputModulator = Factory.createModulator(
                 "modOut", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
     }
 
     /**
