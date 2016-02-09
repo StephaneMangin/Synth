@@ -25,7 +25,7 @@ public class Controller extends AbstractController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        input.addEventHandler(MouseEvent.MOUSE_CLICKED, new getIdWithClick());
+        input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         componentOut.start();
     }
 
@@ -34,7 +34,7 @@ public class Controller extends AbstractController implements Initializable {
         ConnectionManager.makeDestination(circleEvent, componentOut.getInput());
     }
 
-    private class getIdWithClick implements EventHandler<Event> {
+    private class GetIdWithClick implements EventHandler<Event> {
         @Override
         public void handle(Event event) {
             circleEvent = (Circle)event.getSource();

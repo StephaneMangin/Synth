@@ -113,7 +113,7 @@ public class CoreController implements Initializable, IObserver {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        /*final Label vcoaLabel = new Label("VCOA");
+        final Label vcoaLabel = new Label("VCOA");
         final Label outLabel = new Label("OUT");
         final Label oscilloscopeLabel = new Label("Oscilloscope");
 
@@ -123,13 +123,13 @@ public class CoreController implements Initializable, IObserver {
 
         data.add(vcoaLabel);
         data.add(outLabel);
-        data.add(oscilloscopeLabel);*/
+        data.add(oscilloscopeLabel);
 
-        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
+        /*for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
             final Label label = new Label(component);
             label.setOnDragDetected(new DragDetectedListItemEventHandler());
             data.add(label);
-        }
+        }*/
 
         listView.setItems(data);
     }
@@ -189,7 +189,6 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
 
-        Register.uglyPatchWork();
         Factory.createSynthesizer().start();
         Register.uglyPatchWork();
     }

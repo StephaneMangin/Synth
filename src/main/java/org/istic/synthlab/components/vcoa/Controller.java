@@ -3,17 +3,13 @@ package org.istic.synthlab.components.vcoa;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.controls.Knob;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,8 +22,6 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Circle output;
     @FXML
-    private Circle input;
-    @FXML
     private Circle circleEvent;
 
     private static int numInstance = 0;
@@ -37,6 +31,8 @@ public class Controller extends AbstractController implements Initializable {
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setExponentialFrequency(440);
         /*try {
             final FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/controls/knob.fxml"));
             final Node knob = loader.load();
