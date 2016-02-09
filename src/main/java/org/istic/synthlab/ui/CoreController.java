@@ -3,6 +3,7 @@ package org.istic.synthlab.ui;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingNode;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +13,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -27,6 +32,7 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -104,9 +110,20 @@ public class CoreController implements Initializable, IObserver {
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
         for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
-            final Label label = new Label(component);
-            label.setOnDragDetected(new DragDetectedListItemEventHandler());
-            data.add(label);
+            URL image = getClass().getResource("/ui/components/" + component + "/images/small.png");
+            if (image == null) {
+                continue;
+            }
+            Pane pane = new Pane();
+            ImageView imageView = new ImageView(new Image(image.toString()));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(50);
+            imageView.setSmooth(true);
+            imageView.setId(component);
+            pane.getChildren().add(imageView);
+            pane.setOnDragDetected(new DragDetectedListItemEventHandler());
+            data.add(pane);
         }
 
         listView.setItems(data);
@@ -175,10 +192,12 @@ public class CoreController implements Initializable, IObserver {
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
-            final Label label = (Label) event.getSource();
-            final Dragboard db = label.startDragAndDrop(TransferMode.COPY);
+            System.out.println("Drag detected");
+            final Pane pane = (Pane) event.getSource();
+            ImageView view = (ImageView) pane.getChildren().get(0);
+            final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
-            content.putString(label.getText());
+            content.putString(view.getId());
             db.setContent(content);
             event.consume();
         }
@@ -272,7 +291,7 @@ public class CoreController implements Initializable, IObserver {
         for (Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
             if (packageName.startsWith(prefix)) {
-                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toUpperCase();
+                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
                 packageNameSet.add(packageName);
             }
         }
