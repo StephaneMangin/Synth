@@ -2,8 +2,14 @@ package org.istic.synthlab.ui.controls;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 
+/**
+ * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
+ */
 public class Knob2 extends Button {
 
     private final DoubleProperty value = new SimpleDoubleProperty(0);
@@ -16,12 +22,38 @@ public class Knob2 extends Button {
         setPrefWidth(WIDTH);
         getStylesheets().add("/ui/stylesheets/components.css");
         getStyleClass().add("rotation-dial");
-        setOnMouseClicked(event -> {
+        setOnMouseClicked(new ClickKnobEventHandler());
+        setOnScroll(new ScrollKnobEventHandler());
+    }
+
+    @SuppressWarnings("unused")
+    public DoubleProperty valueProperty() {
+        return value;
+    }
+
+    public double getValue() {
+        return value.get();
+    }
+
+    public void setValue(final double newValue) {
+        value.set(newValue);
+    }
+
+    private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
+        @Override
+        public void handle(final ScrollEvent event) {
+            System.out.println("njnk");
+        }
+    }
+
+    private class ClickKnobEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(final MouseEvent event) {
             // Where did we click?
             double x = event.getX(), y = event.getY();
 
             // Out of bounds values are possible
-            // They might break so we normlize them
+            // They might break something so we normalize them
             if (x < 0) {
                 x = 0;
             }
@@ -57,19 +89,6 @@ public class Knob2 extends Button {
             final double degrees = Math.toDegrees(Math.atan2(y, x));
             System.out.println(degrees);
             setRotate(degrees);
-        });
-    }
-
-    @SuppressWarnings("unused")
-    public DoubleProperty valueProperty() {
-        return value;
-    }
-
-    public double getValue() {
-        return value.get();
-    }
-
-    public void setValue(final double newValue) {
-        value.set(newValue);
+        }
     }
 }
