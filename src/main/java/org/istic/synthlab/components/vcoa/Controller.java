@@ -17,10 +17,13 @@ import java.util.ResourceBundle;
  * @author stephane
  */
 public class Controller extends AbstractController implements Initializable {
+
     @FXML
     private AnchorPane mainPane;
+
     @FXML
     private Circle output;
+
     @FXML
     private Circle circleEvent;
 

@@ -4,17 +4,25 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Knob implements Initializable {
+/**
+ * Created by blacknight on 09/02/16.
+ */
+public class Potentiometer extends Pane implements MouseWheelListener {
 
     @FXML
     public Button rotatorDial;
@@ -29,8 +37,15 @@ public class Knob implements Initializable {
     public static final double MIN_ANGLE = 120;
     public static final double MAX_ANGLE = 60;
 
-    @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
+    public Potentiometer() {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ui/controls/potentiometer.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try {
+            fxmlLoader.load();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
         rotatorHandle.setRotate(MIN_ANGLE);
         value.set(angleToValue(MIN_ANGLE));
     }
@@ -90,16 +105,6 @@ public class Knob implements Initializable {
         return value;
     }
 
-    @FXML
-    public void rotatorPressed(MouseEvent event) {
-        rotatorDragged(event);
-    }
-
-    @FXML
-    public void rotatorReleased(Event event) {
-
-    }
-
     public double getValue() {
         return value.get();
     }
@@ -112,4 +117,10 @@ public class Knob implements Initializable {
         value.set(newValue);
         rotatorHandle.setRotate(valueToAngle(newValue));
     }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        System.out.println("Wheel detected");
+    }
+
 }
