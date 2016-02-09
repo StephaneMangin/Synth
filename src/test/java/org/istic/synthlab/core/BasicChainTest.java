@@ -2,17 +2,21 @@ package org.istic.synthlab.core;
 
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
+import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.modules.oscillators.SawtoothOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.swing.*;
 
 /**
  * Created by cyprien on 04/02/16.
@@ -52,13 +56,23 @@ public class BasicChainTest {
     @Test
     public void TestVcoaToVcoa() throws InterruptedException {
         Vcoa vcoa1 = new Vcoa("VCOA1");
-        ImpulseOscillator impulseOscillator = (ImpulseOscillator) Factory.createOscillator(vcoa1, OscillatorType.IMPULSE);
-        impulseOscillator.activate();
-        vcoa1.activate();
-        vcoa1.getSource().connect(impulseOscillator.getFm());
-        impulseOscillator.getOutput().connect(vcoa1.getSink());
-        Register.connect(vcoa.getInput(), vcoa1.getOutput());
-        Register.connect(out.getInput(), vcoa1.getOutput());
+        vcoa1.setAmplitudeSine(50);
+        vcoa1.getOutput().connect(vcoa.getInput());
+        SawtoothOscillator s = (SawtoothOscillator) Factory.createOscillator(vcoa, OscillatorType.SAWTOOTH);
+        vcoa.getSawToothOutput().connect(out.getInput());
+
+        // Pour l'affichage des courbes
+        AudioScope scope = new AudioScope( synth );
+        scope.addProbe(vcoa.getOutput().getUnitOutputPort());
+        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
+        scope.getView().setShowControls( true );
+        scope.start();
+        JFrame frame = new JFrame();
+        frame.add(scope.getView());
+        frame.pack();
+        frame.setVisible(true);
+
         out.start();
         synth.start();
         synth.sleepUntil(5);
