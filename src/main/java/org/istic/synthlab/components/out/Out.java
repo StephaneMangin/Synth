@@ -24,8 +24,8 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        lineOut.desactivate();
+    public void deactivate() {
+        lineOut.deactivate();
     }
 
     @Override

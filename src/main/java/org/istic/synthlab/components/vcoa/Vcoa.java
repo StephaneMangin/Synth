@@ -53,14 +53,14 @@ public class Vcoa extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        sineOscillator.desactivate();
-        pulseOscillator.desactivate();
-        squareOscillator.desactivate();
-        impulseOscillator.desactivate();
-        sawToothOscillator.desactivate();
-        triangleOscillator.desactivate();
-        redNoiseOscillator.desactivate();
+    public void deactivate() {
+        sineOscillator.deactivate();
+        pulseOscillator.deactivate();
+        squareOscillator.deactivate();
+        impulseOscillator.deactivate();
+        sawToothOscillator.deactivate();
+        triangleOscillator.deactivate();
+        redNoiseOscillator.deactivate();
     }
 
     @Override

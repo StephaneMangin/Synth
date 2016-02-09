@@ -103,7 +103,7 @@ public class LineOut implements ILineOut {
      *
      */
     @Override
-    public void desactivate() {
+    public void deactivate() {
         lineOut.setEnabled(false);
     }
 }
