@@ -20,17 +20,17 @@ public class Knob implements Initializable {
     @FXML
     public Button rotatorHandle;
 
-    private DoubleProperty value;
+    private final DoubleProperty value = new SimpleDoubleProperty(0);
 
     // JavaFX has a weird behavior, see docs/knob.png to check how the angles look like on the circle
     // The MIN_ANGLE is bigger than the MAX_ANGLE because the upper part of the circle is negative
-    private static final double MIN_ANGLE = 120;
-    private static final double MAX_ANGLE = 60;
+    public static final double MIN_ANGLE = 120;
+    public static final double MAX_ANGLE = 60;
 
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         rotatorHandle.setRotate(MIN_ANGLE);
-        value = new SimpleDoubleProperty(angleToValue(MIN_ANGLE));
+        value.set(angleToValue(MIN_ANGLE));
     }
 
     @FXML
@@ -52,6 +52,7 @@ public class Knob implements Initializable {
         if (degrees < 90 && degrees > MAX_ANGLE) {
             degrees = MAX_ANGLE;
         }
+
         rotatorHandle.setRotate(degrees);
         value.set(angleToValue(degrees));
     }
@@ -61,28 +62,30 @@ public class Knob implements Initializable {
      * @param degree The angle to convert to a value
      * @return A value between 0 and 1 for a given angle for this button
      */
-    private double angleToValue(final double degree) {
-        final int totalRange = 300;
+    public double angleToValue(double degree) {
         if (degree >= 120 && degree < 180) {
-            return (degree - 120) / totalRange;
+            degree -= 120;
         }
         else {
-            return (degree + 240) / totalRange;
+            degree += 240;
         }
+        return degree / 300;
     }
 
-    // TODO
-    private double valueToAngle(double value) {
-        if (value < 0) {
-            value = 0;
-        }
-        else if (value > 1) {
-            value = 1;
+    public double valueToAngle(double value) {
+        if (value < 0 || value > 1) {
+            throw new IllegalArgumentException("The value must be in the range [0 ; 1]");
         }
 
+        value *= 300;
+        if (value > 60) {
+            value -= 240;
+        }
+        else {
+            value += 120;
+        }
 
-
-        return 0.;
+        return value;
     }
 
     @FXML
@@ -105,6 +108,6 @@ public class Knob implements Initializable {
 
     public void setValue(double newValue) {
         value.set(newValue);
-        // TODO: change the angle
+        rotatorHandle.setRotate(valueToAngle(newValue));
     }
 }
