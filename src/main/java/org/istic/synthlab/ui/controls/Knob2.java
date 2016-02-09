@@ -3,9 +3,12 @@ package org.istic.synthlab.ui.controls;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+
+import java.io.IOException;
 
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
@@ -26,7 +29,6 @@ public class Knob2 extends Button {
         setOnScroll(new ScrollKnobEventHandler());
     }
 
-    @SuppressWarnings("unused")
     public DoubleProperty valueProperty() {
         return value;
     }

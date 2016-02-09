@@ -3,13 +3,16 @@ package org.istic.synthlab.ui.controls;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -22,7 +25,7 @@ import java.util.ResourceBundle;
 /**
  * Created by blacknight on 09/02/16.
  */
-public class Potentiometer extends Pane implements MouseWheelListener {
+public class Potentiometer extends Pane {
 
     @FXML
     public Button rotatorDial;
@@ -30,14 +33,35 @@ public class Potentiometer extends Pane implements MouseWheelListener {
     @FXML
     public Button rotatorHandle;
 
+    private static final double HEIGHT = 36;
+    private static final double WIDTH = 36;
+
+    private double rotation;
+
     private final DoubleProperty value = new SimpleDoubleProperty(0);
+
+    public DoubleProperty valueProperty() {
+        return value;
+    }
+
+    public double getValue() {
+        return value.get();
+    }
+
+    public void setValue(final double newValue) {
+        value.set(newValue);
+    }
 
     // JavaFX has a weird behavior, see docs/knob.png to check how the angles look like on the circle
     // The MIN_ANGLE is bigger than the MAX_ANGLE because the upper part of the circle is negative
     public static final double MIN_ANGLE = 120;
-    public static final double MAX_ANGLE = 60;
+    public static final double MAX_ANGLE = 420;
 
     public Potentiometer() {
+        super();
+        setPrefHeight(HEIGHT);
+        setPrefWidth(WIDTH);
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ui/controls/potentiometer.fxml"));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -46,81 +70,100 @@ public class Potentiometer extends Pane implements MouseWheelListener {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
-        rotatorHandle.setRotate(MIN_ANGLE);
-        value.set(angleToValue(MIN_ANGLE));
+        rotatorDial.setOnMouseEntered(new MaximiseEventHandler());
+        rotatorHandle.setOnMouseEntered(new MaximiseEventHandler());
+        rotatorDial.setOnMouseDragged(new ClickKnobEventHandler());
+        rotatorDial.setOnScroll(new ScrollKnobEventHandler());
     }
 
-    @FXML
-    public void rotatorDragged(final MouseEvent event) {
-        final Parent p = rotatorDial.getParent();
-        final Bounds b = rotatorDial.getLayoutBounds();
-        final Double centerX = b.getMinX() + (b.getWidth() / 2), centerY = b.getMinY() + (b.getHeight() / 2);
-        final Point2D center = p.localToParent(centerX, centerY);
-        final Point2D mouse = p.localToParent(event.getX(), event.getY());
-        final Double deltaX = mouse.getX() - center.getX(), deltaY = mouse.getY() - center.getY();
-        final Double radians = Math.atan2(deltaY, deltaX);
-        rotate(Math.toDegrees(radians));
-    }
-
-    private void rotate(double degrees) {
-        if (degrees >= 90 && degrees < MIN_ANGLE) {
-            degrees = MIN_ANGLE;
+    private class MaximiseEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(final MouseEvent event) {
+            rotatorDial.setScaleX(1.8);
+            rotatorDial.setScaleY(1.8);
+            rotatorHandle.setScaleX(1.8);
+            rotatorHandle.setScaleY(1.8);
+            rotatorDial.setOnMouseExited(new MinimizeEventHandler());
+            rotatorHandle.setOnMouseExited(new MinimizeEventHandler());
+            event.consume();
         }
-        if (degrees < 90 && degrees > MAX_ANGLE) {
-            degrees = MAX_ANGLE;
+    }
+
+    private class MinimizeEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(final MouseEvent event) {
+            rotatorDial.setScaleX(1);
+            rotatorDial.setScaleY(1);
+            rotatorHandle.setScaleX(1);
+            rotatorHandle.setScaleY(1);
+            event.consume();
         }
-
-        rotatorHandle.setRotate(degrees);
-        value.set(angleToValue(degrees));
     }
 
-    /**
-     * Return a value between 0 and 1 for a given angle for this button
-     * @param degree The angle to convert to a value
-     * @return A value between 0 and 1 for a given angle for this button
-     */
-    public double angleToValue(double degree) {
-        if (degree >= 120 && degree < 180) {
-            degree -= 120;
+    private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
+        @Override
+        public void handle(final ScrollEvent event) {
+            if ((int) Math.signum(event.getDeltaY()) > 0) {
+                rotation += 5;
+            } else {
+                rotation -= 5;
+            }
+            setRotation(rotation);
+            event.consume();
         }
-        else {
-            degree += 240;
+    }
+
+    private class ClickKnobEventHandler implements EventHandler<MouseEvent> {
+        @Override
+        public void handle(final MouseEvent event) {
+            // Where did we click?
+            double x = event.getX(), y = event.getY();
+
+            // Out of bounds values are possible
+            // They might break something so we normalize them
+            if (x < 0) {
+                x = 0;
+            }
+            else if (x > WIDTH) {
+                x = WIDTH;
+            }
+
+            if (y < 0) {
+                y = 0;
+            }
+            else if (y > HEIGHT) {
+                y = HEIGHT;
+            }
+
+            // Move the coordinates so that next calculations are easier
+            x -= WIDTH/2;
+            y -= HEIGHT/2;
+
+            System.out.println("(" + x + " ; " + y + ")");
+
+            // Calculate the angle between (x ; y) and the center of the circle
+            //
+            //        |
+            //   - -  |  + -
+            //        |
+            // ------ 0 ------ x
+            //        |
+            //   - +  |  + +
+            //        |
+            //        y
+            //
+            // tan(x, y) = y/x (ie. opposite/adjacent)
+            setRotation(Math.toDegrees(Math.atan2(y, x)));
+            event.consume();
         }
-        return degree / 300;
     }
 
-    public double valueToAngle(double value) {
-        if (value < 0 || value > 1) {
-            throw new IllegalArgumentException("The value must be in the range [0 ; 1]");
+    private void setRotation(double value) {
+        if (rotation <= MIN_ANGLE) {
+            rotation = MIN_ANGLE;
+        } else if (rotation >= MAX_ANGLE) {
+            rotation = MAX_ANGLE;
         }
-
-        value *= 300;
-        if (value > 60) {
-            value -= 240;
-        }
-        else {
-            value += 120;
-        }
-
-        return value;
+        rotatorHandle.setRotate(rotation);
     }
-
-    public double getValue() {
-        return value.get();
-    }
-
-    public DoubleProperty valueProperty() {
-        return value;
-    }
-
-    public void setValue(double newValue) {
-        value.set(newValue);
-        rotatorHandle.setRotate(valueToAngle(newValue));
-    }
-
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        System.out.println("Wheel detected");
-    }
-
 }
