@@ -3,6 +3,7 @@ package org.istic.synthlab.core;
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import org.istic.synthlab.components.out.Out;
+import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
@@ -91,6 +92,29 @@ public class BasicChainTest {
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
+    public void testReplicator() throws InterruptedException {
+
+        Vcoa myVcoa = new Vcoa("VCOA1");
+
+        Replicator repl = new Replicator("REPL");
+
+        Out myOut = new Out("OUT1");
+        myOut.setAmplitude(1.0);
+
+        myVcoa.setExponentialFrequency(40);
+        myVcoa.setAmplitudeSine(1.0);
+        myVcoa.getOutput().connect(repl.getInput());
+
+        repl.getOutputReplicated1().connect(myOut.getInput());
+        myOut.start();
+        synth.start();
+        synth.sleepFor(5);
+
+        ((SynthesisEngine) synth).printConnections();
+
     }
 
 }

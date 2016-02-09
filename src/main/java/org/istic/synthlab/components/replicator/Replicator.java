@@ -38,7 +38,7 @@ public class Replicator extends AbstractComponent {
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.EXPONENTIAL);
 
-        getSourceFm().connect(passThrough.getInput());
+        getSource().connect(passThrough.getInput());
         passThrough.getOutput1().connect(getSink());
         passThrough.getOutput2().connect(outputModulatorReplicated1.getInput());
         passThrough.getOutput3().connect(outputModulatorReplicated2.getInput());
