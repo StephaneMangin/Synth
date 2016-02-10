@@ -93,6 +93,7 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
         initializeGridView();
         initializeFunctions();
+        ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
     }
 

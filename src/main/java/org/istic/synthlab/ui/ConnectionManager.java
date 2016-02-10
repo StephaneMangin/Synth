@@ -1,13 +1,25 @@
 package org.istic.synthlab.ui;
 
-import javafx.geometry.Point2D;
+import com.sun.javafx.scene.control.skin.CustomColorDialog;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import sun.awt.geom.Curve;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +37,15 @@ public class ConnectionManager {
     private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
+    private static Node root;
+    private static Stage stage;
+
+    public static void setNode(Node node) {
+        root = node;
+    }
+    public static void setStage(Stage node) {
+        stage = node;
+    }
 
     public static void addObserver(IObserver observer) {
         observers.add(observer);
@@ -115,12 +136,31 @@ public class ConnectionManager {
     private static boolean drawCable(){
         Connection connection = new Connection(output, input);
         if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
+            Color color = Color.FORESTGREEN;
             CurveCable curveCable = new CurveCable(
                     getLocalScene(circleInput).getX(),
                     getLocalScene(circleInput).getY(),
                     getLocalScene(circleOutput).getX(),
-                    getLocalScene(circleOutput).getY()
+                    getLocalScene(circleOutput).getY(),
+                    color
             );
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.NONE);
+            dialog.initOwner(stage);
+            ColorPicker colorPicker = new ColorPicker();
+            curveCable.setOnMousePressed(event -> {
+                VBox dialogVbox = new VBox();
+                colorPicker.setValue(curveCable.getColor());
+                dialogVbox.getChildren().add(colorPicker);
+                Scene dialogScene = new Scene(dialogVbox);
+                dialog.setScene(dialogScene);
+                dialog.show();
+                event.consume();
+                colorPicker.valueProperty().addListener(e -> {
+                    curveCable.setColor(colorPicker.getValue());
+                    dialog.hide();
+                });
+            });
             lineConnection.put(curveCable, connection);
             return true;
         }

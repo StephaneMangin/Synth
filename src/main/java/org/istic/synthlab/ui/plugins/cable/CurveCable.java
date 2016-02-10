@@ -1,10 +1,5 @@
 package org.istic.synthlab.ui.plugins.cable;
 
-import javafx.beans.property.ReadOnlyDoubleProperty;
-import javafx.beans.value.ObservableSetValue;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
@@ -13,6 +8,8 @@ import javafx.scene.shape.StrokeLineCap;
  * @author augustin
  */
 public class CurveCable extends CubicCurve {
+
+    private Color color;
 
     /**
      * Returns an instance of CubicCurve
@@ -58,9 +55,18 @@ public class CurveCable extends CubicCurve {
         );
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
-        setStroke(color);
         setFill(Color.TRANSPARENT);
+        setColor(color);
         autosize();
+    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        strokeProperty().set(color);
     }
 
     public void reCenter(double x, double y){
