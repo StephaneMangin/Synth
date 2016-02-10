@@ -14,12 +14,12 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.plugins.cable.OurCubicCurve;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -96,18 +96,18 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<Line, Connection> arg) {
+    public void drawLine(HashMap<OurCubicCurve, Connection> arg) {
         Set keys = arg.keySet();
         for(Object key : keys){
-            borderPane.getChildren().add((Line)key);
+            borderPane.getChildren().add((OurCubicCurve)key);
         }
     }
 
-    public void unDrawLine(HashMap<Line, Connection> arg){
+    public void unDrawLine(HashMap<OurCubicCurve, Connection> arg){
         ObservableList<Node> list = borderPane.getChildren();
         ObservableList<Node> temp = FXCollections.observableArrayList();
 
-        temp.addAll(list.stream().filter(node -> node instanceof Line).collect(Collectors.toList()));
+        temp.addAll(list.stream().filter(node -> node instanceof OurCubicCurve).collect(Collectors.toList()));
         temp.forEach(list::remove);
     }
 

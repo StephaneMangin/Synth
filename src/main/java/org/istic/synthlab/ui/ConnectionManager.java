@@ -1,15 +1,18 @@
 package org.istic.synthlab.ui;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.BoundLine;
-import org.istic.synthlab.ui.plugins.cable.Center;
+import org.istic.synthlab.ui.plugins.cable.OurCubicCurve;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sebastien
@@ -21,7 +24,7 @@ public class ConnectionManager {
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
 
-    private static HashMap<Line, Connection> lineConnection = new HashMap<>();
+    private static HashMap<OurCubicCurve, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
 
@@ -50,7 +53,7 @@ public class ConnectionManager {
 
             cable_selected = true;
             IInput value = connectionTab.get(output);
-            Line key_line = getKeyLine(value);
+            OurCubicCurve key_line = getKeyLine(value);
 
             connectionTab.remove(output);
             lineConnection.remove(key_line);
@@ -65,15 +68,11 @@ public class ConnectionManager {
                 makeConnection();
             }
         }
-
-
-
     }
 
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
-
 
         if(!cable_selected && connectionTab.containsValue(input)){
             cable_selected = true;
@@ -81,7 +80,7 @@ public class ConnectionManager {
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
-            Line key_line = getKeyLine(input);
+            OurCubicCurve key_line = getKeyLine(input);
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
@@ -113,24 +112,21 @@ public class ConnectionManager {
     private static boolean drawCable(){
         Connection connection = new Connection(output, input);
         if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
-            Center endCenter = new Center(circleInput);
-            Center startCenter = new Center(circleOutput);
-            Line line = new BoundLine(
-                    startCenter.centerXProperty(),
-                    startCenter.centerYProperty(),
-                    endCenter.centerXProperty(),
-                    endCenter.centerYProperty()
-            );
-            lineConnection.put(line, connection);
+            DoubleProperty startX = new SimpleDoubleProperty(circleInput.localToScene(circleInput.getCenterX(), circleInput.getCenterY()).getX());
+            DoubleProperty endX = new SimpleDoubleProperty(circleInput.localToScene(circleInput.getCenterX(), circleInput.getCenterY()).getY());
+            DoubleProperty startY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getX());
+            DoubleProperty endY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getY());
+            OurCubicCurve ourCubicCurve = new OurCubicCurve(startX,endX,startY,endY);
+            lineConnection.put(ourCubicCurve, connection);
             return true;
         }
         return false;
     }
 
-    private static Line getKeyLine(IInput value){
+    private static OurCubicCurve getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
         for (Object key1 : keys) {
-            Line key = (Line) key1;
+            OurCubicCurve key = (OurCubicCurve) key1;
             Connection co = lineConnection.get(key);
             if (co.getInput() == value) {
                 return key;

@@ -13,14 +13,11 @@ public class Center {
     private ReadOnlyDoubleWrapper centerY = new ReadOnlyDoubleWrapper();
 
     public Center(Node node) {
-        calcCenter(node.localToScene(node.getBoundsInLocal()));
+        calcCenter(node.localToScreen(node.getBoundsInLocal()));
         node.boundsInParentProperty().addListener((observableValue, oldBounds, bounds) -> {
             calcCenter(bounds);
         });
     }
-
-
-
     private void calcCenter(Bounds _bounds) {
         centerX.set(_bounds.getMinX() + _bounds.getWidth()  / 2);
         centerY.set(_bounds.getMinY() + _bounds.getHeight() / 2);
