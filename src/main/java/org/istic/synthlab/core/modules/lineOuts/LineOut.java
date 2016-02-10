@@ -114,7 +114,7 @@ public class LineOut implements ILineOut {
      * @return boolean
      */
     @Override
-    public boolean isEnable() {
+    public boolean isActivated() {
         return this.lineOut.isEnabled();
     }
 }

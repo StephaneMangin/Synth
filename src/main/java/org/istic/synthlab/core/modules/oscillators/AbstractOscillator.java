@@ -48,6 +48,11 @@ public abstract class AbstractOscillator implements IOscillator {
         getOscillator().setEnabled(false);
     }
 
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
+    }
+
     public IComponent getComponent() {
         return component;
     }
@@ -83,6 +88,10 @@ public abstract class AbstractOscillator implements IOscillator {
 
     public Potentiometer getFrequencyPotentiometer() {
         return frequencyPotentiometer;
+    }
+
+    public Potentiometer getAmplitudePotentiometer() {
+        return amplitudePotentiometer;
     }
 
     @Override

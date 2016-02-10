@@ -17,14 +17,18 @@ import java.util.ResourceBundle;
  * @author stephane
  */
 public class Controller extends AbstractController implements Initializable {
+
     @FXML
     private AnchorPane mainPane;
+
     @FXML
     private Circle output;
-    @FXML
-    private Circle input;
+
     @FXML
     private Circle circleEvent;
+
+    @FXML
+    private Potentiometer squareFrequency;
 
     private static int numInstance = 0;
 
@@ -33,6 +37,19 @@ public class Controller extends AbstractController implements Initializable {
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
+
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setAmplitudeSine(1);
+        vcoa.setAmplitudeTriangle(1);
+        vcoa.setAmplitudePulse(1);
+        vcoa.setAmplitudeImpulse(1);
+        vcoa.setAmplitudeRedNoise(1);
+        vcoa.setAmplitudeSawTooth(1);
+        vcoa.setExponentialFrequency(440);
+        squareFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
+            vcoa.setExponentialFrequency((double)newValue);
+        });
     }
 
     @FXML
@@ -44,11 +61,6 @@ public class Controller extends AbstractController implements Initializable {
         @Override
         public void handle(Event event) {
             circleEvent = (Circle) event.getSource();
-            System.out.println("Vcoa BoundsInLocal: "+circleEvent.localToScene(circleEvent.getCenterX(), circleEvent.getCenterY()));
-            System.out.println("Vcoa BoundsInParent: "+circleEvent.localToScene(circleEvent.getCenterX(), circleEvent.getCenterY()));
-            System.out.println("Vcoa BoundsInLocal: "+circleEvent.localToScreen(circleEvent.getCenterX(), circleEvent.getCenterY()));
-            System.out.println("Vcoa BoundsInParent: "+circleEvent.localToScreen(circleEvent.getCenterX(), circleEvent.getCenterY()));
         }
     }
-
 }

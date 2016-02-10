@@ -7,13 +7,15 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -61,6 +63,8 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private BorderPane borderPane;
     @FXML
+    private ScrollPane scrollpane;
+    @FXML
     private ListView<Node> listView;
     @FXML
     private GridPane gridPane;
@@ -71,6 +75,10 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
 
+    private Image image;
+
+    private Boolean delete_mod = false;
+
     /**
      * This method initializes the list view and the grid
      * @param location Not used
@@ -80,6 +88,7 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
         initializeGridView();
+        initializeFunctions();
         ConnectionManager.addObserver(this);
     }
 
@@ -96,10 +105,16 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<OurCubicCurve, Connection> arg) {
-        Set keys = arg.keySet();
-        for(Object key : keys){
-            borderPane.getChildren().add((OurCubicCurve)key);
+    public void drawLine(HashMap<Line, Connection> arg) {
+        for(Line key : arg.keySet()){
+            key.setOnMouseClicked(event -> {
+                if(delete_mod){
+                    ConnectionManager.deleteLine(key);
+                    delete_mod = false;
+                    borderPane.setCursor(Cursor.DEFAULT);
+                }
+            });
+            borderPane.getChildren().add(key);
         }
     }
 
@@ -111,24 +126,32 @@ public class CoreController implements Initializable, IObserver {
         temp.forEach(list::remove);
     }
 
+    private void initializeFunctions(){
+        image = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
+        scrollpane.setOnMouseClicked(event -> {
+            delete_mod = false;
+            borderPane.setCursor(Cursor.DEFAULT);
+        });
+        //image = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
+    }
+
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        /*final Label vcoaLabel = new Label("VCOA");
-        final Label outLabel = new Label("OUT");
-        final Label oscilloscopeLabel = new Label("Oscilloscope");
-
-        vcoaLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-        outLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-        oscilloscopeLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-
-        data.add(vcoaLabel);
-        data.add(outLabel);
-        data.add(oscilloscopeLabel);*/
-
         for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
-            final Label label = new Label(component);
-            label.setOnDragDetected(new DragDetectedListItemEventHandler());
-            data.add(label);
+            URL image = getClass().getResource("/ui/components/" + component + "/images/small.png");
+            if (image == null) {
+                continue;
+            }
+            Pane pane = new Pane();
+            ImageView imageView = new ImageView(new Image(image.toString()));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(50);
+            imageView.setSmooth(true);
+            imageView.setId(component);
+            pane.getChildren().add(imageView);
+            pane.setOnDragDetected(new DragDetectedListItemEventHandler());
+            data.add(pane);
         }
 
         listView.setItems(data);
@@ -181,6 +204,17 @@ public class CoreController implements Initializable, IObserver {
         Factory.createSynthesizer().stop();
     }
 
+    @FXML
+    public void onCut(){
+        delete_mod = !delete_mod;
+        if(delete_mod){
+            borderPane.setCursor(new ImageCursor(image));
+        }
+        else{
+            borderPane.setCursor(Cursor.DEFAULT);
+        }
+    }
+
     /**
      * Start the synthesizer
      */
@@ -189,7 +223,6 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
 
-        Register.uglyPatchWork();
         Factory.createSynthesizer().start();
         Register.uglyPatchWork();
     }
@@ -197,10 +230,12 @@ public class CoreController implements Initializable, IObserver {
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
-            final Label label = (Label) event.getSource();
-            final Dragboard db = label.startDragAndDrop(TransferMode.COPY);
+            System.out.println("Drag detected");
+            final Pane pane = (Pane) event.getSource();
+            ImageView view = (ImageView) pane.getChildren().get(0);
+            final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
-            content.putString(label.getText());
+            content.putString(view.getId());
             db.setContent(content);
             event.consume();
         }
@@ -246,7 +281,6 @@ public class CoreController implements Initializable, IObserver {
                 final Pane p = (Pane) event.getSource();
                 if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
                     p.getChildren().add((Node) event.getGestureSource());
-                    System.out.println("P.GETCHILDREN: "+p.getChildren().toString());
                     success = true;
                 }
                 else {
@@ -295,7 +329,7 @@ public class CoreController implements Initializable, IObserver {
         for (Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
             if (packageName.startsWith(prefix)) {
-                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toUpperCase();
+                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
                 packageNameSet.add(packageName);
             }
         }

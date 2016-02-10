@@ -7,13 +7,14 @@ public class Main {
 
     public static void main(String args[]) throws Exception {
 
-        //EnveloppeGeneratorTest egt = new EnveloppeGeneratorTest();
-        //egt.envelopeLongTiming();
+        EnveloppeGeneratorTest egt = new EnveloppeGeneratorTest();
+        egt.setUp();
+        egt.envelopeLongTiming();
 
-        PassThroughTesting ptt = new PassThroughTesting();
-        ptt.setUp();
+        //PassThroughTesting ptt = new PassThroughTesting();
+        //ptt.setUp();
         //ptt.SimpleTestOneInputToThreeOutput();
-        ptt.SimpleTest();
+        //ptt.SimpleTest();
 
     }
 

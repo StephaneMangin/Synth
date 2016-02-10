@@ -15,28 +15,21 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  */
 public class Vcoa extends AbstractComponent {
 
-    private IOscillator sineOscillator;
-    private IOscillator pulseOscillator;
-    private IOscillator squareOscillator;
-    private IOscillator impulseOscillator;
-    private IOscillator sawToothOscillator;
-    private IOscillator triangleOscillator;
-    private IOscillator redNoiseOscillator;
-    private IModulator exponentialModulator;
-    private IModulator linearModulator;
+    private IOscillator sineOscillator = Factory.createOscillator(this, OscillatorType.SINE);
+    private IOscillator pulseOscillator = Factory.createOscillator(this, OscillatorType.PULSE);
+    private IOscillator squareOscillator = Factory.createOscillator(this, OscillatorType.SQUARE);
+    private IOscillator impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
+    private IOscillator sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
+    private IOscillator triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
+    private IOscillator redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
+    private IOscillator defaultOscillator;
+    private IModulator exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
+    private IModulator linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
     public Vcoa(String name) {
         super(name);
-        sineOscillator = Factory.createOscillator(this, OscillatorType.SINE);
-        pulseOscillator = Factory.createOscillator(this, OscillatorType.PULSE);
-        squareOscillator = Factory.createOscillator(this, OscillatorType.SQUARE);
-        impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
-        sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
-        triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
-        redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
         // Mix all oscillator's output to the sink port
-        squareOscillator.getOutput().connect(getSink());
         // sineOscillator.getOutput().connect(getSink());
         // pulseOscillator.getOutput().connect(getSink());
         // impulseOscillator.getOutput().connect(getSink());
@@ -50,7 +43,7 @@ public class Vcoa extends AbstractComponent {
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
-        linearModulator.getOutput().connect(squareOscillator.getFm());
+        setDefaultOscillator(squareOscillator);
     }
 
     @Override
@@ -73,6 +66,17 @@ public class Vcoa extends AbstractComponent {
         sawToothOscillator.deactivate();
         triangleOscillator.deactivate();
         redNoiseOscillator.deactivate();
+    }
+
+    @Override
+    public boolean isActivated() {
+        return sineOscillator.isActivated() ||
+        pulseOscillator.isActivated() ||
+        squareOscillator.isActivated() ||
+        impulseOscillator.isActivated() ||
+        sawToothOscillator.isActivated() ||
+        triangleOscillator.isActivated() ||
+        redNoiseOscillator.isActivated();
     }
 
     @Override
@@ -120,6 +124,42 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator.setAmplitude(value);
     }
 
+    public void setOscillatorType(OscillatorType type) {
+        switch (type) {
+            case SINE:
+                setDefaultOscillator(sineOscillator);
+                break;
+            case TRIANGLE:
+                setDefaultOscillator(triangleOscillator);
+                break;
+            case SAWTOOTH:
+                setDefaultOscillator(sawToothOscillator);
+                break;
+            case PULSE:
+                setDefaultOscillator(pulseOscillator);
+                break;
+            case IMPULSE:
+                setDefaultOscillator(impulseOscillator);
+                break;
+            case REDNOISE:
+                setDefaultOscillator(redNoiseOscillator);
+                break;
+            case SQUARE:
+            default:
+                setDefaultOscillator(squareOscillator);
+        }
+    }
+
+    private void setDefaultOscillator(IOscillator defaultOscillator) {
+        if (this.defaultOscillator != null) {
+            this.defaultOscillator.getOutput().deconnect();
+            linearModulator.getOutput().deconnect();
+        }
+        this.defaultOscillator = defaultOscillator;
+        this.defaultOscillator.getOutput().connect(getSink());
+        linearModulator.getOutput().connect(this.defaultOscillator.getFm());
+    }
+
     public IOscillator getPulseOscillator() {
         return this.pulseOscillator;
     }
@@ -144,7 +184,7 @@ public class Vcoa extends AbstractComponent {
         return squareOscillator.getOutput();
     }
 
-    public IOutput getImpulsesineOutput() {
+    public IOutput getImpulseOutput() {
         return impulseOscillator.getOutput();
     }
 

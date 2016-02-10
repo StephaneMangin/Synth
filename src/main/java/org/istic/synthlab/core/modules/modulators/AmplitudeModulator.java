@@ -21,7 +21,7 @@ public class AmplitudeModulator extends AbstractModulator {
         super(name, component);
         filter = new FilterBandPass();
         potentiometer = new Potentiometer("Amplitude", filter.amplitude, potentiometerType,
-                10E5D, 0D, 1D
+                1, 0, 1
         );
 
         // Declare the relation to the mapping
@@ -48,6 +48,21 @@ public class AmplitudeModulator extends AbstractModulator {
     @Override
     public void setValue(double value) {
         potentiometer.setValue(value);
+    }
+
+    @Override
+    public void activate() {
+        filter.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        filter.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return filter.isEnabled();
     }
 
 }

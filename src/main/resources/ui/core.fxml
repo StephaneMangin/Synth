@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.VBox?>
+
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
-        <ScrollPane>
+        <ScrollPane fx:id="scrollpane">
             <GridPane fx:id="gridPane" alignment="CENTER" focusTraversable="true" hgap="5" vgap="5">
                 <padding>
                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -30,19 +34,19 @@
             </MenuBar>
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
-                <Button fx:id="playButton" disable="true" defaultButton="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
-                <fx:include source="controls/knob.fxml"/>
+                <Button fx:id="playButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
+            <Button fx:id="cut_cable" mnemonicParsing="false" onAction="#onCut" text="Delete Cable" />
             </ToolBar>
         </VBox>
     </top>
     <left>
-        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+        <SplitPane dividerPositions="1.5" orientation="VERTICAL" prefWidth="130.0" BorderPane.alignment="CENTER">
             <TitledPane collapsible="false" text="Components">
                  <ScrollPane fitToHeight="true" fitToWidth="true">
                      <ListView fx:id="listView" editable="true" />
                  </ScrollPane>
             </TitledPane>
-            <TextArea fx:id="textarea" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="textarea" prefWidth="130.0" />
         </SplitPane>
     </left>
 </BorderPane>

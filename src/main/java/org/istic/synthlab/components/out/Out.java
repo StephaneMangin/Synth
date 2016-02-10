@@ -31,6 +31,9 @@ public class Out extends AbstractComponent {
     }
 
     @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
+
+    @Override
     public void init() {
 
     }
@@ -40,16 +43,16 @@ public class Out extends AbstractComponent {
 
     }
 
+    public void setAmplitude(double amplitude) {
+        getAmModulator().setValue(amplitude);
+    }
+
     public IInput getInput() {
         return lineOut.getInput();
     }
 
     public void start(){
         lineOut.start();
-    }
-
-    public boolean isEnable(){
-       return lineOut.isEnable();
     }
 
 }

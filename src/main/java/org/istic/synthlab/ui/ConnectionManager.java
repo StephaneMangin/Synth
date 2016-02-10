@@ -44,6 +44,19 @@ public class ConnectionManager {
         }
     }
 
+    public static void deleteLine(Line line){
+        if(lineConnection.containsKey(line)){
+            Connection connection = lineConnection.get(line);
+            IInput input = connection.getInput();
+            IOutput output = connection.getOutput();
+            Register.disconnect(output);
+
+            connectionTab.remove(output);
+            lineConnection.remove(line);
+            update();
+        }
+    }
+
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;

@@ -13,8 +13,4 @@ public class SawtoothOscillator extends AbstractOscillator {
         super(component, new com.jsyn.unitgen.SawtoothOscillator());
     }
 
-    @Override
-    public boolean isActivated() {
-        return getOscillator().isEnabled();
-    }
 }
