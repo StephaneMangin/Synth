@@ -51,7 +51,7 @@ public class SineOscillatorTest extends TestCase{
     public void testDesactivate(){
         sineOscillator.activate();
         sineOscillator.deactivate();
-        assertFalse(sineOscillator.getOscillator().isEnabled());
+        assertFalse(sineOscillator.isActivated());
     }
 
     @org.junit.Test

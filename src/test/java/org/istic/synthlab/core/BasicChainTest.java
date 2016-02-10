@@ -2,22 +2,21 @@ package org.istic.synthlab.core;
 
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
-import org.istic.synthlab.components.eg.Eg;
+import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.modules.lineOuts.ILineOut;
-import org.istic.synthlab.core.modules.lineOuts.LineType;
-import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
+import org.istic.synthlab.core.modules.oscillators.SawtoothOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+
+import javax.swing.*;
 
 /**
  * Created by cyprien on 04/02/16.
@@ -47,37 +46,6 @@ public class BasicChainTest {
     }
 
     @Test
-    public void simpleSineOscillator() throws InterruptedException {
-        IComponent componentOut = Mockito.mock(Out.class);
-        IComponent componentSin = Mockito.mock(Vcoa.class);
-        IOscillator sin = Factory.createOscillator(componentSin, OscillatorType.SINE);
-
-        sin.setFrequency(320.0);
-        sin.setAmplitude(1.0);
-        sin.activate();
-
-        ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);
-
-        sin.getOutput().connect(lineOut.getInput());
-
-        Synthesizer synth = Factory.createSynthesizer();
-
-        lineOut.start();
-        lineOut.setVolume(1.0);
-
-        synth.start();
-
-        int n = 20;
-
-        while ( n > 0 ){
-            n--;
-            System.out.println("sine output : " + sin.getOutput().getUnitOutputPort().getValue());
-            System.out.println("sine amplitude : " + sin.getAm().getUnitInputPort().getValue());
-            synth.sleepFor(0.1);
-        }
-    }
-
-    @Test
     public void basicChainTest() throws InterruptedException {
         out.start();
         synth.start();
@@ -88,17 +56,62 @@ public class BasicChainTest {
     @Test
     public void TestVcoaToVcoa() throws InterruptedException {
         Vcoa vcoa1 = new Vcoa("VCOA1");
-        ImpulseOscillator impulseOscillator = (ImpulseOscillator) Factory.createOscillator(vcoa1, OscillatorType.IMPULSE);
-        impulseOscillator.activate();
-        vcoa1.activate();
-        vcoa1.getSource().connect(impulseOscillator.getFm());
-        impulseOscillator.getOutput().connect(vcoa1.getSink());
-        Register.connect(vcoa.getInput(), vcoa1.getOutput());
-        Register.connect(out.getInput(), vcoa1.getOutput());
+        vcoa1.setAmplitudeSine(50);
+        vcoa1.getOutput().connect(vcoa.getInput());
+        SawtoothOscillator s = (SawtoothOscillator) Factory.createOscillator(vcoa, OscillatorType.SAWTOOTH);
+        vcoa.getSawToothOutput().connect(out.getInput());
+
+        // Pour l'affichage des courbes
+        AudioScope scope = new AudioScope( synth );
+        scope.addProbe(vcoa.getOutput().getUnitOutputPort());
+        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
+        scope.getView().setShowControls( true );
+        scope.start();
+        JFrame frame = new JFrame();
+        frame.add(scope.getView());
+        frame.pack();
+        frame.setVisible(true);
+
         out.start();
         synth.start();
         synth.sleepUntil(5);
         ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
+    public void TestOutParameters() throws InterruptedException {
+        synth.start();
+        out.start();
+        synth.sleepUntil(3);
+        out.setAmplitude(0);
+        synth.sleepUntil(6);
+        out.setAmplitude(0.1);
+        synth.sleepUntil(9);
+
+        ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
+    public void TestVcoaSwitch() throws InterruptedException {
+        vcoa.setAmplitudeRedNoise(1);
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setExponentialFrequency(440);
+        vcoa.getOutput().connect(out.getInput());
+
+        out.start();
+        synth.start();
+        synth.sleepUntil(3);
+        vcoa.setExponentialFrequency(880);
+        vcoa.setAmplitudeSquare(0);
+        synth.sleepUntil(6);
+        vcoa.setAmplitudeSquare(1);
+        synth.sleepUntil(9);
+        vcoa.setOscillatorType(OscillatorType.REDNOISE);
+        synth.sleepUntil(12);
+        System.out.println("END");
+        synth.stop();
+        //((SynthesisEngine)synth).printConnections();
     }
 
     @Test
@@ -151,51 +164,6 @@ public class BasicChainTest {
 
         ((SynthesisEngine) synth).printConnections();
 
-    }
-
-    @Test
-    public void testEnvelope() throws InterruptedException {
-
-        Eg myEnvelope = new Eg("Envelope");
-        myEnvelope.setAmplitude(1.0);
-        myEnvelope.setDelay(0.0);
-        myEnvelope.setAttack(0.2);
-        myEnvelope.setHold(1.0);
-        myEnvelope.setDecay(1.0);
-        myEnvelope.setRelease(2.0);
-        myEnvelope.setSustain(0.4);
-
-        myEnvelope.getInput().getUnitInputPort().set(1.0);
-        myEnvelope.getOutput().connect(vcoa.getInput());
-        vcoa.getOutput().connect(out.getInput());
-
-        //vcoa.setExponentialFrequency();
-
-        out.start();
-
-        synth.start();
-        synth.sleepFor(1.0);
-
-        int n = 50;
-        while (n > 0){
-
-            // at the 20th LOOP
-            // Around the middle of the execution corresponding to two full seconds (needed to execute
-            // a full envelope from beginning to the sustain phase)
-            if (n == 30) {
-                // Force the signal to 0.0 ("low" state)
-                // it will trigger the end of the envelope, the release phase.
-                myEnvelope.getInput().getUnitInputPort().set(0.0);
-            }
-
-            //System.out.println("Square output : " + squareOsc.output.getValue());
-            System.out.println("envelope input : " + myEnvelope.getInput().getUnitInputPort().getValue());
-            System.out.println("envelope output : " + myEnvelope.getOutput().getUnitOutputPort().getValue());
-            synth.sleepFor(0.1);
-            n--;
-        }
-
-        ((SynthesisEngine) synth).printConnections();
     }
 
 }

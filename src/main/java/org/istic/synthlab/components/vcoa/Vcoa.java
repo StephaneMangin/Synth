@@ -22,6 +22,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator sawToothOscillator;
     private IOscillator triangleOscillator;
     private IOscillator redNoiseOscillator;
+    private IOscillator defaultOscillator;
     private IModulator exponentialModulator;
     private IModulator linearModulator;
 
@@ -36,8 +37,8 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
         // Mix all oscillator's output to the sink port
-        // squareOscillator.getOutput().connect(getSink());
-        sineOscillator.getOutput().connect(getSink());
+        squareOscillator.getOutput().connect(getSink());
+        // sineOscillator.getOutput().connect(getSink());
         // pulseOscillator.getOutput().connect(getSink());
         // impulseOscillator.getOutput().connect(getSink());
         // sawToothOscillator.getOutput().connect(getSink());
@@ -50,8 +51,7 @@ public class Vcoa extends AbstractComponent {
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
-        //linearModulator.getOutput().connect(squareOscillator.getFm());
-        linearModulator.getOutput().connect(sineOscillator.getFm());
+        setDefaultOscillator(squareOscillator);
     }
 
     @Override
@@ -129,6 +129,42 @@ public class Vcoa extends AbstractComponent {
 
     public void setAmplitudeRedNoise(double value) {
         redNoiseOscillator.setAmplitude(value);
+    }
+
+    public void setOscillatorType(OscillatorType type) {
+        switch (type) {
+            case SINE:
+                setDefaultOscillator(sineOscillator);
+                break;
+            case TRIANGLE:
+                setDefaultOscillator(triangleOscillator);
+                break;
+            case SAWTOOTH:
+                setDefaultOscillator(sawToothOscillator);
+                break;
+            case PULSE:
+                setDefaultOscillator(pulseOscillator);
+                break;
+            case IMPULSE:
+                setDefaultOscillator(impulseOscillator);
+                break;
+            case REDNOISE:
+                setDefaultOscillator(redNoiseOscillator);
+                break;
+            case SQUARE:
+            default:
+                setDefaultOscillator(squareOscillator);
+        }
+    }
+
+    private void setDefaultOscillator(IOscillator defaultOscillator) {
+        if (this.defaultOscillator != null) {
+            this.defaultOscillator.getOutput().deconnect();
+            linearModulator.getOutput().deconnect();
+        }
+        this.defaultOscillator = defaultOscillator;
+        this.defaultOscillator.getOutput().connect(getSink());
+        linearModulator.getOutput().connect(this.defaultOscillator.getFm());
     }
 
     public IOscillator getPulseOscillator() {
