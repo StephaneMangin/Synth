@@ -19,7 +19,7 @@ import org.junit.Test;
 import javax.swing.*;
 
 /**
- * Created by cyprien on 04/02/16.
+ * @author Cyprien
  */
 public class BasicChainTest {
 
@@ -66,7 +66,7 @@ public class BasicChainTest {
         scope.addProbe(vcoa.getOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
         scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
-        scope.getView().setShowControls( true );
+        scope.getView().setControlsVisible(true);
         scope.start();
         JFrame frame = new JFrame();
         frame.add(scope.getView());

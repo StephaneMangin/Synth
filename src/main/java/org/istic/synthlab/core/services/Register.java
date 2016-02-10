@@ -143,7 +143,7 @@ public class Register {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
-        unitOut.connect(unitIn);
+        unitOut.disconnect(unitIn);
         associations.remove(in, out);
         System.out.println(in + " disconnected");
 
@@ -262,12 +262,10 @@ public class Register {
     // FIXME
     // #SigneScrumMaster
     public static void uglyPatchWork() {
-        for (IComponent component : mappingGenerator.keySet()) {
-            if (component instanceof Out) {
-                Out ugly = (Out) component;
-                ugly.start();
-            }
-        }
+        mappingGenerator.keySet().stream().filter(component -> component instanceof Out).forEach(component -> {
+            Out ugly = (Out) component;
+            ugly.start();
+        });
     }
 
     /**

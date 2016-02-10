@@ -68,4 +68,16 @@ public class CurveCable extends CubicCurve {
         this.color = color;
         strokeProperty().set(color);
     }
+
+    public void reCenter(double x, double y){
+        this.setStartX(this.getStartX() - x);
+        this.setEndX(this.getEndX() - x);
+        this.setStartY(this.getStartY() - y);
+        this.setEndY(this.getEndY() - y);
+        this.setControlX1(this.getControlX1() - x);
+        this.setControlX2(this.getControlX2() - x);
+        this.setControlY1(this.getControlY1() - y);
+        this.setControlY2(this.getControlY2() - y);
+    }
+
 }
