@@ -1,4 +1,4 @@
-package org.istic.synthlab.components.vcoa;
+package org.istic.synthlab.prototype;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;

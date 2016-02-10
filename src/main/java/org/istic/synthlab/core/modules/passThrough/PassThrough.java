@@ -7,7 +7,7 @@ import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
 /**
- * Created by cyprien on 08/02/16.
+ * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class PassThrough implements IPassThrough {
 
@@ -95,9 +95,8 @@ public class PassThrough implements IPassThrough {
         passThroughIn.setEnabled(false);
     }
 
-
     @Override
-    public boolean isEnable() {
+    public boolean isActivated() {
         return passThroughIn.isEnabled();
     }
 }

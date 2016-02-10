@@ -9,7 +9,7 @@ import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Created by cyprien on 08/02/16.
+ * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class Replicator extends AbstractComponent {
 
@@ -29,16 +29,16 @@ public class Replicator extends AbstractComponent {
         passThrough = Factory.createPassThrough(this);
 
         outputModulatorReplicated1 = Factory.createModulator(
-                "modOut", this,
+                "modOut1", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.EXPONENTIAL);
 
         outputModulatorReplicated2 = Factory.createModulator(
-                "modOut", this,
+                "modOut2", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.EXPONENTIAL);
 
-        getSourceFm().connect(passThrough.getInput());
+        getSource().connect(passThrough.getInput());
         passThrough.getOutput1().connect(getSink());
         passThrough.getOutput2().connect(outputModulatorReplicated1.getInput());
         passThrough.getOutput3().connect(outputModulatorReplicated2.getInput());
@@ -57,11 +57,26 @@ public class Replicator extends AbstractComponent {
     }
 
     @Override
-    public boolean isActivated() { return passThrough.isEnable(); }
+    public boolean isActivated() { return passThrough.isActivated(); }
 
+    /**
+     * Return the first replicated output, corresponding to output number two.
+     *
+     * @return IOutput
+     */
     public IOutput getOutputReplicated1(){ return outputModulatorReplicated1.getOutput(); }
 
+    /**
+     * Return the second replicated output, corresponding to output number three.
+     *
+     * @return IOutput
+     */
     public IOutput getOutputReplicated2(){ return outputModulatorReplicated2.getOutput(); }
 
+    /**
+     * Return the module handling the signal replication.
+     *
+     * @return IPassThrough
+     */
     public IPassThrough getPassThrough(){ return passThrough; }
 }

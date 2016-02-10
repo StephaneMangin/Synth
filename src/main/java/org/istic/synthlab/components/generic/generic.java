@@ -16,7 +16,7 @@ public class generic extends AbstractComponent {
      */
     public generic(String name) {
         super(name);
-        // Connect the source to the oscilloscope but follow the source to the sink too
+        // Connect the source to the visualizer but follow the source to the sink too
         getSource().connect(getSink());
     }
 }

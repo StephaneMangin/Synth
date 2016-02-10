@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 /**
  * Created by seb on 04/02/16.
  */
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
     @FXML
     Circle input;
@@ -37,12 +37,12 @@ public class Controller implements Initializable{
 
     }
     @FXML
-    void connectOutput(){
+    public void connectOutput() {
         ConnectionManager.makeOrigin(circleEvent, generic.getOutput());
     }
 
     @FXML
-    void connectInput(){
+    public void connectInput() {
         ConnectionManager.makeDestination(circleEvent, generic.getInput());
     }
 

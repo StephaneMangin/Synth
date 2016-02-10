@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by cyprien on 09/02/16.
+ * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class ReplicatorTest {
 
@@ -22,14 +22,14 @@ public class ReplicatorTest {
     public void testActivate() throws Exception {
         replicator.activate();
         assertTrue(replicator.isActivated());
-        assertTrue(replicator.getPassThrough().isEnable());
+        assertTrue(replicator.getPassThrough().isActivated());
     }
 
     @Test
     public void testDesactivate() throws Exception {
         replicator.deactivate();
         assertFalse(replicator.isActivated());
-        assertFalse(replicator.getPassThrough().isEnable());
+        assertFalse(replicator.getPassThrough().isActivated());
     }
 
     @Test

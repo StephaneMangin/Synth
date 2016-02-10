@@ -15,7 +15,9 @@ public class Out extends AbstractComponent {
         super(name);
 
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSource().connect(this.lineOut.getInput());
+        getSourceFm().connect(getAmModulator().getInput());
+        getAmModulator().getOutput().connect(this.lineOut.getInput());
+
     }
 
     @Override
@@ -29,6 +31,9 @@ public class Out extends AbstractComponent {
     }
 
     @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
+
+    @Override
     public void init() {
 
     }
@@ -38,16 +43,16 @@ public class Out extends AbstractComponent {
 
     }
 
+    public void setAmplitude(double amplitude) {
+        getAmModulator().setValue(amplitude);
+    }
+
     public IInput getInput() {
         return lineOut.getInput();
     }
 
     public void start(){
         lineOut.start();
-    }
-
-    public boolean isEnable(){
-       return lineOut.isEnable();
     }
 
 }

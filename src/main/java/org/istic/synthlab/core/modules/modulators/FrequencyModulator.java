@@ -55,4 +55,19 @@ public class FrequencyModulator extends AbstractModulator {
         potentiometer.setValue(value);
     }
 
+    @Override
+    public void activate() {
+        addFunction.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        addFunction.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return addFunction.isEnabled();
+    }
+
 }

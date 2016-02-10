@@ -1,6 +1,6 @@
 .component {
     -fx-position: relative;
-    -fx-background-color: #DDD;
+    -fx-background-color: transparent;
     -fx-border-color: #666;
     -fx-border-radius: 5;
     -fx-border-width: 3;

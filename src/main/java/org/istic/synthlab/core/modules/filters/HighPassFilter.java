@@ -20,4 +20,19 @@ public class HighPassFilter implements IFilter {
     public HighPassFilter(IComponent component) {
         this.unitFilter = new FilterHighPass();
     }
+
+    @Override
+    public void activate() {
+        unitFilter.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        unitFilter.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return unitFilter.isEnabled();
+    }
 }

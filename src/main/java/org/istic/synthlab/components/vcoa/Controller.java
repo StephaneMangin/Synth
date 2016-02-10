@@ -1,7 +1,5 @@
 package org.istic.synthlab.components.vcoa;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -46,16 +44,12 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudePulse(1);
         vcoa.setAmplitudeImpulse(1);
-        vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);
-        squareFrequency.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
-                vcoa.setExponentialFrequency((double)newValue);
-            }
+        squareFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
+            vcoa.setExponentialFrequency((double)newValue);
         });
     }
 
