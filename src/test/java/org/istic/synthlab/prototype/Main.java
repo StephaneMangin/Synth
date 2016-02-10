@@ -16,8 +16,11 @@ public class Main {
         ptt.SimpleTestOneInputToThreeOutput();
         ptt.SimpleTest();*/
 
-        EgPrototype egp = new EgPrototype();
-        egp.simpleEgTest();
+        /*EgPrototype egp = new EgPrototype();
+        egp.simpleEgTest();*/
+
+        ProofDisconnectInput pdi = new ProofDisconnectInput();
+        pdi.run();
 
     }
 

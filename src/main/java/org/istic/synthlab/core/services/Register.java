@@ -136,14 +136,16 @@ public class Register {
         UnitInputPort unitIn = retrieve(in);
         IOutput out = associations.get(in);
         UnitOutputPort unitOut = retrieve(out);
+
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
+
         Channel.disconnect(in, out);
-        unitOut.connect(unitIn);
+        unitOut.disconnect(unitIn);
         associations.remove(in, out);
         System.out.println(in + " disconnected");
 
