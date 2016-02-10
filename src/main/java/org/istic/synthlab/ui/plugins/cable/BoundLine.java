@@ -17,6 +17,5 @@ public class BoundLine extends Line {
         setStrokeWidth(2);
         setStroke(Color.BLACK.deriveColor(0, 1, 1, 1));
         setStrokeLineCap(StrokeLineCap.ROUND);
-        setMouseTransparent(true);
     }
 }

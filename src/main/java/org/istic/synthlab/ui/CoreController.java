@@ -3,23 +3,19 @@ package org.istic.synthlab.ui;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingNode;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -32,7 +28,6 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -67,6 +62,8 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private BorderPane borderPane;
     @FXML
+    private ScrollPane scrollpane;
+    @FXML
     private ListView<Node> listView;
     @FXML
     private GridPane gridPane;
@@ -77,6 +74,10 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
 
+    private Image image;
+
+    private Boolean delete_mod = false;
+
     /**
      * This method initializes the list view and the grid
      * @param location Not used
@@ -86,6 +87,7 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
         initializeGridView();
+        initializeFunctions();
         ConnectionManager.addObserver(this);
     }
 
@@ -103,9 +105,13 @@ public class CoreController implements Initializable, IObserver {
 
     @Override
     public void drawLine(HashMap<Line, Connection> arg) {
-        Set keys = arg.keySet();
-        for(Object key : keys){
-            borderPane.getChildren().add((Line)key);
+        for(Line key : arg.keySet()){
+            key.setOnMouseClicked(event -> {
+                if(delete_mod){
+                    ConnectionManager.deleteLine(key);
+                }
+            });
+            borderPane.getChildren().add(key);
         }
     }
 
@@ -115,6 +121,15 @@ public class CoreController implements Initializable, IObserver {
 
         temp.addAll(list.stream().filter(node -> node instanceof Line).collect(Collectors.toList()));
         temp.forEach(list::remove);
+    }
+
+    private void initializeFunctions(){
+        image = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
+        scrollpane.setOnMouseClicked(event -> {
+            delete_mod = false;
+            borderPane.setCursor(Cursor.DEFAULT);
+        });
+        //image = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
     }
 
     private void initializeListView() {
@@ -184,6 +199,17 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(false);
 
         Factory.createSynthesizer().stop();
+    }
+
+    @FXML
+    public void onCut(){
+        delete_mod = !delete_mod;
+        if(delete_mod){
+            borderPane.setCursor(new ImageCursor(image));
+        }
+        else{
+            borderPane.setCursor(Cursor.DEFAULT);
+        }
     }
 
     /**
