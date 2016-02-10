@@ -10,17 +10,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -88,6 +91,7 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
         initializeGridView();
         initializeFunctions();
+        ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
     }
 
@@ -104,22 +108,24 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<Line, Connection> arg) {
-        for(Line key : arg.keySet()){
+    public void drawLine(HashMap<CurveCable, Connection> arg) {
+        for(CurveCable key : arg.keySet()){
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);
+                    delete_mod = false;
+                    borderPane.setCursor(Cursor.DEFAULT);
                 }
             });
             borderPane.getChildren().add(key);
         }
     }
 
-    public void unDrawLine(HashMap<Line, Connection> arg){
+    public void unDrawLine(HashMap<CurveCable, Connection> arg){
         ObservableList<Node> list = borderPane.getChildren();
         ObservableList<Node> temp = FXCollections.observableArrayList();
 
-        temp.addAll(list.stream().filter(node -> node instanceof Line).collect(Collectors.toList()));
+        temp.addAll(list.stream().filter(node -> node instanceof CurveCable).collect(Collectors.toList()));
         temp.forEach(list::remove);
     }
 

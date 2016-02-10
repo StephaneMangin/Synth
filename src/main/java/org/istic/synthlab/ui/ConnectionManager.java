@@ -1,15 +1,29 @@
 package org.istic.synthlab.ui;
 
+import com.sun.javafx.scene.control.skin.CustomColorDialog;
+import javafx.geometry.*;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.BoundLine;
-import org.istic.synthlab.ui.plugins.cable.Center;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import sun.awt.geom.Curve;
 
-import java.util.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Sebastien
@@ -20,10 +34,18 @@ public class ConnectionManager {
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
-
-    private static HashMap<Line, Connection> lineConnection = new HashMap<>();
+    private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
+    private static Node root;
+    private static Stage stage;
+
+    public static void setNode(Node node) {
+        root = node;
+    }
+    public static void setStage(Stage node) {
+        stage = node;
+    }
 
     public static void addObserver(IObserver observer) {
         observers.add(observer);
@@ -41,7 +63,7 @@ public class ConnectionManager {
         }
     }
 
-    public static void deleteLine(Line line){
+    public static void deleteLine(CurveCable line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
             IInput input = connection.getInput();
@@ -57,13 +79,10 @@ public class ConnectionManager {
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
-
-
         if(!cable_selected && connectionTab.containsKey(output)){
-
             cable_selected = true;
             IInput value = connectionTab.get(output);
-            Line key_line = getKeyLine(value);
+            CurveCable key_line = getKeyLine(value);
 
             connectionTab.remove(output);
             lineConnection.remove(key_line);
@@ -71,45 +90,36 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             update();
-
         }
         else{
             if(input != null){
                 makeConnection();
             }
         }
-
-
-
     }
 
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
-
-
         if(!cable_selected && connectionTab.containsValue(input)){
             cable_selected = true;
 
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
-            Line key_line = getKeyLine(input);
+            CurveCable key_line = getKeyLine(input);
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
 
             update();
             output = key;
-
         }
         else{
             if(output != null){
                 makeConnection();
             }
         }
-
-
     }
 
     private static void makeConnection(){
@@ -126,25 +136,41 @@ public class ConnectionManager {
     private static boolean drawCable(){
         Connection connection = new Connection(output, input);
         if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
-            Center endCenter = new Center(circleInput);
-            Center startCenter = new Center(circleOutput);
-            Line line = new BoundLine(
-                    startCenter.centerXProperty(),
-                    startCenter.centerYProperty(),
-                    endCenter.centerXProperty(),
-                    endCenter.centerYProperty()
+            Color color = Color.FORESTGREEN;
+            CurveCable curveCable = new CurveCable(
+                    getLocalScene(circleInput).getX(),
+                    getLocalScene(circleInput).getY(),
+                    getLocalScene(circleOutput).getX(),
+                    getLocalScene(circleOutput).getY(),
+                    color
             );
-            line.setStrokeWidth(10);
-            lineConnection.put(line, connection);
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.NONE);
+            dialog.initOwner(stage);
+            ColorPicker colorPicker = new ColorPicker();
+            curveCable.setOnMousePressed(event -> {
+                VBox dialogVbox = new VBox();
+                colorPicker.setValue(curveCable.getColor());
+                dialogVbox.getChildren().add(colorPicker);
+                Scene dialogScene = new Scene(dialogVbox);
+                dialog.setScene(dialogScene);
+                dialog.show();
+                event.consume();
+                colorPicker.valueProperty().addListener(e -> {
+                    curveCable.setColor(colorPicker.getValue());
+                    dialog.hide();
+                });
+            });
+            lineConnection.put(curveCable, connection);
             return true;
         }
         return false;
     }
 
-    private static Line getKeyLine(IInput value){
+    private static CurveCable getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
         for (Object key1 : keys) {
-            Line key = (Line) key1;
+            CurveCable key = (CurveCable) key1;
             Connection co = lineConnection.get(key);
             if (co.getInput() == value) {
                 return key;
@@ -163,5 +189,9 @@ public class ConnectionManager {
             }
         }
         return null;
+    }
+
+    private static Point2D getLocalScene(Circle circle) {
+        return circle.localToScene(circleInput.getCenterX(), circleInput.getCenterY());
     }
 }
