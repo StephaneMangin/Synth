@@ -80,6 +80,19 @@ public class BasicChainTest {
     }
 
     @Test
+    public void TestOutParameters() throws InterruptedException {
+        synth.start();
+        out.start();
+        synth.sleepUntil(3);
+        out.setAmplitude(0);
+        synth.sleepUntil(6);
+        out.setAmplitude(0.1);
+        synth.sleepUntil(9);
+
+        ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
     public void TestVcoaSwitch() throws InterruptedException {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSquare(1);
