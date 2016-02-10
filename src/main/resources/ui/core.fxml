@@ -31,7 +31,7 @@
             <ToolBar prefHeight="40.0" prefWidth="200.0">
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
                 <Button fx:id="playButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
-            <Button fx:id="cut_cable" mnemonicParsing="false" onAction="#onCut" text="Delete Cable" />
+            <Button mnemonicParsing="false" onAction="#onCut" text="Delete Cable" />
             </ToolBar>
         </VBox>
     </top>

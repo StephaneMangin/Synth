@@ -262,12 +262,10 @@ public class Register {
     // FIXME
     // #SigneScrumMaster
     public static void uglyPatchWork() {
-        for (IComponent component : mappingGenerator.keySet()) {
-            if (component instanceof Out) {
-                Out ugly = (Out) component;
-                ugly.start();
-            }
-        }
+        mappingGenerator.keySet().stream().filter(component -> component instanceof Out).forEach(component -> {
+            Out ugly = (Out) component;
+            ugly.start();
+        });
     }
 
     /**

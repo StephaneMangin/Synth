@@ -37,7 +37,7 @@ public class SineOscillatorTest {
         assertNotNull(sineOscillator.getOscillator());
         assertNotNull(sineOscillator.getAmplitudePotentiometer());
         assertNotNull(sineOscillator.getFrequencyPotentiometer());
-        assertEquals(sineOscillator.getFrequencyPotentiometer().getMax(),20000.0);
+        assertEquals(sineOscillator.getFrequencyPotentiometer().getMax(), 20000.0);
         assertEquals(sineOscillator.getFrequencyPotentiometer().getMin(), 20.0);
         assertEquals(sineOscillator.getAmplitudePotentiometer().getMin(), 0.0);
         assertEquals(sineOscillator.getAmplitudePotentiometer().getMax(), 10000.0);
