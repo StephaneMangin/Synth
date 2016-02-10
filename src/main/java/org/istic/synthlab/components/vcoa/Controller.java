@@ -25,6 +25,13 @@ public class Controller extends AbstractController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new getIdWithClick());
+        composantVcoa.setAmplitudeSquare(1);
+        composantVcoa.setAmplitudeImpulse(1);
+        composantVcoa.setAmplitudePulse(1);
+        composantVcoa.setAmplitudeTriangle(1);
+        composantVcoa.setAmplitudeSawTooth(1);
+        composantVcoa.setAmplitudeSine(1);
+        composantVcoa.setExponentialFrequency(880);
     }
 
     @FXML

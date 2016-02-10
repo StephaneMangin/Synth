@@ -185,6 +185,7 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(true);
 
         Register.uglyPatchWork();
+
         Factory.createSynthesizer().start();
         Register.uglyPatchWork();
     }
