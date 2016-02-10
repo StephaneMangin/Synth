@@ -73,7 +73,7 @@ public class SineOscillatorTest {
     public void testGetFm(){
         IInput fm = sineOscillator.getFm();
         assertNotNull(fm);
-        assertTrue(fm.getName()=="Fm");
+        assertEquals(fm.getName(), "Fm");
         assertEquals(fm.getComponent(), component);
     }
 
@@ -81,7 +81,7 @@ public class SineOscillatorTest {
     public void testGetAm(){
         IInput am = sineOscillator.getAm();
         assertNotNull(am);
-        assertTrue(am.getName()=="Am");
+        assertEquals(am.getName(), "Am");
         assertEquals(am.getComponent(),component);
     }
 
@@ -90,7 +90,7 @@ public class SineOscillatorTest {
     public void testGetOutput() {
         IOutput output= sineOscillator.getOutput();
         assertNotNull(output);
-        assertTrue(output.getName() == "Out");
+        assertEquals(output.getName(), "Out");
         assertEquals(output.getComponent(),component);
     }
 
