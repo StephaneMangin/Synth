@@ -1,17 +1,12 @@
 package org.istic.synthlab.core.algorithms;
 
+import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.VcoaFrequencyModulator;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Module VcoaFrequencyModulator Tester.
@@ -19,50 +14,53 @@ import static org.junit.Assert.assertTrue;
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
  * @since <pre>Feb 8, 2016</pre>
  */
-public class VcoaFrequencyModulatorTest {
+public class VcoaFrequencyModulatorTest extends TestCase {
 
+    private Vcoa vcoa;
     private VcoaFrequencyModulator frequencyModulator;
 
-    @Before
+    @org.junit.Before
     public void setUp() throws Exception {
-        Vcoa vcoa = new Vcoa("VCOA");
-        frequencyModulator = new VcoaFrequencyModulator("Freg Mod", vcoa, PotentiometerType.EXPONENTIAL);
+        vcoa = new Vcoa("VCOA");
+        frequencyModulator = new VcoaFrequencyModulator("Freq Mod",vcoa, PotentiometerType.EXPONENTIAL);
     }
 
-    @Test
+    @org.junit.Test
     public void testVcoaFrequencyModulator(){
         Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         assertNotNull(frequencyModulator.getInput());
+        assertEquals(frequencyModulator.getInput().getName(), "Freq Mod::freqIn");
         assertNotNull(frequencyModulator.getOutput());
+        assertEquals(frequencyModulator.getOutput().getName(), "Freq Mod::freqOut");
         assertTrue(potentiometer.getMin() == 20.0);
         assertTrue(potentiometer.getMax() == 20000.0);
         assertTrue(potentiometer.getType() == PotentiometerType.EXPONENTIAL);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetInput(){
         IInput input = frequencyModulator.getInput();
         assertNotNull(input);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetOutput(){
         IOutput output = frequencyModulator.getOutput();
         assertNotNull(output);
     }
 
-    @Test
+    @org.junit.Test
     public void testGetValue(){
-        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         double value = frequencyModulator.getValue();
-        assertEquals(potentiometer.getValue(), value, 1e-15);
+        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
+        assertEquals(potentiometer.getValue(), value);
     }
 
-    @Test
+    @org.junit.Test
     public void testSetValue(){
         frequencyModulator.setValue(20.0);
         Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         double value = frequencyModulator.getValue();
-        assertEquals(potentiometer.getValue(), value, 1e-15);
+        assertEquals(potentiometer.getValue(), value);
     }
 }

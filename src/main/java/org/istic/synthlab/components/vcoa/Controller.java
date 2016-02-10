@@ -44,7 +44,6 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudePulse(1);
         vcoa.setAmplitudeImpulse(1);
-        vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);

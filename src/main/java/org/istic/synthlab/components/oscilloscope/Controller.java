@@ -29,7 +29,7 @@ public class Controller implements Initializable{
     private Circle circleEvent;
 
     private static int numInstance = 0;
-    private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope"+numInstance++);
+    private Oscilloscope oscilloscope = new Oscilloscope("Visualizer"+numInstance++);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

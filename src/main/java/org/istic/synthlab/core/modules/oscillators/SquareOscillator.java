@@ -13,8 +13,4 @@ public class SquareOscillator extends AbstractOscillator {
         super(component, new com.jsyn.unitgen.SquareOscillator());
     }
 
-    @Override
-    public boolean isActivated() {
-        return getOscillator().isEnabled();
-    }
 }
