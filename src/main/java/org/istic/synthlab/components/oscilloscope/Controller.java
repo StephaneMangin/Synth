@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.components.out.Out;
@@ -31,7 +32,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
 
     @FXML
-    private Pane pane;
+    private GridPane pane;
     @FXML
     public Group swingNodeGroup;
     @FXML
@@ -49,13 +50,15 @@ public class Controller implements Initializable{
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
 
+        AudioScopeView byuu = gtreff();
+        byuu.setSize(new Dimension(111, 111));
+
         final SwingNode swingNode = new SwingNode();
         JPanel panel = new JPanel();
         panel.setBackground(Color.RED);
-        panel.setSize(new Dimension(300, 300));
 
-        swingNode.setContent(panel);
-        pane.getChildren().add(swingNode);
+        swingNode.setContent(byuu);
+        pane.add(swingNode, 0, 0);
     }
 
     private AudioScopeView gtreff() {
