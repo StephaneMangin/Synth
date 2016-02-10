@@ -80,6 +80,28 @@ public class BasicChainTest {
     }
 
     @Test
+    public void TestVcoaSwitch() throws InterruptedException {
+        vcoa.setAmplitudeRedNoise(1);
+        vcoa.setAmplitudeSquare(1);
+        vcoa.setExponentialFrequency(440);
+        vcoa.getOutput().connect(out.getInput());
+
+        out.start();
+        synth.start();
+        synth.sleepUntil(3);
+        vcoa.setExponentialFrequency(880);
+        vcoa.setAmplitudeSquare(0);
+        synth.sleepUntil(6);
+        vcoa.setAmplitudeSquare(1);
+        synth.sleepUntil(9);
+        vcoa.setOscillatorType(OscillatorType.REDNOISE);
+        synth.sleepUntil(12);
+        System.out.println("END");
+        synth.stop();
+        //((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
     public void TestVca() throws InterruptedException {
         Vca vca = new Vca("VCA");
         Vcoa vcoa1 = new Vcoa("VCOA1");
