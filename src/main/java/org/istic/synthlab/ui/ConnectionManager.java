@@ -42,6 +42,10 @@ public class ConnectionManager {
         stage = node;
     }
 
+    public static Stage getStage(){
+        return stage;
+    }
+
     public static void addObserver(IObserver observer) {
         observers.add(observer);
     }
@@ -68,7 +72,6 @@ public class ConnectionManager {
     public static void deleteLine(CurveCable line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
-            IInput input = connection.getInput();
             IOutput output = connection.getOutput();
             Register.disconnect(output);
 
@@ -167,23 +170,7 @@ public class ConnectionManager {
                     getLocalScene(circleOutput).getY(),
                     color
             );
-            final Stage dialog = new Stage();
-            dialog.initModality(Modality.NONE);
-            dialog.initOwner(stage);
-            ColorPicker colorPicker = new ColorPicker();
-            curveCable.setOnMousePressed(event -> {
-                VBox dialogVbox = new VBox();
-                colorPicker.setValue(curveCable.getColor());
-                dialogVbox.getChildren().add(colorPicker);
-                Scene dialogScene = new Scene(dialogVbox);
-                dialog.setScene(dialogScene);
-                dialog.show();
-                event.consume();
-                colorPicker.valueProperty().addListener(e -> {
-                    curveCable.setColor(colorPicker.getValue());
-                    dialog.hide();
-                });
-            });
+
             lineConnection.put(curveCable, connection);
             return true;
         }
