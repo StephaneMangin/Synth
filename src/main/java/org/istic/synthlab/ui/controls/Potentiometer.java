@@ -144,6 +144,7 @@ public class Potentiometer extends Pane {
     private void rotateHandle(final double degrees) {
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
+            setValue((degrees-MIN) / (MAX-MIN));
         }
     }
 }

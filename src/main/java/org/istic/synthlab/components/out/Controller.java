@@ -34,18 +34,15 @@ public class Controller extends AbstractController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         componentOut.start();
-        amplitude.setValue(0);
-        amplitude.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
-                componentOut.getInputModulator().setValue((double) newValue);
-            }
+        amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
+            componentOut.getInputModulator().setValue((double) newValue);
         });
+        amplitude.setValue(0);
     }
 
     @FXML
-    void connectIn(){
+    public void connectIn(){
         ConnectionManager.makeDestination(circleEvent, componentOut.getInput());
     }
 

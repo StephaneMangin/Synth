@@ -1,6 +1,7 @@
 package org.istic.synthlab.components.oscilloscope;
 
 import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
 
 import javax.swing.*;
@@ -23,7 +24,7 @@ public class Oscilloscope extends AbstractComponent {
         getSource().connect(getSink());
     }
 
-    public JPanel getVIew() {
+    public JPanel getView() {
         return this.oscilloscope.getView();
     }
 }

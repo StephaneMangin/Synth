@@ -35,16 +35,14 @@ public class Controller implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
-        final SwingNode swingNode = new SwingNode();
-        swingNode.setContent(new JButton("Click me!"));
-        JPanel panel = oscilloscope.getVIew();
-        // Force the size by using a dimension instance instead of setSize only
-        Dimension dim = new Dimension();
-        dim.setSize(80, 120);
-        panel.setPreferredSize(dim);
-        swingNode.setContent(panel);
-        pane.getChildren().add(swingNode);
 
+        final SwingNode swingNode = new SwingNode();
+        final JPanel panel = oscilloscope.getView();
+        //final JButton panel = new JButton("mefer");
+        panel.setPreferredSize(new Dimension(120, 80));
+
+        SwingUtilities.invokeLater(() -> swingNode.setContent(panel));
+        pane.getChildren().add(swingNode);
     }
     @FXML
     public void connectOut(){
