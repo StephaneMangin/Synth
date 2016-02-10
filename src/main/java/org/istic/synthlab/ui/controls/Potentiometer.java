@@ -13,7 +13,13 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 
 /**
- * Created by blacknight on 09/02/16.
+ * Allow direct insertion into a fxml file
+ *
+ * Example :
+ *      <Potentiometer fx-id:="my potentiometer" />
+ *
+ * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Potentiometer extends Pane {
     @FXML

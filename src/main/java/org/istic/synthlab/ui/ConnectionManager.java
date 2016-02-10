@@ -22,6 +22,7 @@ import java.util.Set;
 
 /**
  * @author Sebastien
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class ConnectionManager {
     private static IOutput output;

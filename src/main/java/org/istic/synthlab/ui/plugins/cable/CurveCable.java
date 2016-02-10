@@ -5,10 +5,14 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
- * @author augustin
+ * Manage cable insertion and linking.
+ *
+ * @author Augustion Bardou <>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class CurveCable extends CubicCurve {
 
+    // Keep the color to override setter
     private Color color;
 
     /**

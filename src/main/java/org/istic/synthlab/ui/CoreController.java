@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
  * FX controller of core.fxml
  * Represents the global view of the application
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class CoreController implements Initializable, IObserver {
     /**
