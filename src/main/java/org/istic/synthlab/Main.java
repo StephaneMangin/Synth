@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.setProperty("javafx.embed.singleThread", "true");
+        //System.setProperty("javafx.embed.singleThread", "true");
         Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
         primaryStage.setTitle("Synth");
         primaryStage.setScene(new Scene(root));
