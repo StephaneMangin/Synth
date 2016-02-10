@@ -109,6 +109,8 @@ public class CoreController implements Initializable, IObserver {
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);
+                    delete_mod = false;
+                    borderPane.setCursor(Cursor.DEFAULT);
                 }
             });
             borderPane.getChildren().add(key);
