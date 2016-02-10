@@ -134,7 +134,7 @@ public class ConnectionManager {
                     endCenter.centerXProperty(),
                     endCenter.centerYProperty()
             );
-            line.setStrokeWidth(10);
+            //line.setStrokeWidth(10);
             lineConnection.put(line, connection);
             return true;
         }

@@ -14,8 +14,8 @@ public class BoundLine extends Line {
         startYProperty().bind(startY);
         endXProperty().bind(endX);
         endYProperty().bind(endY);
-        setStrokeWidth(2);
-        setStroke(Color.BLACK.deriveColor(0, 1, 1, 1));
+        setStrokeWidth(20);
+        setStroke(Color.BLACK.deriveColor(0, 1, 1, 0.5));
         setStrokeLineCap(StrokeLineCap.ROUND);
     }
 }
