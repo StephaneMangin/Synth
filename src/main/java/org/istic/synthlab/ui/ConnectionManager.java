@@ -23,7 +23,6 @@ public class ConnectionManager {
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
-
     private static HashMap<OurCubicCurve, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
@@ -44,7 +43,7 @@ public class ConnectionManager {
         }
     }
 
-    public static void deleteLine(Line line){
+    public static void deleteLine(OurCubicCurve line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
             IInput input = connection.getInput();
@@ -60,10 +59,7 @@ public class ConnectionManager {
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
-
-
         if(!cable_selected && connectionTab.containsKey(output)){
-
             cable_selected = true;
             IInput value = connectionTab.get(output);
             OurCubicCurve key_line = getKeyLine(value);
@@ -74,7 +70,6 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             update();
-
         }
         else{
             if(input != null){
@@ -86,7 +81,6 @@ public class ConnectionManager {
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
-
         if(!cable_selected && connectionTab.containsValue(input)){
             cable_selected = true;
 
@@ -100,15 +94,12 @@ public class ConnectionManager {
 
             update();
             output = key;
-
         }
         else{
             if(output != null){
                 makeConnection();
             }
         }
-
-
     }
 
     private static void makeConnection(){
@@ -129,7 +120,7 @@ public class ConnectionManager {
             DoubleProperty endX = new SimpleDoubleProperty(circleInput.localToScene(circleInput.getCenterX(), circleInput.getCenterY()).getY());
             DoubleProperty startY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getX());
             DoubleProperty endY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getY());
-            OurCubicCurve ourCubicCurve = new OurCubicCurve(startX,endX,startY,endY);
+            OurCubicCurve ourCubicCurve = new OurCubicCurve(startX,startY,endX,endY);
             lineConnection.put(ourCubicCurve, connection);
             return true;
         }

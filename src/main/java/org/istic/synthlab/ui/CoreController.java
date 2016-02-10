@@ -10,12 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -105,8 +107,8 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<Line, Connection> arg) {
-        for(Line key : arg.keySet()){
+    public void drawLine(HashMap<OurCubicCurve, Connection> arg) {
+        for(OurCubicCurve key : arg.keySet()){
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);

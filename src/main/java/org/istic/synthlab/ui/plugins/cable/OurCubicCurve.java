@@ -21,14 +21,14 @@ public class OurCubicCurve extends CubicCurve {
 
     /**
      * Constructor without the color option
-     * @param startX
-     * @param startY
-     * @param controlX1
-     * @param controlY1
-     * @param controlX2
-     * @param controlY2
-     * @param endX
-     * @param endY
+     * @param startX position X of the starting point
+     * @param startY position Y of the starting point
+     * @param controlX1 position X of the control point
+     * @param controlY1 position Y of the control point
+     * @param controlX2 position X of the second control point
+     * @param controlY2 position Y of the second control point
+     * @param endX position X of the ending point
+     * @param endY position Y of the ending point
      */
     public OurCubicCurve(ReadOnlyDoubleProperty startX, ReadOnlyDoubleProperty startY, ReadOnlyDoubleProperty controlX1, ReadOnlyDoubleProperty controlY1, ReadOnlyDoubleProperty controlX2, ReadOnlyDoubleProperty controlY2, ReadOnlyDoubleProperty endX, ReadOnlyDoubleProperty endY) {
         startXProperty().bind(startX);
@@ -46,8 +46,8 @@ public class OurCubicCurve extends CubicCurve {
 
     public OurCubicCurve(ReadOnlyDoubleProperty startX, ReadOnlyDoubleProperty startY, ReadOnlyDoubleProperty endX, ReadOnlyDoubleProperty endY) {
         startXProperty().bind(startX);
-        endXProperty().bind(endX);
-        startYProperty().bind(startY);
+        endXProperty().bind(startY);
+        startYProperty().bind(endX);
         endYProperty().bind(endY);
         setStroke(Color.FORESTGREEN);
         setStrokeWidth(7.5);
@@ -60,17 +60,18 @@ public class OurCubicCurve extends CubicCurve {
         autosize();
     }
 
+
     /**
      * Constructor with the color option
-     * @param startX
-     * @param startY
-     * @param controlX1
-     * @param controlY1
-     * @param controlX2
-     * @param controlY2
-     * @param endX
-     * @param endY
-     * @param color
+     * @param startX position X of the starting point
+     * @param startY position Y of the starting point
+     * @param controlX1 position X of the control point
+     * @param controlY1 position Y of the control point
+     * @param controlX2 position X of the second control point
+     * @param controlY2 position Y of the second control point
+     * @param endX position X of the ending point
+     * @param endY position Y of the ending point
+     * @param color color of the CubicCurve object
      */
     public OurCubicCurve(double startX, double startY, double controlX1, double controlY1, double controlX2, double controlY2, double endX, double endY, Color color) {
         super(startX, startY, controlX1, controlY1, controlX2, controlY2, endX, endY);
