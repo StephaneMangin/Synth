@@ -76,6 +76,8 @@ public class CoreController implements Initializable, IObserver {
     private Button pauseButton;
     @FXML
     private Button playButton;
+    @FXML
+    private AnchorPane anchorPane;
 
     private Image image;
 
@@ -109,6 +111,9 @@ public class CoreController implements Initializable, IObserver {
     @Override
     public void drawLine(HashMap<CurveCable, Connection> arg) {
         for(CurveCable key : arg.keySet()){
+
+            key.reCenter(anchorPane.localToScene(0.0, 0.0).getX(), anchorPane.localToScene(0.0, 0.0).getY());
+
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);
@@ -116,12 +121,14 @@ public class CoreController implements Initializable, IObserver {
                     borderPane.setCursor(Cursor.DEFAULT);
                 }
             });
-            borderPane.getChildren().add(key);
+            anchorPane.getChildren().add(key);
         }
+        System.out.println(anchorPane.localToScene(0.0, 0.0).getX());
+        System.out.println(anchorPane.localToScene(0.0, 0.0).getY());
     }
 
     public void unDrawLine(HashMap<CurveCable, Connection> arg){
-        ObservableList<Node> list = borderPane.getChildren();
+        ObservableList<Node> list = anchorPane.getChildren();
         ObservableList<Node> temp = FXCollections.observableArrayList();
 
         temp.addAll(list.stream().filter(node -> node instanceof CurveCable).collect(Collectors.toList()));
@@ -337,4 +344,5 @@ public class CoreController implements Initializable, IObserver {
         }
         return packageNameSet;
     }
+
 }

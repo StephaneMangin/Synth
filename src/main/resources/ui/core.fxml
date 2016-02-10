@@ -12,11 +12,17 @@
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <ScrollPane fx:id="scrollpane">
-            <GridPane fx:id="gridPane" alignment="CENTER" focusTraversable="true" hgap="5" vgap="5">
-                <padding>
-                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                </padding>
-            </GridPane>
+         <content>
+            <AnchorPane fx:id="anchorPane" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                     <GridPane fx:id="gridPane" alignment="CENTER" focusTraversable="true" hgap="5" vgap="5">
+                         <padding>
+                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                         </padding>
+                     </GridPane>
+               </children>
+            </AnchorPane>
+         </content>
         </ScrollPane>
     </center>
     <top>

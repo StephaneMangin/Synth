@@ -143,7 +143,7 @@ public class Register {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
-        unitOut.connect(unitIn);
+        unitOut.disconnect(unitIn);
         associations.remove(in, out);
         System.out.println(in + " disconnected");
 
