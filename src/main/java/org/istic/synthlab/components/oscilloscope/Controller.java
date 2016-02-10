@@ -28,9 +28,13 @@ public class Controller implements Initializable{
     @FXML
     private Circle circleEvent;
 
-    private static int numInstance = 0;
-    private Oscilloscope oscilloscope = new Oscilloscope("Visualizer"+numInstance++);
-
+    private static int numInstance      = 0;
+    private Oscilloscope oscilloscope   = new Oscilloscope("Visualizer"+numInstance++);
+    /**
+     * When the component is created, it initialize the component representation adding listener and MouseEvent
+     * @param location type URL
+     * @param resources type ResourceBundle
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
@@ -38,22 +42,30 @@ public class Controller implements Initializable{
 
         final SwingNode swingNode = new SwingNode();
         final JPanel panel = oscilloscope.getView();
-        //final JButton panel = new JButton("mefer");
         panel.setPreferredSize(new Dimension(120, 80));
 
         SwingUtilities.invokeLater(() -> swingNode.setContent(panel));
         pane.getChildren().add(swingNode);
     }
+    /**
+     * Method called in view component file and start a connection manager calling the makeDestination method
+     * with the output variable
+     */
     @FXML
     public void connectOut(){
         ConnectionManager.makeOrigin(circleEvent, oscilloscope.getOutput());
     }
-
+    /**
+     * Method called in view component file and start a connection manager calling the makeDestination method
+     * with the input variable
+     */
     @FXML
     public void connectIn(){
         ConnectionManager.makeDestination(circleEvent, oscilloscope.getInput());
     }
-
+    /**
+     * Get the object clicked in the view and cast it into a Circle object
+     */
     private class GetIdWithClick implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
