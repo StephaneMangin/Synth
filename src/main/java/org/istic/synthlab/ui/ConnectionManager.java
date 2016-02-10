@@ -1,13 +1,12 @@
 package org.istic.synthlab.ui;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Point2D;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.OurCubicCurve;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ public class ConnectionManager {
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
-    private static HashMap<OurCubicCurve, Connection> lineConnection = new HashMap<>();
+    private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
     private static Circle circleInput;
     private static Circle circleOutput;
 
@@ -43,7 +42,7 @@ public class ConnectionManager {
         }
     }
 
-    public static void deleteLine(OurCubicCurve line){
+    public static void deleteLine(CurveCable line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
             IInput input = connection.getInput();
@@ -62,7 +61,7 @@ public class ConnectionManager {
         if(!cable_selected && connectionTab.containsKey(output)){
             cable_selected = true;
             IInput value = connectionTab.get(output);
-            OurCubicCurve key_line = getKeyLine(value);
+            CurveCable key_line = getKeyLine(value);
 
             connectionTab.remove(output);
             lineConnection.remove(key_line);
@@ -87,7 +86,7 @@ public class ConnectionManager {
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
-            OurCubicCurve key_line = getKeyLine(input);
+            CurveCable key_line = getKeyLine(input);
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
@@ -116,21 +115,22 @@ public class ConnectionManager {
     private static boolean drawCable(){
         Connection connection = new Connection(output, input);
         if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
-            DoubleProperty startX = new SimpleDoubleProperty(circleInput.localToScene(circleInput.getCenterX(), circleInput.getCenterY()).getX());
-            DoubleProperty endX = new SimpleDoubleProperty(circleInput.localToScene(circleInput.getCenterX(), circleInput.getCenterY()).getY());
-            DoubleProperty startY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getX());
-            DoubleProperty endY = new SimpleDoubleProperty(circleOutput.localToScene(circleOutput.getCenterX(), circleOutput.getCenterY()).getY());
-            OurCubicCurve ourCubicCurve = new OurCubicCurve(startX,startY,endX,endY);
-            lineConnection.put(ourCubicCurve, connection);
+            CurveCable curveCable = new CurveCable(
+                    getLocalScene(circleInput).getX(),
+                    getLocalScene(circleInput).getY(),
+                    getLocalScene(circleOutput).getX(),
+                    getLocalScene(circleOutput).getY()
+            );
+            lineConnection.put(curveCable, connection);
             return true;
         }
         return false;
     }
 
-    private static OurCubicCurve getKeyLine(IInput value){
+    private static CurveCable getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
         for (Object key1 : keys) {
-            OurCubicCurve key = (OurCubicCurve) key1;
+            CurveCable key = (CurveCable) key1;
             Connection co = lineConnection.get(key);
             if (co.getInput() == value) {
                 return key;
@@ -149,5 +149,9 @@ public class ConnectionManager {
             }
         }
         return null;
+    }
+
+    private static Point2D getLocalScene(Circle circle) {
+        return circle.localToScene(circleInput.getCenterX(), circleInput.getCenterY());
     }
 }

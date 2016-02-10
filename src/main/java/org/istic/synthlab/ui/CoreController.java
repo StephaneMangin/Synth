@@ -23,7 +23,7 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.OurCubicCurve;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -107,8 +107,8 @@ public class CoreController implements Initializable, IObserver {
     }
 
     @Override
-    public void drawLine(HashMap<OurCubicCurve, Connection> arg) {
-        for(OurCubicCurve key : arg.keySet()){
+    public void drawLine(HashMap<CurveCable, Connection> arg) {
+        for(CurveCable key : arg.keySet()){
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);
@@ -120,11 +120,11 @@ public class CoreController implements Initializable, IObserver {
         }
     }
 
-    public void unDrawLine(HashMap<OurCubicCurve, Connection> arg){
+    public void unDrawLine(HashMap<CurveCable, Connection> arg){
         ObservableList<Node> list = borderPane.getChildren();
         ObservableList<Node> temp = FXCollections.observableArrayList();
 
-        temp.addAll(list.stream().filter(node -> node instanceof OurCubicCurve).collect(Collectors.toList()));
+        temp.addAll(list.stream().filter(node -> node instanceof CurveCable).collect(Collectors.toList()));
         temp.forEach(list::remove);
     }
 
