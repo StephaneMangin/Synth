@@ -19,7 +19,7 @@ import org.junit.Test;
 import javax.swing.*;
 
 /**
- * Created by cyprien on 04/02/16.
+ * @author Cyprien
  */
 public class BasicChainTest {
 

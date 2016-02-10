@@ -46,10 +46,10 @@ public class CurveCable extends CubicCurve {
         super(
                 startX,
                 startY,
-                startX + (startX % 100),
-                startY + (startY % 100),
-                endX - (endX % 100),
-                endY - (endY % 100),
+                startX + (startX % 100),    //controlX1 variable
+                startY + (startY % 100),    //controlY1 variable
+                endX - (endX % 100),        //controlX2 variable
+                endY - (endY % 100),        //controlY2 variable
                 endX,
                 endY
         );

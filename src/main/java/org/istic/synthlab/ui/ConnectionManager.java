@@ -1,15 +1,12 @@
 package org.istic.synthlab.ui;
 
-import com.sun.javafx.scene.control.skin.CustomColorDialog;
-import javafx.geometry.*;
-import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.layout.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.IObserver;
@@ -17,9 +14,7 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
-import sun.awt.geom.Curve;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +50,9 @@ public class ConnectionManager {
         observers.remove(observer);
     }
 
+    /**
+     * Update all observers
+     */
     private static void update() {
         for (IObserver observer : observers) {
             observer.update(connectionTab);
@@ -63,6 +61,10 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Delete a CurveCable from the HashMap lineConnection
+     * @param line the line we want to remove
+     */
     public static void deleteLine(CurveCable line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
@@ -76,6 +78,12 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Call makeConnection if an Input as already been clicked and that the connection is authorized by the model
+     * otherwise it disconnect the current connection using this output
+     * @param circle the instance of the circle click in the view
+     * @param futureConnectionOrigin the output destination for the new connection
+     */
     public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
@@ -98,6 +106,12 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Call makeConnection if an Output as already been clicked and that the connection is authorized by the model
+     * otherwise it disconnect the current connection using this input
+     * @param circle the instance of the circle click in the view
+     * @param futureConnectionDestination the input destination for the new connection
+     */
     public static void makeDestination(Circle circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
@@ -122,6 +136,9 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Create a connection in the model and call the method update to create the connection in the view
+     */
     private static void makeConnection(){
         if(drawCable()) {
             connectionTab.put(output, input);
@@ -133,9 +150,15 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Initialize a CurveCable between two points and add a color picker on the representation
+     * @return true if the cable is create or false if not
+     */
     private static boolean drawCable(){
         Connection connection = new Connection(output, input);
-        if((!lineConnection.containsValue(connection)) && (!connectionTab.containsValue(input)) && (!connectionTab.containsKey(output))){
+        if((!lineConnection.containsValue(connection))      //Check that the connection is not already existing
+                && (!connectionTab.containsValue(input))    //Check if the input destination is not involve with an other connection
+                && (!connectionTab.containsKey(output))){   //Check if the output source is not involve with an other connection
             Color color = Color.FORESTGREEN;
             CurveCable curveCable = new CurveCable(
                     getLocalScene(circleInput).getX(),
@@ -167,6 +190,11 @@ public class ConnectionManager {
         return false;
     }
 
+    /**
+     * Get the CurveCable attached to an input
+     * @param value value of the input
+     * @return a CurveCable object
+     */
     private static CurveCable getKeyLine(IInput value){
         Set keys = lineConnection.keySet();
         for (Object key1 : keys) {
@@ -179,6 +207,11 @@ public class ConnectionManager {
         return null;
     }
 
+    /**
+     * Get the Output attached to an input
+     * @param value value of the input
+     * @return an Output object
+     */
     private static IOutput getKey(IInput value){
         Set keys = connectionTab.keySet();
         for (Object key1 : keys) {

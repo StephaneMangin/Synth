@@ -109,6 +109,10 @@ public class CoreController implements Initializable, IObserver {
         textarea.setText(total);
     }
 
+    /**
+     * Draw a cable between to point (one input and one one output)
+     * @param arg an HashMap which contains all the cable we have into our view
+     */
     @Override
     public void drawLine(HashMap<CurveCable, Connection> arg) {
         for(CurveCable key : arg.keySet()){
