@@ -18,6 +18,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -35,6 +36,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FX controller of core.fxml
@@ -60,7 +65,7 @@ public class CoreController implements Initializable, IObserver {
      */
     public static final int DEFAULT_COLS_PREF_WIDTH = 300;
 
-    // Be sure there's never a component named "panda" for this to work
+    // Be sure there's never a component named like this for this to work
     private static final String DRAG_N_DROP_MOVE_GUARD = "panda";
 
     @FXML
@@ -80,7 +85,7 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private AnchorPane anchorPane;
 
-    private Image image;
+    private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
 
     private Boolean delete_mod = false;
 
@@ -96,6 +101,7 @@ public class CoreController implements Initializable, IObserver {
         initializeFunctions();
         ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
+        ConnectionManager.setCoreController(this);
     }
 
     @Override
@@ -108,6 +114,14 @@ public class CoreController implements Initializable, IObserver {
             total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
         textarea.setText(total);
+    }
+
+    public void draw(Node node){
+        anchorPane.getChildren().add(node);
+    }
+
+    public void undraw(Node node){
+        anchorPane.getChildren().remove(node);
     }
 
     /**
@@ -144,8 +158,6 @@ public class CoreController implements Initializable, IObserver {
             });
             anchorPane.getChildren().add(key);
         }
-        System.out.println(anchorPane.localToScene(0.0, 0.0).getX());
-        System.out.println(anchorPane.localToScene(0.0, 0.0).getY());
     }
 
     public void unDrawLine(HashMap<CurveCable, Connection> arg){
@@ -157,28 +169,35 @@ public class CoreController implements Initializable, IObserver {
     }
 
     private void initializeFunctions(){
-        image = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
+        imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
         scrollpane.setOnMouseClicked(event -> {
             delete_mod = false;
             borderPane.setCursor(Cursor.DEFAULT);
         });
-        //image = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
+        //imageScissors = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
     }
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
-            URL image = getClass().getResource("/ui/components/" + component + "/images/small.png");
+
+        // FIXME: autodetect the components
+        // replicator wasn't detected by findAllPackagesStartingWith()
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator"};
+        //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
+        for (final String component: components) {
+            final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
             }
-            Pane pane = new Pane();
-            ImageView imageView = new ImageView(new Image(image.toString()));
+
+            final Pane pane = new Pane();
+            final ImageView imageView = new ImageView(new Image(image.toString()));
             imageView.preserveRatioProperty();
             imageView.setFitWidth(100);
             imageView.setFitHeight(50);
             imageView.setSmooth(true);
             imageView.setId(component);
+
             pane.getChildren().add(imageView);
             pane.setOnDragDetected(new DragDetectedListItemEventHandler());
             data.add(pane);
@@ -187,6 +206,9 @@ public class CoreController implements Initializable, IObserver {
         listView.setItems(data);
     }
 
+    /**
+     * Initialize the content of the grid: add the rows and cols, and give each cell a Pane with associated drag events
+     */
     private void initializeGridView() {
         for (int row = 0; row < DEFAULT_NB_ROWS; row++) {
             final RowConstraints rowConstraints = new RowConstraints();
@@ -238,7 +260,7 @@ public class CoreController implements Initializable, IObserver {
     public void onCut(){
         delete_mod = !delete_mod;
         if(delete_mod){
-            borderPane.setCursor(new ImageCursor(image));
+            borderPane.setCursor(new ImageCursor(imageScissors));
         }
         else{
             borderPane.setCursor(Cursor.DEFAULT);
@@ -254,7 +276,7 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(true);
 
         Factory.createSynthesizer().start();
-        Register.uglyPatchWork();
+        Register.startComponents();
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
@@ -346,22 +368,20 @@ public class CoreController implements Initializable, IObserver {
      * @return Set of package names
      */
     public Set<String> findAllPackagesStartingWith(String prefix) {
-        List<ClassLoader> classLoadersList = new LinkedList<>();
+        final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
-        classLoadersList.add(ClasspathHelper.staticClassLoader());
+
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setScanners(new SubTypesScanner(false), new ResourcesScanner())
                 .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[classLoadersList.size()])))
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
         Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-        Set<String> packageNameSet = new TreeSet<>();
-        for (Class classInstance : classes) {
+        final Set<String> packageNameSet = new HashSet<>();
+        for (final Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
-            if (packageName.startsWith(prefix)) {
-                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
-                packageNameSet.add(packageName);
-            }
+            packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
+            packageNameSet.add(packageName);
         }
         return packageNameSet;
     }

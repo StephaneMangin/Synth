@@ -44,11 +44,12 @@ public class PassThrough implements IPassThrough {
         Register.declare(component, passThroughOut3);
 
         // Then declare the mappings
-        Register.declare(component, input, passThroughIn.input);
+        // In fact, not necessary !
+/*        Register.declare(component, input, passThroughIn.input);
 
         Register.declare(component, output1, passThroughOut1.output);
         Register.declare(component, output2, passThroughOut2.output);
-        Register.declare(component, output3, passThroughOut3.output);
+        Register.declare(component, output3, passThroughOut3.output);*/
 
         // Internal mapping to make the replicator work.
         passThroughIn.output.connect(passThroughOut1.input);
