@@ -1,30 +1,36 @@
 package org.istic.synthlab.components.out;
 
 import javafx.fxml.FXML;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.shape.Circle;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * @author stephane
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
+    @FXML
+    private AnchorPane outPane;
     @FXML
     private Node input;
     @FXML
     private Potentiometer amplitude;
-
+    @FXML
+    private Button close;
     private Out componentOut        = new Out("Out"+numInstance++);
     private Node circleEvent;
     private static int numInstance  = 0;
+    private List<Node> nodeList = new ArrayList<>();
 
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
@@ -33,13 +39,14 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        outPane.setId("outPane"+numInstance);
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         //componentOut.start();
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
-            componentOut.getInputModulator().setValue((double) newValue);
+            componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
         amplitude.setValue(0);
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
     }
 
     /**
@@ -47,10 +54,17 @@ public class Controller extends AbstractController implements Initializable {
      * with the input variable
      */
     @FXML
-    public void connectIn(){
-        ConnectionManager.makeDestination(circleEvent, componentOut.getInput());
+    public void connectIn() {
+        ConnectionManager.makeDestination(componentOut, circleEvent, componentOut.getInput());
     }
-
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(componentOut, outPane);
+    }
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */

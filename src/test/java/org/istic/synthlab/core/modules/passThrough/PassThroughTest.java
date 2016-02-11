@@ -50,8 +50,8 @@ public class PassThroughTest extends TestCase {
 
         IOscillator sin = Factory.createOscillator(componentSin, OscillatorType.SINE);
 
-        sin.setFrequency(320.0);
-        sin.setAmplitude(1.0);
+        sin.getFrequencyPotentiometer().setValue(320.0);
+        sin.getAmplitudePotentiometer().setValue(1.0);
         sin.activate();
 
         ILineOut lineOut1 = Factory.createLineOut(componentOut1, LineType.OUT);
@@ -67,13 +67,10 @@ public class PassThroughTest extends TestCase {
         Synthesizer synth = Factory.createSynthesizer();
 
         lineOut1.start();
-        lineOut1.setVolume(0.0);
 
         lineOut2.start();
-        lineOut2.setVolume(0.0);
 
         lineOut3.start();
-        lineOut3.setVolume(0.0);
 
         synth.start();
         synth.sleepFor(0.5);

@@ -1,7 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
 import org.istic.synthlab.core.IComponent;
-import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.jsyn.VcaFunction;
@@ -43,4 +42,12 @@ public class VcaAmplitudeModulator extends AbstractModulator {
     public boolean isActivated() {
         return function.isEnabled();
     }
+
+/*    @Override
+    public void setValue(double value){
+        System.out.println("intercepted !");
+        potentiometer.setValue(calculateStep(value));
+        System.out.println("calculatedValue : " + potentiometer.calculateStep(value));
+        System.out.println("value : " + potentiometer.getValue());
+    }*/
 }

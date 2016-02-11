@@ -11,7 +11,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * @author Dechaud John Marc on 2/8/16.
  */
-public class Vca extends AbstractComponent{
+public class Vca extends AbstractComponent {
 
     private IModulator vcaModulator;
     private IFunction multiplyInAm;
@@ -25,17 +25,17 @@ public class Vca extends AbstractComponent{
         super(name);
 
         this.multiplyInAm = new Multiply(this);
-        this.vcaModulator = Factory.createModulator("Gain", this, ModulatorType.VCA, PotentiometerType.LINEAR);
+        this.vcaModulator = Factory.createModulator("VCA", this, ModulatorType.VCA, PotentiometerType.LINEAR);
 
         // Connect the source port with the input port modulator
-        this.getSource().connect(this.multiplyInAm.getInputA());
+        this.getSource().connect(this.multiplyInAm.getInput());
 
         // Connect the sourceAm port with the input port modulator
         this.getSourceAm().connect(this.vcaModulator.getInput());
-        this.multiplyInAm.setInputB(0.0);
+        this.multiplyInAm.setVariableInput(0.0);
 
         // Connect the sum of modulation to input signal
-        //this.vcaModulator.getOutput().connect(this.multiplyInAm.getInputB());
+        //this.vcaModulator.getOutput().connect(this.multiplyInAm.getVariableInput());
 
         // Connect the gain output port with the external output
         this.multiplyInAm.getOutput().connect(this.getSink());
@@ -58,19 +58,19 @@ public class Vca extends AbstractComponent{
     }
 
     public double getAmplitudeModulatorValue() {
-        return this.vcaModulator.getValue();
+        return vcaModulator.getValue();
     }
 
-    public void setAmplitudeModulatorValue(double value) {
-        this.vcaModulator.setValue(value);
+    public void setAmplitudeModulatorValue(final double value) {
+        vcaModulator.setValue(value);
     }
 
     public double getGainModulatorValue() {
-        return this.vcaModulator.getValue();
+        return vcaModulator.getValue();
     }
 
-    public void setGainModulatorValue(double value) {
-        this.vcaModulator.setValue(value);
+    public void setGainModulatorValue(final double value) {
+        vcaModulator.setValue(value);
     }
 
 }

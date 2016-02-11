@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.ui.ConnectionManager;
@@ -21,6 +22,8 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+    @FXML
+    private AnchorPane oscilloscopePane;
     @FXML
     private GridPane pane;
     @FXML
@@ -43,6 +46,7 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        oscilloscopePane.setId("oscilloscopePane"+numInstance);
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
 
@@ -61,16 +65,18 @@ public class Controller implements Initializable {
      */
     @FXML
     public void connectOut(){
-        ConnectionManager.makeOrigin(circleEvent, oscilloscope.getOutput());
+        ConnectionManager.makeOrigin(oscilloscope, circleEvent, oscilloscope.getOutput());
     }
+
     /**
      * Method called in view component file and start a connection manager calling the makeDestination method
      * with the input variable
      */
     @FXML
     public void connectIn(){
-        ConnectionManager.makeDestination(circleEvent, oscilloscope.getInput());
+        ConnectionManager.makeDestination(oscilloscope, circleEvent, oscilloscope.getInput());
     }
+
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */
