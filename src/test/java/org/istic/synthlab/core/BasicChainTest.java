@@ -7,16 +7,18 @@ import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SawtoothOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.CoreController;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.*;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by cyprien on 04/02/16.
@@ -38,7 +40,6 @@ public class BasicChainTest {
         vcoa.setAmplitudeSine(10000);
         //vcoa.setAmplitudeSquare(10000);
         synth = Factory.createSynthesizer();
-        out.getInput().connect(vcoa.getOutput());
     }
 
     @After
@@ -47,6 +48,7 @@ public class BasicChainTest {
 
     @Test
     public void basicChainTest() throws InterruptedException {
+        out.getInput().connect(vcoa.getOutput());
         out.start();
         synth.start();
         synth.sleepUntil(5);
@@ -55,6 +57,7 @@ public class BasicChainTest {
 
     @Test
     public void TestVcoaToVcoa() throws InterruptedException {
+        out.getInput().connect(vcoa.getOutput());
         Vcoa vcoa1 = new Vcoa("VCOA1");
         vcoa1.setAmplitudeSine(50);
         vcoa1.getOutput().connect(vcoa.getInput());
@@ -81,6 +84,7 @@ public class BasicChainTest {
 
     @Test
     public void TestOutParameters() throws InterruptedException {
+        out.getInput().connect(vcoa.getOutput());
         synth.start();
         out.start();
         synth.sleepUntil(3);
@@ -117,30 +121,35 @@ public class BasicChainTest {
     @Test
     public void TestVca() throws InterruptedException {
         Vca vca = new Vca("VCA");
-        Vcoa vcoa1 = new Vcoa("VCOA1");
         Vcoa vcoa2 = new Vcoa("VCOA2");
-        ImpulseOscillator impulseOscillator = (ImpulseOscillator) Factory.createOscillator(vcoa1, OscillatorType.IMPULSE);
-        impulseOscillator.activate();
-        vcoa1.activate();
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        //vcoa2.setExponentialFrequency(440.0);
+        //vcoa2.setAmplitudeSine(1.0);
         vcoa2.activate();
-        vca.activate();
-        vcoa1.getOutput().connect(vcoa2.getFm());
-        vcoa2.getOutput().connect(vca.getInput());
-        vca.getOutput().connect(this.out.getInput());
-        impulseOscillator.setFrequency(500.0);
-        impulseOscillator.activate();
-        vcoa1.getOutput().connect(impulseOscillator.getFm());
-        impulseOscillator.getOutput().connect(vca.getAm());
-        Register.connect(vcoa2.getFm(), vcoa1.getOutput());
-        Register.connect(vca.getInput(), vcoa2.getOutput());
-        Register.connect(out.getInput(), vca.getOutput());
-        Register.connect(impulseOscillator.getFm(), vcoa1.getOutput());
-        Register.connect(vca.getAm(), vcoa1.getOutput());
+        vcoa2.setAmplitudeSquare(1);
+        vcoa2.setExponentialFrequency(200);
+        vca.setGainModulatorValue(0.0);
+
+        vcoa.getOutput().connect(vca.getInput());
+        //vcoa2.getOutput().connect(vca.getAm());
+        vcoa2.getOutput().connect(this.out.getInput());
 
         out.start();
         synth.start();
-        synth.sleepUntil(5);
-        ((SynthesisEngine)synth).printConnections();
+
+        int n = 200;
+        while (n > 0) {
+            n--;
+            //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
+            System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
+
+            //assertNotEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
+
+            synth.sleepFor(0.01);
+        }
+
+       ((SynthesisEngine)synth).printConnections();
     }
 
     @Test

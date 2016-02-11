@@ -102,7 +102,7 @@ public class SineOscillatorTest {
         synth.sleepFor(0.5);
 
         int n = 10;
-        while (n > 0){
+        while (n > 0) {
             n--;
             assertNotSame(0.0, sineOscillator.getOutput().getUnitOutputPort().getValue());
 

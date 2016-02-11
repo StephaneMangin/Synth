@@ -1,7 +1,9 @@
 package org.istic.synthlab.core.modules.functions;
 
-/**
- * Created by miel on 10/02/16.
- */
-public class Multiply {
+import org.istic.synthlab.core.IComponent;
+
+public class Multiply extends AbstractFunction {
+    public Multiply(IComponent component) {
+        super(component, new com.jsyn.unitgen.Multiply());
+    }
 }

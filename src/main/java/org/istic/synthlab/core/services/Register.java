@@ -10,6 +10,10 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class pretends to help I/O associations management.
@@ -32,6 +36,8 @@ public class Register {
     protected static Map<IComponent, Map<IOutput, UnitOutputPort>> mappingOutput = new HashMap<>();
     // The most important one, inputs/outputs associations
     protected static Map<IInput, IOutput> associations = new HashMap<>();
+
+
 
     /**
      * Declare an dual association for a components and a generator
@@ -263,7 +269,7 @@ public class Register {
      */
     // FIXME
     // #SigneScrumMaster
-    public static void uglyPatchWork() {
+    public static void startComponents() {
         for (IComponent component : mappingGenerator.keySet()) {
             if (component instanceof Out) {
                 Out ugly = (Out) component;

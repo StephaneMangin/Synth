@@ -3,14 +3,12 @@ package org.istic.synthlab.ui;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingNode;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
@@ -18,8 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -32,10 +28,13 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FX controller of core.fxml
@@ -74,6 +73,9 @@ public class CoreController implements Initializable, IObserver {
     private Button pauseButton;
     @FXML
     private Button playButton;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> synthesizer = scheduler.scheduleAtFixedRate(()->{}, 0, 10, TimeUnit.MILLISECONDS);
 
     /**
      * This method initializes the list view and the grid
@@ -162,6 +164,9 @@ public class CoreController implements Initializable, IObserver {
      */
     @FXML
     public void onActionClose() {
+        scheduler.shutdown();
+
+        System.out.println("Shut ?"+scheduler.isShutdown());
         Platform.exit();
     }
 
@@ -173,6 +178,7 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
 
+        synthesizer.cancel(true);
         Factory.createSynthesizer().stop();
     }
 
@@ -184,10 +190,16 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
 
-        Register.uglyPatchWork();
-
         Factory.createSynthesizer().start();
-        Register.uglyPatchWork();
+        Register.startComponents();
+
+        synthesizer = scheduler.scheduleAtFixedRate(()->{
+            try{
+                Factory.createSynthesizer().sleepFor(10);
+            } catch (Exception e) {
+                System.out.println("msg"+e.getMessage());
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {

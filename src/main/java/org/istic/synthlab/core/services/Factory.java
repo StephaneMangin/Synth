@@ -150,6 +150,8 @@ public class Factory {
                 return new GainModulator(name, component, potentiometerType);
             case VCOA:
                 return new VcoaFrequencyModulator(name, component, potentiometerType);
+            case VCA:
+                return new VcaAmplitudeModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
