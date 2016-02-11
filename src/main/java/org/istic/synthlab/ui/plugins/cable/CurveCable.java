@@ -6,10 +6,14 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 
 /**
- * @author augustin
+ * Manage cable insertion and linking.
+ *
+ * @author Augustion Bardou <>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class CurveCable extends CubicCurve {
 
+    // Keep the color to override setter
     private Color color;
 
     public CurveCable(final Point2D start, final Point2D end) {
@@ -39,14 +43,14 @@ public class CurveCable extends CubicCurve {
      */
     public CurveCable(final double startX, final double startY, final double endX, final double endY, final Color color) {
         super(
-                startX,
-                startY,
-                startX + (startX % 100),    //controlX1 variable
-                startY + (startY % 100),    //controlY1 variable
-                endX - (endX % 100),        //controlX2 variable
-                endY - (endY % 100),        //controlY2 variable
-                endX,
-                endY
+                startX - 131,
+                startY - 70,
+                startX + (startX % 100) - 131,    //controlX1 variable
+                startY + (startY % 100) - 70,    //controlY1 variable
+                endX - (endX % 100) - 131,        //controlX2 variable
+                endY - (endY % 100) - 70,        //controlY2 variable
+                endX - 131,
+                endY - 70
         );
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);

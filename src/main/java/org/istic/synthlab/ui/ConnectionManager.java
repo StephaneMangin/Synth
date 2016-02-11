@@ -21,6 +21,7 @@ import java.util.Set;
 
 /**
  * @author Sebastien
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class ConnectionManager {
     private static IOutput output;
@@ -39,6 +40,10 @@ public class ConnectionManager {
     }
     public static void setStage(Stage node) {
         stage = node;
+    }
+
+    public static Stage getStage(){
+        return stage;
     }
 
     public static void addObserver(IObserver observer) {
@@ -67,7 +72,6 @@ public class ConnectionManager {
     public static void deleteLine(CurveCable line){
         if(lineConnection.containsKey(line)){
             Connection connection = lineConnection.get(line);
-            IInput input = connection.getInput();
             IOutput output = connection.getOutput();
             Register.disconnect(output);
 
@@ -163,7 +167,7 @@ public class ConnectionManager {
             final Point2D point2 = localToSceneCoordinates(outputNode);
             final CurveCable curveCable = new CurveCable(point1, point2);
 
-            final Stage dialog = new Stage();
+            /*final Stage dialog = new Stage();
             dialog.initModality(Modality.NONE);
             dialog.initOwner(stage);
             ColorPicker colorPicker = new ColorPicker();
@@ -179,7 +183,7 @@ public class ConnectionManager {
                     curveCable.setColor(colorPicker.getValue());
                     dialog.hide();
                 });
-            });
+            });*/
             lineConnection.put(curveCable, connection);
             return true;
         }

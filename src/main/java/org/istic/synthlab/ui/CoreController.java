@@ -10,14 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
  * FX controller of core.fxml
  * Represents the global view of the application
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class CoreController implements Initializable, IObserver {
     /**
@@ -117,13 +118,28 @@ public class CoreController implements Initializable, IObserver {
     public void drawLine(HashMap<CurveCable, Connection> arg) {
         for(CurveCable key : arg.keySet()){
 
-            key.reCenter(anchorPane.localToScene(0.0, 0.0).getX(), anchorPane.localToScene(0.0, 0.0).getY());
-
             key.setOnMouseClicked(event -> {
                 if(delete_mod){
                     ConnectionManager.deleteLine(key);
                     delete_mod = false;
                     borderPane.setCursor(Cursor.DEFAULT);
+                }
+                else{
+                    Stage dialog = new Stage();
+                    dialog.initModality(Modality.NONE);
+                    dialog.initOwner(ConnectionManager.getStage());
+                    ColorPicker colorPicker = new ColorPicker();
+                    VBox dialogVbox = new VBox();
+                    colorPicker.setValue(key.getColor());
+                    dialogVbox.getChildren().add(colorPicker);
+                    Scene dialogScene = new Scene(dialogVbox);
+                    dialog.setScene(dialogScene);
+                    dialog.show();
+                    event.consume();
+                    colorPicker.valueProperty().addListener(e -> {
+                            key.setColor(colorPicker.getValue());
+                            dialog.hide();
+                    });
                 }
             });
             anchorPane.getChildren().add(key);
