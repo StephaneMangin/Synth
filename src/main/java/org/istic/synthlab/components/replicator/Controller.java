@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import org.istic.synthlab.core.AbstractController;
+import org.istic.synthlab.ui.Connection;
 import org.istic.synthlab.ui.ConnectionManager;
 
 import java.net.URL;
@@ -23,6 +24,9 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private ImageView output3;
 
+    private final Replicator replicator = new Replicator("Replicator " + numInstance++);
+    private static int numInstance  = 0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -30,18 +34,21 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     public void connectInput() {
-        //ConnectionManager.makeOrigin();
+        ConnectionManager.makeDestination(input, replicator.getInput());
     }
 
     @FXML
     public void connectOutput1() {
+        ConnectionManager.makeOrigin(output1, replicator.getOutput());
     }
 
     @FXML
     public void connectOutput2() {
+        ConnectionManager.makeOrigin(output2, replicator.getOutputReplicated1());
     }
 
     @FXML
     public void connectOutput3() {
+        ConnectionManager.makeOrigin(output3, replicator.getOutputReplicated2());
     }
 }
