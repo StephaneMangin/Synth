@@ -13,24 +13,41 @@ import javax.swing.*;
  */
 public class Visualizer implements IVisualizer {
 
-    private AudioScope audioScope;
+    private AudioScope scope;
+    private IComponent component;
 
     public Visualizer(IComponent component) {
-        audioScope = new AudioScope(Factory.createSynthesizer());
-        audioScope.setViewMode(AudioScope.ViewMode.WAVEFORM);
-        audioScope.setTriggerLevel(0.01);
-        audioScope.setTriggerMode(AudioScope.TriggerMode.NORMAL);
-
+        this.component = component;
+        // Pour l'affichage des courbes
+        this.scope = new AudioScope( Factory.createSynthesizer());
+        this.scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        this.scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.01 );
     }
 
     @Override
     public JPanel getView() {
-        return audioScope.getView();
+        return this.scope.getView();
     }
 
     @Override
     public void linkTo(IOutput output) {
         // Connect the audioscope to the IOutput's UnitOutputPort
-        audioScope.addProbe(Register.retrieve(output));
+        this.scope.addProbe(Register.retrieve(output));
+    }
+
+    /**
+     * Start the scope
+     */
+    @Override
+    public void start() {
+        this.scope.start();
+    }
+
+    /**
+     * Stop the scope
+     */
+    @Override
+    public void stop() {
+        this.scope.stop();
     }
 }
