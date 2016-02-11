@@ -94,19 +94,18 @@ public class ConnectionManager {
         if(!cableSelected && connectionTab.containsKey(output)){
             cableSelected = true;
             IInput value = connectionTab.get(output);
-            CurveCable key_line = getKeyLine(value);
+            CurveCable keyLine = getKeyLine(value);
 
             connectionTab.remove(output);
-            lineConnection.remove(key_line);
-            colorCurrentCable = key_line.getColor();
+            lineConnection.remove(keyLine);
+            colorCurrentCable = keyLine.getColor();
 
             Register.disconnect(output);
             input = value;
 
+            // FIXME: access the anchorPane in a cleaner way + factorize
             coreController.anchorPane.setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
-                // FIXME: make coordonates relative to realign
-                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
                         event.getX(),
                         event.getY(),
@@ -126,10 +125,9 @@ public class ConnectionManager {
         }
         else{
             if(!connectionTab.containsKey(output)){
+                // FIXME: access the anchorPane in a cleaner way + factorize
                 coreController.anchorPane.setOnMouseMoved(event -> {
                     coreController.undraw(lastDraw);
-                    // FIXME: make coordonates relative to realign
-                    // 131 , 70 is the position of the main corner of the anchorpane.
                     CurveCable curveCable = new CurveCable(
                             event.getX(),
                             event.getY(),
@@ -175,10 +173,9 @@ public class ConnectionManager {
 
             Register.disconnect(input);
             output = key;
+            // FIXME: access the anchorPane in a cleaner way + factorize
             coreController.anchorPane.setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
-                // FIXME: make coordonates relative to realign
-                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
                         event.getX(),
                         event.getY(),
@@ -197,10 +194,9 @@ public class ConnectionManager {
         }
         else{
             if(!connectionTab.containsValue(input)){
+                // FIXME: access the anchorPane in a cleaner way + factorize
                 coreController.anchorPane.setOnMouseMoved(event -> {
                     coreController.undraw(lastDraw);
-                    // FIXME: make coordonates relative to realign
-                    // 131 , 70 is the position of the main corner of the anchorpane.
                     CurveCable curveCable = new CurveCable(
                             event.getX(),
                             event.getY(),
