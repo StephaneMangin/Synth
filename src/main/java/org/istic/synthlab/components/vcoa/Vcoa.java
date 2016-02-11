@@ -38,12 +38,12 @@ public class Vcoa extends AbstractComponent {
 
         // Mix all oscillator's output to the sink port
         squareOscillator.getOutput().connect(getSink());
-        // sineOscillator.getOutput().connect(getSink());
-        // pulseOscillator.getOutput().connect(getSink());
-        // impulseOscillator.getOutput().connect(getSink());
-        // sawToothOscillator.getOutput().connect(getSink());
-        // triangleOscillator.getOutput().connect(getSink());
-        // redNoiseOscillator.getOutput().connect(getSink());
+        sineOscillator.getOutput().connect(getSink());
+        pulseOscillator.getOutput().connect(getSink());
+        impulseOscillator.getOutput().connect(getSink());
+        sawToothOscillator.getOutput().connect(getSink());
+        triangleOscillator.getOutput().connect(getSink());
+        redNoiseOscillator.getOutput().connect(getSink());
 
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
         linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
@@ -99,21 +99,91 @@ public class Vcoa extends AbstractComponent {
         exponentialModulator.setValue(value);
     }
 
+    public double getExponentialFrequency() {
+        return exponentialModulator.getValue();
+    }
+
+    public double getExponentialFrequencyMax() {
+        return exponentialModulator.getMax();
+    }
+
+    public double getExponentialFrequencyMin() {
+        return exponentialModulator.getMin();
+    }
+
+
+
     public void setLinearFrequency(double value) {
         linearModulator.setValue(value);
     }
+
+    public double getLinearFrequency() {
+        return linearModulator.getValue();
+    }
+
+    public double getLinearFrequencyMax() {
+        return linearModulator.getMax();
+    }
+
+    public double getLinearFrequencyMin() {
+        return linearModulator.getMin();
+    }
+
+
 
     public void setAmplitudeSine(double value) {
         sineOscillator.setAmplitude(value);
     }
 
+    public double getAmplitudeSine() {
+        return sineOscillator.getAmplitude();
+    }
+
+    public double getAmplitudeSineMax() {
+        return sineOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudeSineMin() {
+        return sineOscillator.getAmplitudeMin();
+    }
+
+
+
     public void setAmplitudePulse(double value) {
         pulseOscillator.setAmplitude(value);
     }
 
+    public double getAmplitudePulse() {
+        return pulseOscillator.getAmplitude();
+    }
+
+    public double getAmplitudePulseMax() {
+        return pulseOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudePulseMin() {
+        return pulseOscillator.getAmplitudeMin();
+    }
+
+
+
     public void setAmplitudeSquare(double value) {
         squareOscillator.setAmplitude(value);
     }
+
+    public double getAmplitudeSquaree() {
+        return squareOscillator.getAmplitude();
+    }
+
+    public double getAmplitudeSquareMax() {
+        return squareOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudeSquareMin() {
+        return squareOscillator.getAmplitudeMin();
+    }
+
+
 
     public void setAmplitudeImpulse(double value) {
         impulseOscillator.setAmplitude(value);
