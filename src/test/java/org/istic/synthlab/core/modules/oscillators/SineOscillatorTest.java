@@ -46,8 +46,8 @@ public class SineOscillatorTest {
     public void testAmplitude() throws Exception {
         IComponent componentOut = Mockito.mock(Out.class);
 
-        sineOscillator.setFrequency(320.0);
-        sineOscillator.setAmplitude(0.5);
+        sineOscillator.getFrequencyPotentiometer().setValue(320.0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0.5);
         sineOscillator.activate();
 
         ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);
@@ -69,7 +69,7 @@ public class SineOscillatorTest {
             synth.sleepFor(0.5);
         }
 
-        sineOscillator.setAmplitude(0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0);
 
         while (n > 0) {
             n--;
@@ -84,8 +84,8 @@ public class SineOscillatorTest {
     public void testFrequency() throws Exception {
         IComponent componentOut = Mockito.mock(Out.class);
 
-        sineOscillator.setFrequency(320.0);
-        sineOscillator.setAmplitude(0.5);
+        sineOscillator.getFrequencyPotentiometer().setValue(320.0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0.5);
         sineOscillator.activate();
 
         ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);
@@ -107,7 +107,7 @@ public class SineOscillatorTest {
             synth.sleepFor(0.5);
         }
 
-        sineOscillator.setFrequency(0);
+        sineOscillator.getFrequencyPotentiometer().setValue(0);
 
         while (n > 0) {
             n--;
