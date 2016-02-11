@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.functions;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 
 public class Substract extends AbstractFunction {
     public Substract(IComponent component) {

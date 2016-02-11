@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.components;
 
 /**
  * The type Abstract controller.

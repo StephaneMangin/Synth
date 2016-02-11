@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.replicator;
 
 import javafx.fxml.Initializable;
-import org.istic.synthlab.core.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 
 import java.net.URL;
 import java.util.ResourceBundle;

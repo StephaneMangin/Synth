@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.replicator;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;

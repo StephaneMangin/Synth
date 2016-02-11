@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.ui;
 
 import javafx.scene.shape.Line;
 import org.istic.synthlab.core.modules.io.IInput;

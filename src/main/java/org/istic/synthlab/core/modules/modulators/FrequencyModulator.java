@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
 import com.jsyn.unitgen.Add;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
