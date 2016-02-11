@@ -1,4 +1,4 @@
-package org.istic.synthlab.components.eg;
+package org.istic.synthlab.core.utils.jsyn;
 
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.UnitGate;
