@@ -46,12 +46,7 @@ public class LineOutTest {
     public void testGetInput()  {
         assertNotNull(lineOut.getInput());
     }
-
-    @Test
-    public void testGetInputAm()  {
-        assertNotNull(lineOut.getInputAm());
-    }
-
+    
     @Test
     public void testActivate()  {
         lineOut.activate();
