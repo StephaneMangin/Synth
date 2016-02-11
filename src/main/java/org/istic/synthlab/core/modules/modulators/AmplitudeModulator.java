@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
+import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.Multiply;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -20,14 +21,13 @@ public class AmplitudeModulator extends AbstractModulator {
     public AmplitudeModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
         multiply = new Multiply();
-        potentiometer = new Potentiometer("Amplitude", multiply.inputB, potentiometerType,
-                1, 0, 1
-        );
-
         // Declare the relation to the mapping
         Register.declare(component, this.multiply);
         input = Factory.createInput(name + "::ampIn", component, multiply.inputA);
         output = Factory.createOutput(name + "::ampOut", component, multiply.output);
+        potentiometer = new Potentiometer("Amplitude", multiply.inputB, potentiometerType,
+                1, 0, 1
+        );
     }
 
     @Override

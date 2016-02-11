@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
+import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -81,5 +82,4 @@ public abstract class AbstractModulator implements IModulator {
     public double getMin() {
         return potentiometer.getMin();
     }
-
 }

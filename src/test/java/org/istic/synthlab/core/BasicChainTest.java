@@ -138,9 +138,11 @@ public class BasicChainTest {
         out.start();
         synth.start();
 
-        int n = 200;
+        int n = 2000;
         while (n >= 0) {
-            out.getAmModulator().setValue(((double) 200 - (double) n) / (double) 200);
+            //System.out.println(out.getAmModulator().getInputB().isConnected());
+            //out.getAmModulator().getInputB().setValueInternal(((double) 200 - (double) n) / (double) 200);
+            out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
             System.out.println(out.getAmModulator().getValue());
             //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
             //System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());

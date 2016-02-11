@@ -50,6 +50,6 @@ public class AbstractFunction implements IFunction {
 
     @Override
     public void setVariableInput(double value) {
-        this.unitBinaryOperator.inputB.setDefault(value);
+        this.unitBinaryOperator.inputB.set(value);
     }
 }
