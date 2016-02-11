@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -110,16 +111,14 @@ public class ConnectionManager {
 
             Register.disconnect(output);
             input = value;
-            System.out.println("VALUE INPUT : " + input);
-            EventHandler<MouseEvent> myHandler;
 
             stage.getScene().setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
                 CurveCable curveCable = new CurveCable(
-                        event.getX()+10,
-                        event.getY()+10,
-                        getLocalScene(circleInput).getX(),
-                        getLocalScene(circleInput).getY(),
+                        event.getX() + 10,
+                        event.getY() + 10,
+                        localToSceneCoordinates(inputNode).getX(),
+                        localToSceneCoordinates(inputNode).getY(),
                         Color.RED
                 );
                 curveCable.setId("cableDrag");
@@ -132,9 +131,11 @@ public class ConnectionManager {
             update();
         }
         else{
-            System.out.println("Je passe ?");
+            coreController.undraw(lastDraw);
+            stage.getScene().setOnMouseMoved(null);
+
             if(input != null){
-                System.out.println("BONJOUR");
+
                 makeConnection();
             }
         }
@@ -159,11 +160,27 @@ public class ConnectionManager {
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
-
-            update();
             output = key;
+            stage.getScene().setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                CurveCable curveCable = new CurveCable(
+                        event.getX() + 10,
+                        event.getY() + 10,
+                        localToSceneCoordinates(outputNode).getX(),
+                        localToSceneCoordinates(outputNode).getY(),
+                        Color.RED
+                );
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
+            update();
+
         }
         else{
+            coreController.undraw(lastDraw);
+            stage.getScene().setOnMouseMoved(null);
             if(output != null){
                 makeConnection();
             }
