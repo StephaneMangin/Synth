@@ -1,10 +1,10 @@
 package org.istic.synthlab.components.vca;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
@@ -45,17 +45,17 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     @FXML
-    public void connectAm(final MouseEvent event) {
+    public void connectAm(final Event event) {
         ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getAm());
     }
 
     @FXML
-    public void connectInput(final MouseEvent event) {
+    public void connectInput(final Event event) {
         ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getInput());
     }
 
     @FXML
-    public void connectOutput(final MouseEvent event) {
+    public void connectOutput(final Event event) {
         ConnectionManager.makeOrigin(vca, (Node) event.getSource(), vca.getOutput());
     }
 }

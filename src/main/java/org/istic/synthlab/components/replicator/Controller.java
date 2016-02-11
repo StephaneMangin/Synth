@@ -1,5 +1,6 @@
 package org.istic.synthlab.components.replicator;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,7 +39,7 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     @FXML
-    public void connectInput() {
+    public void connectInput(final Event event) {
         ConnectionManager.makeDestination(replicator, input, replicator.getInput());
     }
 
