@@ -206,7 +206,7 @@ public class CoreController implements Initializable, IObserver {
 
             final Pane pane = new Pane();
             final ImageView imageView = new ImageView(new Image(image.toString()));
-            imageView.preserveRatioProperty();
+            imageView.setPreserveRatio(true);
             imageView.setFitWidth(100);
             imageView.setFitHeight(50);
             imageView.setSmooth(true);

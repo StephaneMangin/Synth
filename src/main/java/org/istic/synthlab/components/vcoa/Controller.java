@@ -100,6 +100,7 @@ public class Controller extends AbstractController implements Initializable {
         ConnectionManager.makeOrigin((Node) event.getSource(), vcoa.getOutput());
     }
 
+    @FXML
     public void connectFm(final MouseEvent event) {
         ConnectionManager.makeDestination((Node) event.getSource(), vcoa.getFm());
     }
