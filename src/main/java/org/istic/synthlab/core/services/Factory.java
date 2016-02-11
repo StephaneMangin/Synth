@@ -5,6 +5,8 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
+import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -15,6 +17,8 @@ import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.passThrough.IPassThrough;
+import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 
@@ -146,8 +150,22 @@ public class Factory {
                 return new GainModulator(name, component, potentiometerType);
             case VCOA:
                 return new VcoaFrequencyModulator(name, component, potentiometerType);
+            case VCA:
+                return new VcaAmplitudeModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
     }
+
+    /**
+     * Create a simple passThrough module for the Replicator component
+     *
+     * @param component IComponent
+     * @return IPassThrough
+     */
+    public static IPassThrough createPassThrough(IComponent component){
+        return new PassThrough(component);
+    }
+
+    public static IEnvelopeDAHDSR createEnvelopeDAHDSR(IComponent component) { return new EnvelopeDAHDSR(component); }
 }

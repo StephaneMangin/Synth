@@ -2,7 +2,6 @@ package org.istic.synthlab.core.services;
 
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
-import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -11,14 +10,17 @@ import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.modules.oscillators.SquareOscillator;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * The type Modules factory test.
+ * Modules factory  Tester.
+ *
+ * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @since <pre>Feb 3, 2016</pre>
  */
-@RunWith(MockitoJUnitRunner.class)
-public class FactoryTest extends TestCase {
+public class FactoryTest  {
 
     private Vcoa vcoa;
 
@@ -45,7 +47,7 @@ public class FactoryTest extends TestCase {
     @Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
-        IOutput outputPort= Factory.createOutput("Out", vcoa,Port);
+        IOutput outputPort= Factory.createOutput("Out",vcoa, Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
     }
@@ -79,10 +81,5 @@ public class FactoryTest extends TestCase {
         Factory.createLineOut(vcoa, LineType.OUT);
         assertTrue(Register.mappingInput.containsKey(vcoa));
         assertTrue(Register.mappingGenerator.containsKey(vcoa));
-    }
-
-    @org.junit.After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 }

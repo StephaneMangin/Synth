@@ -21,4 +21,19 @@ public class BandPassFilter implements IFilter {
     public BandPassFilter(IComponent component) {
         this.unitFilter = new FilterBandPass();
     }
+
+    @Override
+    public void activate() {
+        unitFilter.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        unitFilter.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return unitFilter.isEnabled();
+    }
 }

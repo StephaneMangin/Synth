@@ -55,6 +55,11 @@ public class Output implements IOutput {
     }
 
     @Override
+    public IComponent getComponent() {
+        return this.component;
+    }
+
+    @Override
     public String toString() {
         return this.component + "::" + this.getName() + "<" + this.hashCode() + ">";
     }

@@ -7,13 +7,20 @@ package org.istic.synthlab.core;
 public interface Resource {
 
     /**
-     * Activate a component
+     * Activate a component.
      */
     void activate();
 
     /**
-     * Desactivate a component
+     * Deactivate a component.
      */
-    void desactivate();
+    void deactivate();
+
+    /**
+     * Get the current state of a component.
+     *
+     * @return boolean
+     */
+    boolean isActivated();
 
 }

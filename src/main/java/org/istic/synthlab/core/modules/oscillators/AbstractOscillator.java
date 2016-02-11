@@ -40,7 +40,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-abstract class AbstractOscillator implements IOscillator {
+public abstract class AbstractOscillator implements IOscillator {
 
     private IComponent component;
     private IInput am;
@@ -61,7 +61,7 @@ abstract class AbstractOscillator implements IOscillator {
         this.output = Factory.createOutput("Out", component, getOscillator().output);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
         this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
-        this.amplitudePotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.LINEAR, 20000.0, 20.0, 1000.0);
+        this.amplitudePotentiometer = new Potentiometer("Amplitude", getOscillator().amplitude, PotentiometerType.LINEAR, 10000.0, 0.0, 1.0);
     }
 
     @Override
@@ -70,8 +70,13 @@ abstract class AbstractOscillator implements IOscillator {
     }
 
     @Override
-    public void desactivate() {
+    public void deactivate() {
         getOscillator().setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return getOscillator().isEnabled();
     }
 
     public IComponent getComponent() {
@@ -107,6 +112,14 @@ abstract class AbstractOscillator implements IOscillator {
         return frequencyPotentiometer.getValue();
     }
 
+    public Potentiometer getFrequencyPotentiometer() {
+        return frequencyPotentiometer;
+    }
+
+    public Potentiometer getAmplitudePotentiometer() {
+        return amplitudePotentiometer;
+    }
+
     @Override
     public void setAmplitude(double value) {
         amplitudePotentiometer.setValue(value);
@@ -117,4 +130,9 @@ abstract class AbstractOscillator implements IOscillator {
         return amplitudePotentiometer.getValue();
     }
 
+    @Override
+    public double getAmplitudeMax() { return amplitudePotentiometer.getMax(); }
+
+    @Override
+    public double getAmplitudeMin() { return amplitudePotentiometer.getMin(); }
 }

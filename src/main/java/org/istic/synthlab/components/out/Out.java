@@ -26,9 +26,12 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void desactivate(){
-        this.lineOut.desactivate();
+    public void deactivate(){
+        this.lineOut.deactivate();
     }
+
+    @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
 
     @Override
     public void init() {
@@ -40,16 +43,14 @@ public class Out extends AbstractComponent {
 
     }
 
+    public void setAmplitude(double amplitude) { this.lineOut.setVolume(amplitude); }
+
     public IInput getInput() {
         return this.lineOut.getInput();
     }
 
     public void start(){
         this.lineOut.start();
-    }
-
-    public boolean isEnable(){
-       return this.lineOut.isEnable();
     }
 
 }

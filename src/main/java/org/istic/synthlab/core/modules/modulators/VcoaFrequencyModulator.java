@@ -55,4 +55,19 @@ public class VcoaFrequencyModulator extends AbstractModulator {
         potentiometer.setValue(value);
     }
 
+    @Override
+    public void activate() {
+        algorithm.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        algorithm.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return algorithm.isEnabled();
+    }
+
 }

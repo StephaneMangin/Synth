@@ -9,9 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
@@ -20,13 +21,20 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FX controller of core.fxml
@@ -66,6 +74,9 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
 
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private ScheduledFuture<?> synthesizer = scheduler.scheduleAtFixedRate(()->{}, 0, 10, TimeUnit.MILLISECONDS);
+
     /**
      * This method initializes the list view and the grid
      * @param location Not used
@@ -100,17 +111,22 @@ public class CoreController implements Initializable, IObserver {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        final Label vcoaLabel = new Label("VCOA");
-        final Label outLabel = new Label("OUT");
-        final Label oscilloscopeLabel = new Label("Oscilloscope");
-
-        vcoaLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-        outLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-        oscilloscopeLabel.setOnDragDetected(new DragDetectedListItemEventHandler());
-
-        data.add(vcoaLabel);
-        data.add(outLabel);
-        data.add(oscilloscopeLabel);
+        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
+            URL image = getClass().getResource("/ui/components/" + component + "/images/small.png");
+            if (image == null) {
+                continue;
+            }
+            Pane pane = new Pane();
+            ImageView imageView = new ImageView(new Image(image.toString()));
+            imageView.preserveRatioProperty();
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(50);
+            imageView.setSmooth(true);
+            imageView.setId(component);
+            pane.getChildren().add(imageView);
+            pane.setOnDragDetected(new DragDetectedListItemEventHandler());
+            data.add(pane);
+        }
 
         listView.setItems(data);
     }
@@ -148,6 +164,9 @@ public class CoreController implements Initializable, IObserver {
      */
     @FXML
     public void onActionClose() {
+        scheduler.shutdown();
+
+        System.out.println("Shut ?"+scheduler.isShutdown());
         Platform.exit();
     }
 
@@ -159,6 +178,7 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
 
+        synthesizer.cancel(true);
         Factory.createSynthesizer().stop();
     }
 
@@ -170,18 +190,27 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(false);
         playButton.setDisable(true);
 
-        Register.uglyPatchWork();
         Factory.createSynthesizer().start();
-        Register.uglyPatchWork();
+        Register.startComponents();
+
+        synthesizer = scheduler.scheduleAtFixedRate(()->{
+            try{
+                Factory.createSynthesizer().sleepFor(10);
+            } catch (Exception e) {
+                System.out.println("msg"+e.getMessage());
+            }
+        }, 0, 1000, TimeUnit.MILLISECONDS);
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(MouseEvent event) {
-            final Label label = (Label) event.getSource();
-            final Dragboard db = label.startDragAndDrop(TransferMode.COPY);
+            System.out.println("Drag detected");
+            final Pane pane = (Pane) event.getSource();
+            ImageView view = (ImageView) pane.getChildren().get(0);
+            final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
-            content.putString(label.getText());
+            content.putString(view.getId());
             db.setContent(content);
             event.consume();
         }
@@ -255,5 +284,30 @@ public class CoreController implements Initializable, IObserver {
             db.setContent(content);
             event.consume();
         }
+    }
+
+    /**
+     * Finds all package names starting with prefix
+     * @return Set of package names
+     */
+    public Set<String> findAllPackagesStartingWith(String prefix) {
+        List<ClassLoader> classLoadersList = new LinkedList<ClassLoader>();
+        classLoadersList.add(ClasspathHelper.contextClassLoader());
+        classLoadersList.add(ClasspathHelper.staticClassLoader());
+        Reflections reflections = new Reflections(new ConfigurationBuilder()
+                .setScanners(new SubTypesScanner(false), new ResourcesScanner())
+                .setUrls(ClasspathHelper.forClassLoader(classLoadersList.toArray(new ClassLoader[0])))
+                .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
+        Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
+
+        Set<String> packageNameSet = new TreeSet<String>();
+        for (Class classInstance : classes) {
+            String packageName = classInstance.getPackage().getName();
+            if (packageName.startsWith(prefix)) {
+                packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
+                packageNameSet.add(packageName);
+            }
+        }
+        return packageNameSet;
     }
 }

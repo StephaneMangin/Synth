@@ -22,6 +22,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator sawToothOscillator;
     private IOscillator triangleOscillator;
     private IOscillator redNoiseOscillator;
+    private IOscillator defaultOscillator;
     private IModulator exponentialModulator;
     private IModulator linearModulator;
 
@@ -35,22 +36,13 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
-        // Mix all oscillator's output to the sink port
-        squareOscillator.getOutput().connect(getSink());
-        sineOscillator.getOutput().connect(getSink());
-        pulseOscillator.getOutput().connect(getSink());
-        impulseOscillator.getOutput().connect(getSink());
-        sawToothOscillator.getOutput().connect(getSink());
-        triangleOscillator.getOutput().connect(getSink());
-        redNoiseOscillator.getOutput().connect(getSink());
-
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
         linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
-        linearModulator.getOutput().connect(squareOscillator.getFm());
+        setDefaultOscillator(squareOscillator);
     }
 
     @Override
@@ -65,14 +57,25 @@ public class Vcoa extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        sineOscillator.desactivate();
-        pulseOscillator.desactivate();
-        squareOscillator.desactivate();
-        impulseOscillator.desactivate();
-        sawToothOscillator.desactivate();
-        triangleOscillator.desactivate();
-        redNoiseOscillator.desactivate();
+    public void deactivate() {
+        sineOscillator.deactivate();
+        pulseOscillator.deactivate();
+        squareOscillator.deactivate();
+        impulseOscillator.deactivate();
+        sawToothOscillator.deactivate();
+        triangleOscillator.deactivate();
+        redNoiseOscillator.deactivate();
+    }
+
+    @Override
+    public boolean isActivated() {
+        return sineOscillator.isActivated() ||
+        pulseOscillator.isActivated() ||
+        squareOscillator.isActivated() ||
+        impulseOscillator.isActivated() ||
+        sawToothOscillator.isActivated() ||
+        triangleOscillator.isActivated() ||
+        redNoiseOscillator.isActivated();
     }
 
     @Override
@@ -81,28 +84,97 @@ public class Vcoa extends AbstractComponent {
 
     @Override
     public void run() {
-
     }
 
     public void setExponentialFrequency(double value) {
         exponentialModulator.setValue(value);
     }
 
+    public double getExponentialFrequency() {
+        return exponentialModulator.getValue();
+    }
+
+    public double getExponentialFrequencyMax() {
+        return exponentialModulator.getMax();
+    }
+
+    public double getExponentialFrequencyMin() {
+        return exponentialModulator.getMin();
+    }
+
+
+
     public void setLinearFrequency(double value) {
         linearModulator.setValue(value);
     }
+
+    public double getLinearFrequency() {
+        return linearModulator.getValue();
+    }
+
+    public double getLinearFrequencyMax() {
+        return linearModulator.getMax();
+    }
+
+    public double getLinearFrequencyMin() {
+        return linearModulator.getMin();
+    }
+
+
 
     public void setAmplitudeSine(double value) {
         sineOscillator.setAmplitude(value);
     }
 
+    public double getAmplitudeSine() {
+        return sineOscillator.getAmplitude();
+    }
+
+    public double getAmplitudeSineMax() {
+        return sineOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudeSineMin() {
+        return sineOscillator.getAmplitudeMin();
+    }
+
+
+
     public void setAmplitudePulse(double value) {
         pulseOscillator.setAmplitude(value);
     }
 
+    public double getAmplitudePulse() {
+        return pulseOscillator.getAmplitude();
+    }
+
+    public double getAmplitudePulseMax() {
+        return pulseOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudePulseMin() {
+        return pulseOscillator.getAmplitudeMin();
+    }
+
+
+
     public void setAmplitudeSquare(double value) {
         squareOscillator.setAmplitude(value);
     }
+
+    public double getAmplitudeSquaree() {
+        return squareOscillator.getAmplitude();
+    }
+
+    public double getAmplitudeSquareMax() {
+        return squareOscillator.getAmplitudeMax();
+    }
+
+    public double getAmplitudeSquareMin() {
+        return squareOscillator.getAmplitudeMin();
+    }
+
+
 
     public void setAmplitudeImpulse(double value) {
         impulseOscillator.setAmplitude(value);
@@ -118,6 +190,54 @@ public class Vcoa extends AbstractComponent {
 
     public void setAmplitudeRedNoise(double value) {
         redNoiseOscillator.setAmplitude(value);
+    }
+
+    public void setOscillatorType(OscillatorType type) {
+        switch (type) {
+            case SINE:
+                setDefaultOscillator(sineOscillator);
+                break;
+            case TRIANGLE:
+                setDefaultOscillator(triangleOscillator);
+                break;
+            case SAWTOOTH:
+                setDefaultOscillator(sawToothOscillator);
+                break;
+            case PULSE:
+                setDefaultOscillator(pulseOscillator);
+                break;
+            case IMPULSE:
+                setDefaultOscillator(impulseOscillator);
+                break;
+            case REDNOISE:
+                setDefaultOscillator(redNoiseOscillator);
+                break;
+            case SQUARE:
+            default:
+                setDefaultOscillator(squareOscillator);
+        }
+    }
+
+    private void setDefaultOscillator(IOscillator defaultOscillator) {
+        if (this.defaultOscillator != null) {
+            this.defaultOscillator.getOutput().deconnect();
+            linearModulator.getOutput().deconnect();
+        }
+        this.defaultOscillator = defaultOscillator;
+        this.defaultOscillator.getOutput().connect(getSink());
+        linearModulator.getOutput().connect(this.defaultOscillator.getFm());
+    }
+
+    public IOscillator getPulseOscillator() {
+        return this.pulseOscillator;
+    }
+
+    public IOscillator getSineOscillator() {
+        return this.sineOscillator;
+    }
+
+    public IOscillator getSquareOscillator() {
+        return this.squareOscillator;
     }
 
     public IOutput getSineOutput() {

@@ -55,4 +55,19 @@ public class GainModulator extends AbstractModulator {
         potentiometer.setValue(value);
     }
 
+    @Override
+    public void activate() {
+        filter.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        filter.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return filter.isEnabled();
+    }
+
 }

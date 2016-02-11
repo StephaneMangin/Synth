@@ -12,4 +12,5 @@ public class SquareOscillator extends AbstractOscillator {
     public SquareOscillator(IComponent component) {
         super(component, new com.jsyn.unitgen.SquareOscillator());
     }
+
 }

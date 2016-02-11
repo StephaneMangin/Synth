@@ -11,6 +11,6 @@ public class ImpulseOscillator extends AbstractOscillator {
 
     public ImpulseOscillator(IComponent component) {
         super(component, new com.jsyn.unitgen.ImpulseOscillator());
-
     }
+
 }
