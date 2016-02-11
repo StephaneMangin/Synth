@@ -30,9 +30,9 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private AnchorPane mainPane;
     @FXML
-    private Circle output;
+    private Node output;
     @FXML
-    private Circle circleEvent;
+    private Node circleEvent;
     @FXML
     private Potentiometer expFrequency;
     @FXML
@@ -60,7 +60,6 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
         vcoa.setAmplitudeTriangle(1);
@@ -111,21 +110,11 @@ public class Controller extends AbstractController implements Initializable {
      * with the output variable
      */
     @FXML
-    public void connectOut() {
-        ConnectionManager.makeOrigin(circleEvent, vcoa.getOutput());
+    public void connectOut(final MouseEvent event) {
+        ConnectionManager.makeOrigin((Node) event.getSource(), vcoa.getOutput());
     }
 
     public void connectFm(final MouseEvent event) {
         ConnectionManager.makeDestination((Node) event.getSource(), vcoa.getFm());
-    }
-
-    /**
-     * Get the object clicked in the view and cast it into a Circle object
-     */
-    private class GetIdWithClick implements EventHandler<Event> {
-        @Override
-        public void handle(Event event) {
-            circleEvent = (Circle) event.getSource();
-        }
     }
 }

@@ -48,12 +48,11 @@
         </Label>
         <Potentiometer fx:id="amplitude" layoutX="200.0" layoutY="152.0" />
 
-        <Label layoutX="272.0" layoutY="158.0" text="OUT">
-            <font>
-               <Font size="10.0" />
-            </font>
-        </Label>
-        <Circle fx:id="output" layoutX="283.0" layoutY="182.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
+        <Label layoutX="250.0" layoutY="140.0" text="Output" />
+        <ImageView fx:id="output" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOut">
+            <Image url="@../../images/redSocket.png"/>
+        </ImageView>
+
         <RadioButton fx:id="squareRadio" layoutX="120.0" layoutY="50.0" mnemonicParsing="false" text="Square" />
         <RadioButton fx:id="sineRadio" layoutX="120.0" layoutY="80.0" mnemonicParsing="false" text="Sine" />
         <RadioButton fx:id="triangleRadio" layoutX="120.0" layoutY="110.0" mnemonicParsing="false" text="Triangle" />
