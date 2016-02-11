@@ -29,17 +29,6 @@ public class LineOutTest {
     }
 
     @Test
-    public void testSetVolume()  {
-        lineOut.setVolume(0.2);
-        assertEquals(0.2,lineOut.getVolume(),DELTA);
-    }
-
-    @Test
-    public void testGetVolume()  {
-        assertEquals(0.01,lineOut.getVolume(),DELTA);
-    }
-
-    @Test
     public void testStart()  {
         lineOut.start();
         assertTrue(lineOut.isActivated());
@@ -48,8 +37,8 @@ public class LineOutTest {
 
     @Test
     public void testStop()  {
+        lineOut.start();
         lineOut.stop();
-        assertFalse(lineOut.isActivated());
         assertFalse(synth.isRunning());
     }
 
@@ -58,4 +47,20 @@ public class LineOutTest {
         assertNotNull(lineOut.getInput());
     }
 
+    @Test
+    public void testGetInputAm()  {
+        assertNotNull(lineOut.getInputAm());
+    }
+
+    @Test
+    public void testActivate()  {
+        lineOut.activate();
+        assertTrue(lineOut.isActivated());
+    }
+    @Test
+    public void testDeactivate()  {
+        lineOut.activate();
+        lineOut.deactivate();
+        assertFalse(lineOut.isActivated());
+    }
 }
