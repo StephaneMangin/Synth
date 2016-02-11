@@ -5,11 +5,11 @@ import org.istic.synthlab.core.modules.io.IOutput;
 
 public interface IFunction {
 
-    IInput getInputA();
+    IInput getInput();
 
-    IInput getInputB();
+    IInput getVariableInput();
 
     IOutput getOutput();
 
-    void setInputB(double value);
+    void setVariableInput(double value);
 }
