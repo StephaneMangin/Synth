@@ -3,13 +3,14 @@ package org.istic.synthlab.core;
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
+import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.ImpulseOscillator;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.core.modules.oscillators.SawtoothOscillator;
+import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.junit.After;
@@ -58,12 +59,11 @@ public class BasicChainTest {
         Vcoa vcoa1 = new Vcoa("VCOA1");
         vcoa1.setAmplitudeSine(50);
         vcoa1.getOutput().connect(vcoa.getInput());
-        SawtoothOscillator s = (SawtoothOscillator) Factory.createOscillator(vcoa, OscillatorType.SAWTOOTH);
         vcoa.getSawToothOutput().connect(out.getInput());
 
         // Pour l'affichage des courbes
         AudioScope scope = new AudioScope( synth );
-        scope.addProbe(vcoa.getOutput().getUnitOutputPort());
+        scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
         scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
         scope.getView().setShowControls( true );
@@ -163,6 +163,74 @@ public class BasicChainTest {
         synth.sleepFor(5);
 
         ((SynthesisEngine) synth).printConnections();
+
+    }
+
+    @Test
+    public void testEg() throws InterruptedException {
+
+        Vcoa Vcoa = new Vcoa("VCOA");
+        Eg envelope = new Eg("ENVELOPE");
+        Out myOut = new Out("OUT1");
+        myOut.setAmplitude(1.0);
+
+        envelope.setAttack(0.2);
+        envelope.setDecay(0.2);
+        envelope.setRelease(1);
+        envelope.setSustain(0.1);
+        envelope.activate();
+
+        // we create the first sine  oscillator that will be connected to the input gate of EG
+        SineOscillator sineOscillator = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
+        sineOscillator.setFrequency(0.5);
+        sineOscillator.setAmplitude(1.0);
+        sineOscillator.activate();
+        sineOscillator.getOutput().connect(envelope.getInput());
+
+        // we create the oscillator whose amplitude is controlled by the envelope
+        SineOscillator sineOscillator2 = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
+        sineOscillator2.setFrequency(440);
+
+        envelope.getInput().getUnitInputPort().set(1.0);
+        envelope.getOutput().connect(sineOscillator2.getAm());
+        sineOscillator2.getOutput().connect(myOut.getInput());
+        sineOscillator2.activate();
+
+        myOut.start();
+        synth.start();
+        synth.sleepFor(5);
+        ((SynthesisEngine) synth).printConnections();
+
+        // For the display of curves
+        AudioScope scope = new AudioScope(synth);
+        scope.addProbe(sineOscillator2.getOutput().getUnitOutputPort());
+
+        scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
+        scope.getModel().getTriggerModel().getLevelModel()
+                .setDoubleValue(0.0001);
+        scope.getView().setShowControls(true);
+        scope.start();
+        JFrame frame = new JFrame();
+        frame.add(scope.getView());
+        frame.pack();
+        frame.setVisible(true);
+
+        System.out.println("\n Testing EG Modulewith different parameter");
+
+        System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        synth.sleepFor(5);
+
+        System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        envelope.setAttack(0.5);
+        synth.sleepFor(5);
+
+        System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        envelope.setAttack(0.2);
+        envelope.setDecay(1);
+        synth.sleepFor(5);
+
+
+
 
     }
 
