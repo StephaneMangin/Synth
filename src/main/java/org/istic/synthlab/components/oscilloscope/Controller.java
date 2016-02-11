@@ -56,18 +56,15 @@ public class Controller implements Initializable {
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
 
-        //this.oscilloscope.activate();
+
 
         chart.getData().addAll(samples);
 
         new AnimationTimer() {
             @Override
             public void handle(long now) {
-                double[] buffer = oscilloscope.getValues();
-                for(int i = 0; i < buffer.length; i++) {
-                    xSamplesData++;
-                    samples.getData().add(new XYChart.Data<>(xSamplesData, buffer[0]));
-                }
+                samples.getData().add(new XYChart.Data<>(xSamplesData, oscilloscope.getValue()));
+
                 // remove points to keep us at no more than MAX_DATA_POINTS
                 if (samples.getData().size() > MAX_DATA_POINTS) {
                     samples.getData().remove(0, samples.getData().size() - MAX_DATA_POINTS);

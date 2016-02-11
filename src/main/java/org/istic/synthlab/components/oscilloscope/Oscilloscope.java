@@ -40,7 +40,7 @@ public class Oscilloscope extends AbstractComponent {
         this.visualizer.stop();
     }
 
-    public double[] getValues() {
-        return getSource().getValues();
+    public Number getValue() {
+        return this.visualizer.getValue();
     }
 }
