@@ -13,14 +13,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author stephane
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
 
     @FXML
     Circle input;
+    @FXML
     private Circle circleEvent;
+
     private Out componentOut = new Out("Out"+numInstance++);
+
     private static int numInstance = 0;
 
     @Override
@@ -39,5 +42,13 @@ public class Controller extends AbstractController implements Initializable {
         public void handle(Event event) {
             circleEvent = (Circle)event.getSource();
         }
+    }
+
+    public void setAmplitude(double value) {
+        componentOut.getAmModulator().setValue(value);
+    }
+
+    public double getAmplitude() {
+        return componentOut.getAmModulator().getValue();
     }
 }

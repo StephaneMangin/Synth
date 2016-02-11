@@ -35,7 +35,7 @@ public class EgPrototype {
         vcoa.setExponentialFrequency(200);
         vcoa.setAmplitudeSine(1.0);
 
-        out.setAmplitude(1.0);
+        out.getAmModulator().setValue(1.0);
 
         eg.getInput().getUnitInputPort().set(1.0);
         eg.getOutput().connect(vcoa.getAm());
