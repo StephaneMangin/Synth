@@ -10,9 +10,9 @@ import org.istic.synthlab.core.services.Register;
 public class AbstractFunction implements IFunction {
     private IComponent component;
     /** Signal input*/
-    private IInput inputA;
+    private IInput input;
     /** Modulation input */
-    private IInput inputB;
+    private IInput variableInput;
     /** Signal output */
     private IOutput output;
     private UnitBinaryOperator unitBinaryOperator;
@@ -23,28 +23,23 @@ public class AbstractFunction implements IFunction {
         // Declare the generator to the register
         Register.declare(component, unitBinaryOperator);
         // Link differents ports
-        this.inputA = Factory.createInput("In", component, getOperator().inputA);
-        this.inputB = Factory.createInput("Mod", component, getOperator().inputB);
-        this.output = Factory.createOutput("Out", component, getOperator().output);
+        this.input = Factory.createInput("In", component, unitBinaryOperator.inputA);
+        this.variableInput = Factory.createInput("Mod", component, unitBinaryOperator.inputB);
+        this.output = Factory.createOutput("Out", component, unitBinaryOperator.output);
     }
-
-    public UnitBinaryOperator getOperator() {
-        return unitBinaryOperator;
-    }
-
 
     public IComponent getComponent() {
         return component;
     }
 
 
-    public IInput getInputB() {
-        return this.inputB;
+    public IInput getVariableInput() {
+        return this.variableInput;
     }
 
 
-    public IInput getInputA() {
-        return this.inputA;
+    public IInput getInput() {
+        return this.input;
     }
 
 
@@ -54,7 +49,7 @@ public class AbstractFunction implements IFunction {
     }
 
     @Override
-    public void setInputB(double value) {
+    public void setVariableInput(double value) {
         this.unitBinaryOperator.inputB.setDefault(value);
     }
 }
