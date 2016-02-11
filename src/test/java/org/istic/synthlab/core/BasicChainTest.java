@@ -191,14 +191,14 @@ public class BasicChainTest {
 
         // we create the first sine  oscillator that will be connected to the input gate of EG
         SineOscillator sineOscillator = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
-        sineOscillator.setFrequency(0.5);
-        sineOscillator.setAmplitude(1.0);
+        sineOscillator.getFrequencyPotentiometer().setValue(0.5);
+        sineOscillator.getAmplitudePotentiometer().setValue(1.0);
         sineOscillator.activate();
         sineOscillator.getOutput().connect(envelope.getInput());
 
         // we create the oscillator whose amplitude is controlled by the envelope
         SineOscillator sineOscillator2 = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
-        sineOscillator2.setFrequency(440);
+        sineOscillator2.getFrequencyPotentiometer().setValue(440);
 
         envelope.getInput().getUnitInputPort().set(1.0);
         envelope.getOutput().connect(sineOscillator2.getAm());

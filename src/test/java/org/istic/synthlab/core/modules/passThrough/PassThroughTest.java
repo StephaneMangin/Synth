@@ -50,8 +50,8 @@ public class PassThroughTest extends TestCase {
 
         IOscillator sin = Factory.createOscillator(componentSin, OscillatorType.SINE);
 
-        sin.setFrequency(320.0);
-        sin.setAmplitude(1.0);
+        sin.getFrequencyPotentiometer().setValue(320.0);
+        sin.getAmplitudePotentiometer().setValue(1.0);
         sin.activate();
 
         ILineOut lineOut1 = Factory.createLineOut(componentOut1, LineType.OUT);
