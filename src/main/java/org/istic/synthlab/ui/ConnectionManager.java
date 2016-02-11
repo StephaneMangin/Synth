@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,10 +31,10 @@ public class ConnectionManager {
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
-    private static Boolean cable_selected = false;
+    private static Boolean cableSelected = false;
     private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
-    private static Circle circleInput;
-    private static Circle circleOutput;
+    private static Node inputNode;
+    private static Node outputNode;
     private static Node root;
     private static Node lastDraw;
     private static Stage stage;
@@ -95,14 +94,14 @@ public class ConnectionManager {
     /**
      * Call makeConnection if an Input as already been clicked and that the connection is authorized by the model
      * otherwise it disconnect the current connection using this output
-     * @param circle the instance of the circle click in the view
+     * @param node the instance of the node click in the view
      * @param futureConnectionOrigin the output destination for the new connection
      */
-    public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
+    public static void makeOrigin(Node node, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
-        circleOutput = circle;
-        if(!cable_selected && connectionTab.containsKey(output)){
-            cable_selected = true;
+        outputNode = node;
+        if(!cableSelected && connectionTab.containsKey(output)){
+            cableSelected = true;
             IInput value = connectionTab.get(output);
             CurveCable key_line = getKeyLine(value);
 
@@ -144,14 +143,14 @@ public class ConnectionManager {
     /**
      * Call makeConnection if an Output as already been clicked and that the connection is authorized by the model
      * otherwise it disconnect the current connection using this input
-     * @param circle the instance of the circle click in the view
+     * @param node the instance of the node click in the view
      * @param futureConnectionDestination the input destination for the new connection
      */
-    public static void makeDestination(Circle circle, IInput futureConnectionDestination){
+    public static void makeDestination(Node node, IInput futureConnectionDestination){
         input = futureConnectionDestination;
-        circleInput = circle;
-        if(!cable_selected && connectionTab.containsValue(input)){
-            cable_selected = true;
+        inputNode = node;
+        if(!cableSelected && connectionTab.containsValue(input)){
+            cableSelected = true;
 
             IOutput key = getKey(input);
             connectionTab.remove(key);
@@ -181,7 +180,7 @@ public class ConnectionManager {
             update();
             input = null;
             output = null;
-            cable_selected = false;
+            cableSelected = false;
         }
     }
 
@@ -194,15 +193,28 @@ public class ConnectionManager {
         if((!lineConnection.containsValue(connection))      //Check that the connection is not already existing
                 && (!connectionTab.containsValue(input))    //Check if the input destination is not involve with an other connection
                 && (!connectionTab.containsKey(output))){   //Check if the output source is not involve with an other connection
-            Color color = Color.FORESTGREEN;
-            CurveCable curveCable = new CurveCable(
-                    getLocalScene(circleInput).getX(),
-                    getLocalScene(circleInput).getY(),
-                    getLocalScene(circleOutput).getX(),
-                    getLocalScene(circleOutput).getY(),
-                    color
-            );
 
+            final Point2D point1 = localToSceneCoordinates(inputNode);
+            final Point2D point2 = localToSceneCoordinates(outputNode);
+            final CurveCable curveCable = new CurveCable(point1, point2);
+
+            /*final Stage dialog = new Stage();
+            dialog.initModality(Modality.NONE);
+            dialog.initOwner(stage);
+            ColorPicker colorPicker = new ColorPicker();
+            curveCable.setOnMousePressed(event -> {
+                VBox dialogVbox = new VBox();
+                colorPicker.setValue(curveCable.getColor());
+                dialogVbox.getChildren().add(colorPicker);
+                Scene dialogScene = new Scene(dialogVbox);
+                dialog.setScene(dialogScene);
+                dialog.show();
+                event.consume();
+                colorPicker.valueProperty().addListener(e -> {
+                    curveCable.setColor(colorPicker.getValue());
+                    dialog.hide();
+                });
+            });*/
             lineConnection.put(curveCable, connection);
             return true;
         }
@@ -243,7 +255,20 @@ public class ConnectionManager {
         return null;
     }
 
-    private static Point2D getLocalScene(Circle circle) {
-        return circle.localToScene(circleInput.getCenterX(), circleInput.getCenterY());
+    /**
+     * Return the coordinates relative to the scene for the center of a node
+     * @param node The node to which convert the coordinates
+     * @return A Point2D containing the scene coordinates of the center of node.
+     */
+    private static Point2D localToSceneCoordinates(final Node node) {
+        // FIXME: remove this when all Circles are replaced with Nodes
+        if (node instanceof Circle) {
+            return node.localToScene(0, 0);
+        }
+
+        // The offset to localToScene are calculated as the center of the Node
+        final double centerX = node.getBoundsInParent().getWidth()/2,
+                     centerY = node.getBoundsInParent().getHeight()/2;
+        return node.localToScene(centerX, centerY);
     }
 }

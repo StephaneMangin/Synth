@@ -18,7 +18,6 @@ public class Replicator extends AbstractComponent {
     private IModulator outputModulatorReplicated1;
     private IModulator outputModulatorReplicated2;
 
-
     /**
      * Instantiates a new component.
      *

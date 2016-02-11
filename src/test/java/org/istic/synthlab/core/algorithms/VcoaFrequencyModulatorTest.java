@@ -63,4 +63,15 @@ public class VcoaFrequencyModulatorTest extends TestCase {
         double value = frequencyModulator.getValue();
         assertEquals(potentiometer.getValue(), value);
     }
+    @org.junit.Test
+    public void testActivate(){
+        frequencyModulator.activate();
+        assertTrue(frequencyModulator.isActivated());
+    }
+
+    @org.junit.Test
+    public void testDeactivate(){
+        frequencyModulator.deactivate();
+        assertFalse(frequencyModulator.isActivated());
+    }
 }

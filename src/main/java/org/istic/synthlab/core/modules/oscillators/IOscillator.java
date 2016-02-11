@@ -61,4 +61,8 @@ public interface IOscillator extends Resource {
      * @return double
      */
     double getAmplitude();
+
+    double getAmplitudeMax();
+
+    double getAmplitudeMin();
 }

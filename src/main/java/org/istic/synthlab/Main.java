@@ -10,11 +10,10 @@ import org.istic.synthlab.ui.ConnectionManager;
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
-public class Main extends Application {
+public final class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        //System.setProperty("javafx.embed.singleThread", "true");
-        Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
+    public void start(final Stage primaryStage) throws Exception {
+        final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
         ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(new Scene(root));
@@ -22,7 +21,7 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         launch(args);
     }
 }

@@ -34,6 +34,7 @@
             <Font size="10.0"/>
         </font>
     </Label>
-    <Circle fx:id="input" layoutX="18.0" layoutY="182.0" onMouseClicked="#connectIn" radius="10.0" stroke="#2600ff"
-            strokeType="INSIDE" strokeWidth="5.0"/>
+    <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectIn">
+        <Image url="@../../images/inoutBleu.png"/>
+    </ImageView>
 </AnchorPane>

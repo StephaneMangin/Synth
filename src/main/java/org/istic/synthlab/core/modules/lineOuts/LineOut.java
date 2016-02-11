@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
-import com.jsyn.unitgen.FilterStateVariable;
+import com.jsyn.unitgen.Multiply;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
@@ -19,7 +19,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 public class LineOut implements ILineOut {
 
     private com.jsyn.unitgen.LineOut lineOut;
-    private FilterStateVariable filter;
+    private Multiply multiply;
     private Potentiometer potentiometer;
     private IInput input;
 
@@ -29,18 +29,18 @@ public class LineOut implements ILineOut {
      */
     public LineOut(IComponent component) {
         lineOut = new com.jsyn.unitgen.LineOut();
-        filter = new FilterStateVariable();
-        input = Factory.createInput("In", component, filter.input);
+        multiply = new Multiply();
+        input = Factory.createInput("In", component, multiply.inputA);
 
         // First declare the mappings
-        Register.declare(component, filter);
+        Register.declare(component, multiply);
         Register.declare(component, lineOut);
-        Register.declare(component, input, filter.input);
+        Register.declare(component, input, multiply.inputA);
 
         // Needed to make mono to stereo
-        filter.output.connect(0, lineOut.input, 0);
-        filter.output.connect(0, lineOut.input, 1);
-        potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
+        multiply.output.connect(0, lineOut.input, 0);
+        multiply.output.connect(0, lineOut.input, 1);
+        potentiometer = new Potentiometer("Volume", multiply.inputB, PotentiometerType.LINEAR, 1.0, 0.0, 0.01);
 
     }
 
