@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitInputPort;
+import org.istic.synthlab.core.IComponent;
 
 /**
  *
@@ -18,6 +19,7 @@ public interface IInput {
     void connect(IOutput out);
     void deconnect();
 
+    String getName();
+    IComponent getComponent();
     UnitInputPort getUnitInputPort();
-
 }

@@ -8,12 +8,12 @@ import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class pretends to help I/O associations management.
@@ -21,7 +21,9 @@ import java.util.Map;
  *
  * It can be viewed as an active register that manage JSin equivalent semantics.
  *
- * @author Stéphane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * All adapters MUST implement their own calls to the register when creating jsyn adaptee instances
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
 public class Register {
@@ -35,6 +37,8 @@ public class Register {
     // The most important one, inputs/outputs associations
     protected static Map<IInput, IOutput> associations = new HashMap<>();
 
+
+
     /**
      * Declare an dual association for a components and a generator
      *
@@ -42,11 +46,14 @@ public class Register {
      * @param unitGenerator UnitGenerator
      */
     public static void declare(IComponent component, UnitGenerator unitGenerator) {
+        assert component != null;
+        assert unitGenerator != null;
         if (!mappingGenerator.containsKey(component)) {
             mappingGenerator.put(component, new ArrayList<>());
         }
         mappingGenerator.get(component).add(unitGenerator);
-        ModulesFactory.createSynthesizer().add(unitGenerator);
+        Factory.createSynthesizer().add(unitGenerator);
+        System.out.println(component + " connected to " + unitGenerator);
     }
 
     /**
@@ -57,6 +64,9 @@ public class Register {
      * @param unitIn UnitInputPort
      */
     public static void declare(IComponent component, IInput in, UnitInputPort unitIn) {
+        assert component != null;
+        assert in != null;
+        assert unitIn != null;
         Map<IInput, UnitInputPort> assoc = new HashMap<>();
         assoc.put(in, unitIn);
         if (!mappingInput.containsKey(component)) {
@@ -64,6 +74,7 @@ public class Register {
         } else {
             mappingInput.get(component).putAll(assoc);
         }
+        System.out.println(component + " with input " + in + " connected to " + unitIn);
     }
 
     /**
@@ -74,6 +85,9 @@ public class Register {
      * @param unitOut UnitOutputPort
      */
     public static void declare(IComponent component, IOutput out, UnitOutputPort unitOut) {
+        assert component != null;
+        assert out != null;
+        assert unitOut != null;
         Map<IOutput, UnitOutputPort> assoc = new HashMap<>();
         assoc.put(out, unitOut);
         if (!mappingOutput.containsKey(component)) {
@@ -81,6 +95,7 @@ public class Register {
         } else {
             mappingOutput.get(component).putAll(assoc);
         }
+        System.out.println(component + " with output " + out + " connected to " + unitOut);
     }
 
     /**
@@ -93,17 +108,25 @@ public class Register {
      * @see Channel::connect(in, out)
      */
     public static void connect(IInput in, IOutput out) {
-        UnitInputPort unitIn = retrieve(in);
-        UnitOutputPort unitOut = retrieve(out);
-        if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+        assert in != null;
+        assert out != null;
+
+        if (!associations.containsKey(out)) {
+            UnitInputPort unitIn = retrieve(in);
+            UnitOutputPort unitOut = retrieve(out);
+            if (unitIn == null) {
+                throw new ExceptionInInitializerError(out + " has not been declared properly");
+            }
+            if (unitOut == null) {
+                throw new ExceptionInInitializerError( in + " has not been declared properly");
+            }
+            Channel.connect(in, out);
+            unitOut.connect(unitIn);
+            associations.put(in, out);
+            System.out.println(in + " connected to " + out);
+
+            System.out.println(prettyPrint());
         }
-        if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
-        }
-        Channel.connect(in, out);
-        unitOut.connect(unitIn);
-        associations.put(in, out);
     }
 
     /**
@@ -115,17 +138,24 @@ public class Register {
      * @see UnitInputPort
      */
     public static void disconnect(IInput in) {
+        assert in != null;
         UnitInputPort unitIn = retrieve(in);
         IOutput out = associations.get(in);
         UnitOutputPort unitOut = retrieve(out);
+
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
+
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
+        associations.remove(in, out);
+        System.out.println(in + " disconnected");
+
+        System.out.println(prettyPrint());
     }
 
     /**
@@ -139,20 +169,25 @@ public class Register {
     public static void disconnect(IOutput out) {
         IInput in = null;
         for (IInput in1: associations.keySet()) {
-            if (out == associations.get(in1)) {
+            if (out.equals(associations.get(in1))) {
                 in = in1;
             }
         }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
-            throw new ExceptionInInitializerError("IInput has not been declared properly");
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
         }
         if (unitOut == null) {
-            throw new ExceptionInInitializerError("IOutput has not been declared properly");
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
-        unitOut.disconnect(unitIn);
+        // Stereo connections
+        unitIn.disconnect(unitOut);
+        associations.remove(in, out);
+        System.out.println(out + " disconnected");
+
+        System.out.println(prettyPrint());
     }
 
     /**
@@ -162,9 +197,10 @@ public class Register {
      * @return UnitInputPort or null
      */
     public static UnitInputPort retrieve(IInput in) {
+        assert in != null;
         for (IComponent component: mappingInput.keySet()) {
             for (IInput input: mappingInput.get(component).keySet()) {
-                if (in == input) {
+                if (in.equals(input)) {
                     return mappingInput.get(component).get(in);
                 }
             }
@@ -179,9 +215,10 @@ public class Register {
      * @return UnitOutputPort or null
      */
     public static UnitOutputPort retrieve(IOutput out) {
+        assert out != null;
         for (IComponent component: mappingOutput.keySet()) {
             for (IOutput output: mappingOutput.get(component).keySet()) {
-                if (out == output) {
+                if (out.equals(output)) {
                     return mappingOutput.get(component).get(out);
                 }
             }
@@ -196,9 +233,10 @@ public class Register {
      * @return IComponent or null
      */
     public static IComponent getComponent(IInput in) {
+        assert in != null;
         for (IComponent component: mappingInput.keySet()) {
             for (IInput input: mappingInput.get(component).keySet()) {
-                if (in == input) {
+                if (in.equals(input)) {
                     return component;
                 }
             }
@@ -213,9 +251,10 @@ public class Register {
      * @return IComponent or null
      */
     public static IComponent getComponent(IOutput out) {
+        assert out != null;
         for (IComponent component: mappingOutput.keySet()) {
             for (IOutput output: mappingOutput.get(component).keySet()) {
-                if (out == output) {
+                if (out.equals(output)) {
                     return component;
                 }
             }
@@ -224,14 +263,60 @@ public class Register {
     }
 
 
+    /**
+     *
+     * TODO: WTF ??
+     */
     // FIXME
     // #SigneScrumMaster
-    public static void uglyPatchWork(){
-        for (IComponent component : mappingGenerator.keySet()){
-            if (component instanceof Out){
+    public static void startComponents() {
+        for (IComponent component : mappingGenerator.keySet()) {
+            if (component instanceof Out) {
                 Out ugly = (Out) component;
-                ugly.getLineOut().start();
+                ugly.start();
             }
         }
     }
+
+    /**
+     * Helper class to prety print content
+      */
+    public static String prettyPrint() {
+        StringBuilder sb = new StringBuilder();
+
+/*        sb.append("Mapping INPUTS :");
+        Iterator<Map.Entry<IComponent, Map<IInput, UnitInputPort>>> iter = mappingInput.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<IComponent, Map<IInput, UnitInputPort>> entry = iter.next();
+            sb.append("\n\t" + entry.getKey());
+            Iterator<Map.Entry<IInput, UnitInputPort>> iter01 = entry.getValue().entrySet().iterator();
+            while (iter01.hasNext()) {
+                Map.Entry<IInput, UnitInputPort> entry01 = iter01.next();
+                sb.append("\n\t\t" + entry01.getKey());
+                sb.append(" => ");
+                sb.append(entry01.getValue());
+            }
+        }
+        sb.append("\n" + "Mapping OUTPUTS :");
+        Iterator<Map.Entry<IComponent, Map<IOutput, UnitOutputPort>>> iter2 = mappingOutput.entrySet().iterator();
+        while (iter2.hasNext()) {
+            Map.Entry<IComponent, Map<IOutput, UnitOutputPort>> entry = iter2.next();
+            sb.append("\n\t" + entry.getKey());
+            Iterator<Map.Entry<IOutput, UnitOutputPort>> iter02 = entry.getValue().entrySet().iterator();
+            while (iter02.hasNext()) {
+                Map.Entry<IOutput, UnitOutputPort> entry02 = iter02.next();
+                sb.append("\n\t\t" + entry02.getKey());
+                sb.append(" => ");
+                sb.append(entry02.getValue());
+            }
+        }*/
+        sb.append("\nAssociated ports");
+        sb.append("\n================");
+        for (Map.Entry<IInput, IOutput> entry : associations.entrySet()) {
+            sb.append("\n\t").append(entry.getValue());
+            sb.append("\n\t\t => ").append(entry.getKey());
+        }
+        return sb.toString();
+    }
+
 }

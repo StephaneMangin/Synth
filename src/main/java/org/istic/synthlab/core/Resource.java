@@ -12,8 +12,15 @@ public interface Resource {
     void activate();
 
     /**
-     * Desactivate a component
+     * Deactivate a component
      */
-    void desactivate();
+    void deactivate();
+
+    /**
+     * Get the current state of a component.
+     *
+     * @return boolean
+     */
+    boolean isActivated();
 
 }

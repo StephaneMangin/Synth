@@ -4,49 +4,47 @@ package org.istic.synthlab.core;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import javafx.util.Pair;
-import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.io.InputAdapter;
-import org.istic.synthlab.core.modules.io.OutputAdapter;
+import org.istic.synthlab.core.modules.io.Input;
+import org.istic.synthlab.core.modules.io.Output;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by paola on 02/02/16.
  */
-public class ChannelTest extends TestCase {
+public class ChannelTest {
 
     private IComponent component;
-    private Channel channel;
     private IInput input;
     private IOutput outPut;
 
     @org.junit.Before
     public void setUp() throws Exception {
-        channel = new Channel();
         component = new Vcoa("TEST");
     }
     @org.junit.Test
     public void testConnect() throws Exception {
-        input = new InputAdapter(component, new UnitInputPort("port"));
-        outPut = new OutputAdapter(component, new UnitOutputPort("port"));
+        input = new Input("In", component, new UnitInputPort("port"));
+        outPut = new Output("Out", component, new UnitOutputPort("port"));
 
-        channel.connect(input, outPut);
+        Channel.connect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
-        assertFalse(channel.isEmpty());
-        assertTrue(channel.size() == 1);
-        assertTrue(channel.contains(pair));
+        assertFalse(Channel.isEmpty());
+        assertTrue(Channel.contains(pair));
     }
 
     @org.junit.Test
     public void testDisconnect() throws Exception {
-        input = new InputAdapter(component, new UnitInputPort("port1"));
-        outPut = new OutputAdapter(component, new UnitOutputPort("port2"));
+        input = new Input("In", component, new UnitInputPort("port1"));
+        outPut = new Output("Out", component, new UnitOutputPort("port2"));
 
-        channel.connect(input,outPut);
-        channel.disconnect(input, outPut);
+        Channel.connect(input,outPut);
+        Channel.disconnect(input, outPut);
         Pair<IInput, IOutput> pair =  new Pair<>(input, outPut);
-        assertTrue(channel.isEmpty());
-        assertFalse(channel.contains(pair));
+        assertFalse(Channel.contains(pair));
     }
 }

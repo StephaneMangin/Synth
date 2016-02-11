@@ -1,21 +1,23 @@
 package org.istic.synthlab.components.out;
 
-import org.istic.synthlab.core.AComponent;
-import org.istic.synthlab.core.services.ModulesFactory;
+import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
 
-public class Out extends AComponent {
+public class Out extends AbstractComponent {
 
     private ILineOut lineOut;
-    private IInput input;
 
     public Out(String name) {
         super(name);
-        lineOut = ModulesFactory.createLineOut(this, LineType.OUT);
-        input = lineOut.getInput();
+
+        this.lineOut = Factory.createLineOut(this, LineType.OUT);
+        getSourceFm().connect(getAmModulator().getInput());
+        getAmModulator().getOutput().connect(this.lineOut.getInput());
+
     }
 
     @Override
@@ -24,25 +26,31 @@ public class Out extends AComponent {
     }
 
     @Override
-    public void desactivate() {
-        lineOut.desactivate();
+    public void deactivate() {
+        lineOut.deactivate();
     }
 
     @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
+
+    @Override
     public void init() {
+
     }
 
     @Override
     public void run() {
-        //?
+
     }
 
-    public IInput getIInput() {
-        return input;
+    public void setAmplitude(double amplitude) { this.lineOut.setVolume(amplitude); }
+
+    public IInput getInput() {
+        return lineOut.getInput();
     }
 
-    public ILineOut getLineOut() {
-        return this.lineOut;
+    public void start(){
+        lineOut.start();
     }
 
 }

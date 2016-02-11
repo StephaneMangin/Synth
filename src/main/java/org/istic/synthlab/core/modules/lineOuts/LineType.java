@@ -1,9 +1,9 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
 /**
- * @author  Group1
- *
  * The enum Line type.
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public enum LineType {
     /**

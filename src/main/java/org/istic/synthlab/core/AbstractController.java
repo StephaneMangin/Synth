@@ -3,6 +3,8 @@ package org.istic.synthlab.core;
 /**
  * The type Abstract controller.
  *
+ *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public abstract class AbstractController {
 
