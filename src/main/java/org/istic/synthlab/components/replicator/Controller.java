@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 
@@ -14,6 +15,8 @@ import java.util.ResourceBundle;
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public class Controller extends AbstractController implements Initializable {
+    @FXML
+    private AnchorPane replicatorPane;
     @FXML
     private ImageView input;
     @FXML
@@ -30,6 +33,7 @@ public class Controller extends AbstractController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        replicatorPane.setId("replicatorPane"+numInstance);
         close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
     }
 
@@ -52,9 +56,12 @@ public class Controller extends AbstractController implements Initializable {
     public void connectOutput3() {
         ConnectionManager.makeOrigin(replicator, output3, replicator.getOutputReplicated2());
     }
-
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
     @FXML
     public void closeIt(){
-        ConnectionManager.deleteComponent(replicator);
+        ConnectionManager.deleteComponent(replicator, replicatorPane);
     }
 }

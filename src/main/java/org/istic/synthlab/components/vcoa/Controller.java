@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
 public class Controller extends AbstractController implements Initializable {
 
     @FXML
-    private AnchorPane mainPane;
+    private AnchorPane vcoaPane;
     @FXML
     private Circle output;
     @FXML
@@ -60,6 +61,7 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
+        vcoaPane.setId("vcoaPane"+numInstance);
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
@@ -116,10 +118,19 @@ public class Controller extends AbstractController implements Initializable {
         ConnectionManager.makeOrigin(vcoa, circleEvent, vcoa.getOutput());
     }
 
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
     @FXML
     public void closeIt(){
-        ConnectionManager.deleteComponent(vcoa);
+        ConnectionManager.deleteComponent(vcoa, vcoaPane);
     }
+
+    public void connectFm(final MouseEvent event) {
+        ConnectionManager.makeDestination(vcoa, (Node) event.getSource(), vcoa.getFm());
+    }
+
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */

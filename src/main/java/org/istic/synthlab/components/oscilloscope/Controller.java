@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.ui.ConnectionManager;
@@ -21,6 +22,8 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+    @FXML
+    private AnchorPane oscilloscopePane;
     @FXML
     private GridPane pane;
     @FXML
@@ -43,6 +46,7 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        oscilloscopePane.setId("oscilloscopePane"+numInstance);
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
 

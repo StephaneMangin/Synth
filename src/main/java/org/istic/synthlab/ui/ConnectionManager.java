@@ -2,9 +2,9 @@ package org.istic.synthlab.ui;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.istic.synthlab.core.AbstractComponent;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -27,9 +27,9 @@ public class ConnectionManager {
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cableSelected = false;
-    private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
-    private static HashMap<AbstractComponent, List<CurveCable>> componentCurveCableHashMap = new HashMap<>();
-    private static List <AbstractComponent> componentList = new ArrayList<>();
+    private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();    //Each CurveCable has an IInput and an IOutput
+    private static HashMap<IComponent, List<CurveCable>> componentCurveCableHashMap = new HashMap<>();  //Each IComponent has a list of CurveCable
+    private static List <IComponent> componentList = new ArrayList<>(); //List of two IComponent which will used for create a connection
     private static Node inputNode;
     private static Node outputNode;
     private static Node lastDraw;
@@ -90,7 +90,7 @@ public class ConnectionManager {
      * @param node the instance of the node click in the view
      * @param futureConnectionOrigin the output destination for the new connection
      */
-    public static void makeOrigin(AbstractComponent abstractComponent, Node node, IOutput futureConnectionOrigin){
+    public static void makeOrigin(IComponent abstractComponent, Node node, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         outputNode = node;
         componentList.add(abstractComponent);
@@ -127,7 +127,7 @@ public class ConnectionManager {
      * @param node the instance of the node click in the view
      * @param futureConnectionDestination the input destination for the new connection
      */
-    public static void makeDestination(AbstractComponent abstractComponent, Node node, IInput futureConnectionDestination){
+    public static void makeDestination(IComponent abstractComponent, Node node, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         inputNode = node;
         componentList.add(abstractComponent);
@@ -146,6 +146,22 @@ public class ConnectionManager {
 
             addMouseEventFlyingCable(outputNode);
 
+            stage.getScene().setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
+                CurveCable curveCable = new CurveCable(
+                        event.getX() -131+10,
+                        event.getY() -70+10,
+                        computeCoordinates(outputNode).getX(),
+                        computeCoordinates(outputNode).getY(),
+                        colorCurrentCable
+                );
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
             update();
 
         }
@@ -153,9 +169,8 @@ public class ConnectionManager {
             coreController.undraw(lastDraw);
             stage.getScene().setOnMouseMoved(null);
             if(output != null && !connectionTab.containsValue(input)){
-                System.out.println("HI MAKE DESTINATION");
-                if(!makeConnection()){
-                    componentList.remove(abstractComponent);
+                if(!makeConnection()){  //Check if the connection is not established
+                    componentList.remove(abstractComponent); //Remove the IComponent from the List<IComponent>
                 }
             }
         }
@@ -172,9 +187,9 @@ public class ConnectionManager {
             input = null;
             output = null;
             cableSelected = false;
-            List<AbstractComponent> tmpComponentList = new ArrayList<>(componentList);
-            for(AbstractComponent abs : tmpComponentList){
-                componentList.remove(abs);
+            List<IComponent> tmpComponentList = new ArrayList<>(componentList);
+            for(IComponent abs : tmpComponentList){ //Browse the List<IComponent>
+                componentList.remove(abs);  //Remove the IComponent from the List<IComponent>
             }
             return true;
         }
@@ -199,14 +214,13 @@ public class ConnectionManager {
                 curveCable.setColor(colorCurrentCable);
             }
             lineConnection.put(curveCable, connection);
-            List <CurveCable> cables = new ArrayList<>();
-            for(AbstractComponent abs : componentList){
-                if(componentCurveCableHashMap.containsKey(abs)){
-                    cables = componentCurveCableHashMap.get(abs);
+            List <CurveCable> cables = new ArrayList<>();   //Create a List<CurveCable>
+            for(IComponent abs : componentList){    //Browse the List<IComponent>
+                if(componentCurveCableHashMap.containsKey(abs)){    //Check if the IComponent is already in the HashMap
+                    cables = componentCurveCableHashMap.get(abs);   //get the list of CurveCable link to this IComponent
                 }
-                cables.add(curveCable);
-                componentCurveCableHashMap.put(abs,cables);
-                System.out.println("COMPONENTS HASHMAP: "+componentCurveCableHashMap.toString());
+                cables.add(curveCable); //Add the CurveCable to the List<CurveCable>
+                componentCurveCableHashMap.put(abs,cables); //Add the new list of CurveCable to this IComponent
             }
             return true;
         }
@@ -283,19 +297,28 @@ public class ConnectionManager {
         });
     }
 
-    public static void deleteComponent(IComponent    abstractComponent){
+    /**
+     * Check if there are connection between this pane and an other.
+     * If yes, it will delete all curveCable.
+     * After that, it will call the method removeViewComponent from the class CoreController to remove the
+     * representation of the component in the view.
+     * @param abstractComponent the instance of an IComponent
+     * @param pane the container
+     */
+    public static void deleteComponent(IComponent abstractComponent, Pane pane){
         Set keySet = componentCurveCableHashMap.keySet();
-        if(componentCurveCableHashMap.containsKey(abstractComponent)){
-            List<CurveCable> cables = componentCurveCableHashMap.get(abstractComponent);
-            List<CurveCable> tmpCables = new ArrayList<>(cables);
-            for(Object obj : keySet){
-                for(CurveCable cC : tmpCables){
-                    componentCurveCableHashMap.get(obj).remove(cC);
-                    deleteLine(cC);
+        if(componentCurveCableHashMap.containsKey(abstractComponent)){   //if the component is link to something
+            List<CurveCable> cables = componentCurveCableHashMap.get(abstractComponent); //get the list of CurveCable
+            List<CurveCable> tmpCables = new ArrayList<>(cables);   //Copy the list
+            for(Object obj : keySet){   //Browse the HashMap<IComponent, List<CurveCable>>
+                for(CurveCable cC : tmpCables){     //Browse the list of CurveCable
+                    componentCurveCableHashMap.get(obj).remove(cC); //Try to remove for each IComponent to remove the CurveCable
+                    deleteLine(cC); //Remove the CurveCable from the copy
                 }
             }
-            componentCurveCableHashMap.remove(abstractComponent);
-            //DESTRUCTION DE L'OBJET COTE MODEL
+            componentCurveCableHashMap.remove(abstractComponent);   //Remove the IComponent from the HashMap
+            //A FAIRER DESTRUCTION DE L'OBJET COTE MODEL
         }
+        coreController.removeViewComponent(pane);   //Delete the pane in the view
     }
 }

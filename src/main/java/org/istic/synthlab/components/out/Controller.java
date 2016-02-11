@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
@@ -18,6 +19,8 @@ import java.util.ResourceBundle;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
+    @FXML
+    private AnchorPane outPane;
     @FXML
     private Node input;
     @FXML
@@ -36,6 +39,7 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        outPane.setId("outPane"+numInstance);
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         //componentOut.start();
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -53,10 +57,13 @@ public class Controller extends AbstractController implements Initializable {
     public void connectIn() {
         ConnectionManager.makeDestination(componentOut, circleEvent, componentOut.getInput());
     }
-
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
     @FXML
     public void closeIt(){
-        ConnectionManager.deleteComponent(componentOut);
+        ConnectionManager.deleteComponent(componentOut, outPane);
     }
     /**
      * Get the object clicked in the view and cast it into a Circle object

@@ -114,7 +114,9 @@ public class CoreController implements Initializable, IObserver {
         initializeFunctions();
         ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
+
     }
+
 
     @Override
     public void update(Map<IOutput, IInput> arg) {
@@ -193,7 +195,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "vca"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
@@ -268,14 +270,15 @@ public class CoreController implements Initializable, IObserver {
         public void handle(final MouseEvent event) {
             final Pane pane = (Pane) event.getSource();
             ImageView view = (ImageView) pane.getChildren().get(0);
-            //System.out.println("COMPONENT: "+pane.getChildren().get(0));
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
             try {
                 final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId() + "/view.fxml"));
-                WritableImage w  = node.snapshot(null,null);
-                content.putImage(w);
+                if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
+                    WritableImage w  = node.snapshot(null,null);
+                    content.putImage(w);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -323,5 +326,13 @@ public class CoreController implements Initializable, IObserver {
             packageNameSet.add(packageName);
         }
         return packageNameSet;
+    }
+
+    /**
+     * Remove a component from the anchorPane
+     * @param pane the pane we will remove.
+     */
+    public void removeViewComponent(Pane pane){
+        anchorPane.getChildren().remove(pane);
     }
 }
