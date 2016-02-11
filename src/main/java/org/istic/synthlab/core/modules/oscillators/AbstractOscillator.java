@@ -12,6 +12,32 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * Manage the IComponent relation for all Oscillators
  *
+ * 'Abstract oscillator' abstract representation
+ * ---------------------------------------------
+ *
+ *        External View (public access to inputs and outputs)
+ * INPUTS +---------------------------------------------------------------+   OUTPUTS
+ * PORTS  |                                                               |   PORTS
+ *        |     +-----------------+                                     +-+-+
+ *        |     |Potentiometer    |                                   +->   | Output
+ *        |     |Exponential      |                                   | +-+-+
+ *        |     +-------+---------+  +-----------------------------+  |   |
+ *      +-+-+           |            |Frequency              output+--+   |
+ *   fm |   +-----------v------------>                             |      |
+ *      +-+-+                        |                             |      |
+ *        |                          |    UnitOscillator (JSyn)    |      |
+ *        |                          |                             |      |
+ *      +-+-+                        |                             |      |
+ *   am |   +-----------^------------>                             |      |
+ *      +-+-+           |            |Amplitude                    |      |
+ *        |     +-------+---------+  +-----------------------------+      |
+ *        |     |Potentiometer    |                                       |
+ *        |     |Linear           |                                       |
+ *        |     +-----------------+                                       |
+ *        |                                                               |
+ *        +---------------------------------------------------------------+
+ *                                        Made with : http://asciiflow.com/
+ *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 abstract class AbstractOscillator implements IOscillator {
