@@ -97,11 +97,11 @@ public class ConnectionManager {
         if(!cableSelected && connectionTab.containsKey(output)){
             cableSelected = true;
             IInput value = connectionTab.get(output);
-            CurveCable key_line = getKeyLine(value);
+            CurveCable keyLine = getKeyLine(value);
 
             connectionTab.remove(output);
-            lineConnection.remove(key_line);
-            colorCurrentCable = key_line.getColor();
+            lineConnection.remove(keyLine);
+            colorCurrentCable = keyLine.getColor();
 
             Register.disconnect(output);
             input = value;
