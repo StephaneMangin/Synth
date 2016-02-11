@@ -73,6 +73,7 @@ public class CoreController implements Initializable, IObserver {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        onPause();
         initializeListView();
 
         anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
@@ -195,7 +196,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "vca"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "Eg", "vca"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");

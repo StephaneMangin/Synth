@@ -113,7 +113,6 @@ public class ConnectionManager {
             stage.getScene().setOnMouseMoved(null);
 
             if(input != null && !connectionTab.containsKey(output)){
-                System.out.println("HI MAKE ORIGIN");
                 if(!makeConnection()){
                     componentList.remove(abstractComponent);
                 }
