@@ -1,6 +1,8 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.modules.functions.FunctionType;
+import org.istic.synthlab.core.modules.functions.IFunction;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
@@ -15,15 +17,16 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
  */
 public class Out extends AbstractComponent {
 
-    private ILineOut lineOut;
+    private final IFunction multiply;
+    private final ILineOut lineOut;
 
     public Out(String name) {
         super(name);
-
+        this.multiply = Factory.createFunction(this, FunctionType.MULTIPLY);
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSource().connect(lineOut.getInput());
-        getSourceAm().connect(lineOut.getInputAm());
-
+        getSource().connect(multiply.getInput());
+        getSourceAm().connect(multiply.getVariableInput());
+        lineOut.getInput().connect(multiply.getOutput());
     }
 
     @Override

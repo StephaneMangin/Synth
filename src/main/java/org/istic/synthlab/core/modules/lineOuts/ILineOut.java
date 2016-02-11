@@ -28,11 +28,4 @@ public interface ILineOut extends Resource {
      */
     IInput getInput();
 
-    /**
-     * Returns the am input of this line
-     *
-     * @return IInput
-     */
-    IInput getInputAm();
-
 }
