@@ -288,38 +288,39 @@ public class OscillatorAdapterTest {
         }
     }
 
-    @Test
-    public void test8() throws InterruptedException {
-        LineOut myOut = new LineOut();
-        SineOscillator oscA = new SineOscillator();
+//    @Test
+//    public void test8() throws InterruptedException {
+//        LineOut myOut = new LineOut();
+//        SineOscillator oscA = new SineOscillator();
+//
+//        synth.add(myOut);
+//        synth.add(oscA);
 
-        synth.add(myOut);
-        synth.add(oscA);
-
-        inst2.add(myOut);
-        inst2.add(oscA);
-
-        oscA.frequency.set(666);
-        oscA.amplitude.set(1.0);
-
-        oscA.output.connect(0, myOut.input, 0);
-        oscA.output.connect(0, myOut.input, 1);
-
-        myOut.start();
-        synth.start();
-        inst2.start();
-
-        oscA.setEnabled(false);
-        synth.sleepFor(1);
-        inst2.sleepFor(2);
-
-        oscA.setEnabled(false);
-        synth.sleepFor(1);
-        inst2.sleepFor(2);
-
-        oscA.setEnabled(true);
-        synth.sleepFor(3);
-        inst2.sleepFor(4);
-
-    }
+        // FIXME: is it sure that we can add the same module to more than one synthetizer instance ?
+//        inst2.add(myOut);
+//        inst2.add(oscA);
+//
+//        oscA.frequency.set(666);
+//        oscA.amplitude.set(1.0);
+//
+//        oscA.output.connect(0, myOut.input, 0);
+//        oscA.output.connect(0, myOut.input, 1);
+//
+//        myOut.start();
+//        synth.start();
+//        inst2.start();
+//
+//        oscA.setEnabled(false);
+//        synth.sleepFor(1);
+//        inst2.sleepFor(2);
+//
+//        oscA.setEnabled(false);
+//        synth.sleepFor(1);
+//        inst2.sleepFor(2);
+//
+//        oscA.setEnabled(true);
+//        synth.sleepFor(3);
+//        inst2.sleepFor(4);
+//
+//    }
 }

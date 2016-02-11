@@ -59,7 +59,7 @@ public class VcoaTest extends TestCase{
         vcoa.setAmplitudeSine(1);
         AbstractOscillator sineOscillator= (AbstractOscillator) vcoa.getSineOscillator();
         Double value = sineOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, sineOscillator.getFrequency());
+        assertEquals(value, sineOscillator.getFrequencyPotentiometer().getValue());
     }
 
     @org.junit.Test
@@ -67,7 +67,7 @@ public class VcoaTest extends TestCase{
        vcoa.setAmplitudePulse(0.8);
         AbstractOscillator pulseOscillatorOscillator= (AbstractOscillator) vcoa.getPulseOscillator();
         Double value = pulseOscillatorOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, pulseOscillatorOscillator.getFrequency());
+        assertEquals(value, pulseOscillatorOscillator.getFrequencyPotentiometer().getValue());
     }
 
     @org.junit.Test
@@ -75,7 +75,7 @@ public class VcoaTest extends TestCase{
         vcoa.setAmplitudePulse(0.5);
         AbstractOscillator squareOscillatorOscillator= (AbstractOscillator) vcoa.getSquareOscillator();
         Double value = squareOscillatorOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, squareOscillatorOscillator.getFrequency());
+        assertEquals(value, squareOscillatorOscillator.getFrequencyPotentiometer().getValue());
     }
 
    //    Testing method of Abstract Component
