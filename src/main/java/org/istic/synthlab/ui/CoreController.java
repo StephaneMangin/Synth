@@ -75,7 +75,7 @@ public class CoreController implements Initializable, IObserver {
         onPause();
         initializeListView();
 
-        anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+        //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
