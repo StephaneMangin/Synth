@@ -105,9 +105,11 @@ public class ConnectionManager {
 
             stage.getScene().setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() + 10,
-                        event.getY() + 10,
+                        event.getX()-131+10,
+                        event.getY()-70+10,
                         computeCoordinates(inputNode).getX(),
                         computeCoordinates(inputNode).getY(),
                         colorCurrentCable
@@ -155,9 +157,11 @@ public class ConnectionManager {
             output = key;
             stage.getScene().setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() + 10,
-                        event.getY() + 10,
+                        event.getX() -131+10,
+                        event.getY() -70+10,
                         computeCoordinates(outputNode).getX(),
                         computeCoordinates(outputNode).getY(),
                         colorCurrentCable

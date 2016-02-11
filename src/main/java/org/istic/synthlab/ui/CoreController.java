@@ -112,7 +112,9 @@ public class CoreController implements Initializable, IObserver {
         initializeFunctions();
         ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
+
     }
+
 
     @Override
     public void update(Map<IOutput, IInput> arg) {
