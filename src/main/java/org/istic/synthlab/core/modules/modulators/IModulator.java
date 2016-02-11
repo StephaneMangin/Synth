@@ -37,6 +37,20 @@ public interface IModulator extends Resource {
      */
     void setValue(double value);
 
+    /**
+     * The maximum value defined by the potentiometer of the modulator
+     *
+     * @return double
+     */
+    double getMax();
+
+    /**
+     * The minimum value defined by the potentiometer of the modulator
+     *
+     * @return double
+     */
+    double getMin();
+
     String getName();
 
 }

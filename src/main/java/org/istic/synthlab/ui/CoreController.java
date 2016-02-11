@@ -18,6 +18,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -35,6 +36,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * FX controller of core.fxml
@@ -264,7 +269,7 @@ public class CoreController implements Initializable, IObserver {
         playButton.setDisable(true);
 
         Factory.createSynthesizer().start();
-        Register.uglyPatchWork();
+        Register.startComponents();
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {

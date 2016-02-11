@@ -13,7 +13,7 @@ import org.istic.synthlab.core.services.Register;
  */
 public class Potentiometer extends GenericsParam<Double> {
 
-    public static final int POWER_SCALE = 10;
+    public static final int POWER_SCALE = 3;
     private final UnitInputPort port;
     private PotentiometerType type;
 
@@ -46,6 +46,7 @@ public class Potentiometer extends GenericsParam<Double> {
      * @param value double between 0 to 1
      */
     public void setValue(double value) {
+        value = calculateStep(value);
         if (value <= getMax() && value >= getMin()) {
             super.setValue(value);
             this.port.set(value);
@@ -109,8 +110,7 @@ public class Potentiometer extends GenericsParam<Double> {
         if (type == PotentiometerType.LINEAR) {
             result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
-            //128 à la place de 10 ?
-            result = (getMax() - getMin()) / POWER_SCALE * Math.pow(POWER_SCALE, value) + getMin();
+            result = (getMax() - getMin())*Math.pow(value, POWER_SCALE) + getMin();
         } else {
             result = value;
         }

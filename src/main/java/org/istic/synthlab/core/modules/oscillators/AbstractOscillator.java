@@ -104,4 +104,9 @@ public abstract class AbstractOscillator implements IOscillator {
         return amplitudePotentiometer.getValue();
     }
 
+    @Override
+    public double getAmplitudeMax() { return amplitudePotentiometer.getMax(); }
+
+    @Override
+    public double getAmplitudeMin() { return amplitudePotentiometer.getMin(); }
 }
