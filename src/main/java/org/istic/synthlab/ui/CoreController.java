@@ -235,6 +235,7 @@ public class CoreController implements Initializable, IObserver {
      */
     @FXML
     public void onActionClose() {
+        Factory.createSynthesizer().stop();
         Platform.exit();
     }
 
