@@ -19,8 +19,10 @@ public class Main {
         /*EgPrototype egp = new EgPrototype();
         egp.simpleEgTest();*/
 
-        ProofDisconnectInput pdi = new ProofDisconnectInput();
-        pdi.run();
+        /*ProofDisconnectInput pdi = new ProofDisconnectInput();
+        pdi.run();*/
+
+        JSynSynchronizeTesting jst = new JSynSynchronizeTesting();
 
     }
 
