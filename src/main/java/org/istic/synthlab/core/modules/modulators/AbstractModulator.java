@@ -72,4 +72,14 @@ public abstract class AbstractModulator implements IModulator {
         return potentiometer;
     }
 
+    @Override
+    public double getMax() {
+        return potentiometer.getMax();
+    }
+
+    @Override
+    public double getMin() {
+        return potentiometer.getMin();
+    }
+
 }

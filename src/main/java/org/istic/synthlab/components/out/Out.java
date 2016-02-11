@@ -43,9 +43,7 @@ public class Out extends AbstractComponent {
 
     }
 
-    public void setAmplitude(double amplitude) {
-        getAmModulator().setValue(amplitude);
-    }
+    public void setAmplitude(double amplitude) { this.lineOut.setVolume(amplitude); }
 
     public IInput getInput() {
         return lineOut.getInput();

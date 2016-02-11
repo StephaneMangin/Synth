@@ -1,13 +1,13 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterBandPass;
+import com.jsyn.unitgen.Multiply;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.Register;
 
 /**
  * Create an abstraction to manage a gain potentiometer throught a filterAllpass
@@ -15,19 +15,19 @@ import org.istic.synthlab.core.services.Register;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class AmplitudeModulator extends AbstractModulator {
-    private FilterBandPass filter;
+    private Multiply multiply;
 
     public AmplitudeModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        filter = new FilterBandPass();
-        potentiometer = new Potentiometer("Amplitude", filter.amplitude, potentiometerType,
-                1, 0, 1
+        multiply = new Multiply();
+        potentiometer = new Potentiometer("Amplitude", multiply.inputB, potentiometerType,
+                1D, 0D, 1D
         );
 
         // Declare the relation to the mapping
-        Register.declare(component, this.filter);
-        input = Factory.createInput(name + "::ampIn", component, filter.input);
-        output = Factory.createOutput(name + "::ampOut", component, filter.output);
+        Register.declare(component, this.multiply);
+        input = Factory.createInput(name + "::ampIn", component, multiply.inputA);
+        output = Factory.createOutput(name + "::ampOut", component, multiply.output);
     }
 
     @Override
@@ -52,17 +52,17 @@ public class AmplitudeModulator extends AbstractModulator {
 
     @Override
     public void activate() {
-        filter.setEnabled(true);
+        multiply.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
-        filter.setEnabled(false);
+        multiply.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return filter.isEnabled();
+        return multiply.isEnabled();
     }
 
 }

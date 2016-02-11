@@ -55,7 +55,7 @@ public class PassThroughTesting {
         out3.setEnabled(false);
 
         synth.start();
-        out2.start();
+        out1.start();
         synth.sleepFor(3.0);
 
     }
