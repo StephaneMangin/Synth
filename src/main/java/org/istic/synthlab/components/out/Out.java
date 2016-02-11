@@ -1,23 +1,28 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.core.modules.functions.FunctionType;
+import org.istic.synthlab.core.modules.functions.IFunction;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
-
+/**
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ */
 public class Out extends AbstractComponent {
 
-    private ILineOut lineOut;
+    private final IFunction multiply;
+    private final ILineOut lineOut;
 
     public Out(String name) {
         super(name);
-
+        this.multiply = Factory.createFunction(this, FunctionType.MULTIPLY);
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSourceFm().connect(getAmModulator().getInput());
-        getAmModulator().getOutput().connect(this.lineOut.getInput());
-
+        getSource().connect(multiply.getInput());
+        getSourceAm().connect(multiply.getVariableInput());
+        lineOut.getInput().connect(multiply.getOutput());
     }
 
     @Override
@@ -42,8 +47,6 @@ public class Out extends AbstractComponent {
     public void run() {
 
     }
-
-    public void setAmplitude(double amplitude) { this.lineOut.setVolume(amplitude); }
 
     public IInput getInput() {
         return lineOut.getInput();

@@ -1,16 +1,9 @@
 package org.istic.synthlab.ui;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -36,15 +29,11 @@ public class ConnectionManager {
     private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
     private static Node inputNode;
     private static Node outputNode;
-    private static Node root;
     private static Node lastDraw;
     private static Color colorCurrentCable;
     private static Stage stage;
     private static CoreController coreController;
 
-    public static void setNode(Node node) {
-        root = node;
-    }
 
     public static void setCoreController(CoreController coreController) {
         ConnectionManager.coreController = coreController;
@@ -116,11 +105,13 @@ public class ConnectionManager {
 
             stage.getScene().setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() + 10,
-                        event.getY() + 10,
-                        localToSceneCoordinates(inputNode).getX(),
-                        localToSceneCoordinates(inputNode).getY(),
+                        event.getX()-131+10,
+                        event.getY()-70+10,
+                        computeCoordinates(inputNode).getX(),
+                        computeCoordinates(inputNode).getY(),
                         colorCurrentCable
                 );
                 curveCable.setId("cableDrag");
@@ -158,19 +149,21 @@ public class ConnectionManager {
             IOutput key = getKey(input);
             connectionTab.remove(key);
 
-            CurveCable key_line = getKeyLine(input);
-            colorCurrentCable = key_line.getColor();
-            lineConnection.remove(key_line);
+            CurveCable keyLine = getKeyLine(input);
+            colorCurrentCable = keyLine.getColor();
+            lineConnection.remove(keyLine);
 
             Register.disconnect(input);
             output = key;
             stage.getScene().setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() + 10,
-                        event.getY() + 10,
-                        localToSceneCoordinates(outputNode).getX(),
-                        localToSceneCoordinates(outputNode).getY(),
+                        event.getX() -131+10,
+                        event.getY() -70+10,
+                        computeCoordinates(outputNode).getX(),
+                        computeCoordinates(outputNode).getY(),
                         colorCurrentCable
                 );
                 curveCable.setId("cableDrag");
@@ -214,30 +207,14 @@ public class ConnectionManager {
                 && (!connectionTab.containsValue(input))    //Check if the input destination is not involve with an other connection
                 && (!connectionTab.containsKey(output))){   //Check if the output source is not involve with an other connection
 
-            final Point2D point1 = localToSceneCoordinates(inputNode);
-            final Point2D point2 = localToSceneCoordinates(outputNode);
+            final Point2D point1 = computeCoordinates(inputNode);
+            final Point2D point2 = computeCoordinates(outputNode);
             final CurveCable curveCable = new CurveCable(point1, point2);
-            if(colorCurrentCable != null){
+
+            if (colorCurrentCable != null) {
                 curveCable.setColor(colorCurrentCable);
             }
 
-            /*final Stage dialog = new Stage();
-            dialog.initModality(Modality.NONE);
-            dialog.initOwner(stage);
-            ColorPicker colorPicker = new ColorPicker();
-            curveCable.setOnMousePressed(event -> {
-                VBox dialogVbox = new VBox();
-                colorPicker.setValue(curveCable.getColor());
-                dialogVbox.getChildren().add(colorPicker);
-                Scene dialogScene = new Scene(dialogVbox);
-                dialog.setScene(dialogScene);
-                dialog.show();
-                event.consume();
-                colorPicker.valueProperty().addListener(e -> {
-                    curveCable.setColor(colorPicker.getValue());
-                    dialog.hide();
-                });
-            });*/
             lineConnection.put(curveCable, connection);
             return true;
         }
@@ -283,15 +260,13 @@ public class ConnectionManager {
      * @param node The node to which convert the coordinates
      * @return A Point2D containing the scene coordinates of the center of node.
      */
-    private static Point2D localToSceneCoordinates(final Node node) {
-        // FIXME: remove this when all Circles are replaced with Nodes
-        if (node instanceof Circle) {
-            return node.localToScene(0, 0);
-        }
+    private static Point2D computeCoordinates(final Node node) {
+        double x = node.getParent().getBoundsInParent().getMinX() + node.getBoundsInParent().getMinX(),
+               y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
 
-        // The offset to localToScene are calculated as the center of the Node
-        final double centerX = node.getBoundsInParent().getWidth()/2,
-                     centerY = node.getBoundsInParent().getHeight()/2;
-        return node.localToScene(centerX, centerY);
+        x += node.getBoundsInParent().getWidth()/2;
+        y += node.getBoundsInParent().getHeight()/2;
+
+        return new Point2D(x, y);
     }
 }

@@ -88,9 +88,9 @@ public class BasicChainTest {
         synth.start();
         out.start();
         synth.sleepUntil(3);
-        out.setAmplitude(0);
+        out.getAmModulator().setValue(0);
         synth.sleepUntil(6);
-        out.setAmplitude(0.1);
+        out.getAmModulator().setValue(0.1);
         synth.sleepUntil(9);
 
         ((SynthesisEngine)synth).printConnections();
@@ -160,7 +160,7 @@ public class BasicChainTest {
         Replicator repl = new Replicator("REPL");
 
         Out myOut = new Out("OUT1");
-        myOut.setAmplitude(1.0);
+        myOut.getAmModulator().setValue(1.0);
 
         myVcoa.setExponentialFrequency(40);
         myVcoa.setAmplitudeSine(1.0);
@@ -181,7 +181,7 @@ public class BasicChainTest {
         Vcoa Vcoa = new Vcoa("VCOA");
         Eg envelope = new Eg("ENVELOPE");
         Out myOut = new Out("OUT1");
-        myOut.setAmplitude(1.0);
+        myOut.getAmModulator().setValue(1.0);
 
         envelope.setAttack(0.2);
         envelope.setDecay(0.2);
@@ -224,16 +224,16 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Modulewith different parameter");
 
-        System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.5);
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.2);
         envelope.setDecay(1);
         synth.sleepFor(5);

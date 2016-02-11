@@ -1,33 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
-            prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css"
-            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.istic.synthlab.components.vcoa.Controller">
 
-    <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="VCOA">
-        <font>
-            <Font name="System" size="20.0"/>
-        </font>
-    </Label>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
+    <children>
 
-    <Label layoutX="215.0" layoutY="130.0"  text="Square Frequency" textAlignment="CENTER">
-        <font>
-            <Font size="10.0"/>
-        </font>
-    </Label>
-    <Potentiometer fx:id="squareFrequency" layoutX="220.0" layoutY="150.0" />
+        <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="VCOA">
+            <font>
+               <Font name="System" size="20.0" />
+            </font>
+        </Label>
 
-    <Label layoutX="272.0" layoutY="158.0" text="OUT">
-        <font>
-            <Font size="10.0"/>
-        </font>
-    </Label>
-    <Circle fx:id="output" layoutX="283.0" layoutY="182.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED"
-            strokeType="INSIDE" strokeWidth="5.0"/>
+        <Label layoutX="17.0" layoutY="140.0" text="FM" />
+        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectFm">
+            <Image url="@../../images/blueSocket.png"/>
+        </ImageView>
+
+        <Label layoutX="40.0" layoutY="132.0" text="Exp Frequency" textAlignment="CENTER">
+            <font>
+               <Font size="10.0" />
+            </font>
+        </Label>
+        <Potentiometer fx:id="expFrequency" layoutX="60.0" layoutY="150.0" />
+
+        <Label layoutX="40.0" layoutY="60.0" text="Lin Frequency" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <Potentiometer fx:id="linFrequency" layoutX="60.0" layoutY="80.0" />
+
+        <Label layoutX="200.0" layoutY="132.0" text="Amplitude" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <Potentiometer fx:id="amplitude" layoutX="200.0" layoutY="152.0" />
+
+        <Label layoutX="272.0" layoutY="158.0" text="OUT">
+            <font>
+               <Font size="10.0" />
+            </font>
+        </Label>
+        <Circle fx:id="output" layoutX="283.0" layoutY="182.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
+        <RadioButton fx:id="squareRadio" layoutX="120.0" layoutY="50.0" mnemonicParsing="false" text="Square" />
+        <RadioButton fx:id="sineRadio" layoutX="120.0" layoutY="80.0" mnemonicParsing="false" text="Sine" />
+        <RadioButton fx:id="triangleRadio" layoutX="120.0" layoutY="110.0" mnemonicParsing="false" text="Triangle" />
+        <ImageView fx:id="oscillatorImage" fitHeight="64.0" fitWidth="64.0" layoutX="200.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
 </AnchorPane>

@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
@@ -18,7 +19,7 @@ import java.util.ResourceBundle;
 /**
  * @author Sebastien
  */
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
     @FXML
     private GridPane pane;
@@ -30,6 +31,8 @@ public class Controller implements Initializable{
     private Circle output;
     @FXML
     private Circle circleEvent;
+    @FXML
+    private LineChart chart;
 
     private static int numInstance      = 0;
     private Oscilloscope oscilloscope   = new Oscilloscope("Visualizer"+numInstance++);
@@ -60,6 +63,7 @@ public class Controller implements Initializable{
     public void connectOut(){
         ConnectionManager.makeOrigin(circleEvent, oscilloscope.getOutput());
     }
+
     /**
      * Method called in view component file and start a connection manager calling the makeDestination method
      * with the input variable
@@ -68,6 +72,7 @@ public class Controller implements Initializable{
     public void connectIn(){
         ConnectionManager.makeDestination(circleEvent, oscilloscope.getInput());
     }
+
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */

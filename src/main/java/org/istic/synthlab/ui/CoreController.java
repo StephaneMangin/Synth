@@ -74,6 +74,8 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
 
+        anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.COPY);
@@ -108,10 +110,11 @@ public class CoreController implements Initializable, IObserver {
         });
 
         initializeFunctions();
-        ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
+
     }
+
 
     @Override
     public void update(Map<IOutput, IInput> arg) {
@@ -165,6 +168,7 @@ public class CoreController implements Initializable, IObserver {
                     });
                 }
             });
+
             anchorPane.getChildren().add(key);
         }
     }
@@ -191,7 +195,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "Eg", "vca"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
@@ -220,6 +224,7 @@ public class CoreController implements Initializable, IObserver {
      */
     @FXML
     public void onActionClose() {
+        Factory.createSynthesizer().stop();
         Platform.exit();
     }
 

@@ -10,6 +10,45 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * The abstract class component.
  *
+ * This class abstracts port accesses.
+
+ *
+ * 'Abstract components' abstract representation
+ * ---------------------------------------------
+ *
+ *            External view (public access to inputs and outputs)
+ * VIRTUAL   +-----------------------------------------------------------------------------------------------+  VIRTUAL
+ * PORTS     |                  Internal view (protected access to sources/sinks ports                       |  PORTS
+ *           |     IModulator   +-------------------------------------------------------+    IModulator      |
+ *         +-+-+   +--------+   |                 Module view                           |    +---------+   +-+-+
+ *   input |   +---> Bypass +---> source+------+  +-----------------------+    +-->sink +----> Amp     +--->   |output
+ *         +-+-+   +--------+   |              +-->in1                    |    |        |    | Mod     |   +-+-+
+ *           |                  |                 |                   out1+----+        |    | Linear  |     |
+ *           |     +--------+   |             +--->in2 Modules (jsyn)     |             |    +---------+     |
+ *         +-+-+   |Freq    |   |             |   |                       |             |                    |
+ *      fm |   +--->Mod     +---> sourceFm+-+ |   |                       |             |                    |
+ *         +-+-+   |Exp     |   |           | |   +-----------------------+             |                    |
+ *           |     +--------+   |           | |                                         |                    |
+ *           |     +--------+   |           | +------------------+                      |                    |
+ *         +-+-+   |Amp     |   |           |                    |                      |                    |
+ *      am |   +--->Mod     +---> SourceAm  |     IModulator     |                      |                    |
+ *         +-+-+   |Linear  |   |           |     +---------+    |                      |                    |
+ *           |     +--------+   |           |     |Freq     |    |                      |                    |
+ *           |                  |           +> --->Mod      +----+                      |     IModulator     |
+ *         +-+-+   +--------+   |                 |Linear   |                           |     +---------+  +-+-+
+ *   gateIn|   +---> Bypass +---> SourceGate      +---------+                  sinkGate +-----> Bypass  +-->   |gateOut
+ *         +-+-+   +--------+   |                                                       |     +---------+  +-+-+
+ *           |                  +-------------------------------------------------------+                    |
+ *           |                                                                                               |
+ *           +-----------------------------------------------------------------------------------------------+
+ *                                                                                    Made with : http://asciiflow.com/
+ * Abstraction by getter (see code):
+ *  Component's inputs linked to IModulator's inputs by getter
+ *  Component's outputs linked to IModulator's outputs by getter
+ *  Component's sources linked to IModulator's outputs by getter
+ *  Component's sinks linked to IModulator's inputs by getter
+ *
+ *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
