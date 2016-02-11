@@ -10,19 +10,28 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
+ * this class represents the Replicator module
+ *
+ * It links an output port to 3 input ports (such as a power strip)
  */
 public class Replicator extends AbstractComponent {
 
     private IPassThrough passThrough;
 
+    /*
+    * the first replicated output
+    */
     private IModulator outputModulatorReplicated1;
+    /*
+    * the second replicated output
+    */
     private IModulator outputModulatorReplicated2;
 
 
     /**
-     * Instantiates a new component.
+     * Instantiates a new replicator.
      *
-     * @param name the name
+     * @param name String
      */
     public Replicator(String name) {
         super(name);

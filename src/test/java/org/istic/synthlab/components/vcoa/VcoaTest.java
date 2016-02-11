@@ -27,6 +27,10 @@ public class VcoaTest extends TestCase{
         assertNotNull(vcoa.getSineOscillator());
         assertNotNull(vcoa.getPulseOscillator());
         assertNotNull(vcoa.getSquareOscillator());
+        assertNotNull(vcoa.getImpulsesineOutput());
+        assertNotNull(vcoa.getSawToothOutput());
+        assertNotNull(vcoa.getTriangleOutput());
+        assertNotNull(vcoa.getRedNoiseOutput());
         assertFalse(Channel.isEmpty());
     }
 
@@ -55,11 +59,17 @@ public class VcoaTest extends TestCase{
     }
 
     @org.junit.Test
+    public void testSetExponentialFrequency() throws Exception {
+        vcoa.setExponentialFrequency(30.0D);
+        assertEquals(30.0D, vcoa.getExponentialFrequency(), 1e-15);
+    }
+
+    @org.junit.Test
     public void testSetAmplitudeSine() throws Exception {
         vcoa.setAmplitudeSine(1);
         AbstractOscillator sineOscillator= (AbstractOscillator) vcoa.getSineOscillator();
         Double value = sineOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, sineOscillator.getFrequency());
+        assertEquals(value, sineOscillator.getFrequency(), 1e-15);
     }
 
     @org.junit.Test
@@ -67,7 +77,7 @@ public class VcoaTest extends TestCase{
        vcoa.setAmplitudePulse(0.8);
         AbstractOscillator pulseOscillatorOscillator= (AbstractOscillator) vcoa.getPulseOscillator();
         Double value = pulseOscillatorOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, pulseOscillatorOscillator.getFrequency());
+        assertEquals(value, pulseOscillatorOscillator.getFrequency(), 1e-15);
     }
 
     @org.junit.Test
@@ -75,10 +85,11 @@ public class VcoaTest extends TestCase{
         vcoa.setAmplitudePulse(0.5);
         AbstractOscillator squareOscillatorOscillator= (AbstractOscillator) vcoa.getSquareOscillator();
         Double value = squareOscillatorOscillator.getFrequencyPotentiometer().getValue();
-        assertEquals(value, squareOscillatorOscillator.getFrequency());
+        assertEquals(value, squareOscillatorOscillator.getFrequency(), 1e-15);
     }
 
-   //    Testing method of Abstract Component
+
+    //    Testing method of Abstract Component
 
    @org.junit.Test
    public void testAbstractComponentConstruct(){

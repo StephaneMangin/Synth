@@ -5,7 +5,6 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
-
 /**
  * The class Line adapter.
  *

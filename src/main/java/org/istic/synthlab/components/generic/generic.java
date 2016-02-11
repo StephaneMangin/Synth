@@ -4,13 +4,14 @@ import org.istic.synthlab.components.AbstractComponent;
 
 /**
  * Created by seb on 04/02/16.
+ * This class represents the generic class of component
  */
 public class generic extends AbstractComponent {
 
     /**
-     * Instantiates a new component.
+     * Instantiates a new Generic.
      *
-     * @param name the name
+     * @param name : String
      */
     public generic(String name) {
         super(name);

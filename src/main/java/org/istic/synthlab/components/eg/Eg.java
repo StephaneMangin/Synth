@@ -7,7 +7,9 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 
 /**
- * Module EG.
+ * The model of EG component.
+ *
+ * It creates an Envelope Generator that produce a "one shot" waveform
  *
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
  * @since <pre>Feb 8, 2016</pre>

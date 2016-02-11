@@ -6,8 +6,7 @@ import org.istic.synthlab.core.services.Register;
 
 
 /**
- * @author  Group1
- * The type Output adapter
+ * The  Output adapter class
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
