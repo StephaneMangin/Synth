@@ -46,6 +46,7 @@ public class Potentiometer extends GenericsParam<Double> {
      * @param value double between 0 to 1
      */
     public void setValue(double value) {
+        value = calculateStep(value);
         if (value <= getMax() && value >= getMin()) {
             super.setValue(value);
             this.port.set(value);

@@ -89,9 +89,6 @@ public class CoreController implements Initializable, IObserver {
 
     private Boolean delete_mod = false;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private ScheduledFuture<?> synthesizer = scheduler.scheduleAtFixedRate(()->{}, 0, 10, TimeUnit.MILLISECONDS);
-
     /**
      * This method initializes the list view and the grid
      * @param location Not used
@@ -228,9 +225,6 @@ public class CoreController implements Initializable, IObserver {
      */
     @FXML
     public void onActionClose() {
-        scheduler.shutdown();
-
-        System.out.println("Shut ?"+scheduler.isShutdown());
         Platform.exit();
     }
 
@@ -242,7 +236,6 @@ public class CoreController implements Initializable, IObserver {
         pauseButton.setDisable(true);
         playButton.setDisable(false);
 
-        synthesizer.cancel(true);
         Factory.createSynthesizer().stop();
     }
 
@@ -267,14 +260,6 @@ public class CoreController implements Initializable, IObserver {
 
         Factory.createSynthesizer().start();
         Register.startComponents();
-
-        synthesizer = scheduler.scheduleAtFixedRate(()->{
-            try{
-                Factory.createSynthesizer().sleepFor(10);
-            } catch (Exception e) {
-                System.out.println("msg"+e.getMessage());
-            }
-        }, 0, 1000, TimeUnit.MILLISECONDS);
     }
 
     private class DragDetectedListItemEventHandler implements EventHandler<MouseEvent> {
