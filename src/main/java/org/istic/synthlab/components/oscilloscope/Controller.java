@@ -46,6 +46,7 @@ public class Controller implements Initializable{
         AudioScopeView byuu = (AudioScopeView) this.oscilloscope.getView();
         byuu.setSize(new Dimension(25, 25));
 
+        //this.oscilloscope.activate();
         final SwingNode swingNode = new SwingNode();
         swingNode.setContent(this.oscilloscope.getView());
         pane.add(swingNode, 0, 0);
