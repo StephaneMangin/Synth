@@ -1,23 +1,22 @@
 package org.istic.synthlab.components.vcoa;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
+import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,6 +45,8 @@ public class Controller extends AbstractController implements Initializable {
     private RadioButton triangleRadio;
     @FXML
     private ImageView oscillatorImage;
+    @FXML
+    private Button close;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
@@ -71,6 +72,7 @@ public class Controller extends AbstractController implements Initializable {
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((double)newValue);
         });
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((double)newValue);
         });
@@ -111,7 +113,12 @@ public class Controller extends AbstractController implements Initializable {
      */
     @FXML
     public void connectOut() {
-        ConnectionManager.makeOrigin(circleEvent, vcoa.getOutput());
+        ConnectionManager.makeOrigin(vcoa, circleEvent, vcoa.getOutput());
+    }
+
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(vcoa);
     }
     /**
      * Get the object clicked in the view and cast it into a Circle object

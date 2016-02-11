@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.text.*?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
     <children>
 
-        <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="VCOA">
+        <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="VCOA">
             <font>
                <Font name="System" size="20.0" />
             </font>
@@ -53,5 +46,6 @@
         <RadioButton fx:id="sineRadio" layoutX="120.0" layoutY="80.0" mnemonicParsing="false" text="Sine" />
         <RadioButton fx:id="triangleRadio" layoutX="120.0" layoutY="110.0" mnemonicParsing="false" text="Triangle" />
         <ImageView fx:id="oscillatorImage" fitHeight="64.0" fitWidth="64.0" layoutX="200.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
-   </children>
+        <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
+    </children>
 </AnchorPane>

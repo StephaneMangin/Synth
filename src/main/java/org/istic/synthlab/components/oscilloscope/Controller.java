@@ -61,7 +61,7 @@ public class Controller implements Initializable {
      */
     @FXML
     public void connectOut(){
-        ConnectionManager.makeOrigin(circleEvent, oscilloscope.getOutput());
+        ConnectionManager.makeOrigin(oscilloscope, circleEvent, oscilloscope.getOutput());
     }
     /**
      * Method called in view component file and start a connection manager calling the makeDestination method
@@ -69,7 +69,7 @@ public class Controller implements Initializable {
      */
     @FXML
     public void connectIn(){
-        ConnectionManager.makeDestination(circleEvent, oscilloscope.getInput());
+        ConnectionManager.makeDestination(oscilloscope, circleEvent, oscilloscope.getInput());
     }
     /**
      * Get the object clicked in the view and cast it into a Circle object

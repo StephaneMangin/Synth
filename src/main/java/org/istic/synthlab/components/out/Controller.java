@@ -4,11 +4,14 @@ import javafx.fxml.FXML;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -19,10 +22,12 @@ public class Controller extends AbstractController implements Initializable {
     private Node input;
     @FXML
     private Potentiometer amplitude;
-
-    private Out componentOut = new Out("Out"+numInstance++);
+    @FXML
+    private Button close;
+    private Out componentOut        = new Out("Out"+numInstance++);
     private Node circleEvent;
     private static int numInstance  = 0;
+    private List<Node> nodeList = new ArrayList<>();
 
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
@@ -37,6 +42,7 @@ public class Controller extends AbstractController implements Initializable {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
         amplitude.setValue(0);
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
     }
 
     /**
@@ -45,9 +51,13 @@ public class Controller extends AbstractController implements Initializable {
      */
     @FXML
     public void connectIn() {
-        ConnectionManager.makeDestination(circleEvent, componentOut.getInput());
+        ConnectionManager.makeDestination(componentOut, circleEvent, componentOut.getInput());
     }
 
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(componentOut);
+    }
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */
