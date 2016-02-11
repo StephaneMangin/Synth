@@ -95,6 +95,8 @@ public class CoreController implements Initializable, IObserver {
                         anchorPane.getChildren().add(component);
                     } catch (final IOException e) {
                         e.printStackTrace();
+                        event.consume();
+                        return;
                     }
                 }
                 assert component != null;
