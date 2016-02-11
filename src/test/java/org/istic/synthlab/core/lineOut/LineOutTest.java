@@ -1,8 +1,8 @@
 package org.istic.synthlab.core.lineOut;
 
 import com.jsyn.Synthesizer;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.components.out.Out;
-import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.services.Factory;
 import org.junit.Test;

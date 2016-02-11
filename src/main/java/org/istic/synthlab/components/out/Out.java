@@ -17,16 +17,13 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
  */
 public class Out extends AbstractComponent {
 
-    private final IFunction multiply;
     private final ILineOut lineOut;
 
     public Out(String name) {
         super(name);
-        this.multiply = Factory.createFunction(this, FunctionType.MULTIPLY);
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSource().connect(multiply.getInput());
-        getSourceAm().connect(multiply.getVariableInput());
-        lineOut.getInput().connect(multiply.getOutput());
+        getSource().connect(getAm());
+        lineOut.getInput().connect(getSourceAm());
     }
 
     @Override

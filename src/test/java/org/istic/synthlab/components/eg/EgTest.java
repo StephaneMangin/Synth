@@ -27,7 +27,6 @@ public class EgTest extends TestCase {
     @org.junit.Test
     public void testEGModule(){
         assertTrue(envelope.getName()=="ENVELOPE");
-        assertTrue(Channel.contains(new Pair<>(envelope.getInput(),envelope.getInputModulator().getOutput())));
         assertTrue(Channel.contains(new Pair<>(envelope.getOutputModulator().getInput(),envelope.getOutput())));
     }
 

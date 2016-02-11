@@ -153,6 +153,8 @@ public class Factory {
                 return new VcoaFrequencyModulator(name, component, potentiometerType);
             case VCA:
                 return new VcaAmplitudeModulator(name, component, potentiometerType);
+            case BYPASS:
+                return new ByPassModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
