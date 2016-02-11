@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
+    <children>
+
+        <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="ADSR">
+            <font>
+                <Font name="System" size="20.0" />
+            </font>
+        </Label>
+
+        <TextField fx:id="valueAttackFx" layoutX="6.0" layoutY="111.0" prefWidth="60.0" />
+        <TextField fx:id="valueDecayFx" layoutX="87.0" layoutY="112.0" prefWidth="60.0" />
+        <TextField fx:id="valueSustainFx" layoutX="176.0" layoutY="112.0" prefWidth="60.0" />
+        <TextField fx:id="valueReleaseFx" layoutX="282.0" layoutY="112.0" prefWidth="60.0" />
+
+        <Label layoutX="286.0" layoutY="64.0" text="Release" />
+        <Label layoutX="181.0" layoutY="63.0" text="Sustain" />
+        <Label layoutX="87.0" layoutY="64.0" text="Decay" />
+        <Label layoutX="4.0" layoutY="63.0" text="Attack" />
+        <Circle fx:id="gate" layoutX="25.0" layoutY="163.0" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
+        <Label layoutX="51.0" layoutY="155.0" prefHeight="16.0" prefWidth="30.0" text="gate" />
+
+        <Circle fx:id="output" layoutX="312.0" layoutY="165.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
+        <Label layoutX="331.0" layoutY="155.0" text="out" />
+    </children>
+</AnchorPane>
