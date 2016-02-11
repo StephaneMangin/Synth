@@ -51,6 +51,11 @@ public interface IModulator extends Resource {
      */
     double getMin();
 
+    /**
+     * Returns the name of the modulator
+     *
+     * @return String
+     */
     String getName();
 
 }

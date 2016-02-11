@@ -7,7 +7,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Create an abstraction to manage a gain potentiometer throught a filterAllpass
+ * Create an abstraction to manage a potentiometer throught a filterAllpass
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
