@@ -60,7 +60,7 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
     @FXML
-    private AnchorPane anchorPane;
+    public AnchorPane anchorPane;
 
     private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
 
@@ -76,7 +76,7 @@ public class CoreController implements Initializable, IObserver {
         onPause();
         initializeListView();
 
-        anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+        //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -206,7 +206,7 @@ public class CoreController implements Initializable, IObserver {
 
             final Pane pane = new Pane();
             final ImageView imageView = new ImageView(new Image(image.toString()));
-            imageView.preserveRatioProperty();
+            imageView.setPreserveRatio(true);
             imageView.setFitWidth(100);
             imageView.setFitHeight(50);
             imageView.setSmooth(true);

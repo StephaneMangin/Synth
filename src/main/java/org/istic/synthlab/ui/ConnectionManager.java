@@ -33,7 +33,7 @@ public class ConnectionManager {
     private static Node inputNode;
     private static Node outputNode;
     private static Node lastDraw;
-    private static Color colorCurrentCable;
+    private static Color colorCurrentCable = Color.RED;
     private static Stage stage;
     private static CoreController coreController;
 
@@ -105,18 +105,56 @@ public class ConnectionManager {
 
             Register.disconnect(output);
             input = value;
-            addMouseEventFlyingCable(inputNode);
+
+            coreController.anchorPane.setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                // FIXME: make coordonates relative to realign
+                // 131 , 70 is the position of the main corner of the anchorpane.
+                CurveCable curveCable = new CurveCable(
+                        event.getX(),
+                        event.getY(),
+                        computeCoordinates(inputNode).getX(),
+                        computeCoordinates(inputNode).getY(),
+                        colorCurrentCable
+                );
+                curveCable.setMouseTransparent(true);
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
+
+
             update();
         }
         else{
-            coreController.undraw(lastDraw);
-            stage.getScene().setOnMouseMoved(null);
-
+            if(!connectionTab.containsKey(output)) {
+                coreController.anchorPane.setOnMouseMoved(event -> {
+                    coreController.undraw(lastDraw);
+                    // FIXME: make coordonates relative to realign
+                    // 131 , 70 is the position of the main corner of the anchorpane.
+                    CurveCable curveCable = new CurveCable(
+                            event.getX(),
+                            event.getY(),
+                            computeCoordinates(outputNode).getX(),
+                            computeCoordinates(outputNode).getY(),
+                            colorCurrentCable
+                    );
+                    curveCable.setId("cableDrag");
+                    curveCable.setMouseTransparent(true);
+                    curveCable.setOnMouseClicked(null);
+                    coreController.draw(curveCable);
+                    lastDraw = curveCable;
+                });
+            }
             if(input != null && !connectionTab.containsKey(output)){
+                coreController.undraw(lastDraw);
+                coreController.anchorPane.setOnMouseMoved(null);
                 if(!makeConnection()){
                     componentList.remove(abstractComponent);
                 }
             }
+
         }
     }
 
@@ -142,20 +180,18 @@ public class ConnectionManager {
 
             Register.disconnect(input);
             output = key;
-
-            addMouseEventFlyingCable(outputNode);
-
-            stage.getScene().setOnMouseMoved(event -> {
+            coreController.anchorPane.setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
                 // FIXME: make coordonates relative to realign
                 // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() -131+10,
-                        event.getY() -70+10,
+                        event.getX(),
+                        event.getY(),
                         computeCoordinates(outputNode).getX(),
                         computeCoordinates(outputNode).getY(),
                         colorCurrentCable
                 );
+                curveCable.setMouseTransparent(true);
                 curveCable.setId("cableDrag");
                 curveCable.setOnMouseClicked(null);
                 coreController.draw(curveCable);
@@ -165,11 +201,31 @@ public class ConnectionManager {
 
         }
         else{
-            coreController.undraw(lastDraw);
-            stage.getScene().setOnMouseMoved(null);
-            if(output != null && !connectionTab.containsValue(input)){
-                if(!makeConnection()){  //Check if the connection is not established
-                    componentList.remove(abstractComponent); //Remove the IComponent from the List<IComponent>
+            if(!connectionTab.containsValue(input)){
+                coreController.anchorPane.setOnMouseMoved(event -> {
+                    coreController.undraw(lastDraw);
+                    // FIXME: make coordonates relative to realign
+                    // 131 , 70 is the position of the main corner of the anchorpane.
+                    CurveCable curveCable = new CurveCable(
+                            event.getX(),
+                            event.getY(),
+                            computeCoordinates(inputNode).getX(),
+                            computeCoordinates(inputNode).getY(),
+                            colorCurrentCable
+                    );
+                    curveCable.setMouseTransparent(true);
+                    curveCable.setId("cableDrag");
+                    curveCable.setOnMouseClicked(null);
+                    coreController.draw(curveCable);
+                    lastDraw = curveCable;
+                });
+
+                if(output != null){
+                    coreController.undraw(lastDraw);
+                    coreController.anchorPane.setOnMouseMoved(null);
+                    if(!makeConnection()){  //Check if the connection is not established
+                        componentList.remove(abstractComponent); //Remove the IComponent from the List<IComponent>
+                    }
                 }
             }
         }

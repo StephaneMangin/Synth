@@ -120,6 +120,7 @@ public class Controller extends AbstractController implements Initializable {
         ConnectionManager.deleteComponent(vcoa, vcoaPane);
     }
 
+    @FXML
     public void connectFm(final MouseEvent event) {
         ConnectionManager.makeDestination(vcoa, (Node) event.getSource(), vcoa.getFm());
     }
