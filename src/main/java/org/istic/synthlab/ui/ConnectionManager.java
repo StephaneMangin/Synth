@@ -38,6 +38,7 @@ public class ConnectionManager {
     private static Node outputNode;
     private static Node root;
     private static Node lastDraw;
+    private static Color colorCurrentCable;
     private static Stage stage;
     private static CoreController coreController;
 
@@ -108,6 +109,7 @@ public class ConnectionManager {
 
             connectionTab.remove(output);
             lineConnection.remove(key_line);
+            colorCurrentCable = key_line.getColor();
 
             Register.disconnect(output);
             input = value;
@@ -119,7 +121,7 @@ public class ConnectionManager {
                         event.getY() + 10,
                         localToSceneCoordinates(inputNode).getX(),
                         localToSceneCoordinates(inputNode).getY(),
-                        Color.RED
+                        colorCurrentCable
                 );
                 curveCable.setId("cableDrag");
                 curveCable.setOnMouseClicked(null);
@@ -134,7 +136,7 @@ public class ConnectionManager {
             coreController.undraw(lastDraw);
             stage.getScene().setOnMouseMoved(null);
 
-            if(input != null){
+            if(input != null && !connectionTab.containsKey(output)){
 
                 makeConnection();
             }
@@ -157,6 +159,7 @@ public class ConnectionManager {
             connectionTab.remove(key);
 
             CurveCable key_line = getKeyLine(input);
+            colorCurrentCable = key_line.getColor();
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
@@ -168,7 +171,7 @@ public class ConnectionManager {
                         event.getY() + 10,
                         localToSceneCoordinates(outputNode).getX(),
                         localToSceneCoordinates(outputNode).getY(),
-                        Color.RED
+                        colorCurrentCable
                 );
                 curveCable.setId("cableDrag");
                 curveCable.setOnMouseClicked(null);
@@ -181,7 +184,7 @@ public class ConnectionManager {
         else{
             coreController.undraw(lastDraw);
             stage.getScene().setOnMouseMoved(null);
-            if(output != null){
+            if(output != null && !connectionTab.containsValue(input)){
                 makeConnection();
             }
         }
@@ -214,6 +217,9 @@ public class ConnectionManager {
             final Point2D point1 = localToSceneCoordinates(inputNode);
             final Point2D point2 = localToSceneCoordinates(outputNode);
             final CurveCable curveCable = new CurveCable(point1, point2);
+            if(colorCurrentCable != null){
+                curveCable.setColor(colorCurrentCable);
+            }
 
             /*final Stage dialog = new Stage();
             dialog.initModality(Modality.NONE);
