@@ -24,8 +24,10 @@ public class VcaTest {
 
     @org.junit.Test
     public void testGetAmplitudeModulatorValue() throws Exception {
-        this.vca.setAmplitudeModulatorValue(2.0);
-        Assert.assertEquals((long) 2.0, (long) (this.vca.getAmplitudeModulatorValue()));
+        Double v = 1.0;
+        this.vca.setAmplitudeModulatorValue(v);
+
+        Assert.assertTrue(this.vca.getAmplitudeModulatorValue() > 1.999 && this.vca.getAmplitudeModulatorValue() < 2.001);
     }
 
     @org.junit.Test

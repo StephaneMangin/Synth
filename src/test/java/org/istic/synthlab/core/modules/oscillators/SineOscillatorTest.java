@@ -57,7 +57,6 @@ public class SineOscillatorTest {
         Synthesizer synth = Factory.createSynthesizer();
 
         lineOut.start();
-        lineOut.setVolume(0.0);
 
         synth.start();
         synth.sleepFor(0.5);
@@ -96,7 +95,6 @@ public class SineOscillatorTest {
         Synthesizer synth = Factory.createSynthesizer();
 
         lineOut.start();
-        lineOut.setVolume(0.0);
 
         synth.start();
         synth.sleepFor(0.5);

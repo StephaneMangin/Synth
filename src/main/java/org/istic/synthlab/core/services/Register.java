@@ -53,7 +53,7 @@ public class Register {
         }
         mappingGenerator.get(component).add(unitGenerator);
         Factory.createSynthesizer().add(unitGenerator);
-        System.out.println(component + " connected to " + unitGenerator);
+        //System.out.println(component + " connected to " + unitGenerator);
     }
 
     /**
@@ -74,7 +74,7 @@ public class Register {
         } else {
             mappingInput.get(component).putAll(assoc);
         }
-        System.out.println(component + " with input " + in + " connected to " + unitIn);
+        //System.out.println(component + " with input " + in + " connected to " + unitIn);
     }
 
     /**
@@ -95,7 +95,7 @@ public class Register {
         } else {
             mappingOutput.get(component).putAll(assoc);
         }
-        System.out.println(component + " with output " + out + " connected to " + unitOut);
+        //System.out.println(component + " with output " + out + " connected to " + unitOut);
     }
 
     /**
@@ -123,9 +123,9 @@ public class Register {
             Channel.connect(in, out);
             unitOut.connect(unitIn);
             associations.put(in, out);
-            System.out.println(in + " connected to " + out);
+            //System.out.println(in + " connected to " + out);
 
-            System.out.println(prettyPrint());
+            //System.out.println(prettyPrint());
         }
     }
 
@@ -153,9 +153,9 @@ public class Register {
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
         associations.remove(in, out);
-        System.out.println(in + " disconnected");
+        //System.out.println(in + " disconnected");
 
-        System.out.println(prettyPrint());
+        //System.out.println(prettyPrint());
     }
 
     /**
@@ -185,9 +185,9 @@ public class Register {
         // Stereo connections
         unitIn.disconnect(unitOut);
         associations.remove(in, out);
-        System.out.println(out + " disconnected");
+        //System.out.println(out + " disconnected");
 
-        System.out.println(prettyPrint());
+        //System.out.println(prettyPrint());
     }
 
     /**

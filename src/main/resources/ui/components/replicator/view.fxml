@@ -11,15 +11,15 @@
         </font>
     </Label>
     <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
-        <Image url="@../../images/inoutBleu.png"/>
+        <Image url="@../../images/blueSocket.png"/>
     </ImageView>
     <ImageView fx:id="output1" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput1">
-        <Image url="@../../images/inoutRouge.png"/>
+        <Image url="@../../images/redSocket.png"/>
     </ImageView>
     <ImageView fx:id="output2" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput2">
-        <Image url="@../../images/inoutRouge.png"/>
+        <Image url="@../../images/redSocket.png"/>
     </ImageView>
     <ImageView fx:id="output3" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput3">
-        <Image url="@../../images/inoutRouge.png"/>
+        <Image url="@../../images/redSocket.png"/>
     </ImageView>
 </AnchorPane>

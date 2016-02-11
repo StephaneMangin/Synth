@@ -35,6 +35,6 @@
         </font>
     </Label>
     <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectIn">
-        <Image url="@../../images/inoutBleu.png"/>
+        <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 </AnchorPane>
