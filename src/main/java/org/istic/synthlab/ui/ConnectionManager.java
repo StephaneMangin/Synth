@@ -1,10 +1,14 @@
 package org.istic.synthlab.ui;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -33,11 +37,19 @@ public class ConnectionManager {
     private static Node inputNode;
     private static Node outputNode;
     private static Node root;
+    private static Node lastDraw;
+    private static Color colorCurrentCable;
     private static Stage stage;
+    private static CoreController coreController;
 
     public static void setNode(Node node) {
         root = node;
     }
+
+    public static void setCoreController(CoreController coreController) {
+        ConnectionManager.coreController = coreController;
+    }
+
     public static void setStage(Stage node) {
         stage = node;
     }
@@ -97,13 +109,35 @@ public class ConnectionManager {
 
             connectionTab.remove(output);
             lineConnection.remove(key_line);
+            colorCurrentCable = key_line.getColor();
 
             Register.disconnect(output);
             input = value;
+
+            stage.getScene().setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                CurveCable curveCable = new CurveCable(
+                        event.getX() + 10,
+                        event.getY() + 10,
+                        localToSceneCoordinates(inputNode).getX(),
+                        localToSceneCoordinates(inputNode).getY(),
+                        colorCurrentCable
+                );
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
+
+
             update();
         }
         else{
-            if(input != null){
+            coreController.undraw(lastDraw);
+            stage.getScene().setOnMouseMoved(null);
+
+            if(input != null && !connectionTab.containsKey(output)){
+
                 makeConnection();
             }
         }
@@ -125,15 +159,32 @@ public class ConnectionManager {
             connectionTab.remove(key);
 
             CurveCable key_line = getKeyLine(input);
+            colorCurrentCable = key_line.getColor();
             lineConnection.remove(key_line);
 
             Register.disconnect(input);
-
-            update();
             output = key;
+            stage.getScene().setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                CurveCable curveCable = new CurveCable(
+                        event.getX() + 10,
+                        event.getY() + 10,
+                        localToSceneCoordinates(outputNode).getX(),
+                        localToSceneCoordinates(outputNode).getY(),
+                        colorCurrentCable
+                );
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
+            update();
+
         }
         else{
-            if(output != null){
+            coreController.undraw(lastDraw);
+            stage.getScene().setOnMouseMoved(null);
+            if(output != null && !connectionTab.containsValue(input)){
                 makeConnection();
             }
         }
@@ -166,6 +217,9 @@ public class ConnectionManager {
             final Point2D point1 = localToSceneCoordinates(inputNode);
             final Point2D point2 = localToSceneCoordinates(outputNode);
             final CurveCable curveCable = new CurveCable(point1, point2);
+            if(colorCurrentCable != null){
+                curveCable.setColor(colorCurrentCable);
+            }
 
             /*final Stage dialog = new Stage();
             dialog.initModality(Modality.NONE);

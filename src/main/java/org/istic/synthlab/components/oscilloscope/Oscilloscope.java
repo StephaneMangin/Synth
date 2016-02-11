@@ -26,6 +26,17 @@ public class Oscilloscope extends AbstractComponent {
     }
 
     public JPanel getView() {
+        this.activate();
         return this.visualizer.getView();
+    }
+
+    @Override
+    public void activate() {
+        this.visualizer.start();
+    }
+
+    @Override
+    public void deactivate() {
+        this.visualizer.stop();
     }
 }
