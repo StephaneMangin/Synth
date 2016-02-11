@@ -25,6 +25,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator defaultOscillator;
     private IModulator exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
     private IModulator linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
+    private double amplitudeValue;
 
     public Vcoa(String name) {
         super(name);
@@ -186,6 +187,11 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator.setAmplitude(value);
     }
 
+    public void setAmplitudeOscillator(double value) {
+        this.amplitudeValue = value;
+        defaultOscillator.setAmplitude(value);
+    }
+
     public void setOscillatorType(OscillatorType type) {
         switch (type) {
             case SINE:
@@ -220,6 +226,7 @@ public class Vcoa extends AbstractComponent {
         this.defaultOscillator = defaultOscillator;
         this.defaultOscillator.getOutput().connect(getSink());
         linearModulator.getOutput().connect(this.defaultOscillator.getFm());
+        this.defaultOscillator.setAmplitude(amplitudeValue);
     }
 
     public IOscillator getPulseOscillator() {
@@ -261,4 +268,6 @@ public class Vcoa extends AbstractComponent {
     public IOutput getRedNoiseOutput() {
         return redNoiseOscillator.getOutput();
     }
+
+
 }

@@ -35,7 +35,7 @@ public abstract class AbstractOscillator implements IOscillator {
         this.output = Factory.createOutput("Out", component, getOscillator().output);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
         this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
-        this.amplitudePotentiometer = new Potentiometer("Amplitude", getOscillator().amplitude, PotentiometerType.LINEAR, 10000.0, 0.0, 1.0);
+        this.amplitudePotentiometer = new Potentiometer("Amplitude", getOscillator().amplitude, PotentiometerType.LINEAR, 10.0, 0.0, 1.0);
     }
 
     @Override
