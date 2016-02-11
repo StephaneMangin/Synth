@@ -59,7 +59,7 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
     @FXML
-    private AnchorPane anchorPane;
+    public AnchorPane anchorPane;
 
     private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
 

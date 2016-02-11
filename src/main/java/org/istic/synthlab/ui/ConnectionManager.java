@@ -103,13 +103,13 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
 
-            stage.getScene().setOnMouseMoved(event -> {
+            coreController.anchorPane.setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
                 // FIXME: make coordonates relative to realign
                 // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX()-131,
-                        event.getY()-70,
+                        event.getX(),
+                        event.getY(),
                         computeCoordinates(inputNode).getX(),
                         computeCoordinates(inputNode).getY(),
                         colorCurrentCable
@@ -126,13 +126,13 @@ public class ConnectionManager {
         }
         else{
             if(!connectionTab.containsKey(output)){
-                stage.getScene().setOnMouseMoved(event -> {
+                coreController.anchorPane.setOnMouseMoved(event -> {
                     coreController.undraw(lastDraw);
                     // FIXME: make coordonates relative to realign
                     // 131 , 70 is the position of the main corner of the anchorpane.
                     CurveCable curveCable = new CurveCable(
-                            event.getX() - 131,
-                            event.getY() - 70,
+                            event.getX(),
+                            event.getY(),
                             computeCoordinates(outputNode).getX(),
                             computeCoordinates(outputNode).getY(),
                             colorCurrentCable
@@ -146,7 +146,7 @@ public class ConnectionManager {
 
                 if(input != null){
                     coreController.undraw(lastDraw);
-                    stage.getScene().setOnMouseMoved(null);
+                    coreController.anchorPane.setOnMouseMoved(null);
                     makeConnection();
                 }
             }
@@ -175,13 +175,13 @@ public class ConnectionManager {
 
             Register.disconnect(input);
             output = key;
-            stage.getScene().setOnMouseMoved(event -> {
+            coreController.anchorPane.setOnMouseMoved(event -> {
                 coreController.undraw(lastDraw);
                 // FIXME: make coordonates relative to realign
                 // 131 , 70 is the position of the main corner of the anchorpane.
                 CurveCable curveCable = new CurveCable(
-                        event.getX() -131+10,
-                        event.getY() -70+10,
+                        event.getX(),
+                        event.getY(),
                         computeCoordinates(outputNode).getX(),
                         computeCoordinates(outputNode).getY(),
                         colorCurrentCable
@@ -197,13 +197,13 @@ public class ConnectionManager {
         }
         else{
             if(!connectionTab.containsValue(input)){
-                stage.getScene().setOnMouseMoved(event -> {
+                coreController.anchorPane.setOnMouseMoved(event -> {
                     coreController.undraw(lastDraw);
                     // FIXME: make coordonates relative to realign
                     // 131 , 70 is the position of the main corner of the anchorpane.
                     CurveCable curveCable = new CurveCable(
-                            event.getX() - 131,
-                            event.getY() - 70,
+                            event.getX(),
+                            event.getY(),
                             computeCoordinates(inputNode).getX(),
                             computeCoordinates(inputNode).getY(),
                             colorCurrentCable
@@ -217,7 +217,7 @@ public class ConnectionManager {
 
                 if(output != null){
                     coreController.undraw(lastDraw);
-                    stage.getScene().setOnMouseMoved(null);
+                    coreController.anchorPane.setOnMouseMoved(null);
                     makeConnection();
                 }
             }
