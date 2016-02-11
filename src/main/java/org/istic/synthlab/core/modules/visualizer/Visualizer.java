@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Visualizer implements IVisualizer {
 
     private AudioScope scope;
-    private WaveTraceModel wave;
     private IComponent component;
     private ConcurrentLinkedQueue<Number> values = new ConcurrentLinkedQueue<>();
 
@@ -37,8 +36,10 @@ public class Visualizer implements IVisualizer {
     @Override
     public void linkTo(IOutput output) {
         // Connect the audioscope to the IOutput's UnitOutputPort
-        this.scope.addProbe(Register.retrieve(output));
-        wave = this.scope.getModel().getProbes()[0].getWaveTraceModel();
+        this.scope.addProbe(Register.retrieve(output), 0);
+        this.scope.getModel().getProbes()[0].setVerticalScale(2.0);
+        this.scope.getModel().getProbes()[0].setAutoScaleEnabled(false);
+
     }
 
     /**
@@ -59,6 +60,10 @@ public class Visualizer implements IVisualizer {
 
 
     public Number getValue() {
+        WaveTraceModel wave = this.scope.getModel().getProbes()[0].getWaveTraceModel();
+        if (Factory.createSynthesizer().isRunning()) {
+            System.out.println("Size "+this.scope.getModel().getProbes()[0].getWaveTraceModel().getSize());
+        }
         if (wave != null) {
             int numSamples = wave.getVisibleSize();
             System.out.println("Samples "+numSamples);

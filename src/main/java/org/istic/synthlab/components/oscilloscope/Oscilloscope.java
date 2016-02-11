@@ -6,7 +6,7 @@ import org.istic.synthlab.core.modules.visualizer.Visualizer;
 import javax.swing.*;
 
 /**
- * Created by seb on 04/02/16.
+ * @author Sébastien François
  */
 public class Oscilloscope extends AbstractComponent {
     private final Visualizer visualizer;
