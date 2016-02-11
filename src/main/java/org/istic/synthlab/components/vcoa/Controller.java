@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -113,6 +114,11 @@ public class Controller extends AbstractController implements Initializable {
     public void connectOut() {
         ConnectionManager.makeOrigin(circleEvent, vcoa.getOutput());
     }
+
+    public void connectFm(final MouseEvent event) {
+        ConnectionManager.makeDestination((Node) event.getSource(), vcoa.getFm());
+    }
+
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */
