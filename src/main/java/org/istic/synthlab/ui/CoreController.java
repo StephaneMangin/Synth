@@ -18,7 +18,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.shape.Line;
 import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -36,10 +35,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * FX controller of core.fxml
@@ -66,7 +61,7 @@ public class CoreController implements Initializable, IObserver {
     public static final int DEFAULT_COLS_PREF_WIDTH = 300;
 
     // Be sure there's never a component named like this for this to work
-    private static final String DRAG_N_DROP_MOVE_GUARD = "panda";
+    private static final String DRAG_N_DROP_MOVE_GUARD = "";
 
     @FXML
     private BorderPane borderPane;
@@ -74,8 +69,6 @@ public class CoreController implements Initializable, IObserver {
     private ScrollPane scrollpane;
     @FXML
     private ListView<Node> listView;
-    @FXML
-    private GridPane gridPane;
     @FXML
     private TextArea textarea;
     @FXML
@@ -87,7 +80,7 @@ public class CoreController implements Initializable, IObserver {
 
     private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
 
-    private Boolean delete_mod = false;
+    private Boolean deleteMod = false;
 
     /**
      * This method initializes the list view and the grid
@@ -97,7 +90,42 @@ public class CoreController implements Initializable, IObserver {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
-        initializeGridView();
+
+        anchorPane.setOnDragOver(event -> {
+            if (event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+            event.consume();
+        });
+
+        anchorPane.setOnDragDropped(event -> {
+            final Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasString()) {
+                if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
+                    final Node component = (Node) event.getGestureSource();
+                    component.setLayoutX(event.getX());
+                    component.setLayoutY(event.getY());
+                    anchorPane.getChildren().add(component);
+                    success = true;
+                }
+                else {
+                    try {
+                        final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
+                        node.setOnDragDetected(new DragDetectedComponentEventHandler());
+                        node.setLayoutX(event.getX());
+                        node.setLayoutY(event.getY());
+                        anchorPane.getChildren().add(node);
+                        success = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+               }
+            }
+            event.setDropCompleted(success);
+            event.consume();
+        });
+
         initializeFunctions();
         ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
@@ -133,9 +161,9 @@ public class CoreController implements Initializable, IObserver {
         for(CurveCable key : arg.keySet()){
 
             key.setOnMouseClicked(event -> {
-                if(delete_mod){
+                if(deleteMod){
                     ConnectionManager.deleteLine(key);
-                    delete_mod = false;
+                    deleteMod = false;
                     borderPane.setCursor(Cursor.DEFAULT);
                 }
                 else{
@@ -171,7 +199,7 @@ public class CoreController implements Initializable, IObserver {
     private void initializeFunctions(){
         imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
         scrollpane.setOnMouseClicked(event -> {
-            delete_mod = false;
+            deleteMod = false;
             borderPane.setCursor(Cursor.DEFAULT);
         });
         //imageScissors = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
@@ -210,7 +238,7 @@ public class CoreController implements Initializable, IObserver {
      * Initialize the content of the grid: add the rows and cols, and give each cell a Pane with associated drag events
      */
     private void initializeGridView() {
-        for (int row = 0; row < DEFAULT_NB_ROWS; row++) {
+        /*for (int row = 0; row < DEFAULT_NB_ROWS; row++) {
             final RowConstraints rowConstraints = new RowConstraints();
             rowConstraints.setPrefHeight(DEFAULT_ROWS_PREF_HEIGHT);
             gridPane.getRowConstraints().add(rowConstraints);
@@ -234,7 +262,7 @@ public class CoreController implements Initializable, IObserver {
 
                 gridPane.add(p, col, row);
             }
-        }
+        }*/
     }
 
     /**
@@ -258,8 +286,8 @@ public class CoreController implements Initializable, IObserver {
 
     @FXML
     public void onCut(){
-        delete_mod = !delete_mod;
-        if(delete_mod){
+        deleteMod = !deleteMod;
+        if(deleteMod){
             borderPane.setCursor(new ImageCursor(imageScissors));
         }
         else{
@@ -324,7 +352,7 @@ public class CoreController implements Initializable, IObserver {
         }
     }
 
-    private class DragDroppedPaneEventHandler implements EventHandler<DragEvent> {
+    /*private class DragDroppedPaneEventHandler implements EventHandler<DragEvent> {
         @Override
         public void handle(DragEvent event) {
             final Dragboard db = event.getDragboard();
@@ -349,7 +377,7 @@ public class CoreController implements Initializable, IObserver {
             event.setDropCompleted(success);
             event.consume();
         }
-    }
+    }*/
 
     private class DragDetectedComponentEventHandler implements EventHandler<MouseEvent> {
         @Override
