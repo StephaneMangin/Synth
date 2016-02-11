@@ -11,7 +11,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * @author Dechaud John Marc on 2/8/16.
  */
-public class Vca extends AbstractComponent{
+public class Vca extends AbstractComponent {
 
     private IModulator vcaModulator;
     private IFunction multiplyInAm;
@@ -58,19 +58,19 @@ public class Vca extends AbstractComponent{
     }
 
     public double getAmplitudeModulatorValue() {
-        return this.vcaModulator.getValue();
+        return vcaModulator.getValue();
     }
 
-    public void setAmplitudeModulatorValue(double value) {
-        this.vcaModulator.setValue(value);
+    public void setAmplitudeModulatorValue(final double value) {
+        vcaModulator.setValue(value);
     }
 
     public double getGainModulatorValue() {
-        return this.vcaModulator.getValue();
+        return vcaModulator.getValue();
     }
 
-    public void setGainModulatorValue(double value) {
-        this.vcaModulator.setValue(value);
+    public void setGainModulatorValue(final double value) {
+        vcaModulator.setValue(value);
     }
 
 }
