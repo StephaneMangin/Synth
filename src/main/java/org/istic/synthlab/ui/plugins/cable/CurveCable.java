@@ -1,5 +1,6 @@
 package org.istic.synthlab.ui.plugins.cable;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
@@ -58,6 +59,7 @@ public class CurveCable extends CubicCurve {
         setFill(Color.TRANSPARENT);
         setColor(color);
         autosize();
+        addMouseDetectionHandler();
     }
 
     public Color getColor() {
@@ -80,4 +82,22 @@ public class CurveCable extends CubicCurve {
         this.setControlY2(this.getControlY2() - y);
     }
 
+    public void addMouseDetectionHandler(){
+        addEventHandler(MouseEvent.MOUSE_ENTERED_TARGET,
+                e -> {
+                    System.out.println("blabla");
+                    double a = ((CurveCable)e.getSource()).getControlX2();
+                    double b = ((CurveCable)e.getSource()).getControlY2();
+                    ((CurveCable)e.getSource()).setControlX2(((CurveCable)e.getSource()).getControlX2() + e.getX());
+                    ((CurveCable)e.getSource()).setControlY2(((CurveCable)e.getSource()).getControlY2() + e.getY());
+                });
+        addEventHandler(MouseEvent.MOUSE_EXITED_TARGET,
+                e -> {
+                    System.out.println("bloblo");
+                    double a = ((CurveCable)e.getSource()).getControlX2();
+                    double b = ((CurveCable)e.getSource()).getControlY2();
+                    ((CurveCable)e.getSource()).setControlX2(((CurveCable)e.getSource()).getControlX2() - e.getX());
+                    ((CurveCable)e.getSource()).setControlY2(((CurveCable)e.getSource()).getControlY2() - e.getY());
+                });
+    }
 }
