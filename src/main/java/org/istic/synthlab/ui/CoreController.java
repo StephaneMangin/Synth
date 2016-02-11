@@ -96,6 +96,7 @@ public class CoreController implements Initializable, IObserver {
         initializeFunctions();
         ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
+        ConnectionManager.setCoreController(this);
     }
 
     @Override
@@ -108,6 +109,14 @@ public class CoreController implements Initializable, IObserver {
             total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
         textarea.setText(total);
+    }
+
+    public void draw(Node node){
+        anchorPane.getChildren().add(node);
+    }
+
+    public void undraw(Node node){
+        anchorPane.getChildren().remove(node);
     }
 
     /**
@@ -144,8 +153,6 @@ public class CoreController implements Initializable, IObserver {
             });
             anchorPane.getChildren().add(key);
         }
-        System.out.println(anchorPane.localToScene(0.0, 0.0).getX());
-        System.out.println(anchorPane.localToScene(0.0, 0.0).getY());
     }
 
     public void unDrawLine(HashMap<CurveCable, Connection> arg){

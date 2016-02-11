@@ -1,9 +1,12 @@
 package org.istic.synthlab.ui;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -34,11 +37,18 @@ public class ConnectionManager {
     private static Circle circleInput;
     private static Circle circleOutput;
     private static Node root;
+    private static Node lastDraw;
     private static Stage stage;
+    private static CoreController coreController;
 
     public static void setNode(Node node) {
         root = node;
     }
+
+    public static void setCoreController(CoreController coreController) {
+        ConnectionManager.coreController = coreController;
+    }
+
     public static void setStage(Stage node) {
         stage = node;
     }
@@ -101,10 +111,31 @@ public class ConnectionManager {
 
             Register.disconnect(output);
             input = value;
+            System.out.println("VALUE INPUT : " + input);
+            EventHandler<MouseEvent> myHandler;
+
+            stage.getScene().setOnMouseMoved(event -> {
+                coreController.undraw(lastDraw);
+                CurveCable curveCable = new CurveCable(
+                        event.getX()+10,
+                        event.getY()+10,
+                        getLocalScene(circleInput).getX(),
+                        getLocalScene(circleInput).getY(),
+                        Color.RED
+                );
+                curveCable.setId("cableDrag");
+                curveCable.setOnMouseClicked(null);
+                coreController.draw(curveCable);
+                lastDraw = curveCable;
+            });
+
+
             update();
         }
         else{
+            System.out.println("Je passe ?");
             if(input != null){
+                System.out.println("BONJOUR");
                 makeConnection();
             }
         }
