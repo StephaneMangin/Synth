@@ -2,7 +2,7 @@ package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterBandPass;
 import com.jsyn.unitgen.UnitFilter;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 
 /**
  * The adapter of the band pass filter Jsyn

@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.out;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.functions.FunctionType;
 import org.istic.synthlab.core.modules.functions.IFunction;
 import org.istic.synthlab.core.services.Factory;

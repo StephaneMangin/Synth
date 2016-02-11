@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitOutputPort;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 
 /**
  *

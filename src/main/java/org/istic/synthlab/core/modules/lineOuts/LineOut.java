@@ -1,12 +1,9 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
-import com.jsyn.unitgen.Multiply;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
-
 
 /**
  * The class Line adapter.

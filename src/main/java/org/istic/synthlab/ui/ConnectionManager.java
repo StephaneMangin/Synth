@@ -2,7 +2,6 @@ package org.istic.synthlab.ui;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import org.istic.synthlab.core.IObserver;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;

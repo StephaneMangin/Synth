@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.generic;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 
 /**
  * Created by seb on 04/02/16.
