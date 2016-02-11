@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -30,8 +29,8 @@ public class ConnectionManager {
     private static List<IObserver> observers = new ArrayList<>();
     private static Boolean cable_selected = false;
     private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();
-    private static Circle circleInput;
-    private static Circle circleOutput;
+    private static Node circleInput;
+    private static Node circleOutput;
     private static Node root;
     private static Stage stage;
 
@@ -84,7 +83,7 @@ public class ConnectionManager {
      * @param circle the instance of the circle click in the view
      * @param futureConnectionOrigin the output destination for the new connection
      */
-    public static void makeOrigin(Circle circle, IOutput futureConnectionOrigin){
+    public static void makeOrigin(Node circle, IOutput futureConnectionOrigin){
         output = futureConnectionOrigin;
         circleOutput = circle;
         if(!cable_selected && connectionTab.containsKey(output)){
@@ -112,7 +111,7 @@ public class ConnectionManager {
      * @param circle the instance of the circle click in the view
      * @param futureConnectionDestination the input destination for the new connection
      */
-    public static void makeDestination(Circle circle, IInput futureConnectionDestination){
+    public static void makeDestination(Node circle, IInput futureConnectionDestination){
         input = futureConnectionDestination;
         circleInput = circle;
         if(!cable_selected && connectionTab.containsValue(input)){
@@ -159,14 +158,11 @@ public class ConnectionManager {
         if((!lineConnection.containsValue(connection))      //Check that the connection is not already existing
                 && (!connectionTab.containsValue(input))    //Check if the input destination is not involve with an other connection
                 && (!connectionTab.containsKey(output))){   //Check if the output source is not involve with an other connection
-            Color color = Color.FORESTGREEN;
-            CurveCable curveCable = new CurveCable(
-                    getLocalScene(circleInput).getX(),
-                    getLocalScene(circleInput).getY(),
-                    getLocalScene(circleOutput).getX(),
-                    getLocalScene(circleOutput).getY(),
-                    color
-            );
+
+            final Point2D point1 = localToSceneCoordinates(circleInput);
+            final Point2D point2 = localToSceneCoordinates(circleOutput);
+            final CurveCable curveCable = new CurveCable(point1, point2);
+
             final Stage dialog = new Stage();
             dialog.initModality(Modality.NONE);
             dialog.initOwner(stage);
@@ -224,7 +220,19 @@ public class ConnectionManager {
         return null;
     }
 
-    private static Point2D getLocalScene(Circle circle) {
-        return circle.localToScene(circleInput.getCenterX(), circleInput.getCenterY());
+    /**
+     * Return the coordinates relative to the scene for the center of a node
+     * @param node The node to which convert the coordinates
+     * @return A Point2D containing the scene coordinates of the center of node.
+     */
+    private static Point2D localToSceneCoordinates(final Node node) {
+        if (node instanceof Circle) {
+            return node.localToScene(0, 0);
+        }
+
+        // The offset to localToScene are calculated as the center of the Node
+        final double centerX = node.getBoundsInParent().getWidth()/2,
+                     centerY = node.getBoundsInParent().getHeight()/2;
+        return node.localToScene(centerX, centerY);
     }
 }

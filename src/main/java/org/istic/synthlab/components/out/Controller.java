@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
@@ -17,12 +18,12 @@ import java.util.ResourceBundle;
  */
 public class Controller extends AbstractController implements Initializable {
     @FXML
-    Circle input;
+    private Node input;
     @FXML
     private Potentiometer amplitude;
 
     private Out componentOut        = new Out("Out"+numInstance++);
-    private Circle circleEvent;
+    private Node circleEvent;
     private static int numInstance  = 0;
 
     /**
@@ -53,10 +54,10 @@ public class Controller extends AbstractController implements Initializable {
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */
-    private class GetIdWithClick implements EventHandler<Event> {
+    private class GetIdWithClick implements EventHandler<MouseEvent> {
         @Override
-        public void handle(Event event){
-            circleEvent = (Circle)event.getSource();
+        public void handle(MouseEvent event){
+            circleEvent = (Node) event.getSource();
         }
     }
 }
