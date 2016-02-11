@@ -47,7 +47,7 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);
         squareFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Frequency changed from " + oldValue + " to " + newValue);
+            //System.out.println("Frequency changed from " + oldValue + " to " + newValue);
             vcoa.setExponentialFrequency((double)newValue);
         });
     }

@@ -43,14 +43,14 @@ public class CurveCable extends CubicCurve {
      */
     public CurveCable(final double startX, final double startY, final double endX, final double endY, final Color color) {
         super(
-                startX - 131,
-                startY - 70,
-                startX + (startX % 100) - 131,    //controlX1 variable
-                startY + (startY % 100) - 70,    //controlY1 variable
-                endX - (endX % 100) - 131,        //controlX2 variable
-                endY - (endY % 100) - 70,        //controlY2 variable
-                endX - 131,
-                endY - 70
+                startX,
+                startY,
+                startX + (startX % 100),    //controlX1 variable
+                startY + (startY % 100),    //controlY1 variable
+                endX - (endX % 100),        //controlX2 variable
+                endY - (endY % 100),        //controlY2 variable
+                endX,
+                endY
         );
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);

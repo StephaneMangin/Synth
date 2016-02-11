@@ -224,16 +224,16 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Modulewith different parameter");
 
-        System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.5);
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.2);
         envelope.setDecay(1);
         synth.sleepFor(5);

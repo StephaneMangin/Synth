@@ -74,6 +74,8 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         initializeListView();
 
+        anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.COPY);
@@ -108,7 +110,6 @@ public class CoreController implements Initializable, IObserver {
         });
 
         initializeFunctions();
-        ConnectionManager.setNode(this.borderPane);
         ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
     }
@@ -165,6 +166,7 @@ public class CoreController implements Initializable, IObserver {
                     });
                 }
             });
+
             anchorPane.getChildren().add(key);
         }
     }
