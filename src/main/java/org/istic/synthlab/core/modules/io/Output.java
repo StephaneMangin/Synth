@@ -50,6 +50,11 @@ public class Output implements IOutput {
     }
 
     @Override
+    public double[] getValues() {
+        return this.unitOutputPort.getValues();
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }

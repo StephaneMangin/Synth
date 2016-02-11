@@ -21,4 +21,6 @@ public interface IOutput {
     String getName();
     IComponent getComponent();
     UnitOutputPort getUnitOutputPort();
+
+    double[] getValues();
 }
