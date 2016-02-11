@@ -94,8 +94,8 @@ public class Controller implements Initializable{
         //scope.getView().setShowControls( true );
         scope.start();
 
-        out.start();
-        synth.start();
+        // out.start();
+        // synth.start();
         ((SynthesisEngine)synth).printConnections();
 
         return scope.getView();

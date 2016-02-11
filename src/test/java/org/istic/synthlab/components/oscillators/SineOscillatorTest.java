@@ -1,6 +1,9 @@
-package org.istic.synthlab.components.vcoa;
+package org.istic.synthlab.components.oscillators;
 
 import com.jsyn.unitgen.UnitOscillator;
+
+import junit.framework.TestCase;
+import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -22,6 +25,7 @@ public class SineOscillatorTest {
 
     private SineOscillator sineOscillator;
     private IComponent component;
+    private static final double DELTA = 1e-15;
 
     @Before
     public void setUp() throws Exception {
@@ -37,10 +41,10 @@ public class SineOscillatorTest {
         assertNotNull(sineOscillator.getOscillator());
         assertNotNull(sineOscillator.getAmplitudePotentiometer());
         assertNotNull(sineOscillator.getFrequencyPotentiometer());
-        assertEquals(sineOscillator.getFrequencyPotentiometer().getMax(), 20000.0);
-        assertEquals(sineOscillator.getFrequencyPotentiometer().getMin(), 20.0);
-        assertEquals(sineOscillator.getAmplitudePotentiometer().getMin(), 0.0);
-        assertEquals(sineOscillator.getAmplitudePotentiometer().getMax(), 10000.0);
+        assertEquals(20000.0,sineOscillator.getFrequencyPotentiometer().getMax(),DELTA);
+        assertEquals(20.0,sineOscillator.getFrequencyPotentiometer().getMin(), DELTA);
+        assertEquals(0.0,sineOscillator.getAmplitudePotentiometer().getMin(),DELTA);
+        assertEquals(10000.0,sineOscillator.getAmplitudePotentiometer().getMax(),DELTA);
     }
 
 
@@ -97,25 +101,25 @@ public class SineOscillatorTest {
     @Test
     public void testSetFrequency() {
         sineOscillator.setFrequency(30.0);
-        assertEquals(30.0, (double) sineOscillator.getFrequencyPotentiometer().getValue());
+        assertEquals(30.0, sineOscillator.getFrequencyPotentiometer().getValue(),DELTA);
     }
 
     @Test
     public void testGetFrequency() {
         double frequency = sineOscillator.getFrequency();
-        assertEquals(1000.0, frequency);
+        assertEquals(1000.0, frequency,DELTA);
     }
 
     @Test
     public void testSetAmplitude() throws Exception {
         sineOscillator.setAmplitude(2.0);
-        assertEquals(2.0, sineOscillator.getAmplitude());
+        assertEquals(2.0, sineOscillator.getAmplitude(),DELTA);
     }
 
     @Test
     public void testGetAmplitude() throws Exception {
         double amplitude = sineOscillator.getAmplitude();
-        assertEquals(1.0, amplitude);
+        assertEquals(1.0, amplitude,DELTA);
     }
 
     @After
