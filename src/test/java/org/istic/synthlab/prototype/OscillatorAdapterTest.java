@@ -1,4 +1,4 @@
-package org.istic.synthlab.components.vcoa;
+package org.istic.synthlab.prototype;
 
 import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
@@ -63,7 +63,7 @@ public class OscillatorAdapterTest {
         int n = 20;
         while (n > 0) {
             n--;
-            synth.sleepFor(10); // Dort une seconde =/= sleepUntil où on fixe une DATE (via timestamp?)
+            synth.sleepFor(0.1); // Dort une seconde =/= sleepUntil où on fixe une DATE (via timestamp?)
 
 
             // Alteration du volume
@@ -73,7 +73,6 @@ public class OscillatorAdapterTest {
                 myNoise.amplitude.set(1.5);
             }*/
 
-            System.out.println("top");
         }
     }
 
@@ -100,7 +99,7 @@ public class OscillatorAdapterTest {
         myOut.start();
         synth.start();
 
-        int n = 50;
+        int n = 2000;
         while (n > 0) {
 
             if (n % 50 == 0){
@@ -108,7 +107,7 @@ public class OscillatorAdapterTest {
                 // System.out.println(synth.getCurrentTime());
             }
 
-            if (n < 600){
+            if (n < 1000){
                 //myOsc.frequency.set(Math.pow(myOsc.frequency.getValue(), 0.5));
 
                 myOsc.frequency.set(myOsc.frequency.getValue() / 1.005);
@@ -119,7 +118,7 @@ public class OscillatorAdapterTest {
             }
 
             n--;
-            synth.sleepFor(0.01);
+            synth.sleepFor(0.0001);
         }
     }
 
@@ -151,8 +150,12 @@ public class OscillatorAdapterTest {
 
         double jsynSTEP = 0.01; // steps in second of the loop
 
+        int pass = 200;
         while(true){
 
+            if (pass <= 0) {
+                break;
+            }
             n++;
 
             if (n % 10 == 0){
@@ -167,6 +170,7 @@ public class OscillatorAdapterTest {
             myOsc.frequency.set(m);
 
             synth.sleepFor(jsynSTEP);
+            pass--;
         }
     }
 

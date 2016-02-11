@@ -3,7 +3,6 @@ package org.istic.synthlab.core.modules.oscillators;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 public interface IOscillator extends Resource {
 
@@ -41,4 +40,29 @@ public interface IOscillator extends Resource {
      * @return double
      */
     double getFrequency();
+
+    /**
+     * test if the oscillator is enabled or not
+     *
+     * @return boolean
+     */
+    public boolean isActivated();
+
+    /**
+     * Set the oscillator amplitude in percentage
+     *
+     * @param value double
+     */
+    void setAmplitude(double value);
+
+    /**
+     * Returns the oscillator amplitude in percentage
+     *
+     * @return double
+     */
+    double getAmplitude();
+
+    double getAmplitudeMax();
+
+    double getAmplitudeMin();
 }

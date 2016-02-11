@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterStateVariable;
+import com.jsyn.unitgen.Add;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -15,24 +15,24 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class FrequencyModulator extends AbstractModulator {
-    private FilterStateVariable filter;
+    private Add addFunction;
 
-    public FrequencyModulator(String name, IComponent component) {
+    public FrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        filter = new FilterStateVariable();
+        addFunction = new Add();
         potentiometer = new Potentiometer(
-                "Gain",
-                filter.frequency,
-                PotentiometerType.EXPONENTIAL,
+                "Frequency",
+                addFunction.inputB,
+                potentiometerType,
                 20000.0D,
                 20.0D,
-                1000.0D
+                440.0D
         );
 
         // Declare the relation to the mapping
-        Register.declare(component, this.filter);
-        input = Factory.createInput(name + "::freqIn", component, filter.input);
-        output = Factory.createOutput(name + "::freqOut", component, filter.output);
+        Register.declare(component, this.addFunction);
+        input = Factory.createInput(name + "::freqIn", component, addFunction.inputA);
+        output = Factory.createOutput(name + "::freqOut", component, addFunction.output);
     }
 
     @Override
@@ -53,6 +53,21 @@ public class FrequencyModulator extends AbstractModulator {
     @Override
     public void setValue(double value) {
         potentiometer.setValue(value);
+    }
+
+    @Override
+    public void activate() {
+        addFunction.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        addFunction.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return addFunction.isEnabled();
     }
 
 }

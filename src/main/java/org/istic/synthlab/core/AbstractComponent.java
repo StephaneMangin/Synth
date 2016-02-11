@@ -5,9 +5,49 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * The abstract class component.
+ *
+ * This class abstracts port accesses.
+
+ *
+ * 'Abstract components' abstract representation
+ * ---------------------------------------------
+ *
+ *            External view (public access to inputs and outputs)
+ * VIRTUAL   +-----------------------------------------------------------------------------------------------+  VIRTUAL
+ * PORTS     |                  Internal view (protected access to sources/sinks ports                       |  PORTS
+ *           |     IModulator   +-------------------------------------------------------+    IModulator      |
+ *         +-+-+   +--------+   |                 Module view                           |    +---------+   +-+-+
+ *   input |   +---> Bypass +---> source+------+  +-----------------------+    +-->sink +----> Amp     +--->   |output
+ *         +-+-+   +--------+   |              +-->in1                    |    |        |    | Mod     |   +-+-+
+ *           |                  |                 |                   out1+----+        |    | Linear  |     |
+ *           |     +--------+   |             +--->in2 Modules (jsyn)     |             |    +---------+     |
+ *         +-+-+   |Freq    |   |             |   |                       |             |                    |
+ *      fm |   +--->Mod     +---> sourceFm+-+ |   |                       |             |                    |
+ *         +-+-+   |Exp     |   |           | |   +-----------------------+             |                    |
+ *           |     +--------+   |           | |                                         |                    |
+ *           |     +--------+   |           | +------------------+                      |                    |
+ *         +-+-+   |Amp     |   |           |                    |                      |                    |
+ *      am |   +--->Mod     +---> SourceAm  |     IModulator     |                      |                    |
+ *         +-+-+   |Linear  |   |           |     +---------+    |                      |                    |
+ *           |     +--------+   |           |     |Freq     |    |                      |                    |
+ *           |                  |           +> --->Mod      +----+                      |     IModulator     |
+ *         +-+-+   +--------+   |                 |Linear   |                           |     +---------+  +-+-+
+ *   gateIn|   +---> Bypass +---> SourceGate      +---------+                  sinkGate +-----> Bypass  +-->   |gateOut
+ *         +-+-+   +--------+   |                                                       |     +---------+  +-+-+
+ *           |                  +-------------------------------------------------------+                    |
+ *           |                                                                                               |
+ *           +-----------------------------------------------------------------------------------------------+
+ *                                                                                    Made with : http://asciiflow.com/
+ * Abstraction by getter (see code):
+ *  Component's inputs linked to IModulator's inputs by getter
+ *  Component's outputs linked to IModulator's outputs by getter
+ *  Component's sources linked to IModulator's outputs by getter
+ *  Component's sinks linked to IModulator's inputs by getter
+ *
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
@@ -35,12 +75,30 @@ public abstract class AbstractComponent implements IComponent {
         setName(name);
 
         // Define all modulators
-        inputModulator = Factory.createModulator("modIn", this, ModulatorType.AMPLITUDE);
-        frequencyModulator = Factory.createModulator("modFreq", this, ModulatorType.FREQUENCY);
-        amplitudeModulator = Factory.createModulator("modAmp", this, ModulatorType.AMPLITUDE);
-        inputGateModulator = Factory.createModulator("modInGate", this, ModulatorType.AMPLITUDE);
-        outputModulator = Factory.createModulator("modOut", this, ModulatorType.AMPLITUDE);
-        outputGateModulator = Factory.createModulator("modOutGate", this, ModulatorType.AMPLITUDE);
+        inputModulator = Factory.createModulator(
+                "modIn", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.LINEAR);
+        frequencyModulator = Factory.createModulator(
+                "modFreq", this,
+                ModulatorType.FREQUENCY,
+                PotentiometerType.EXPONENTIAL);
+        amplitudeModulator = Factory.createModulator(
+                "modAmp", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.LINEAR);
+        inputGateModulator = Factory.createModulator(
+                "modInGate", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.LINEAR);
+        outputModulator = Factory.createModulator(
+                "modOut", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.LINEAR);
+        outputGateModulator = Factory.createModulator(
+                "modOutGate", this,
+                ModulatorType.AMPLITUDE,
+                PotentiometerType.LINEAR);
     }
 
     /**
@@ -75,7 +133,12 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public void desactivate() {
+    public void deactivate() {
+    }
+
+    @Override
+    public boolean isActivated(){
+        return true;
     }
 
     @Override
@@ -89,7 +152,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return input of the component
      */
     public IInput getInput() {
         return inputModulator.getInput();
@@ -97,7 +160,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return gate input of the component
      */
     public IInput getInputGate() {
         return inputGateModulator.getInput();
@@ -105,7 +168,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return FM input of the component
      */
     public IInput getFm() {
         return frequencyModulator.getInput();
@@ -113,7 +176,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for external connexions
-     * @return
+     * @return AM input of the component
      */
     public IInput getAm() {
         return amplitudeModulator.getInput();
@@ -121,7 +184,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for external connexions
-     * @return
+     * @return output of the component
      */
     public IOutput getOutput() {
         return outputModulator.getOutput();
@@ -129,7 +192,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for external connexions
-     * @return
+     * @return gate output of the component
      */
     protected IOutput getOutputGate() {
         return outputGateModulator.getOutput();
@@ -137,7 +200,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern output of the component
      */
     protected IOutput getSource() {
         return inputModulator.getOutput();
@@ -145,7 +208,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern gate output of the component
      */
     protected IOutput getSourceGate() {
         return inputGateModulator.getOutput();
@@ -153,7 +216,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern FM output of the component
      */
     protected IOutput getSourceFm() {
         return frequencyModulator.getOutput();
@@ -161,15 +224,15 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return
+     * @return intern AM output of the component
      */
     protected IOutput getSourceAm() {
         return amplitudeModulator.getOutput();
     }
 
     /**
-     * Returns the output for internal connexions
-     * @return
+     * Returns the input for internal connexions
+     * @return intern input of the component
      */
     protected IInput getSink() {
         return outputModulator.getInput();
@@ -177,7 +240,7 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the output for internal connexions
-     * @return
+     * @return intern gate input of the component
      */
     protected IInput getSinkGate() {
         return outputGateModulator.getInput();

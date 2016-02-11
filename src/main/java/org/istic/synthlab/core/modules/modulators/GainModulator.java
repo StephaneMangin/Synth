@@ -17,13 +17,13 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 public class GainModulator extends AbstractModulator {
     private FilterAllPass filter;
 
-    public GainModulator(String name, IComponent component) {
+    public GainModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
         filter = new FilterAllPass();
         potentiometer = new Potentiometer(
                 "Gain",
                 filter.gain,
-                PotentiometerType.LINEAR,
+                potentiometerType,
                 1D,
                 0D,
                 0.8D
@@ -53,6 +53,21 @@ public class GainModulator extends AbstractModulator {
     @Override
     public void setValue(double value) {
         potentiometer.setValue(value);
+    }
+
+    @Override
+    public void activate() {
+        filter.setEnabled(true);
+    }
+
+    @Override
+    public void deactivate() {
+        filter.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return filter.isEnabled();
     }
 
 }

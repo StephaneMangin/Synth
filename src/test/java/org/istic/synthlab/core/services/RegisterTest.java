@@ -120,21 +120,36 @@ public class RegisterTest {
      */
     @Test
     public void testDisconnectIn() throws Exception {
-        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
-        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
+
         Register.declare(this.out, this.input1, this.unitInputPort1);
-        Register.declare(this.out, this.output1, this.unitOutputPort1);
+        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
+        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
+
         Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
         Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
-        Mockito.when(this.out.getIInput()).thenReturn(this.input1);
+        Mockito.when(this.out.getInput()).thenReturn(this.input1);
+
+        Mockito.when(this.input1.getUnitInputPort()).thenReturn(this.unitInputPort1);
+
+        Assert.assertEquals(this.unitOutputPort2, Register.retrieve(this.output2));
+
         Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
-        Register.disconnect(this.out.getIInput());
-        Assert.assertFalse(this.unitInputPort1.isConnected());
-        //Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
-        //Mockito.verify(this.vcoa).getOutput();
-        //Mockito.verify(this.vcoa).getInput();
-        //Mockito.verify(this.out).getIInput();
+
+        Register.disconnect(this.out.getInput());
+
+        Assert.assertNull(Register.associations.get(this.out.getInput()));
+
+        /**
+         * IMPORTANT, the assertion right above is not enough by itself
+         * Register.associations has NO impact on JSyn connection, meaning, if the association
+         * HashMap is empty but not connection are still alive in the JSyn objects, it will
+         * still run as connected.
+         *
+         * So, check if the function unitInputPort.disconnect(UnitOutputPort) has been called
+         */
+        Mockito.verify(this.unitOutputPort2).disconnect(this.unitInputPort1);
+
     }
 
     /**
@@ -144,17 +159,36 @@ public class RegisterTest {
      */
     @Test
     public void testDisconnectOut() throws Exception {
-        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
-        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
+
         Register.declare(this.out, this.input1, this.unitInputPort1);
-        Register.declare(this.out, this.output1, this.unitOutputPort1);
+        Register.declare(this.vcoa, this.input2, this.unitInputPort2);
+        Register.declare(this.vcoa, this.output2, this.unitOutputPort2);
+
         Mockito.when(this.vcoa.getOutput()).thenReturn(this.output2);
         Mockito.when(this.vcoa.getInput()).thenReturn(this.input2);
-        Mockito.when(this.out.getIInput()).thenReturn(this.input1);
+        Mockito.when(this.out.getInput()).thenReturn(this.input1);
+
+        Mockito.when(this.input1.getUnitInputPort()).thenReturn(this.unitInputPort1);
+
+        Assert.assertEquals(this.unitOutputPort2, Register.retrieve(this.output2));
+
         Register.connect(this.input1, this.output2);
         Assert.assertEquals(this.vcoa.getOutput(), Register.associations.get(this.input1));
+
         Register.disconnect(this.vcoa.getOutput());
-        Assert.assertFalse(this.unitOutputPort2.isConnected());
+
+        Assert.assertNull(Register.associations.get(this.out.getInput()));
+
+        /**
+         * IMPORTANT, the assertion right above is not enough by itself
+         * Register.associations has NO impact on JSyn connection, meaning, if the association
+         * HashMap is empty but not connection are still alive in the JSyn objects, it will
+         * still run as connected.
+         *
+         * So, check if the function UnitOutputPort.disconnect(UnitInputPort) has been called
+         */
+        Mockito.verify(this.unitInputPort1).disconnect(this.unitOutputPort2);
+
     }
 
     /**

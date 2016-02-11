@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.modules.algorithms;
+package org.istic.synthlab.core.utils.jsyn;
 
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
@@ -8,15 +8,17 @@ import com.jsyn.unitgen.UnitGenerator;
  *
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
-class VcoaFrequencyModulatorGenerator extends UnitGenerator {
+public class VcoaFunction extends UnitGenerator {
     public UnitInputPort potentiometer;
     public UnitInputPort frequencyModulation;
     public UnitOutputPort output;
 
-    public VcoaFrequencyModulatorGenerator() {
-        potentiometer = new UnitInputPort("PotentiometerInput", 0.5);
-        frequencyModulation = new UnitInputPort("FrequencyModulation", 0.0);
+    public VcoaFunction() {
+        potentiometer = new UnitInputPort("PotentiometerInput");
+        frequencyModulation = new UnitInputPort("FrequencyModulation");
         output = new UnitOutputPort("Output");
+        frequencyModulation.setDefault(0.0);
+        potentiometer.setDefault(880.0);
         addPort(potentiometer);
         addPort(frequencyModulation);
         addPort(output);
@@ -24,13 +26,12 @@ class VcoaFrequencyModulatorGenerator extends UnitGenerator {
 
     @Override
     public void generate(int start, int limit) {
-        double[] potentiometerFreqs = potentiometer.getValues();
-        double[] voltageFreqs = this.frequencyModulation.getValues();
+        double[] wheelFrequencies = potentiometer.getValues();
+        double[] inputFrequencies = frequencyModulation.getValues();
         double[] outputs = output.getValues();
-        frequencyModulation.get(0);
 
         for (int i = start; i < limit; i++) {
-            outputs[i] =  potentiometerFreqs[i]*Math.pow(2, voltageFreqs[i]);
+            outputs[i] =  wheelFrequencies[i]*Math.pow(2, inputFrequencies[i]);
         }
     }
 }

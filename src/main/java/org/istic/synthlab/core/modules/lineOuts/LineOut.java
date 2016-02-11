@@ -1,13 +1,12 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
-import com.jsyn.unitgen.FilterStateVariable;
-import com.jsyn.unitgen.Pan;
+import com.jsyn.unitgen.Multiply;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.core.services.Register;
 
 
 /**
@@ -20,9 +19,10 @@ import org.istic.synthlab.core.services.Register;
 public class LineOut implements ILineOut {
 
     private com.jsyn.unitgen.LineOut lineOut;
-    private FilterStateVariable filter;
+    private Multiply multiply;
     private Potentiometer potentiometer;
     private IInput input;
+    private IInput am;
 
     /**
      * Instantiates a new Line adapter.
@@ -30,37 +30,20 @@ public class LineOut implements ILineOut {
      */
     public LineOut(IComponent component) {
         lineOut = new com.jsyn.unitgen.LineOut();
-        filter = new FilterStateVariable();
-        input = Factory.createInput("In", component, filter.input);
+        multiply = new Multiply();
+        input = Factory.createInput("In", component, multiply.inputA);
+        am = Factory.createInput("Am", component, multiply.inputB);
 
         // First declare the mappings
-        Register.declare(component, filter);
+        Register.declare(component, multiply);
         Register.declare(component, lineOut);
-        Register.declare(component, input, filter.input);
+        Register.declare(component, input, multiply.inputA);
+        Register.declare(component, am, multiply.inputB);
 
         // Needed to make mono to stereo
-        filter.output.connect(0, lineOut.input, 0);
-        filter.output.connect(0, lineOut.input, 1);
-        potentiometer = new Potentiometer("Volume", filter.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 0.2);
+        multiply.output.connect(0, lineOut.input, 0);
+        multiply.output.connect(0, lineOut.input, 1);
 
-    }
-
-    /**
-     * Sets volume of the filter
-     *
-     * @param value the value
-     */
-    public void setVolume(double value) {
-        potentiometer.setValue(value);
-    }
-
-    /**
-     * Gets the  volume of the potentiometer.
-     *
-     * @return the volume : double
-     */
-    public double getVolume() {
-        return potentiometer.getValue();
     }
 
     /**
@@ -68,6 +51,7 @@ public class LineOut implements ILineOut {
      */
     public void start() {
         lineOut.start();
+        Factory.createSynthesizer().start();
     }
 
     /**
@@ -75,6 +59,7 @@ public class LineOut implements ILineOut {
      */
     public void stop() {
         lineOut.stop();
+        Factory.createSynthesizer().stop();
     }
 
     /**
@@ -86,6 +71,16 @@ public class LineOut implements ILineOut {
     @Override
     public IInput getInput() {
         return input;
+    }
+    /**
+
+     * Gets the am port.
+     *
+     * @return  IInput,the am port
+     */
+    @Override
+    public IInput getInputAm() {
+        return am;
     }
 
     /**
@@ -103,7 +98,17 @@ public class LineOut implements ILineOut {
      *
      */
     @Override
-    public void desactivate() {
+    public void deactivate() {
         lineOut.setEnabled(false);
+    }
+
+    /**
+     * Returns true if the lineout is activate or false
+     *
+     * @return boolean
+     */
+    @Override
+    public boolean isActivated() {
+        return this.lineOut.isEnabled();
     }
 }

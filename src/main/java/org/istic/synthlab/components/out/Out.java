@@ -6,43 +6,51 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
-
+/**
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ */
 public class Out extends AbstractComponent {
 
     private ILineOut lineOut;
-    private IInput input;
 
     public Out(String name) {
         super(name);
-        lineOut = Factory.createLineOut(this, LineType.OUT);
-        input = lineOut.getInput();
+
+        this.lineOut = Factory.createLineOut(this, LineType.OUT);
+        getSource().connect(lineOut.getInput());
+        getSourceAm().connect(lineOut.getInputAm());
+
     }
 
     @Override
-    public void activate() {
-        lineOut.activate();
+    public void activate(){
+        this.lineOut.activate();
     }
 
     @Override
-    public void desactivate() {
-        lineOut.desactivate();
+    public void deactivate(){
+        this.lineOut.deactivate();
     }
+
+    @Override
+    public boolean isActivated() { return this.lineOut.isActivated(); }
 
     @Override
     public void init() {
+
     }
 
     @Override
     public void run() {
-        //?
+
     }
 
-    public IInput getIInput() {
-        return input;
+    public IInput getInput() {
+        return this.lineOut.getInput();
     }
 
-    public ILineOut getLineOut() {
-        return this.lineOut;
+    public void start(){
+        this.lineOut.start();
     }
 
 }

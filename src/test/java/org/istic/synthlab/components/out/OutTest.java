@@ -1,13 +1,17 @@
 package org.istic.synthlab.components.out;
 
+import org.junit.Assert;
+
 /**
  * Created by stephane on 02/02/16.
  */
 public class OutTest {
 
+    private Out out;
+
     @org.junit.Before
     public void setUp() throws Exception {
-
+        this.out = new Out("OUT");
     }
 
     @org.junit.After
@@ -16,13 +20,15 @@ public class OutTest {
     }
 
     @org.junit.Test
-    public void testStart() throws Exception {
-
+    public void testActivate() throws Exception {
+        this.out.activate();
+        Assert.assertTrue(this.out.isActivated());
     }
 
     @org.junit.Test
-    public void testStop() throws Exception {
-
+    public void testDesactivate() throws Exception {
+        this.out.deactivate();
+        Assert.assertFalse(this.out.isActivated());
     }
 
     @org.junit.Test
@@ -36,7 +42,13 @@ public class OutTest {
     }
 
     @org.junit.Test
-    public void testSetLineOut() throws Exception {
-
+    public void testGetInput() throws Exception {
+        Assert.assertNotNull(this.out.getInput());
     }
+
+    @org.junit.Test
+    public void testGetLineout() throws Exception {
+        //Assert.assertNotNull(this.out.getLineOut());
+    }
+
 }

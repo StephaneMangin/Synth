@@ -16,7 +16,7 @@ public class Potentiometer extends GenericsParam<Double> {
     private PotentiometerType type;
 
     /**
-     * Instantiates a new Potentiometer.
+   0  * Instantiates a new Potentiometer.
      *
      *  @param label the label
      * @param port
@@ -48,6 +48,15 @@ public class Potentiometer extends GenericsParam<Double> {
             super.setValue(value);
             this.port.set(value);
         }
+    }
+
+    /**
+     * Get the value of the potentiometer
+     *
+     * @return  value Double between 0 to 1
+     */
+    public Double getValue() {
+       return this.port.get();
     }
 
     /**
@@ -112,4 +121,5 @@ public class Potentiometer extends GenericsParam<Double> {
     public PotentiometerType getType() {
         return type;
     }
+
 }
