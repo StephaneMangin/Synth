@@ -11,20 +11,6 @@ import org.istic.synthlab.core.modules.io.IInput;
 public interface ILineOut extends Resource {
 
     /**
-     * Set the output volume
-     *
-     * @param value double
-     */
-    void setVolume(double value);
-
-    /**
-     * Returns the current output volume
-     *
-     * @return double
-     */
-    double getVolume();
-
-    /**
      * Launch the line pulling
      */
     void start();
@@ -41,5 +27,12 @@ public interface ILineOut extends Resource {
      * @return IInput
      */
     IInput getInput();
+
+    /**
+     * Returns the am input of this line
+     *
+     * @return IInput
+     */
+    IInput getInputAm();
 
 }

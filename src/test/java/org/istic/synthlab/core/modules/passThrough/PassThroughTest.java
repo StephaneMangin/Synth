@@ -67,13 +67,10 @@ public class PassThroughTest extends TestCase {
         Synthesizer synth = Factory.createSynthesizer();
 
         lineOut1.start();
-        lineOut1.setVolume(0.0);
 
         lineOut2.start();
-        lineOut2.setVolume(0.0);
 
         lineOut3.start();
-        lineOut3.setVolume(0.0);
 
         synth.start();
         synth.sleepFor(0.5);

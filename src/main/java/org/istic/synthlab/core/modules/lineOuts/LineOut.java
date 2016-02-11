@@ -22,6 +22,7 @@ public class LineOut implements ILineOut {
     private Multiply multiply;
     private Potentiometer potentiometer;
     private IInput input;
+    private IInput am;
 
     /**
      * Instantiates a new Line adapter.
@@ -31,35 +32,18 @@ public class LineOut implements ILineOut {
         lineOut = new com.jsyn.unitgen.LineOut();
         multiply = new Multiply();
         input = Factory.createInput("In", component, multiply.inputA);
+        am = Factory.createInput("Am", component, multiply.inputB);
 
         // First declare the mappings
         Register.declare(component, multiply);
         Register.declare(component, lineOut);
         Register.declare(component, input, multiply.inputA);
+        Register.declare(component, am, multiply.inputB);
 
         // Needed to make mono to stereo
         multiply.output.connect(0, lineOut.input, 0);
         multiply.output.connect(0, lineOut.input, 1);
-        potentiometer = new Potentiometer("Volume", multiply.inputB, PotentiometerType.LINEAR, 1.0, 0.0, 0.01);
 
-    }
-
-    /**
-     * Sets volume of the filter
-     *
-     * @param value the value
-     */
-    public void setVolume(double value) {
-        potentiometer.setValue(value);
-    }
-
-    /**
-     * Gets the  volume of the potentiometer.
-     *
-     * @return the volume : double
-     */
-    public double getVolume() {
-        return potentiometer.getValue();
     }
 
     /**
@@ -87,6 +71,16 @@ public class LineOut implements ILineOut {
     @Override
     public IInput getInput() {
         return input;
+    }
+    /**
+
+     * Gets the am port.
+     *
+     * @return  IInput,the am port
+     */
+    @Override
+    public IInput getInputAm() {
+        return am;
     }
 
     /**

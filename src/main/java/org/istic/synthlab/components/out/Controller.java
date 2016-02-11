@@ -1,11 +1,9 @@
 package org.istic.synthlab.components.out;
 
 import javafx.fxml.FXML;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.core.AbstractController;
@@ -14,7 +12,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author stephane
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
     @FXML
@@ -22,7 +20,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Potentiometer amplitude;
 
-    private Out componentOut        = new Out("Out"+numInstance++);
+    private Out componentOut = new Out("Out"+numInstance++);
     private Node circleEvent;
     private static int numInstance  = 0;
 
@@ -37,7 +35,7 @@ public class Controller extends AbstractController implements Initializable {
         //componentOut.start();
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Amplitude changed from " + oldValue + " to " + newValue);
-            componentOut.getInputModulator().setValue((double) newValue);
+            componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
         amplitude.setValue(0);
     }
@@ -55,7 +53,6 @@ public class Controller extends AbstractController implements Initializable {
      * Get the object clicked in the view and cast it into a Circle object
      */
     private class GetIdWithClick implements EventHandler<MouseEvent> {
-        @Override
         public void handle(MouseEvent event){
             circleEvent = (Node) event.getSource();
         }
