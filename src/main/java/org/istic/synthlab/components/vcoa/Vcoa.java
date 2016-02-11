@@ -36,15 +36,6 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
         redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
 
-        // Mix all oscillator's output to the sink port
-        squareOscillator.getOutput().connect(getSink());
-        sineOscillator.getOutput().connect(getSink());
-        pulseOscillator.getOutput().connect(getSink());
-        impulseOscillator.getOutput().connect(getSink());
-        sawToothOscillator.getOutput().connect(getSink());
-        triangleOscillator.getOutput().connect(getSink());
-        redNoiseOscillator.getOutput().connect(getSink());
-
         exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
         linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
