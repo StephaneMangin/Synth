@@ -6,7 +6,9 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
-
+/**
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ */
 public class Out extends AbstractComponent {
 
     private ILineOut lineOut;
@@ -15,8 +17,8 @@ public class Out extends AbstractComponent {
         super(name);
 
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
-        getSourceFm().connect(getAmModulator().getInput());
-        getAmModulator().getOutput().connect(this.lineOut.getInput());
+        getSource().connect(lineOut.getInput());
+        getSourceAm().connect(lineOut.getInputAm());
 
     }
 
@@ -42,8 +44,6 @@ public class Out extends AbstractComponent {
     public void run() {
 
     }
-
-    public void setAmplitude(double amplitude) { this.lineOut.setVolume(amplitude); }
 
     public IInput getInput() {
         return lineOut.getInput();
