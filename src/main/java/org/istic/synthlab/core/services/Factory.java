@@ -4,10 +4,12 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.IComponent;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
+import org.istic.synthlab.core.modules.functions.*;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.Input;
@@ -168,4 +170,26 @@ public class Factory {
     }
 
     public static IEnvelopeDAHDSR createEnvelopeDAHDSR(IComponent component) { return new EnvelopeDAHDSR(component); }
+
+    /**
+     * Returns a IFunction instance
+     *
+     * @param component IComponent
+     * @param type FunctionType
+     * @return IFunction
+     */
+    public static IFunction createFunction(IComponent component, FunctionType type) {
+        switch(type) {
+            case MULTIPLY:
+                return new Multiply(component);
+            case SUBSTRACT:
+                return new Substract(component);
+            case ADD:
+                return new Add(component);
+            case DIVIDE:
+                return new Divide(component);
+            default:
+                return null;
+        }
+    }
 }
