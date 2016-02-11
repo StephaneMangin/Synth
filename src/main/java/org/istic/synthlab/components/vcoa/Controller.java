@@ -3,11 +3,13 @@ package org.istic.synthlab.components.vcoa;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.ConnectionManager;
@@ -20,6 +22,8 @@ import java.util.ResourceBundle;
  * @author stephane
  */
 public class Controller extends AbstractController implements Initializable {
+    @FXML
+    private AnchorPane vcoaPane;
     @FXML
     private Node output;
     @FXML
@@ -36,6 +40,8 @@ public class Controller extends AbstractController implements Initializable {
     private RadioButton triangleRadio;
     @FXML
     private ImageView oscillatorImage;
+    @FXML
+    private Button close;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
@@ -49,6 +55,7 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
+        vcoaPane.setId("vcoaPane"+numInstance);
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
         vcoa.setAmplitudeTriangle(1);
@@ -60,6 +67,7 @@ public class Controller extends AbstractController implements Initializable {
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((double)newValue);
         });
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((double)newValue);
         });
@@ -94,14 +102,26 @@ public class Controller extends AbstractController implements Initializable {
 
         squareRadio.setSelected(true);
     }
-
+    /**
+     * Method called in view component file and start a connection manager calling the makeDestination method
+     * with the output variable
+     */
     @FXML
     public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin((Node) event.getSource(), vcoa.getOutput());
+        ConnectionManager.makeOrigin(vcoa, (Node) event.getSource(), vcoa.getOutput());
+    }
+
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(vcoa, vcoaPane);
     }
 
     @FXML
     public void connectFm(final MouseEvent event) {
-        ConnectionManager.makeDestination((Node) event.getSource(), vcoa.getFm());
+        ConnectionManager.makeDestination(vcoa, (Node) event.getSource(), vcoa.getFm());
     }
 }

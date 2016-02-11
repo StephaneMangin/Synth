@@ -52,17 +52,17 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     public void connectAm(final MouseEvent event) {
-        ConnectionManager.makeDestination((Node) event.getSource(), vca.getAm());
+        ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getAm());
     }
 
     @FXML
     public void connectInput(final MouseEvent event) {
-        ConnectionManager.makeDestination((Node) event.getSource(), vca.getInput());
+        ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getInput());
     }
 
     @FXML
     public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin((Node) event.getSource(), vca.getOutput());
+        ConnectionManager.makeOrigin(vca, (Node) event.getSource(), vca.getOutput());
     }
 
     /**
