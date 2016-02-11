@@ -1,11 +1,9 @@
 package org.istic.synthlab.components.replicator;
 
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
 import org.istic.synthlab.core.AbstractController;
-import org.istic.synthlab.ui.Connection;
 import org.istic.synthlab.ui.ConnectionManager;
 
 import java.net.URL;
