@@ -1,24 +1,18 @@
 package org.istic.synthlab.components.vcoa;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,13 +20,8 @@ import java.util.ResourceBundle;
  * @author stephane
  */
 public class Controller extends AbstractController implements Initializable {
-
     @FXML
-    private AnchorPane mainPane;
-    @FXML
-    private Circle output;
-    @FXML
-    private Circle circleEvent;
+    private Node output;
     @FXML
     private Potentiometer expFrequency;
     @FXML
@@ -50,8 +39,8 @@ public class Controller extends AbstractController implements Initializable {
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
-    private Vcoa vcoa               = new Vcoa("VCOA" + numInstance++);
-    private static int numInstance  = 0;
+    private Vcoa vcoa = new Vcoa("VCOA" + numInstance++);
+    private static int numInstance = 0;
 
     /**
      * When the component is created, it initialize the component representation and adding listener and MouseEvent
@@ -60,7 +49,6 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
         vcoa.setAmplitudeTriangle(1);
@@ -106,26 +94,13 @@ public class Controller extends AbstractController implements Initializable {
 
         squareRadio.setSelected(true);
     }
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the output variable
-     */
+
     @FXML
-    public void connectOut() {
-        ConnectionManager.makeOrigin(circleEvent, vcoa.getOutput());
+    public void connectOutput(final MouseEvent event) {
+        ConnectionManager.makeOrigin((Node) event.getSource(), vcoa.getOutput());
     }
 
     public void connectFm(final MouseEvent event) {
         ConnectionManager.makeDestination((Node) event.getSource(), vcoa.getFm());
-    }
-
-    /**
-     * Get the object clicked in the view and cast it into a Circle object
-     */
-    private class GetIdWithClick implements EventHandler<Event> {
-        @Override
-        public void handle(Event event) {
-            circleEvent = (Circle) event.getSource();
-        }
     }
 }

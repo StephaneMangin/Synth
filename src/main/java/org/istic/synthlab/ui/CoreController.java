@@ -72,6 +72,7 @@ public class CoreController implements Initializable, IObserver {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        onPause();
         initializeListView();
 
         anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
