@@ -5,7 +5,7 @@ import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.core.IComponent;
 
 /**
- * The type Band pass filter adapter.
+ * The adapter of the band pass filter Jsyn
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *

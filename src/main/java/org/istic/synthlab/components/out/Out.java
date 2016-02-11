@@ -6,6 +6,11 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 
+/**
+ * this class represents the OUT module
+ *
+ * It transfers the audio produced by a mounting signal to an audio output
+ */
 
 public class Out extends AbstractComponent {
 
@@ -51,6 +56,10 @@ public class Out extends AbstractComponent {
 
     public void start(){
         this.lineOut.start();
+    }
+
+    public ILineOut getLineOut() {
+        return this.lineOut;
     }
 
 }

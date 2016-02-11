@@ -7,8 +7,11 @@ import org.istic.synthlab.core.services.Register;
 import org.junit.Test;
 
 /**
+ * Module EG Tester.
+ *
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 10/02/16.
  * @author npaolita[at]yahoo[dot]fr on 10/02/16
+ *
  */
 public class EgTest extends TestCase {
 

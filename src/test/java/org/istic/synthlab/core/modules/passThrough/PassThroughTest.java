@@ -22,6 +22,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by cyprien on 09/02/16.
+ *
+ * The PassThrough Tester.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PassThroughTest extends TestCase {

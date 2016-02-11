@@ -12,6 +12,13 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ *
+ * this class represents the VCOA (Voltage Controlled Oscillator) module
+ *
+ * It produces a periodic signal
+ * the shape of the signal (SINE,PULSE,SQUARE,IMPULSE,SAWTOOTH,TRIANGLE,REDNOISE)
+ * can be selected and its frequency is managed by another signal
+ *
  */
 public class Vcoa extends AbstractComponent {
 

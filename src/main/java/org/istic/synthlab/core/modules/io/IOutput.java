@@ -6,19 +6,35 @@ import org.istic.synthlab.core.IComponent;
 /**
  *
  *
- * The interface Output.
+ * The interface Output port.
  */
 public interface IOutput {
 
     /**
-     * Connect the output to an input port
+     * Connects the output port to an input port
      *
      * @param in:IInput
      */
     void connect(IInput in);
+
+    /**
+     * Disconnects the output port to an input port
+     *
+     */
     void deconnect();
 
+    /**
+     * Returns the name of the output port.
+     *
+     * @return String
+     */
     String getName();
+
+    /**
+     * Returns the component of the output port.
+     *
+     * @return IComponent
+     */
     IComponent getComponent();
     UnitOutputPort getUnitOutputPort();
 }

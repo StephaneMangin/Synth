@@ -2,17 +2,16 @@ package org.istic.synthlab.components.generic;
 
 import org.istic.synthlab.core.AbstractComponent;
 
-import javax.swing.*;
-
 /**
  * Created by seb on 04/02/16.
+ * This class represents the generic class of component
  */
 public class generic extends AbstractComponent {
 
     /**
-     * Instantiates a new component.
+     * Instantiates a new Generic.
      *
-     * @param name the name
+     * @param name : String
      */
     public generic(String name) {
         super(name);

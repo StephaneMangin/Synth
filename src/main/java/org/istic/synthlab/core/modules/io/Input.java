@@ -6,7 +6,7 @@ import org.istic.synthlab.core.services.Register;
 
 /**
  *
- * The type Input adapter
+ * The Input adapter class
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
