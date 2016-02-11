@@ -63,6 +63,7 @@ public class Controller implements Initializable {
     public void connectOut(){
         ConnectionManager.makeOrigin(circleEvent, oscilloscope.getOutput());
     }
+
     /**
      * Method called in view component file and start a connection manager calling the makeDestination method
      * with the input variable
@@ -71,6 +72,7 @@ public class Controller implements Initializable {
     public void connectIn(){
         ConnectionManager.makeDestination(circleEvent, oscilloscope.getInput());
     }
+
     /**
      * Get the object clicked in the view and cast it into a Circle object
      */

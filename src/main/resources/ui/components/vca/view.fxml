@@ -13,17 +13,17 @@
     </Label>
 
     <Label layoutX="17.0" layoutY="90.0" text="AM" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectAm">
+    <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectAm">
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 
     <Label layoutX="11.0" layoutY="140.0" text="Input" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
+    <ImageView fx:id="am" fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 
     <Label layoutX="250.0" layoutY="140.0" text="Output" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
+    <ImageView fx:id="output" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
 
