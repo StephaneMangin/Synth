@@ -243,6 +243,7 @@ public abstract class AbstractComponent implements IComponent {
         return outputGateModulator.getInput();
     }
 
+    public IModulator getInputByPass() { return inputByPass; }
     public IModulator getFmModulator() {
         return frequencyModulator;
     }

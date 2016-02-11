@@ -12,14 +12,12 @@ import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.CoreController;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.*;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by cyprien on 04/02/16.
@@ -138,22 +136,94 @@ public class BasicChainTest {
         out.start();
         synth.start();
 
+        ((SynthesisEngine)synth).printConnections();
+
         int n = 2000;
         while (n >= 0) {
+
+            if (n % 50 == 0){
+                if (out.getAmModulator().getValue() > 0.0){
+                    out.getAmModulator().setValue(0.0);
+                } else {
+                    out.getAmModulator().setValue(1.0);
+                }
+
+            }
+
             //System.out.println(out.getAmModulator().getInputB().isConnected());
             //out.getAmModulator().getInputB().setValueInternal(((double) 200 - (double) n) / (double) 200);
-            out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
-            System.out.println(out.getAmModulator().getValue());
+            //out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
+            out.getAmModulator().getValue();
+            //System.out.println(out.getAmModulator().getValue());
             //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
             //System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
 
             //assertNotEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
 
-            synth.sleepFor(0.001);
+            synth.sleepFor(0.01);
             n--;
         }
 
        ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
+    public void TestVolume() throws InterruptedException {
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        vcoa.setLinearFrequency(320.0);
+
+        vcoa.getInputByPass().activate();
+
+        vcoa.getOutput().connect(out.getInput());
+
+        out.start();
+        synth.start();
+
+        Assert.assertNotEquals(Register.retrieve(out.getInput()),Register.retrieve(out.getLineOut().getInput()));
+
+
+        ((SynthesisEngine)synth).printConnections();
+
+        int n = 200;
+        while (n >= 0) {
+
+            if (n % 20 == 0){
+
+                if (out.getAmModulator().getValue() > 0.0){
+                    out.getAmModulator().setValue(0.0);
+                } else {
+                    out.getAmModulator().setValue(1.0);
+                }
+
+/*                if (out.getLineOut().getInput().getUnitInputPort() > 0.0){
+                    out.getLineOut().setVolume(0.0);
+                } else {
+                    out.getLineOut().setVolume(1.0);
+                }*/
+
+/*                if (vcoa.getAmplitudeSine() > 0.0){
+                    vcoa.setAmplitudeSine(0.0);
+                } else {
+                    vcoa.setAmplitudeSine(1.0);
+                }*/
+
+            }
+
+            System.out.println("Vcoa.getOutput().getValue() : " + vcoa.getOutput().getUnitOutputPort().getValue());
+            //System.out.println("out.getLineOut().getInput().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            //System.out.println("AmplitudeModulator : " + out.getAmModulator().getValue());
+            System.out.println("out.getAmModulator().getValue() : " + out.getAmModulator().getValue());
+            System.out.println("out.getAmModulator().getInput().getUnitInputPort().getValue() : " + out.getAmModulator().getInput().getUnitInputPort().getValue());
+            System.out.println("out.getAmModulator().getOutput().getUnitOutputPort().getValue() : " + out.getAmModulator().getOutput().getUnitOutputPort().getValue());
+            System.out.println("out.getLineOut().getInput().getUnitInputPort().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            //out.getLineOut().getVolume();
+
+            synth.sleepFor(0.1);
+            n--;
+        }
+
+        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test

@@ -49,7 +49,7 @@ public class Vcoa extends AbstractComponent {
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
-        setDefaultOscillator(squareOscillator);
+        setDefaultOscillator(sineOscillator);
     }
 
     @Override
@@ -127,9 +127,16 @@ public class Vcoa extends AbstractComponent {
         return linearModulator.getMin();
     }
 
-
-
     public void setAmplitudeSine(double value) {
+
+        // WARNING : Setting the amplitude of the sineOscillator is sometimes not enough to force
+        // the signal to actually pass through the component
+
+        // If needed, check the amplitudeModulator AND the outputModulator.
+
+        //getOutputModulator().setValue(value);
+        //getAmModulator().setValue(value);
+
         sineOscillator.setAmplitude(value);
     }
 

@@ -1,12 +1,9 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.components.AbstractComponent;
-import org.istic.synthlab.core.modules.functions.FunctionType;
-import org.istic.synthlab.core.modules.functions.IFunction;
-import org.istic.synthlab.core.services.Factory;
-import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.services.Factory;
 
 /**
  * this class represents the OUT module
@@ -23,7 +20,7 @@ public class Out extends AbstractComponent {
         super(name);
         this.lineOut = Factory.createLineOut(this, LineType.OUT);
         getSource().connect(getAm());
-        lineOut.getInput().connect(getSourceAm());
+        getSourceAm().connect(lineOut.getInput());
     }
 
     @Override
@@ -49,9 +46,9 @@ public class Out extends AbstractComponent {
 
     }
 
-    public IInput getInput() {
-        return this.lineOut.getInput();
-    }
+    // The criminal was here
+    // Overriding the getInput() function of the component made a bug in the wiring
+    // Calling out.getInput() became the same as out.getLineOut() which has absolutely NOT WHAT WE WANT
 
     public void start(){
         this.lineOut.start();
