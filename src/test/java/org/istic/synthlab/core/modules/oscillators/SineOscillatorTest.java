@@ -3,17 +3,15 @@ package org.istic.synthlab.core.modules.oscillators;
 import com.jsyn.Synthesizer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
-import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.services.Factory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.internal.exceptions.ExceptionIncludingMockitoWarnings;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertNotSame;
@@ -46,8 +44,8 @@ public class SineOscillatorTest {
     public void testAmplitude() throws Exception {
         IComponent componentOut = Mockito.mock(Out.class);
 
-        sineOscillator.setFrequency(320.0);
-        sineOscillator.setAmplitude(0.5);
+        sineOscillator.getFrequencyPotentiometer().setValue(320.0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0.5);
         sineOscillator.activate();
 
         ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);
@@ -69,7 +67,7 @@ public class SineOscillatorTest {
             synth.sleepFor(0.5);
         }
 
-        sineOscillator.setAmplitude(0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0);
 
         while (n > 0) {
             n--;
@@ -84,8 +82,8 @@ public class SineOscillatorTest {
     public void testFrequency() throws Exception {
         IComponent componentOut = Mockito.mock(Out.class);
 
-        sineOscillator.setFrequency(320.0);
-        sineOscillator.setAmplitude(0.5);
+        sineOscillator.getFrequencyPotentiometer().setValue(320.0);
+        sineOscillator.getAmplitudePotentiometer().setValue(0.5);
         sineOscillator.activate();
 
         ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);
@@ -107,7 +105,7 @@ public class SineOscillatorTest {
             synth.sleepFor(0.5);
         }
 
-        sineOscillator.setFrequency(0);
+        sineOscillator.getFrequencyPotentiometer().setValue(0);
 
         while (n > 0) {
             n--;

@@ -22,4 +22,17 @@ public interface IVisualizer {
      * @param output
      */
     void linkTo(IOutput output);
+
+
+    /**
+     * Stop the scope
+     */
+    void stop();
+
+
+    /**
+     * Stop the scope
+     */
+    void start();
+
 }

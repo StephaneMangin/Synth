@@ -1,13 +1,15 @@
 package org.istic.synthlab.components.eg;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 
 /**
- * Module EG.
+ * The model of EG component.
+ *
+ * It creates an Envelope Generator that produce a "one shot" waveform
  *
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
  * @since <pre>Feb 8, 2016</pre>
@@ -19,11 +21,8 @@ public class Eg extends AbstractComponent {
     public Eg(String name) {
         super(name);
         envelope = Factory.createEnvelopeDAHDSR(this);
-
         getSource().connect(envelope.getInput());
-
         envelope.getOutput().connect(getSink());
-
     }
 
     @Override
@@ -54,57 +53,59 @@ public class Eg extends AbstractComponent {
 
     public IOutput getOutput(){ return envelope.getOutput(); }
 
-    public void setAmplitude(double value) { envelope.setAmplitude(value); }
+    public void setAmplitude(double value) { envelope.getAmplitudePotentiometer().setValue(value); }
 
-    public double getAmplitude() { return envelope.getAmplitude(); }
+    public double getAmplitude() { return envelope.getAmplitudePotentiometer().getValue(); }
 
-    public double getAmplitudeMax() { return envelope.getAmplitudeMax(); }
+    public double getAmplitudeMax() { return envelope.getAmplitudePotentiometer().getMax(); }
 
-    public double getAmplitudeMin() { return envelope.getAmplitudeMin(); }
+    public double getAmplitudeMin() { return envelope.getAmplitudePotentiometer().getMin(); }
 
-    public void setDelay(double value) { envelope.setDelay(value); }
+    public void setDelay(double value) { envelope.getDelayPotentiometer().setValue(value); }
 
-    public double getDelay() { return envelope.getDelay(); }
+    public double getDelay() { return envelope.getDelayPotentiometer().getValue(); }
 
-    public double getDelayMax() { return envelope.getDelayMax(); }
+    public double getDelayMax() { return envelope.getDelayPotentiometer().getMax(); }
 
-    public double getDelayMin() { return envelope.getDelayMin(); }
+    public double getDelayMin() { return envelope.getDelayPotentiometer().getMin(); }
 
-    public void setAttack(double value) { envelope.setAttack(value); }
+    public void setAttack(double value) { envelope.getAttackPotentiometer().setValue(value); }
 
-    public double getAttack() { return envelope.getAttack(); }
+    public double getAttack() { return envelope.getAttackPotentiometer().getValue(); }
 
-    public double getAttackMax() { return envelope.getAttackMax(); }
+    public double getAttackMax() { return envelope.getAttackPotentiometer().getMax(); }
 
-    public void setHold(double value) { envelope.setHold(value); }
+    public double getAttackMin() { return envelope.getAttackPotentiometer().getMin(); }
 
-    public double getHold() { return envelope.getHold(); }
+    public void setHold(double value) { envelope.getHoldPotentiometer().setValue(value); }
 
-    public double getHoldMax() { return envelope.getHoldMax(); }
+    public double getHold() { return envelope.getHoldPotentiometer().getValue(); }
 
-    public double getHoldMin() { return envelope.getHoldMin(); }
+    public double getHoldMax() { return envelope.getHoldPotentiometer().getMax(); }
 
-    public void setDecay(double value) { envelope.setDecay(value); }
+    public double getHoldMin() { return envelope.getHoldPotentiometer().getMin(); }
 
-    public double getDecay() { return envelope.getDecay(); }
+    public void setDecay(double value) { envelope.getDecayPotentiometer().setValue(value); }
 
-    public double getDecayMax() { return envelope.getDecayMax(); }
+    public double getDecay() { return envelope.getDecayPotentiometer().getValue(); }
 
-    public double getDecayMin() { return envelope.getDecayMin(); }
+    public double getDecayMax() { return envelope.getDecayPotentiometer().getMax(); }
 
-    public void setSustain(double value) { envelope.setSustain(value); }
+    public double getDecayMin() { return envelope.getDecayPotentiometer().getMin(); }
 
-    public double getSustain() { return envelope.getSustain(); }
+    public void setSustain(double value) { envelope.getSustainPotentiometer().setValue(value); }
 
-    public double getSustainMax() { return envelope.getSustainMax(); }
+    public double getSustain() { return envelope.getSustainPotentiometer().getValue(); }
 
-    public double getSustainMin() { return envelope.getSustainMin(); }
+    public double getSustainMax() { return envelope.getSustainPotentiometer().getMax(); }
 
-    public void setRelease(double value) { envelope.setRelease(value); }
+    public double getSustainMin() { return envelope.getSustainPotentiometer().getMin(); }
 
-    public double getRelease() { return envelope.getRelease(); }
+    public void setRelease(double value) { envelope.getReleasePotentiometer().setValue(value); }
 
-    public double getReleaseMax() { return envelope.getReleaseMax(); }
+    public double getRelease() { return envelope.getReleasePotentiometer().getValue(); }
 
-    public double getReleaseMin() { return envelope.getReleaseMin(); }
+    public double getReleaseMax() { return envelope.getReleasePotentiometer().getMax(); }
+
+    public double getReleaseMin() { return envelope.getReleasePotentiometer().getMin(); }
 }

@@ -1,12 +1,12 @@
 package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitInputPort;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.services.Register;
 
 /**
  *
- * The type Input adapter
+ * The Input adapter class
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */

@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.utils.jsyn.VcoaFunction;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -23,9 +23,9 @@ public class VcoaFrequencyModulator extends AbstractModulator {
                 "Frequency",
                 algorithm.potentiometer,
                 potentiometerType,
-                20000.0D,
-                20.0D,
-                1000.0D
+                10D,
+                0.0D,
+                0.0D
         );
 
         // Declare the relation to the mapping

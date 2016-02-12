@@ -5,21 +5,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.istic.synthlab.ui.ConnectionManager;
 
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
-public class Main extends Application {
+public final class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
+    public void start(final Stage primaryStage) throws Exception {
+        final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
+        ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(new Scene(root));
         primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    @Override
+    public void stop() throws Exception {
+        System.exit(0);
+    }
+
+    public static void main(final String[] args) {
         launch(args);
     }
 }

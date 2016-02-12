@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
@@ -33,13 +33,13 @@ public class EnvelopeDAHDSRTest extends TestCase {
         component = Mockito.mock(Eg.class);
         envelope = Factory.createEnvelopeDAHDSR(component);
 
-        envelope.setAmplitude(1.0);
-        envelope.setDelay(0.0);
-        envelope.setAttack(0.2);
-        envelope.setHold(1.0);
-        envelope.setDecay(1.0);
-        envelope.setRelease(2.0);
-        envelope.setSustain(0.4);
+        envelope.getAmplitudePotentiometer().setValue(1.0);
+        envelope.getDelayPotentiometer().setValue(0.0);
+        envelope.getAttackPotentiometer().setValue(0.2);
+        envelope.getHoldPotentiometer().setValue(1.0);
+        envelope.getDecayPotentiometer().setValue(1.0);
+        envelope.getReleasePotentiometer().setValue(2.0);
+        envelope.getSustainPotentiometer().setValue(0.4);
 
     }
 
@@ -56,8 +56,8 @@ public class EnvelopeDAHDSRTest extends TestCase {
 
         IOscillator sin = Factory.createOscillator(componentSin, OscillatorType.SINE);
 
-        sin.setFrequency(320.0);
-        sin.setAmplitude(1.0);
+        sin.getFrequencyPotentiometer().setValue(320.0);
+        sin.getAmplitudePotentiometer().setValue(1.0);
         sin.activate();
 
         ILineOut lineOut = Factory.createLineOut(componentOut, LineType.OUT);

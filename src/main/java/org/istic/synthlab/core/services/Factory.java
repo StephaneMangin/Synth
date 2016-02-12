@@ -4,8 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
-import org.istic.synthlab.components.out.Out;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
@@ -129,7 +128,7 @@ public class Factory {
     public static Synthesizer createSynthesizer() {
         if (synthesizer == null) {
             synthesizer = new SynthesisEngine();
-            //synthesizer.setRealTime(true); // By default
+            synthesizer.setRealTime(true);
             // Parametrization of the synthetizer
         }
         return synthesizer;
@@ -154,6 +153,8 @@ public class Factory {
                 return new VcoaFrequencyModulator(name, component, potentiometerType);
             case VCA:
                 return new VcaAmplitudeModulator(name, component, potentiometerType);
+            case BYPASS:
+                return new ByPassModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }

@@ -3,70 +3,40 @@ package org.istic.synthlab.core.modules.envelope;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
+ * The interface IEnvelopeDAHDSR
+ *
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public interface IEnvelopeDAHDSR extends Resource {
 
+    /**
+     * Returns the input of the envelope.
+     *
+     * @return the input
+     */
     IInput getInput();
 
+    /**
+     * Returns the output of the envelope.
+     *
+     * @return IOutput
+     */
     IOutput getOutput();
 
-    void setAmplitude(double value);
+    Potentiometer getAmplitudePotentiometer();
 
-    double getAmplitude();
+    Potentiometer getDelayPotentiometer();
 
-    double getAmplitudeMax();
+    Potentiometer getAttackPotentiometer();
 
-    double getAmplitudeMin();
+    Potentiometer getHoldPotentiometer();
 
-    void setDelay(double value);
+    Potentiometer getDecayPotentiometer();
 
-    double getDelay();
+    Potentiometer getSustainPotentiometer();
 
-    double getDelayMax();
-
-    double getDelayMin();
-
-    void setAttack(double value);
-
-    double getAttack();
-
-    double getAttackMax();
-
-    double getAttackMin();
-
-    void setHold(double value);
-
-    double getHold();
-
-    double getHoldMax();
-
-    double getHoldMin();
-
-    void setDecay(double value);
-
-    double getDecay();
-
-    double getDecayMax();
-
-    double getDecayMin();
-
-    void setSustain(double value);
-
-    double getSustain();
-
-    double getSustainMax();
-
-    double getSustainMin();
-
-    void setRelease(double value);
-
-    double getRelease();
-
-    double getReleaseMax();
-
-    double getReleaseMin();
-
+    Potentiometer getReleasePotentiometer();
 }
