@@ -148,7 +148,7 @@ public class Vcoa extends AbstractComponent {
     }
 
     /**
-     * Get the minimmum linear frequency value of the linear frequency paremeter
+     * Get the minimum linear frequency value of the linear frequency paremeter
      *
      * @return double
      */
@@ -156,6 +156,9 @@ public class Vcoa extends AbstractComponent {
         return linearModulator.getMin();
     }
 
+    public double getFrequency() {
+        return exponentialModulator.getValue()*linearModulator.getValue();
+    }
 
 
     /**

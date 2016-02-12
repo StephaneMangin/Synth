@@ -46,7 +46,12 @@
                 <Font size="10.0" />
             </font>
         </Label>
-        <Label layoutX="235.0" layoutY="110.0" text="1.0" textAlignment="CENTER">
+        <Label fx:id="currentFrequency" layoutX="260.0" layoutY="90.0" text="1.0" textAlignment="CENTER">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
+        <Label layoutX="235.0" layoutY="120.0" text="1.0" textAlignment="CENTER">
             <font>
                 <Font size="10.0" />
             </font>

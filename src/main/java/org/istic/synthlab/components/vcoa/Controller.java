@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -42,6 +43,8 @@ public class Controller extends AbstractController implements Initializable {
     private ImageView oscillatorImage;
     @FXML
     private Button close;
+    @FXML
+    private Label currentFrequency;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
@@ -63,13 +66,15 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeImpulse(1);
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
-        vcoa.setExponentialFrequency(440);
+        vcoa.setExponentialFrequency(0.5);
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((double)newValue);
+            currentFrequency.setText(""+(int)vcoa.getFrequency());
         });
         close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((double)newValue);
+            currentFrequency.setText(""+(int)vcoa.getFrequency());
         });
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -99,6 +104,8 @@ public class Controller extends AbstractController implements Initializable {
                 }
             }
         });
+
+
 
         squareRadio.setSelected(true);
     }
