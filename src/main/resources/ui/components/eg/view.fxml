@@ -5,10 +5,10 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
+<AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
     <children>
 
-        <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="ADSR">
+        <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="ADSR">
             <font>
                 <Font name="System" size="20.0" />
             </font>
@@ -28,5 +28,6 @@
 
         <Circle fx:id="output"  onMouseClicked="#connectOut" layoutX="312.0" layoutY="165.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
         <Label layoutX="331.0" layoutY="155.0" text="out" />
+        <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
     </children>
 </AnchorPane>

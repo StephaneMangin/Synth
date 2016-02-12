@@ -5,8 +5,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
@@ -34,9 +36,15 @@ public class Controller extends AbstractController implements Initializable {
     private Potentiometer amplitude;
     @FXML
     private ImageView circleEvent;
+    @FXML
+    private Button close;
+    @FXML
+    private AnchorPane vcaPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        vcaPane.setId("vcaPane"+numInstance);
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         am.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
@@ -73,5 +81,14 @@ public class Controller extends AbstractController implements Initializable {
         public void handle(Event event) {
             circleEvent = (ImageView) event.getSource();
         }
+    }
+
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(vca, vcaPane);
     }
 }
