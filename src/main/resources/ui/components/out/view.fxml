@@ -30,7 +30,7 @@
     </Label>
 
     <Label layoutX="11.0" layoutY="140.0" text="Input" />
-    <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectIn">
+    <ImageView fx:id="input" fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
     <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
