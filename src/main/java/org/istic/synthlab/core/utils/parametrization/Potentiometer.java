@@ -16,6 +16,7 @@ public class Potentiometer extends GenericsParam<Double> {
     public static final int POWER_SCALE = 3;
     private final UnitInputPort port;
     private PotentiometerType type;
+    private double value;
 
     /**
    0  * Instantiates a new Potentiometer.
@@ -34,7 +35,7 @@ public class Potentiometer extends GenericsParam<Double> {
 
         // Set the value of the port
         this.port.setDefault(value);
-        // Call the super because of convertion in the current setter
+        // Call the super because of conversion in the current setter
         setValue(value);
         setMin(min);
         setMax(max);
@@ -46,6 +47,7 @@ public class Potentiometer extends GenericsParam<Double> {
      * @param value double between 0 to 1
      */
     public void setValue(double value) {
+        this.value = value;
         value = calculateStep(value);
         if (value <= getMax() && value >= getMin()) {
             super.setValue(value);
@@ -53,10 +55,13 @@ public class Potentiometer extends GenericsParam<Double> {
         }
     }
 
+    public Double getOriginalValue() {
+        return value;
+    }
     /**
-     * Get the value of the potentiometer
+     * Get the calculated value of the potentiometer
      *
-     * @return  value Double between 0 to 1
+     * @return  value Double between min and max
      */
     public Double getValue() {
        return this.port.get();
@@ -106,11 +111,12 @@ public class Potentiometer extends GenericsParam<Double> {
      */
     public double calculateStep(double value) {
         double result;
-        //
+
         if (type == PotentiometerType.LINEAR) {
             result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
-            result = (getMax() - getMin())*Math.pow(value, POWER_SCALE) + getMin();
+            //result = (getMax() - getMin())*Math.pow(value, POWER_SCALE) + getMin();
+            result = Math.pow(2,(getMax()-getMin())*value) + getMin();
         } else {
             result = value;
         }
