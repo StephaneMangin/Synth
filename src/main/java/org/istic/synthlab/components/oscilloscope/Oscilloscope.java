@@ -1,20 +1,25 @@
 package org.istic.synthlab.components.oscilloscope;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.visualizer.Visualizer;
 
 import javax.swing.*;
 
 /**
  * Created by seb on 04/02/16.
+ *
+ * This class represents the oscilloscope module
+ * It displays a signal for analysis
+ *
  */
+
 public class Oscilloscope extends AbstractComponent {
     private final Visualizer visualizer;
 
     /**
-     * Instantiates a new component.
+     * Instantiates a new oscilloscope.
      *
-     * @param name the name
+     * @param name :String
      */
     public Oscilloscope(String name) {
         super(name);
@@ -24,6 +29,7 @@ public class Oscilloscope extends AbstractComponent {
         // And follow the source to the sink too
         getSource().connect(getSink());
     }
+
 
     public JPanel getView() {
         this.activate();

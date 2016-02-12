@@ -6,12 +6,24 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
+ * The interface IEnvelopeDAHDSR
+ *
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
 public interface IEnvelopeDAHDSR extends Resource {
 
+    /**
+     * Returns the input of the envelope.
+     *
+     * @return the input
+     */
     IInput getInput();
 
+    /**
+     * Returns the output of the envelope.
+     *
+     * @return IOutput
+     */
     IOutput getOutput();
 
     Potentiometer getAmplitudePotentiometer();
@@ -27,5 +39,4 @@ public interface IEnvelopeDAHDSR extends Resource {
     Potentiometer getSustainPotentiometer();
 
     Potentiometer getReleasePotentiometer();
-
 }

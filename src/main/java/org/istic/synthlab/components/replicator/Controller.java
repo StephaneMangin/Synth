@@ -3,10 +3,11 @@ package org.istic.synthlab.components.replicator;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import org.istic.synthlab.core.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 
 import java.net.URL;

@@ -2,7 +2,7 @@ package org.istic.synthlab.core.algorithms;
 
 import junit.framework.TestCase;
 import org.istic.synthlab.components.replicator.Replicator;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.AmplitudeModulator;

@@ -4,7 +4,7 @@ import com.jsyn.unitgen.UnitOscillator;
 
 import junit.framework.TestCase;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;

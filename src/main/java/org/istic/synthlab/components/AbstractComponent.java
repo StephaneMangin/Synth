@@ -1,4 +1,4 @@
-package org.istic.synthlab.core;
+package org.istic.synthlab.components;
 
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -59,7 +59,7 @@ public abstract class AbstractComponent implements IComponent {
      */
     private String name;
 
-    private IModulator inputModulator;
+    private IModulator inputByPass;
     private IModulator frequencyModulator;
     private IModulator amplitudeModulator;
     private IModulator inputGateModulator;
@@ -75,10 +75,9 @@ public abstract class AbstractComponent implements IComponent {
         setName(name);
 
         // Define all modulators
-        inputModulator = Factory.createModulator(
+        inputByPass = Factory.createModulator(
                 "modIn", this,
-                ModulatorType.AMPLITUDE,
-                PotentiometerType.LINEAR);
+                ModulatorType.BYPASS, null);
         frequencyModulator = Factory.createModulator(
                 "modFreq", this,
                 ModulatorType.FREQUENCY,
@@ -89,16 +88,14 @@ public abstract class AbstractComponent implements IComponent {
                 PotentiometerType.LINEAR);
         inputGateModulator = Factory.createModulator(
                 "modInGate", this,
-                ModulatorType.AMPLITUDE,
-                PotentiometerType.LINEAR);
+                ModulatorType.BYPASS, null);
         outputModulator = Factory.createModulator(
                 "modOut", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.LINEAR);
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
-                ModulatorType.AMPLITUDE,
-                PotentiometerType.LINEAR);
+                ModulatorType.BYPASS, null);
     }
 
     /**
@@ -155,7 +152,7 @@ public abstract class AbstractComponent implements IComponent {
      * @return input of the component
      */
     public IInput getInput() {
-        return inputModulator.getInput();
+        return inputByPass.getInput();
     }
 
     /**
@@ -203,7 +200,7 @@ public abstract class AbstractComponent implements IComponent {
      * @return intern output of the component
      */
     protected IOutput getSource() {
-        return inputModulator.getOutput();
+        return inputByPass.getOutput();
     }
 
     /**
@@ -246,23 +243,15 @@ public abstract class AbstractComponent implements IComponent {
         return outputGateModulator.getInput();
     }
 
-    public IModulator getInputModulator() {
-        return inputModulator;
-    }
+    public IModulator getInputByPass() { return inputByPass; }
     public IModulator getFmModulator() {
         return frequencyModulator;
     }
     public IModulator getAmModulator() {
         return amplitudeModulator;
     }
-    public IModulator getInputGateModulator() {
-        return inputGateModulator;
-    }
     public IModulator getOutputModulator() {
         return outputModulator;
-    }
-    public IModulator getOutputGateModulator() {
-        return outputGateModulator;
     }
 
     @Override
