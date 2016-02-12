@@ -276,11 +276,12 @@ public class CoreController implements Initializable, IObserver {
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
             try {
-                final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId() + "/view.fxml"));
-                if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
+                final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
+                // FIXEME
+                /*if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
                     WritableImage w  = node.snapshot(null,null);
                     content.putImage(w);
-                }
+                }*/
             } catch (IOException e) {
                 e.printStackTrace();
             }
