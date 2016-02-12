@@ -39,6 +39,8 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private RadioButton triangleRadio;
     @FXML
+    public RadioButton sawtoothRadio;
+    @FXML
     private ImageView oscillatorImage;
     @FXML
     private ImageView close;
@@ -64,38 +66,50 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);
+
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setExponentialFrequency((double)newValue);
+            vcoa.setExponentialFrequency((Double) newValue);
         });
-        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');");
+
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setLinearFrequency((double)newValue);
+            vcoa.setLinearFrequency((Double) newValue);
         });
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setAmplitudeOscillator((double)newValue);
+            vcoa.setAmplitudeOscillator((Double) newValue);
         });
 
         sineRadio.setToggleGroup(groupRadio);
         squareRadio.setToggleGroup(groupRadio);
         triangleRadio.setToggleGroup(groupRadio);
+        sawtoothRadio.setToggleGroup(groupRadio);
+
         sineRadio.setUserData("sineWave");
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
+        sawtoothRadio.setUserData("sawtoothWave");
+
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
-                final Image image = new Image(
-                        getClass().getResourceAsStream("/ui/images/"+groupRadio.getSelectedToggle().getUserData() + ".png")
-                );
+                // FIXME: add sawtoothWave.png
+                final Image image = new Image(getClass().getResourceAsStream("/ui/images/" + groupRadio.getSelectedToggle().getUserData() + ".png"));
                 oscillatorImage.setImage(image);
-                if (groupRadio.getSelectedToggle().getUserData().toString().equals("sineWave")) {
-                    vcoa.setOscillatorType(OscillatorType.SINE);
-                }
-                else if (groupRadio.getSelectedToggle().getUserData().toString().equals("squareWave")) {
-                    vcoa.setOscillatorType(OscillatorType.SQUARE);
-                }
-                else if (groupRadio.getSelectedToggle().getUserData().toString().equals("triangleWave")) {
-                    vcoa.setOscillatorType(OscillatorType.TRIANGLE);
+
+                switch (groupRadio.getSelectedToggle().getUserData().toString()) {
+                    case "sineWave":
+                        vcoa.setOscillatorType(OscillatorType.SINE);
+                        break;
+                    case "squareWave":
+                        vcoa.setOscillatorType(OscillatorType.SQUARE);
+                        break;
+                    case "triangleWave":
+                        vcoa.setOscillatorType(OscillatorType.TRIANGLE);
+                        break;
+                    case "sawtoothWave":
+                        vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
+                        break;
+                    default:
+                        break;
                 }
             }
         });
