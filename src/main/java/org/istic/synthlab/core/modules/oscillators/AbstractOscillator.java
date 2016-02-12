@@ -56,83 +56,57 @@ public abstract class AbstractOscillator implements IOscillator {
         // Declare the generator to the register
         Register.declare(component, unitOscillator);
         // Link differents ports
-        this.fm = Factory.createInput("Fm", component, getOscillator().frequency);
-        this.am = Factory.createInput("Am", component, getOscillator().amplitude);
-        this.output = Factory.createOutput("Out", component, getOscillator().output);
+        fm = Factory.createInput("Fm", component, unitOscillator.frequency);
+        am = Factory.createInput("Am", component, unitOscillator.amplitude);
+        output = Factory.createOutput("Out", component, unitOscillator.output);
         // Link input to the frequency input of the oscillator to modulate it with the input signal
-        this.frequencyPotentiometer = new Potentiometer("Frequency", getOscillator().frequency, PotentiometerType.EXPONENTIAL, 20000.0, 20.0, 1000.0);
-        this.amplitudePotentiometer = new Potentiometer("Amplitude", getOscillator().amplitude, PotentiometerType.LINEAR, 10.0, 0.0, 1.0);
+
+        frequencyPotentiometer = new Potentiometer("Frequency", unitOscillator.frequency, PotentiometerType.EXPONENTIAL, 20000.0, 0.0, 0.01);
+        amplitudePotentiometer = new Potentiometer("Amplitude", unitOscillator.amplitude, PotentiometerType.LINEAR, 1.0, 0.0, 1.0);
     }
 
     @Override
     public void activate() {
-        getOscillator().setEnabled(true);
+        unitOscillator.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
-        getOscillator().setEnabled(false);
+        unitOscillator.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return getOscillator().isEnabled();
+        return unitOscillator.isEnabled();
     }
 
     public IComponent getComponent() {
         return component;
     }
 
-    public UnitOscillator getOscillator() {
-        return unitOscillator;
-    }
-
     @Override
     public IInput getFm() {
-        return this.fm;
+        return fm;
     }
 
     @Override
     public IInput getAm() {
-        return this.am;
+        return am;
     }
 
     @Override
     public IOutput getOutput() {
-        return this.output;
+        return output;
     }
 
     @Override
-    public void setFrequency(double value) {
-        frequencyPotentiometer.setValue(value);
-    }
-
-    @Override
-    public double getFrequency() {
-        return frequencyPotentiometer.getValue();
-    }
-
     public Potentiometer getFrequencyPotentiometer() {
         return frequencyPotentiometer;
     }
 
+    @Override
     public Potentiometer getAmplitudePotentiometer() {
         return amplitudePotentiometer;
     }
 
-    @Override
-    public void setAmplitude(double value) {
-        amplitudePotentiometer.setValue(value);
-    }
-
-    @Override
-    public double getAmplitude() {
-        return amplitudePotentiometer.getValue();
-    }
-
-    @Override
-    public double getAmplitudeMax() { return amplitudePotentiometer.getMax(); }
-
-    @Override
-    public double getAmplitudeMin() { return amplitudePotentiometer.getMin(); }
 }

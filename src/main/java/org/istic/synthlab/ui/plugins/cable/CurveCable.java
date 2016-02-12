@@ -59,7 +59,7 @@ public class CurveCable extends CubicCurve {
         autosize();
     }
 
-    public Color getColor() {
+    public Color getColor(){
         return this.color;
     }
 

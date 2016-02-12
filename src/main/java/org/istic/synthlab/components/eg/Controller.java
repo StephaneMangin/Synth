@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -19,7 +20,9 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
 
     @FXML
-    private AnchorPane mainPane;
+    private Button close;
+    @FXML
+    private AnchorPane egPane;
     @FXML
     private Circle output;
     @FXML
@@ -48,6 +51,8 @@ public class Controller implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        egPane.setId("egPane"+numInstance);
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         gate.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
 
@@ -76,7 +81,7 @@ public class Controller implements Initializable{
      */
     @FXML
     public void connectOut() {
-        ConnectionManager.makeOrigin(circleEvent, eg.getOutput());
+        ConnectionManager.makeOrigin(eg , circleEvent, eg.getOutput());
     }
 
     /**
@@ -85,7 +90,7 @@ public class Controller implements Initializable{
      */
     @FXML
     public void connectGate() {
-        ConnectionManager.makeDestination(circleEvent, eg.getInput());
+        ConnectionManager.makeDestination(eg, circleEvent, eg.getInput());
     }
 
     /**
@@ -96,6 +101,15 @@ public class Controller implements Initializable{
         public void handle(Event event) {
             circleEvent = (Circle) event.getSource();
         }
+    }
+
+    /**
+     * Method call when the close button is clicked.
+     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
+     */
+    @FXML
+    public void closeIt(){
+        ConnectionManager.deleteComponent(eg, egPane);
     }
 
 }
