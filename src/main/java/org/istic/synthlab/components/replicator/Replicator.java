@@ -39,12 +39,12 @@ public class Replicator extends AbstractComponent {
         outputModulatorReplicated1 = Factory.createModulator(
                 "modOut1", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
 
         outputModulatorReplicated2 = Factory.createModulator(
                 "modOut2", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
 
         getSource().connect(passThrough.getInput());
         passThrough.getOutput1().connect(getSink());
