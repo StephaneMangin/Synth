@@ -30,8 +30,8 @@ public class Vcoa extends AbstractComponent {
     public Vcoa(String name) {
         super(name);
 
-        exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
-        linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
+        exponentialModulator = Factory.createModulator("Exp. Freq.", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
+        linearModulator = Factory.createModulator("Linear Freq.", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
@@ -163,7 +163,7 @@ public class Vcoa extends AbstractComponent {
      *
      */
     public void setAmplitudeSine(double value) {
-        sineOscillator.setAmplitude(value);
+        sineOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -172,7 +172,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSine() {
-        return sineOscillator.getAmplitude();
+        return sineOscillator.getAmplitudePotentiometer().getValue();
     }
 
     /**
@@ -181,7 +181,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSineMax() {
-        return sineOscillator.getAmplitudeMax();
+        return sineOscillator.getAmplitudePotentiometer().getMax();
     }
 
     /**
@@ -190,7 +190,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSineMin() {
-        return sineOscillator.getAmplitudeMin();
+        return sineOscillator.getAmplitudePotentiometer().getMin();
     }
 
 
@@ -200,7 +200,7 @@ public class Vcoa extends AbstractComponent {
      *
      */
     public void setAmplitudePulse(double value) {
-        pulseOscillator.setAmplitude(value);
+        pulseOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -209,7 +209,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudePulse() {
-        return pulseOscillator.getAmplitude();
+        return pulseOscillator.getAmplitudePotentiometer().getValue();
     }
 
     /**
@@ -218,7 +218,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudePulseMax() {
-        return pulseOscillator.getAmplitudeMax();
+        return pulseOscillator.getAmplitudePotentiometer().getMax();
     }
 
     /**
@@ -227,7 +227,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudePulseMin() {
-        return pulseOscillator.getAmplitudeMin();
+        return pulseOscillator.getAmplitudePotentiometer().getMin();
     }
 
 
@@ -237,7 +237,7 @@ public class Vcoa extends AbstractComponent {
      *
      */
     public void setAmplitudeSquare(double value) {
-        squareOscillator.setAmplitude(value);
+        squareOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -246,7 +246,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSquare() {
-        return squareOscillator.getAmplitude();
+        return squareOscillator.getAmplitudePotentiometer().getValue();
     }
 
     /**
@@ -255,7 +255,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSquareMax() {
-        return squareOscillator.getAmplitudeMax();
+        return squareOscillator.getAmplitudePotentiometer().getMax();
     }
 
     /**
@@ -264,7 +264,7 @@ public class Vcoa extends AbstractComponent {
      * @return double
      */
     public double getAmplitudeSquareMin() {
-        return squareOscillator.getAmplitudeMin();
+        return squareOscillator.getAmplitudePotentiometer().getMin();
     }
 
     /**
@@ -273,7 +273,7 @@ public class Vcoa extends AbstractComponent {
      * @param value
      */
     public void setAmplitudeImpulse(double value) {
-        impulseOscillator.setAmplitude(value);
+        impulseOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -282,7 +282,7 @@ public class Vcoa extends AbstractComponent {
      * @param value
      */
     public void setAmplitudeSawTooth(double value) {
-        sawToothOscillator.setAmplitude(value);
+        sawToothOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -291,7 +291,7 @@ public class Vcoa extends AbstractComponent {
      * @param value
      */
     public void setAmplitudeTriangle(double value) {
-        triangleOscillator.setAmplitude(value);
+        triangleOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -300,12 +300,12 @@ public class Vcoa extends AbstractComponent {
      * @param value
      */
     public void setAmplitudeRedNoise(double value) {
-        redNoiseOscillator.setAmplitude(value);
+        redNoiseOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     public void setAmplitudeOscillator(double value) {
         this.amplitudeValue = value;
-        defaultOscillator.setAmplitude(value);
+        defaultOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
     /**
@@ -356,7 +356,7 @@ public class Vcoa extends AbstractComponent {
         this.defaultOscillator = defaultOscillator;
         this.defaultOscillator.getOutput().connect(getSink());
         linearModulator.getOutput().connect(this.defaultOscillator.getFm());
-        this.defaultOscillator.setAmplitude(amplitudeValue);
+        this.defaultOscillator.getAmplitudePotentiometer().setValue(amplitudeValue);
     }
 
     /**

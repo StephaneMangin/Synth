@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
@@ -59,7 +60,7 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private Button playButton;
     @FXML
-    private AnchorPane anchorPane;
+    public AnchorPane anchorPane;
 
     private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
 
@@ -72,9 +73,10 @@ public class CoreController implements Initializable, IObserver {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        onPause();
         initializeListView();
 
-        anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+        //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -94,6 +96,7 @@ public class CoreController implements Initializable, IObserver {
                     try {
                         component = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
                         component.setOnDragDetected(new DragDetectedComponentEventHandler());
+
                         anchorPane.getChildren().add(component);
                     } catch (final IOException e) {
                         e.printStackTrace();
@@ -102,8 +105,8 @@ public class CoreController implements Initializable, IObserver {
                     }
                 }
                 assert component != null;
-                component.setLayoutX(event.getX());
-                component.setLayoutY(event.getY());
+                component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
+                component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
                 event.setDropCompleted(true);
             }
             event.consume();
@@ -143,7 +146,6 @@ public class CoreController implements Initializable, IObserver {
     @Override
     public void drawLine(HashMap<CurveCable, Connection> arg) {
         for(CurveCable key : arg.keySet()){
-
             key.setOnMouseClicked(event -> {
                 if(deleteMod){
                     ConnectionManager.deleteLine(key);
@@ -168,7 +170,6 @@ public class CoreController implements Initializable, IObserver {
                     });
                 }
             });
-
             anchorPane.getChildren().add(key);
         }
     }
@@ -205,7 +206,7 @@ public class CoreController implements Initializable, IObserver {
 
             final Pane pane = new Pane();
             final ImageView imageView = new ImageView(new Image(image.toString()));
-            imageView.preserveRatioProperty();
+            imageView.setPreserveRatio(true);
             imageView.setFitWidth(100);
             imageView.setFitHeight(50);
             imageView.setSmooth(true);
@@ -269,10 +270,19 @@ public class CoreController implements Initializable, IObserver {
         @Override
         public void handle(final MouseEvent event) {
             final Pane pane = (Pane) event.getSource();
-            final ImageView view = (ImageView) pane.getChildren().get(0);
+            ImageView view = (ImageView) pane.getChildren().get(0);
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
+            try {
+                final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId() + "/view.fxml"));
+                if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
+                    WritableImage w  = node.snapshot(null,null);
+                    content.putImage(w);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             db.setContent(content);
             event.consume();
         }
@@ -287,6 +297,9 @@ public class CoreController implements Initializable, IObserver {
             final Node node = (Node) event.getSource();
             final Dragboard db = node.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
+            WritableImage w  = node.snapshot(null,null);
+            content.putImage(w);
+
             content.putString(DRAG_N_DROP_MOVE_GUARD);
             db.setContent(content);
             event.consume();
@@ -314,5 +327,13 @@ public class CoreController implements Initializable, IObserver {
             packageNameSet.add(packageName);
         }
         return packageNameSet;
+    }
+
+    /**
+     * Remove a component from the anchorPane
+     * @param pane the pane we will remove.
+     */
+    public void removeViewComponent(Pane pane){
+        anchorPane.getChildren().remove(pane);
     }
 }

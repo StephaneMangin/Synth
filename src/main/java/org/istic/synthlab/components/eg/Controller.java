@@ -76,7 +76,7 @@ public class Controller implements Initializable{
      */
     @FXML
     public void connectOut() {
-        ConnectionManager.makeOrigin(circleEvent, eg.getOutput());
+        ConnectionManager.makeOrigin(eg , circleEvent, eg.getOutput());
     }
 
     /**
@@ -85,7 +85,7 @@ public class Controller implements Initializable{
      */
     @FXML
     public void connectGate() {
-        ConnectionManager.makeDestination(circleEvent, eg.getInput());
+        ConnectionManager.makeDestination(eg, circleEvent, eg.getInput());
     }
 
     /**
