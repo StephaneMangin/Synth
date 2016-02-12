@@ -30,7 +30,9 @@ public class Oscilloscope extends AbstractComponent {
         getSource().connect(getSink());
     }
 
-
+    /*
+    * This methods shows the oscilloscope view
+    */
     public JPanel getView() {
         this.activate();
         return this.visualizer.getView();

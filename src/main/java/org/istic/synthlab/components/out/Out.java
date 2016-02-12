@@ -50,6 +50,9 @@ public class Out extends AbstractComponent {
     // The criminal was here
     // Overriding the getInput() function of the component made a bug in the wiring
     // Calling out.getInput() became the same as out.getLineOut() which has absolutely NOT WHAT WE WANT
+    public IInput getInput() {
+        return lineOut.getInput();
+    }
 
     public void start(){
         lineOut.start();

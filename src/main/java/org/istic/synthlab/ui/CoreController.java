@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.modules.io.IInput;
