@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import javafx.scene.control.ToggleButton?>
 <AnchorPane fx:id="outPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
             prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css"
             xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
@@ -16,12 +17,8 @@
         <Image url="@../../images/speaker.png"/>
     </ImageView>
 
-    <Label layoutX="245.0" layoutY="130.0"  text="Amplitude" textAlignment="CENTER">
-        <font>
-            <Font size="10.0"/>
-        </font>
-    </Label>
-    <Potentiometer fx:id="amplitude" layoutX="250.0" layoutY="150.0" />
+    <Label layoutX="225.0" layoutY="110.0"  text="Amplitude" textAlignment="CENTER" />
+    <Potentiometer fx:id="amplitude" layoutX="240.0" layoutY="130.0" />
 
     <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="Line out">
         <font>
@@ -37,4 +34,6 @@
     <ImageView fx:id="close" fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
         <Image url="@../../images/closeIconMin.png"/>
     </ImageView>
+
+    <ToggleButton layoutX="230.0" layoutY="50.0" mnemonicParsing="false" text="Mute" onMouseClicked="#toggleMute"/>
 </AnchorPane>

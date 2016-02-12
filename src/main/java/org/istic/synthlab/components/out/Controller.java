@@ -63,4 +63,14 @@ public class Controller extends AbstractController implements Initializable {
     public void close() {
         ConnectionManager.deleteComponent(componentOut, outPane);
     }
+
+    @FXML
+    public void toggleMute() {
+        if (componentOut.isActivated()) {
+            componentOut.deactivate();
+        }
+        else {
+            componentOut.activate();
+        }
+    }
 }
