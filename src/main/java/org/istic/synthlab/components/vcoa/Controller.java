@@ -1,5 +1,6 @@
 package org.istic.synthlab.components.vcoa;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -8,7 +9,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
@@ -107,7 +107,7 @@ public class Controller extends AbstractController implements Initializable {
      * with the output variable
      */
     @FXML
-    public void connectOutput(final MouseEvent event) {
+    public void connectOutput(final Event event) {
         ConnectionManager.makeOrigin(vcoa, (Node) event.getSource(), vcoa.getOutput());
     }
 
@@ -121,7 +121,7 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     @FXML
-    public void connectFm(final MouseEvent event) {
+    public void connectFm(final Event event) {
         ConnectionManager.makeDestination(vcoa, (Node) event.getSource(), vcoa.getFm());
     }
 }
