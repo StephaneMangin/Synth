@@ -8,10 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
 <?import javafx.scene.control.ToggleButton?>
-<AnchorPane fx:id="outPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
-            prefWidth="300.0" styleClass="component" stylesheets="@../../stylesheets/components.css"
-            xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.istic.synthlab.components.out.Controller">
+<AnchorPane fx:id="outPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.out.Controller">
     <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="50.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@../../images/speaker.png"/>
