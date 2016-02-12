@@ -23,9 +23,9 @@ public class VcoaFrequencyModulator extends AbstractModulator {
                 "Frequency",
                 algorithm.potentiometer,
                 potentiometerType,
-                20000.0D,
-                20.0D,
-                1000.0D
+                10D,
+                0.0D,
+                0.0D
         );
 
         // Declare the relation to the mapping

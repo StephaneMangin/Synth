@@ -1,6 +1,7 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.services.Factory;
@@ -24,13 +25,13 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void activate(){
-        this.lineOut.activate();
+    public void activate() {
+        lineOut.activate();
     }
 
     @Override
-    public void deactivate(){
-        this.lineOut.deactivate();
+    public void deactivate() {
+        lineOut.deactivate();
     }
 
     @Override
@@ -51,7 +52,7 @@ public class Out extends AbstractComponent {
     // Calling out.getInput() became the same as out.getLineOut() which has absolutely NOT WHAT WE WANT
 
     public void start(){
-        this.lineOut.start();
+        lineOut.start();
     }
 
     public ILineOut getLineOut() {
