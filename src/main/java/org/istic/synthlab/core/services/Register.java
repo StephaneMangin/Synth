@@ -49,7 +49,7 @@ public class Register {
         }
         mappingGenerator.get(component).add(unitGenerator);
         Factory.createSynthesizer().add(unitGenerator);
-        System.out.println(component + " connected to " + unitGenerator);
+        //System.out.println(component + " connected to " + unitGenerator);
     }
 
     /**
@@ -70,7 +70,7 @@ public class Register {
         } else {
             mappingInput.get(component).putAll(assoc);
         }
-        System.out.println(component + " with input " + in + " connected to " + unitIn);
+        //System.out.println(component + " with input " + in + " connected to " + unitIn);
     }
 
     /**
@@ -91,7 +91,7 @@ public class Register {
         } else {
             mappingOutput.get(component).putAll(assoc);
         }
-        System.out.println(component + " with output " + out + " connected to " + unitOut);
+        //System.out.println(component + " with output " + out + " connected to " + unitOut);
     }
 
     /**
@@ -119,9 +119,9 @@ public class Register {
             Channel.connect(in, out);
             unitOut.connect(unitIn);
             associations.put(in, out);
-            System.out.println(in + " connected to " + out);
+            //System.out.println(in + " connected to " + out);
 
-            System.out.println(prettyPrint());
+            //System.out.println(prettyPrint());
         }
     }
 
@@ -149,9 +149,9 @@ public class Register {
         Channel.disconnect(in, out);
         unitOut.disconnect(unitIn);
         associations.remove(in, out);
-        System.out.println(in + " disconnected");
+        //System.out.println(in + " disconnected");
 
-        System.out.println(prettyPrint());
+        //System.out.println(prettyPrint());
     }
 
     /**
@@ -181,9 +181,9 @@ public class Register {
         // Stereo connections
         unitIn.disconnect(unitOut);
         associations.remove(in, out);
-        System.out.println(out + " disconnected");
+        //System.out.println(out + " disconnected");
 
-        System.out.println(prettyPrint());
+        //System.out.println(prettyPrint());
     }
 
     /**
@@ -306,13 +306,11 @@ public class Register {
                 sb.append(entry02.getValue());
             }
         }*/
-        sb.append("\n" + "Associated ports");
-        sb.append("\n" + "================");
-        Iterator<Map.Entry<IInput, IOutput>> iter3 = associations.entrySet().iterator();
-        while (iter3.hasNext()) {
-            Map.Entry<IInput, IOutput> entry = iter3.next();
-            sb.append("\n\t" + entry.getValue());
-            sb.append("\n\t\t => " + entry.getKey());
+        sb.append("\nAssociated ports");
+        sb.append("\n================");
+        for (Map.Entry<IInput, IOutput> entry : associations.entrySet()) {
+            sb.append("\n\t").append(entry.getValue());
+            sb.append("\n\t\t => ").append(entry.getKey());
         }
         return sb.toString();
     }

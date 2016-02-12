@@ -20,7 +20,7 @@ import org.junit.Test;
 import javax.swing.*;
 
 /**
- * Created by cyprien on 04/02/16.
+ * @author Cyprien
  */
 public class BasicChainTest {
 
@@ -67,7 +67,7 @@ public class BasicChainTest {
         scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
         scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
-        scope.getView().setShowControls( true );
+        scope.getView().setControlsVisible(true);
         scope.start();
         JFrame frame = new JFrame();
         frame.add(scope.getView());
@@ -265,14 +265,14 @@ public class BasicChainTest {
 
         // we create the first sine  oscillator that will be connected to the input gate of EG
         SineOscillator sineOscillator = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
-        sineOscillator.setFrequency(0.5);
-        sineOscillator.setAmplitude(1.0);
+        sineOscillator.getFrequencyPotentiometer().setValue(0.5);
+        sineOscillator.getAmplitudePotentiometer().setValue(1.0);
         sineOscillator.activate();
         sineOscillator.getOutput().connect(envelope.getInput());
 
         // we create the oscillator whose amplitude is controlled by the envelope
         SineOscillator sineOscillator2 = (SineOscillator) Factory.createOscillator(Vcoa, OscillatorType.SINE);
-        sineOscillator2.setFrequency(440);
+        sineOscillator2.getFrequencyPotentiometer().setValue(440);
 
         envelope.getInput().getUnitInputPort().set(1.0);
         envelope.getOutput().connect(sineOscillator2.getAm());
@@ -298,16 +298,16 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Modulewith different parameter");
 
-        System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.5);
         synth.sleepFor(5);
 
-        System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
+        //System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         envelope.setAttack(0.2);
         envelope.setDecay(1);
         synth.sleepFor(5);

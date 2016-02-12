@@ -3,6 +3,7 @@ package org.istic.synthlab.core.modules.envelope;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  * The interface IEnvelopeDAHDSR
@@ -25,6 +26,7 @@ public interface IEnvelopeDAHDSR extends Resource {
      */
     IOutput getOutput();
 
+<<<<<<< HEAD
     /**
      * Sets the amplitude .
      *
@@ -220,5 +222,20 @@ public interface IEnvelopeDAHDSR extends Resource {
      * @return the release min : double
      */
     double getReleaseMin();
+=======
+    Potentiometer getAmplitudePotentiometer();
+
+    Potentiometer getDelayPotentiometer();
+
+    Potentiometer getAttackPotentiometer();
+
+    Potentiometer getHoldPotentiometer();
+
+    Potentiometer getDecayPotentiometer();
+
+    Potentiometer getSustainPotentiometer();
+
+    Potentiometer getReleasePotentiometer();
+>>>>>>> master
 
 }

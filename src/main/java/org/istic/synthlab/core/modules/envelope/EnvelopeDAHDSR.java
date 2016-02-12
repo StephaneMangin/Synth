@@ -74,62 +74,6 @@ public class EnvelopeDAHDSR implements IEnvelopeDAHDSR {
 
     public IOutput getOutput(){ return output; }
 
-    public void setAmplitude(double value) { amplitudePotentiometer.setValue(value); }
-
-    public double getAmplitude() { return amplitudePotentiometer.getValue(); }
-
-    public double getAmplitudeMax() { return amplitudePotentiometer.getMax(); }
-
-    public double getAmplitudeMin() { return amplitudePotentiometer.getMin(); }
-
-    public void setDelay(double value) { delayPotentiometer.setValue(value); }
-
-    public double getDelay() { return delayPotentiometer.getValue(); }
-
-    public double getDelayMax() { return delayPotentiometer.getMax(); }
-
-    public double getDelayMin() { return delayPotentiometer.getMin(); }
-
-    public void setAttack(double value) { attackPotentiometer.setValue(value); }
-
-    public double getAttack() { return attackPotentiometer.getValue(); }
-
-    public double getAttackMax() { return attackPotentiometer.getMax(); }
-
-    public double getAttackMin() { return attackPotentiometer.getMin(); }
-
-    public void setHold(double value) { holdPotentiometer.setValue(value); }
-
-    public double getHold() { return holdPotentiometer.getValue(); }
-
-    public double getHoldMax() { return holdPotentiometer.getMax(); }
-
-    public double getHoldMin() { return holdPotentiometer.getMin(); }
-
-    public void setDecay(double value) { decayPotentiometer.setValue(value); }
-
-    public double getDecay() { return decayPotentiometer.getValue(); }
-
-    public double getDecayMax() { return decayPotentiometer.getMax(); }
-
-    public double getDecayMin() { return decayPotentiometer.getMin(); }
-
-    public void setSustain(double value) { sustainPotentiometer.setValue(value); }
-
-    public double getSustain() { return sustainPotentiometer.getValue(); }
-
-    public double getSustainMax() { return sustainPotentiometer.getMax(); }
-
-    public double getSustainMin() { return sustainPotentiometer.getMin(); }
-
-    public void setRelease(double value) { releasePotentiometer.setValue(value); }
-
-    public double getRelease() { return releasePotentiometer.getValue(); }
-
-    public double getReleaseMax() { return releasePotentiometer.getMax(); }
-
-    public double getReleaseMin() { return releasePotentiometer.getMin(); }
-
     @Override
     public void activate() {
         envelope.setEnabled(true);
@@ -143,5 +87,33 @@ public class EnvelopeDAHDSR implements IEnvelopeDAHDSR {
     @Override
     public boolean isActivated() {
         return envelope.isEnabled();
+    }
+
+    public Potentiometer getAmplitudePotentiometer() {
+        return amplitudePotentiometer;
+    }
+
+    public Potentiometer getDelayPotentiometer() {
+        return delayPotentiometer;
+    }
+
+    public Potentiometer getAttackPotentiometer() {
+        return attackPotentiometer;
+    }
+
+    public Potentiometer getHoldPotentiometer() {
+        return holdPotentiometer;
+    }
+
+    public Potentiometer getDecayPotentiometer() {
+        return decayPotentiometer;
+    }
+
+    public Potentiometer getSustainPotentiometer() {
+        return sustainPotentiometer;
+    }
+
+    public Potentiometer getReleasePotentiometer() {
+        return releasePotentiometer;
     }
 }

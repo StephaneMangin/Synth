@@ -69,7 +69,11 @@ public class VcoaTest extends TestCase{
         vcoa.setAmplitudeSine(1);
         AbstractOscillator sineOscillator= (AbstractOscillator) vcoa.getSineOscillator();
         Double value = sineOscillator.getFrequencyPotentiometer().getValue();
+<<<<<<< HEAD
         assertEquals(value, sineOscillator.getFrequency(), 1e-15);
+=======
+        assertEquals(value, sineOscillator.getFrequencyPotentiometer().getValue());
+>>>>>>> master
     }
 
     @org.junit.Test
@@ -77,7 +81,11 @@ public class VcoaTest extends TestCase{
        vcoa.setAmplitudePulse(0.8);
         AbstractOscillator pulseOscillatorOscillator= (AbstractOscillator) vcoa.getPulseOscillator();
         Double value = pulseOscillatorOscillator.getFrequencyPotentiometer().getValue();
+<<<<<<< HEAD
         assertEquals(value, pulseOscillatorOscillator.getFrequency(), 1e-15);
+=======
+        assertEquals(value, pulseOscillatorOscillator.getFrequencyPotentiometer().getValue());
+>>>>>>> master
     }
 
     @org.junit.Test
@@ -85,7 +93,11 @@ public class VcoaTest extends TestCase{
         vcoa.setAmplitudePulse(0.5);
         AbstractOscillator squareOscillatorOscillator= (AbstractOscillator) vcoa.getSquareOscillator();
         Double value = squareOscillatorOscillator.getFrequencyPotentiometer().getValue();
+<<<<<<< HEAD
         assertEquals(value, squareOscillatorOscillator.getFrequency(), 1e-15);
+=======
+        assertEquals(value, squareOscillatorOscillator.getFrequencyPotentiometer().getValue());
+>>>>>>> master
     }
 
 

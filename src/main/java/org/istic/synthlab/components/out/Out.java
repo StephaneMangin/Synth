@@ -24,13 +24,13 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void activate(){
-        this.lineOut.activate();
+    public void activate() {
+        lineOut.activate();
     }
 
     @Override
-    public void deactivate(){
-        this.lineOut.deactivate();
+    public void deactivate() {
+        lineOut.deactivate();
     }
 
     @Override
@@ -46,12 +46,18 @@ public class Out extends AbstractComponent {
 
     }
 
+<<<<<<< HEAD
     // The criminal was here
     // Overriding the getInput() function of the component made a bug in the wiring
     // Calling out.getInput() became the same as out.getLineOut() which has absolutely NOT WHAT WE WANT
+=======
+    public IInput getInput() {
+        return lineOut.getInput();
+    }
+>>>>>>> master
 
     public void start(){
-        this.lineOut.start();
+        lineOut.start();
     }
 
     public ILineOut getLineOut() {
