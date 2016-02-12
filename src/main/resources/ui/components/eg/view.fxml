@@ -5,6 +5,8 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
     <children>
 
@@ -28,6 +30,9 @@
 
         <Circle fx:id="output"  onMouseClicked="#connectOut" layoutX="312.0" layoutY="165.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
         <Label layoutX="331.0" layoutY="155.0" text="out" />
-        <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
+
+        <ImageView fx:id="close" fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
+            <Image url="@../../images/closeIconMin.png"/>
+        </ImageView>
     </children>
 </AnchorPane>

@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
@@ -20,7 +21,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable{
 
     @FXML
-    private Button close;
+    private ImageView close;
     @FXML
     private AnchorPane egPane;
     @FXML
@@ -108,7 +109,7 @@ public class Controller implements Initializable{
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void closeIt(){
+    public void close(){
         ConnectionManager.deleteComponent(eg, egPane);
     }
 
