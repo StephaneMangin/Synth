@@ -34,10 +34,10 @@ public class BasicChainTest {
         vcoa.activate();
         out = new Out("OUT");
         out.activate();
-        vcoa.setAmplitudeSquare(1);
-        vcoa.setExponentialFrequency(200);
-        vcoa.setAmplitudeSine(10000);
-        //vcoa.setAmplitudeSquare(10000);
+        out.getAmModulator().setValue(0.5);
+        vcoa.setAmplitudeOscillator(0.5);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         synth = Factory.createSynthesizer();
     }
 
@@ -228,20 +228,12 @@ public class BasicChainTest {
 
     @Test
     public void testReplicator() throws InterruptedException {
-
-        Vcoa myVcoa = new Vcoa("VCOA1");
-
         Replicator repl = new Replicator("REPL");
 
-        Out myOut = new Out("OUT1");
-        myOut.getAmModulator().setValue(1.0);
+        vcoa.getOutput().connect(repl.getInput());
+        repl.getOutputReplicated1().connect(out.getInput());
 
-        myVcoa.setExponentialFrequency(40);
-        myVcoa.setAmplitudeSine(1.0);
-        myVcoa.getOutput().connect(repl.getInput());
-
-        repl.getOutputReplicated1().connect(myOut.getInput());
-        myOut.start();
+        out.start();
         synth.start();
         synth.sleepFor(5);
 
