@@ -34,34 +34,17 @@ public abstract class AbstractModulator implements IModulator {
     }
 
     @Override
+    public double getOriginalValue() {
+        return potentiometer.getOriginalValue();
+    }
+    @Override
     public double getValue() {
         return potentiometer.getValue();
     }
 
     @Override
     public void setValue(double value) {
-        potentiometer.setValue(calculateStep(value));
-    }
-
-    public double calculateStep(double wheelInput) {
-        double value;
-        if (potentiometer.getType() == PotentiometerType.LINEAR) {
-            value = (potentiometer.getMax() - potentiometer.getMin()) * wheelInput + potentiometer.getMin();
-        } else if (potentiometer.getType() == PotentiometerType.EXPONENTIAL) {
-            //128 à la place de 10 ?
-            value = (potentiometer.getMax() - potentiometer.getMin())
-                    / Potentiometer.POWER_SCALE
-                    * Math.pow(Potentiometer.POWER_SCALE, wheelInput)
-                    + potentiometer.getMin();
-        } else {
-            value = wheelInput;
-        }
-        return value;
-    }
-
-    public double restoreStep(double wheelInput) {
-        // TODO: code the revert calculateStep function
-        return wheelInput;
+        potentiometer.setValue(value);
     }
 
     public String getName() {
@@ -82,4 +65,13 @@ public abstract class AbstractModulator implements IModulator {
         return potentiometer.getMin();
     }
 
+    @Override
+    public void setMin(double value) {
+        potentiometer.setMin(value);
+    }
+
+    @Override
+    public void setMax(double value) {
+        potentiometer.setMax(value);
+    }
 }

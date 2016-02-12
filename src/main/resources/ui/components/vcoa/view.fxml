@@ -32,9 +32,29 @@
                <Font size="10.0" />
             </font>
         </Label>
+        <Label layoutX="50.0" layoutY="172.0" text="0" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <Label layoutX="95.0" layoutY="172.0" text="10" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
         <Potentiometer fx:id="expFrequency" layoutX="60.0" layoutY="150.0" />
 
         <Label layoutX="40.0" layoutY="60.0" text="Lin Frequency" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <Label layoutX="40.0" layoutY="100.0" text="-1.0" textAlignment="CENTER">
+            <font>
+                <Font size="10.0" />
+            </font>
+        </Label>
+        <Label layoutX="95.0" layoutY="100.0" text="1.0" textAlignment="CENTER">
             <font>
                 <Font size="10.0" />
             </font>
