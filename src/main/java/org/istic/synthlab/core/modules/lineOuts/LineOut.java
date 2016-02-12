@@ -2,7 +2,6 @@ package org.istic.synthlab.core.modules.lineOuts;
 
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
@@ -16,6 +15,7 @@ import org.istic.synthlab.core.services.Register;
 public class LineOut implements ILineOut {
 
     private com.jsyn.unitgen.LineOut lineOut;
+    private com.jsyn.unitgen.PassThrough passThrough;
     private IInput input;
 
     /**
@@ -24,10 +24,15 @@ public class LineOut implements ILineOut {
      */
     public LineOut(IComponent component) {
         lineOut = new com.jsyn.unitgen.LineOut();
-        input = Factory.createInput("In", component, lineOut.input);
+        passThrough = new com.jsyn.unitgen.PassThrough();
+        input = Factory.createInput("In", component, passThrough.input);
         // First declare the mappings
         Register.declare(component, lineOut);
-        Register.declare(component, input, lineOut.getInput());
+        Register.declare(component, passThrough);
+        Register.declare(component, input, passThrough.getInput());
+
+        passThrough.output.connect(0, lineOut.input, 0);
+        passThrough.output.connect(0, lineOut.input, 1);
     }
 
     /**
@@ -53,16 +58,18 @@ public class LineOut implements ILineOut {
 
     @Override
     public void activate() {
+        passThrough.setEnabled(true);
         lineOut.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
+        passThrough.setEnabled(false);
         lineOut.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return this.lineOut.isEnabled();
+        return this.lineOut.isEnabled() && this.passThrough.isEnabled();
     }
 }
