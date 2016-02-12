@@ -1,33 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.*?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
     <children>
 
-        <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="ADSR">
+        <Label layoutX="8.0" layoutY="7.0" styleClass="title" text="EG (ADSR)">
             <font>
-                <Font name="System" size="20.0" />
+                <Font name="System Bold" size="20.0" />
             </font>
         </Label>
+        <Circle fx:id="gate" layoutX="26.0" layoutY="178.0" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
+        <Label layoutX="8.0" layoutY="148.0" prefHeight="16.0" prefWidth="41.0" text="GATE">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
 
-        <Label layoutX="286.0" layoutY="64.0" text="Release" />
-        <Potentiometer fx:id="release" layoutX="292.0" layoutY="90.0" />
-        <Label layoutX="181.0" layoutY="64.0" text="Sustain" />
-        <Potentiometer fx:id="sustain" layoutX="187.0" layoutY="90.0" />
-        <Label layoutX="87.0" layoutY="64.0" text="Decay" />
-        <Potentiometer fx:id="decay" layoutX="93.0" layoutY="90.0" />
-        <Label layoutX="4.0" layoutY="64.0" text="Attack" />
-        <Potentiometer fx:id="attack" layoutX="10.0" layoutY="90.0" />
+        <Circle fx:id="output" layoutX="350.0" layoutY="178.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
+        <Label layoutX="334.0" layoutY="149.0" text="OUT">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Label>
 
-        <Circle fx:id="gate" onMouseClicked="#connectGate" layoutX="25.0" layoutY="163.0" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
-        <Label layoutX="51.0" layoutY="155.0" prefHeight="16.0" prefWidth="30.0" text="gate" />
+        <Label layoutX="24.0" layoutY="54.0" text="Attack" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+        <Potentiometer fx:id="attack" layoutX="27.0" layoutY="85.0"/>
 
-        <Circle fx:id="output"  onMouseClicked="#connectOut" layoutX="312.0" layoutY="165.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
-        <Label layoutX="331.0" layoutY="155.0" text="out" />
-        <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
+        <Label layoutX="109.0" layoutY="54.0" text="Decay">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+        <Potentiometer fx:id="decay" layoutX="113.0" layoutY="85.0"/>
+
+        <Label layoutX="202.0" layoutY="54.0" text="Sustain">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+        <Potentiometer fx:id="sustain" layoutX="210.0" layoutY="85.0"/>
+
+        <Label layoutX="300.0" layoutY="54.0" text="Release">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Label>
+        <Potentiometer fx:id="release" layoutX="309.0" layoutY="85.0"/>
+
     </children>
 </AnchorPane>
