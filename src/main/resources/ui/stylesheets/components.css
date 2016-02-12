@@ -1,8 +1,12 @@
 .component {
     -fx-position: relative;
-    -fx-background-color: #CCC;
-    -fx-border-color: #666;
+    -fx-background-color: #111;
+    -fx-border-color: #000;
     -fx-border-width: 3;
+}
+
+.component Label, .component RadioButton {
+    -fx-text-fill: #DDD;
 }
 
 .component .pane {
