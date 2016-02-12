@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 
 /**
  * A pulse generator.

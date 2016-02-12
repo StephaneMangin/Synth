@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
+import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -54,6 +55,11 @@ public interface IModulator extends Resource {
      */
     double getMin();
 
+    /**
+     * Returns the name of the modulator
+     *
+     * @return String
+     */
     String getName();
 
     /**

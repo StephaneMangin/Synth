@@ -5,7 +5,7 @@ import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.io.IInput;
 
 /**
- * An output line
+ * This interface represents our LineOut
  *
  */
 public interface ILineOut extends Resource {

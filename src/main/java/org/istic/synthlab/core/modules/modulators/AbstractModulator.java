@@ -1,13 +1,14 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.core.IComponent;
+import com.jsyn.ports.UnitInputPort;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Create an abstraction to manage a gain potentiometer throught a filterAllpass
+ * Create an abstraction to manage a potentiometer throught a filterAllpass
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */

@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.vcoa;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
@@ -12,6 +12,13 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 /**
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ *
+ * this class represents the VCOA (Voltage Controlled Oscillator) module
+ *
+ * It produces a periodic signal
+ * the shape of the signal (SINE,PULSE,SQUARE,IMPULSE,SAWTOOTH,TRIANGLE,REDNOISE)
+ * can be selected and its frequency is managed by another signal
+ *
  */
 public class Vcoa extends AbstractComponent {
 
@@ -35,7 +42,7 @@ public class Vcoa extends AbstractComponent {
 
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
-        setDefaultOscillator(squareOscillator);
+        setDefaultOscillator(sineOscillator);
     }
 
     @Override
@@ -156,10 +163,19 @@ public class Vcoa extends AbstractComponent {
         return linearModulator.getMin();
     }
 
+
     public double getFrequency() {
         return exponentialModulator.getValue()*linearModulator.getValue();
     }
 
+
+    // WARNING : Setting the amplitude of the sineOscillator is sometimes not enough to force
+    // the signal to actually pass through the component
+
+    // If needed, check the amplitudeModulator AND the outputModulator.
+
+    //getOutputModulator().setValue(value);
+    //getAmModulator().setValue(value);
 
     /**
      * Set the amplitude of the sinusoidal oscillator
