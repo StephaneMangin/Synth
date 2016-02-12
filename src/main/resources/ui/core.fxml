@@ -8,7 +8,7 @@
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <ScrollPane fx:id="scrollpane">
-            <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0">
+            <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0" style="-fx-background-image: url('/ui/images/background.png')">
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>

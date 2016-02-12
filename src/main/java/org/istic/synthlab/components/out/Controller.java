@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
@@ -24,7 +25,8 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Potentiometer amplitude;
     @FXML
-    private Button close;
+    private ImageView close;
+
     private Out componentOut = new Out("Out " + numInstance++);
     private static int numInstance = 0;
 
@@ -58,7 +60,7 @@ public class Controller extends AbstractController implements Initializable {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void closeIt() {
+    public void close() {
         ConnectionManager.deleteComponent(componentOut, outPane);
     }
 }

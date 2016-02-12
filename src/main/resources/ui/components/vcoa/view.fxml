@@ -39,6 +39,9 @@
         <RadioButton fx:id="triangleRadio" layoutX="15.0" layoutY="110.0" mnemonicParsing="false" text="Triangle"/>
         <ImageView fx:id="oscillatorImage" fitHeight="64.0" fitWidth="64.0" layoutX="100.0" layoutY="60.0"
                    pickOnBounds="true" preserveRatio="true"/>
-        <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
+
+        <ImageView fx:id="close" fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
+            <Image url="@../../images/closeIconMin.png"/>
+        </ImageView>
     </children>
 </AnchorPane>

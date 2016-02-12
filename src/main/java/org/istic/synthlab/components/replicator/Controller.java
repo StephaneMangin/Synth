@@ -27,7 +27,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private ImageView output3;
     @FXML
-    private Button close;
+    private ImageView close;
 
     private final Replicator replicator = new Replicator("Replicator " + numInstance++);
     private static int numInstance  = 0;
@@ -62,7 +62,7 @@ public class Controller extends AbstractController implements Initializable {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void closeIt(){
+    public void close(){
         ConnectionManager.deleteComponent(replicator, replicatorPane);
     }
 }

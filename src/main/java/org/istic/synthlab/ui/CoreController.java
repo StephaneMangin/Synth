@@ -105,6 +105,7 @@ public class CoreController implements Initializable, IObserver {
                     }
                 }
                 assert component != null;
+
                 component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
                 component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
                 event.setDropCompleted(true);
@@ -196,7 +197,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "Eg", "vca"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");

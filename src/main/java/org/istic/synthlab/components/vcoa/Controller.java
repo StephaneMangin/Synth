@@ -41,7 +41,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private ImageView oscillatorImage;
     @FXML
-    private Button close;
+    private ImageView close;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
@@ -67,7 +67,7 @@ public class Controller extends AbstractController implements Initializable {
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((double)newValue);
         });
-        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
+        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');");
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((double)newValue);
         });
@@ -116,7 +116,7 @@ public class Controller extends AbstractController implements Initializable {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void closeIt(){
+    public void close(){
         ConnectionManager.deleteComponent(vcoa, vcoaPane);
     }
 

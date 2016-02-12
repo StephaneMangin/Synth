@@ -23,5 +23,8 @@
     <ImageView fx:id="output3" fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput3">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
-    <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
+
+    <ImageView fx:id="close" fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
+        <Image url="@../../images/closeIconMin.png"/>
+    </ImageView>
 </AnchorPane>
