@@ -25,8 +25,8 @@ public class FrequencyModulator extends AbstractModulator {
                 addFunction.inputB,
                 potentiometerType,
                 20000.0D,
-                20.0D,
-                0.15D
+                0.0D,
+                0.0D
         );
 
         // Declare the relation to the mapping

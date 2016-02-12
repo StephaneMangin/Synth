@@ -291,7 +291,7 @@ public class BasicChainTest {
         scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
         scope.getModel().getTriggerModel().getLevelModel()
                 .setDoubleValue(0.0001);
-        scope.getView().setShowControls(true);
+        scope.getView().setControlsVisible(true);
         scope.start();
         JFrame frame = new JFrame();
         frame.add(scope.getView());

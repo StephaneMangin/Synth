@@ -34,12 +34,12 @@ public class Controller implements Initializable {
     }
     @FXML
     public void connectOutput() {
-        ConnectionManager.makeOrigin(circleEvent, generic.getOutput());
+        ConnectionManager.makeOrigin(generic, circleEvent, generic.getOutput());
     }
 
     @FXML
     public void connectInput() {
-        ConnectionManager.makeDestination(circleEvent, generic.getInput());
+        ConnectionManager.makeDestination(generic, circleEvent, generic.getInput());
     }
 
     private class GetIdWithClick implements EventHandler<Event> {

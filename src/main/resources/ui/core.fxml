@@ -8,13 +8,11 @@
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <ScrollPane fx:id="scrollpane">
-         <content>
-             <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0">
-                 <padding>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                 </padding>
-             </AnchorPane>
-         </content>
+            <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0">
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </AnchorPane>
         </ScrollPane>
     </center>
     <top>
@@ -44,7 +42,7 @@
                      <ListView fx:id="listView" editable="true" />
                  </ScrollPane>
             </TitledPane>
-            <TextArea fx:id="textarea" prefWidth="130.0" />
+            <TextArea fx:id="textarea" prefWidth="130.0" visible="false" />
         </SplitPane>
     </left>
 </BorderPane>

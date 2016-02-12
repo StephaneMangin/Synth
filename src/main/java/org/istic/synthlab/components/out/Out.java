@@ -1,6 +1,7 @@
 package org.istic.synthlab.components.out;
 
 import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.services.Factory;
@@ -46,15 +47,12 @@ public class Out extends AbstractComponent {
 
     }
 
-<<<<<<< HEAD
     // The criminal was here
     // Overriding the getInput() function of the component made a bug in the wiring
     // Calling out.getInput() became the same as out.getLineOut() which has absolutely NOT WHAT WE WANT
-=======
     public IInput getInput() {
         return lineOut.getInput();
     }
->>>>>>> master
 
     public void start(){
         lineOut.start();

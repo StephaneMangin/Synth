@@ -4,11 +4,7 @@ package org.istic.synthlab.core;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import javafx.util.Pair;
-<<<<<<< HEAD
-import junit.framework.TestCase;
 import org.istic.synthlab.components.IComponent;
-=======
->>>>>>> master
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;

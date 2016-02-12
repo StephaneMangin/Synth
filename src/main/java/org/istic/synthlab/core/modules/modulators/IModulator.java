@@ -25,6 +25,8 @@ public interface IModulator extends Resource {
      */
     IOutput getOutput();
 
+    double getOriginalValue();
+
     /**
      * Returns an amplitude.
      *
@@ -37,6 +39,7 @@ public interface IModulator extends Resource {
      *
      */
     void setValue(double value);
+
 
     /**
      * The maximum value defined by the potentiometer of the modulator
@@ -58,4 +61,18 @@ public interface IModulator extends Resource {
      * @return String
      */
     String getName();
+
+    /**
+     * The minimum value defined by the potentiometer of the modulator
+     *
+     * @param value double between 0 and 1
+     */
+    void setMin(double value);
+
+    /**
+     * The maximum value defined by the potentiometer of the modulator
+     *
+     * @param value double between 0 and 1
+     */
+    void setMax(double value);
 }
