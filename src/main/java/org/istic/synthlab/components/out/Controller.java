@@ -15,14 +15,11 @@ import java.util.ResourceBundle;
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Controller extends AbstractController implements Initializable {
-    @FXML
-    private AnchorPane outPane;
+public class Controller extends AbstractController {
     @FXML
     private Potentiometer amplitude;
 
-    private Out componentOut = new Out("Out " + numInstance++);
-    private static int numInstance = 0;
+    private Out componentOut = new Out("Out");
 
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
@@ -31,7 +28,8 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        outPane.setId("outPane" + numInstance);
+        super.initialize(location, resources);
+        configure(componentOut);
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
@@ -39,24 +37,6 @@ public class Controller extends AbstractController implements Initializable {
         amplitude.setTitle("Amplitude");
         amplitude.setMinValue(componentOut.getAmModulator().getMin());
         amplitude.setMaxValue(componentOut.getAmModulator().getMax());
-    }
-
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the input variable
-     */
-    @FXML
-    public void connectInput(final Event event) {
-        ConnectionManager.makeDestination(componentOut, (Node) event.getSource(), componentOut.getInput());
-    }
-
-    /**
-     * Method call when the close button is clicked.
-     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
-     */
-    @FXML
-    public void close() {
-        ConnectionManager.deleteComponent(componentOut, outPane);
     }
 
     @FXML

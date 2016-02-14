@@ -5,19 +5,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="vcaPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
         <Image url="@../../images/closeIcon.png"/>
     </ImageView>
 
-    <Label layoutX="35.0" layoutY="4.0" text="VCA">
+    <Label layoutX="35.0" layoutY="4.0" fx:id="title" styleClass="title">
         <font>
-            <Font name="System" size="20.0" />
+            <Font name="System" size="20.0"/>
         </font>
     </Label>
 
     <Label layoutX="17.0" layoutY="90.0" text="AM" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectAm">
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInputAm">
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 

@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
@@ -14,9 +15,7 @@ import java.util.ResourceBundle;
 /**
  * @author Paola
  */
-public class Controller implements Initializable{
-    @FXML
-    private AnchorPane egPane;
+public class Controller extends AbstractController {
     @FXML
     private Potentiometer attack;
     @FXML
@@ -26,8 +25,7 @@ public class Controller implements Initializable{
     @FXML
     private Potentiometer decay;
 
-    private static int numInstance  = 0;
-    private Eg eg = new Eg("EG " + numInstance++);
+    private Eg eg = new Eg("EG");
 
     /**
      * Called to initialize a controller after its root element has been
@@ -39,7 +37,8 @@ public class Controller implements Initializable{
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        egPane.setId("egPane" + numInstance);
+        super.initialize(location, resources);
+        configure(eg);
 
         release.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Release time changed from " + oldValue + " to " + newValue);
@@ -72,32 +71,5 @@ public class Controller implements Initializable{
         decay.setTitle("Decay");
         decay.setMinValue(eg.getDecayPotentiometer().getMin());
         decay.setMaxValue(eg.getDecayPotentiometer().getMax());
-    }
-
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the output variable
-     */
-    @FXML
-    public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(eg , (Node) event.getSource(), eg.getOutput());
-    }
-
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the input variable
-     */
-    @FXML
-    public void connectGate(final MouseEvent event) {
-        ConnectionManager.makeDestination(eg, (Node) event.getSource(), eg.getInput());
-    }
-
-    /**
-     * Method call when the close button is clicked.
-     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
-     */
-    @FXML
-    public void close() {
-        ConnectionManager.deleteComponent(eg, egPane);
     }
 }

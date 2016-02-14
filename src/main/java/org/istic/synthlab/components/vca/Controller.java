@@ -21,17 +21,13 @@ public class Controller extends AbstractController implements Initializable {
     private Potentiometer gain;
     @FXML
     private Potentiometer amplitude;
-    @FXML
-    private ImageView circleEvent;
-    @FXML
-    private AnchorPane vcaPane;
 
-    private final Vca vca = new Vca("VCA " + numInstance++);
-    private static int numInstance = 0;
+    private Vca vca = new Vca("VCA");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        vcaPane.setId("vcaPane" + numInstance);
+        super.initialize(location, resources);
+        configure(vca);
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             vca.getAmplitudeModulator().setValue((Double) newValue);
@@ -46,29 +42,5 @@ public class Controller extends AbstractController implements Initializable {
         gain.setTitle("Gain");
         gain.setMinValue(vca.getAmplitudeModulator().getMin());
         gain.setMaxValue(vca.getAmplitudeModulator().getMax());
-    }
-
-    @FXML
-    public void connectAm(final Event event) {
-        ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getAm());
-    }
-
-    @FXML
-    public void connectInput(final Event event) {
-        ConnectionManager.makeDestination(vca, (Node) event.getSource(), vca.getInput());
-    }
-
-    @FXML
-    public void connectOutput(final Event event) {
-        ConnectionManager.makeOrigin(vca, (Node) event.getSource(), vca.getOutput());
-    }
-
-    /**
-     * Method call when the close button is clicked.
-     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
-     */
-    @FXML
-    public void close() {
-        ConnectionManager.deleteComponent(vca, vcaPane);
     }
 }

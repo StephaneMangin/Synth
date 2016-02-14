@@ -7,7 +7,7 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="oscilloscopePane" prefHeight="350.0" prefWidth="610.0" style="-fx-background-color: #DDD;" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
+<AnchorPane fx:id="anchorPane" prefHeight="350.0" prefWidth="610.0" style="-fx-background-color: #DDD;" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
    <children>
        <Group autoSizeChildren="false">
           <children>
@@ -17,10 +17,10 @@
           </Pane>
           </children>
        </Group>
-   
-       <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="Oscilloscope">
+
+       <Label layoutX="35.0" layoutY="4.0" fx:id="title" styleClass="title">
            <font>
-            <Font name="System" size="20.0" />
+               <Font name="System" size="20.0"/>
            </font>
        </Label>
    
@@ -29,13 +29,13 @@
             <Font size="10.0" />
            </font>
        </Label>
-       <Circle fx:id="input" layoutX="23.0" layoutY="327.0" onMouseClicked="#connectIn" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
+       <Circle fx:id="input" layoutX="23.0" layoutY="327.0" onMouseClicked="#connectInput" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
    
        <Label layoutX="579.0" layoutY="299.0" text="OUT">
            <font>
             <Font size="10.0" />
            </font>
        </Label>
-       <Circle fx:id="output" layoutX="587.0" layoutY="327.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
+       <Circle fx:id="output" layoutX="587.0" layoutY="327.0" onMouseClicked="#connectOutput" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
    </children>
 </AnchorPane>

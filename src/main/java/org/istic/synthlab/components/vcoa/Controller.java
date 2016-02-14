@@ -18,11 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * @author stephane
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Controller extends AbstractController implements Initializable {
-    @FXML
-    private AnchorPane vcoaPane;
+public class Controller extends AbstractController {
     @FXML
     private Potentiometer expFrequency;
     @FXML
@@ -46,8 +44,7 @@ public class Controller extends AbstractController implements Initializable {
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
-    private Vcoa vcoa = new Vcoa("VCOA" + numInstance++);
-    private static int numInstance = 0;
+    private Vcoa vcoa = new Vcoa("VCOA");
 
     /**
      * When the component is created, it initialize the component representation and adding listener and MouseEvent
@@ -56,7 +53,8 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        vcoaPane.setId("vcoaPane"+numInstance);
+        super.initialize(location, resources);
+        configure(vcoa);
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
         vcoa.setAmplitudeTriangle(1);
@@ -137,30 +135,6 @@ public class Controller extends AbstractController implements Initializable {
             }
         });
 
-
-
         squareRadio.setSelected(true);
-    }
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the output variable
-     */
-    @FXML
-    public void connectOutput(final Event event) {
-        ConnectionManager.makeOrigin(vcoa, (Node) event.getSource(), vcoa.getOutput());
-    }
-
-    /**
-     * Method call when the close button is clicked.
-     * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
-     */
-    @FXML
-    public void close(){
-        ConnectionManager.deleteComponent(vcoa, vcoaPane);
-    }
-
-    @FXML
-    public void connectFm(final Event event) {
-        ConnectionManager.makeDestination(vcoa, (Node) event.getSource(), vcoa.getFm());
     }
 }
