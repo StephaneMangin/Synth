@@ -23,7 +23,7 @@
         <Image url="@../../images/speaker.png"/>
     </ImageView>
 
-    <Potentiometer fx:id="amplitude" layoutX="240.0" layoutY="130.0" />
+    <Potentiometer fx:id="amplitude" layoutX="230.0" layoutY="130.0" />
 
     <ToggleButton layoutX="230.0" layoutY="50.0" mnemonicParsing="false" text="Mute" onMouseClicked="#toggleMute"/>
 
