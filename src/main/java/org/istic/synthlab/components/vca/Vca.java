@@ -40,7 +40,7 @@ public class Vca extends AbstractComponent {
         this.multiplyInAm.setVariableInput(0.0);
 
         // Connect the sum of modulation to input signal
-        //this.vcaModulator.getOutput().connect(this.multiplyInAm.getVariableInput());
+        this.vcaModulator.getOutput().connect(this.multiplyInAm.getVariableInput());
 
         // Connect the gain output port with the external output
         this.multiplyInAm.getOutput().connect(this.getSink());
@@ -62,7 +62,7 @@ public class Vca extends AbstractComponent {
         return vcaModulator.isActivated();
     }
 
-    public IModulator getAmplitudeModulator() {
+    public IModulator getGainModulator() {
         return vcaModulator;
     }
 

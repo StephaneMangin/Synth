@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
-        <Image url="@../../images/closeIcon.png"/>
-    </ImageView>
 
-    <Label layoutX="35.0" layoutY="4.0" fx:id="title" styleClass="title">
-        <font>
-            <Font name="System" size="20.0"/>
-        </font>
-    </Label>
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="176.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
+   <children>
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
+          <image>
+              <Image url="@../../images/closeIcon.png" />
+          </image>
+       </ImageView>
+   
+       <Label fx:id="title" layoutX="35.0" layoutY="4.0" styleClass="title">
+           <font>
+               <Font name="System" size="20.0" />
+           </font>
+       </Label>
+   
+       <Label layoutX="17.0" layoutY="90.0" text="AM" />
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" onMouseClicked="#connectInputAm" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@../../images/blueSocket.png" />
+          </image>
+       </ImageView>
+   
+       <Label layoutX="11.0" layoutY="140.0" text="Input" />
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" onMouseClicked="#connectInput" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@../../images/blueSocket.png" />
+          </image>
+       </ImageView>
+   
+       <Label layoutX="120.0" layoutY="140.0" text="Output" />
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="130.0" layoutY="160.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@../../images/redSocket.png" />
+          </image>
+       </ImageView>
+   </children>
 
-    <Label layoutX="17.0" layoutY="90.0" text="AM" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInputAm">
-        <Image url="@../../images/blueSocket.png"/>
-    </ImageView>
-
-    <Label layoutX="11.0" layoutY="140.0" text="Input" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
-        <Image url="@../../images/blueSocket.png"/>
-    </ImageView>
-
-    <Label layoutX="250.0" layoutY="140.0" text="Output" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
-        <Image url="@../../images/redSocket.png"/>
-    </ImageView>
-
-    <Potentiometer fx:id="amplitude" layoutX="100.0" layoutY="90.0" />
-    <Potentiometer fx:id="gain" layoutX="170.0" layoutY="90.0" />
+    <Potentiometer fx:id="gain" layoutX="100.0" layoutY="50.0" />
 </AnchorPane>
