@@ -5,6 +5,9 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.components.oscilloscope.Oscilloscope;
+import org.istic.synthlab.core.modules.algorithms.IVcoaFrequencyModulator;
+import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulator;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
@@ -21,7 +24,6 @@ import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
 import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-
 
 /**
  * Helper class to manage adapters creation.
@@ -194,5 +196,9 @@ public class Factory {
             default:
                 return null;
         }
+    }
+
+    public static IOscilloscope createOscilloscope(IComponent component) {
+        return new Oscilloscope(component);
     }
 }
