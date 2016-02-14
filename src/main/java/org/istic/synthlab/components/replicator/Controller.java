@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
 

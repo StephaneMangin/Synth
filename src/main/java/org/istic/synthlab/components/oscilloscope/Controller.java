@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Sebastien
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController {
 

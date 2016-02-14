@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Dechaud John Marc on 2/8/16.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController implements Initializable {
     @FXML

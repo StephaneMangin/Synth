@@ -8,6 +8,7 @@ import org.istic.synthlab.core.modules.modulators.IModulator;
  * @author  Group1
  *
  * The interface Component
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public interface IComponent {
 

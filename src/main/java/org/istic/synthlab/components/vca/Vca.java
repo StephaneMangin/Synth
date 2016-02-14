@@ -14,6 +14,7 @@ import org.istic.synthlab.ui.controls.Potentiometer;
  * this class represents the VCA (Voltage Controlled Amplifier)  module
  *
  * It controls the amplitude of an incoming signal according to another modulating signal.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Vca extends AbstractComponent {
 

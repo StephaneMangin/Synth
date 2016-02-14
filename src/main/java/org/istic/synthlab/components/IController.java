@@ -10,6 +10,7 @@ import org.istic.synthlab.ui.ConnectionManager;
  * @author  Group1
  *
  * The interface Component
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public interface IController extends Initializable {
 

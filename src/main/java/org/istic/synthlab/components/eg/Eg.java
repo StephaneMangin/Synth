@@ -13,6 +13,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
  * It creates an Envelope Generator that produce a "one shot" waveform
  *
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @since <pre>Feb 8, 2016</pre>
  */
 public class Eg extends AbstractComponent {

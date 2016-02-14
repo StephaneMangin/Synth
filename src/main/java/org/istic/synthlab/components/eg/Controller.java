@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 /**
  * @author Paola
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController {
     @FXML
