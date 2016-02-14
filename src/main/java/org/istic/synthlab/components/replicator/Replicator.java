@@ -50,8 +50,6 @@ public class Replicator extends AbstractComponent {
         passThrough.getOutput1().connect(getSink());
         passThrough.getOutput2().connect(outputModulatorReplicated1.getInput());
         passThrough.getOutput3().connect(outputModulatorReplicated2.getInput());
-
-
     }
 
     @Override

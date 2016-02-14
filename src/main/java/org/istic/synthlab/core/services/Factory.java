@@ -16,6 +16,8 @@ import org.istic.synthlab.core.modules.io.Output;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.mix.IMix;
+import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
@@ -192,5 +194,9 @@ public class Factory {
             default:
                 return null;
         }
+    }
+
+    public static IMix createMixer(IComponent component){
+        return new Mix(component);
     }
 }

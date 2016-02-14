@@ -65,6 +65,7 @@ public abstract class AbstractComponent implements IComponent {
     private IModulator inputGateModulator;
     private IModulator outputModulator;
     private IModulator outputGateModulator;
+    private IModulator gainModulator;
 
     /**
      * Instantiates a new component.
@@ -96,6 +97,10 @@ public abstract class AbstractComponent implements IComponent {
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
                 ModulatorType.BYPASS, null);
+        this.gainModulator = Factory.createModulator(
+                "Gain", this,
+                ModulatorType.GAIN,
+                PotentiometerType.LINEAR);
     }
 
     /**
@@ -253,6 +258,7 @@ public abstract class AbstractComponent implements IComponent {
     public IModulator getOutputModulator() {
         return outputModulator;
     }
+    public IModulator getGainModulator() { return this.gainModulator; }
 
     @Override
     public String toString() {

@@ -1,9 +1,5 @@
 package org.istic.synthlab.core.modules.mix;
 
-/**
- * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/12/16.
- */
-
 import com.jsyn.unitgen.Add;
 import com.jsyn.unitgen.PassThrough;
 import org.istic.synthlab.components.IComponent;
@@ -18,6 +14,10 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/12/16.
+ */
 
 /**
  * Class that define a mixer that able to mix multiple signals
@@ -39,9 +39,9 @@ public class Mix implements IMix {
 
     private List<IInput> inputList;
 
-    Add addInput12;
-    Add addInput34;
-    Add totalAddInput;
+    private Add addInput12;
+    private Add addInput34;
+    private Add totalAddInput;
 
     private IInput input1;
     private IInput input2;
@@ -161,7 +161,7 @@ public class Mix implements IMix {
      * @return IInput
      */
     @Override
-    public IInput getInputPort(int i) {
+    public IInput getInputPortByIndex(int i) {
         return this.inputList.get(i);
     }
 
@@ -211,22 +211,23 @@ public class Mix implements IMix {
     }
 
     @Override
-    public Potentiometer getAmmplitudePotentiometerInput1() {
-        return null;
+    public Potentiometer getAmplitudePotentiometerInput1() {
+        return (Potentiometer) this.gainInput1;
     }
 
     @Override
-    public Potentiometer getAmmplitudePotentiometerInput2() {
-        return null;
+    public Potentiometer getAmplitudePotentiometerInput2() {
+        return (Potentiometer) this.gainInput2;
     }
 
     @Override
-    public Potentiometer getAmmplitudePotentiometerInput3() {
-        return null;
+    public Potentiometer getAmplitudePotentiometerInput3() {
+        return (Potentiometer) this.gainInput3;
     }
 
     @Override
-    public Potentiometer getAmmplitudePotentiometerInput4() {
-        return null;
+    public Potentiometer getAmplitudePotentiometerInput4() {
+        return (Potentiometer) this.gainInput4;
     }
+
 }

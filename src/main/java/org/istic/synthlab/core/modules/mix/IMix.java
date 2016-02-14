@@ -10,7 +10,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
  */
 
 /**
- * Interface that define the property of the Mixer
+ * Interface that define the property of the Mix
  * */
 public interface IMix extends Resource{
 
@@ -48,7 +48,7 @@ public interface IMix extends Resource{
      * @param i
      * @return IInput
      */
-    IInput getInputPort(int i);
+    IInput getInputPortByIndex(int i);
 
     /**
      * Return the output of the mixer
@@ -65,9 +65,11 @@ public interface IMix extends Resource{
      */
     void addInputPort(IInput input);
 
-    Potentiometer getAmmplitudePotentiometerInput1();
-    Potentiometer getAmmplitudePotentiometerInput2();
-    Potentiometer getAmmplitudePotentiometerInput3();
-    Potentiometer getAmmplitudePotentiometerInput4();
+    Potentiometer getAmplitudePotentiometerInput1();
 
+    Potentiometer getAmplitudePotentiometerInput2();
+
+    Potentiometer getAmplitudePotentiometerInput3();
+
+    Potentiometer getAmplitudePotentiometerInput4();
 }
