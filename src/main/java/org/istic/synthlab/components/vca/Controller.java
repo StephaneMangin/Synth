@@ -4,7 +4,6 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.components.AbstractController;
@@ -18,16 +17,6 @@ import java.util.ResourceBundle;
  * @author Dechaud John Marc on 2/8/16.
  */
 public class Controller extends AbstractController implements Initializable {
-
-    private final Vca vca = new Vca("VCA " + numInstance++);
-    private static int numInstance = 0;
-
-    @FXML
-    private ImageView input;
-    @FXML
-    private ImageView am;
-    @FXML
-    private ImageView output;
     @FXML
     private Potentiometer gain;
     @FXML
@@ -35,14 +24,14 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private ImageView circleEvent;
     @FXML
-    private ImageView close;
-    @FXML
     private AnchorPane vcaPane;
+
+    private final Vca vca = new Vca("VCA " + numInstance++);
+    private static int numInstance = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        vcaPane.setId("vcaPane"+numInstance);
-        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
+        vcaPane.setId("vcaPane" + numInstance);
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             vca.setAmplitudeModulatorValue((Double) newValue);
@@ -73,7 +62,7 @@ public class Controller extends AbstractController implements Initializable {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void close(){
+    public void close() {
         ConnectionManager.deleteComponent(vca, vcaPane);
     }
 }
