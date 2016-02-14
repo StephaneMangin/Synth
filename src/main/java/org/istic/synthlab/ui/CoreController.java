@@ -1,6 +1,8 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -47,6 +49,11 @@ public class CoreController implements Initializable, IObserver {
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
 
     @FXML
+    private TitledPane componantList;
+    private final double componantListX = 50.0;
+    private final double componantListY = 50.0;
+
+    @FXML
     private BorderPane borderPane;
     @FXML
     private ScrollPane scrollpane;
@@ -76,6 +83,26 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
 
         //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+        componantList.setLayoutX(componantListX);
+        componantList.setLayoutY(componantListY);
+        scrollpane.vvalueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                componantList.relocate(
+                        componantListX,
+                        componantListY + (anchorPane.getHeight() * newValue.doubleValue()) - (scrollpane.getHeight() * newValue.doubleValue())
+                );
+            }
+        });
+        scrollpane.hvalueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                componantList.relocate(
+                        componantListX + (anchorPane.getWidth() * newValue.doubleValue()) - (scrollpane.getWidth() * newValue.doubleValue()),
+                        componantListY
+                );
+            }
+        });
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {

@@ -9,6 +9,12 @@
     <center>
         <ScrollPane fx:id="scrollpane">
             <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0" style="-fx-background-image: url('/ui/images/background.png')">
+
+                <TitledPane fx:id="componantList" collapsible="true" text="Components" prefHeight="400" prefWidth="200">
+                    <ScrollPane fitToHeight="true" fitToWidth="true">
+                        <ListView fx:id="listView" editable="true" />
+                    </ScrollPane>
+                </TitledPane>
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                 </padding>
@@ -35,14 +41,9 @@
             </ToolBar>
         </VBox>
     </top>
-    <left>
-        <SplitPane dividerPositions="1.5" orientation="VERTICAL" prefWidth="130.0" BorderPane.alignment="CENTER">
-            <TitledPane collapsible="false" text="Components">
-                 <ScrollPane fitToHeight="true" fitToWidth="true">
-                     <ListView fx:id="listView" editable="true" />
-                 </ScrollPane>
-            </TitledPane>
-            <TextArea fx:id="textarea" prefWidth="130.0" visible="false" />
+    <bottom>
+        <SplitPane dividerPositions="1.5" orientation="HORIZONTAL" prefHeight="130.0" BorderPane.alignment="CENTER">
+            <TextArea fx:id="textarea" prefHeight="130.0" visible="true" />
         </SplitPane>
-    </left>
+    </bottom>
 </BorderPane>
