@@ -43,22 +43,22 @@ public class Controller implements Initializable{
 
         release.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Release time changed from " + oldValue + " to " + newValue);
-            eg.setRelease((double) newValue);
+            eg.setRelease((Double) newValue);
         });
 
         attack.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Attack changed from " + oldValue + " to " + newValue);
-            eg.setAttack((double) newValue);
+            eg.setAttack((Double) newValue);
         });
 
         sustain.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Sustain changed from " + oldValue + " to " + newValue);
-            eg.setSustain((double) newValue);
+            eg.setSustain((Double) newValue);
         });
 
         decay.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Decay changed from " + oldValue + " to " + newValue);
-            eg.setDecay((double) newValue);
+            eg.setDecay((Double) newValue);
         });
     }
 
@@ -88,5 +88,4 @@ public class Controller implements Initializable{
     public void close() {
         ConnectionManager.deleteComponent(eg, egPane);
     }
-
 }
