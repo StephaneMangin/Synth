@@ -5,9 +5,6 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.components.IComponent;
-import org.istic.synthlab.components.oscilloscope.Oscilloscope;
-import org.istic.synthlab.core.modules.algorithms.IVcoaFrequencyModulator;
-import org.istic.synthlab.core.modules.algorithms.VcoaFrequencyModulator;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
@@ -19,8 +16,12 @@ import org.istic.synthlab.core.modules.io.Output;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.mix.IMix;
+import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.oscilloscope.IOscilloscope;
+import org.istic.synthlab.core.modules.oscilloscope.Oscilloscope;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
 import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
@@ -200,5 +201,9 @@ public class Factory {
 
     public static IOscilloscope createOscilloscope(IComponent component) {
         return new Oscilloscope(component);
+    }
+
+    public static IMix createMixer(IComponent component){
+        return new Mix(component);
     }
 }

@@ -52,4 +52,5 @@ public class AbstractFunction implements IFunction {
     public void setVariableInput(double value) {
         this.unitBinaryOperator.inputB.set(value);
     }
+
 }

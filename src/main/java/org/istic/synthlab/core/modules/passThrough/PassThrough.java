@@ -55,8 +55,6 @@ public class PassThrough implements IPassThrough {
         passThroughIn.output.connect(passThroughOut1.input);
         passThroughIn.output.connect(passThroughOut2.input);
         passThroughIn.output.connect(passThroughOut3.input);
-
-
     }
 
     @Override
