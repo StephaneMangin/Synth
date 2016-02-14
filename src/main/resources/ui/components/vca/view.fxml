@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="330.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
         <Image url="@../../images/closeIcon.png"/>
     </ImageView>
@@ -26,11 +26,11 @@
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 
-    <Label layoutX="250.0" layoutY="140.0" text="Output" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
+    <Label layoutX="280.0" layoutY="140.0" text="Output" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="290.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
 
     <Potentiometer fx:id="amplitude" layoutX="100.0" layoutY="90.0" />
-    <Potentiometer fx:id="gain" layoutX="170.0" layoutY="90.0" />
+    <Potentiometer fx:id="gain" layoutX="200.0" layoutY="90.0" />
 </AnchorPane>
