@@ -155,7 +155,7 @@ public class Controller extends AbstractController implements Initializable {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     @FXML
-    public void close(){
+    public void close() {
         ConnectionManager.deleteComponent(vcoa, vcoaPane);
     }
 
