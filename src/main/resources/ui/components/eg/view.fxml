@@ -1,38 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
-    <children>
+<AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="200.0" prefWidth="380.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
 
-        <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="ADSR">
-            <font>
-                <Font name="System" size="20.0" />
-            </font>
-        </Label>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
+        <Image url="@../../images/closeIconMin.png"/>
+    </ImageView>
 
-        <Label layoutX="286.0" layoutY="64.0" text="Release" />
-        <Potentiometer fx:id="release" layoutX="292.0" layoutY="90.0" />
-        <Label layoutX="181.0" layoutY="64.0" text="Sustain" />
-        <Potentiometer fx:id="sustain" layoutX="187.0" layoutY="90.0" />
-        <Label layoutX="87.0" layoutY="64.0" text="Decay" />
-        <Potentiometer fx:id="decay" layoutX="93.0" layoutY="90.0" />
-        <Label layoutX="4.0" layoutY="64.0" text="Attack" />
-        <Potentiometer fx:id="attack" layoutX="10.0" layoutY="90.0" />
+    <Label layoutX="35.0" layoutY="4.0" styleClass="title" text="EG">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
 
-        <Circle fx:id="gate" onMouseClicked="#connectGate" layoutX="25.0" layoutY="163.0" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
-        <Label layoutX="51.0" layoutY="155.0" prefHeight="16.0" prefWidth="30.0" text="gate" />
+    <Label layoutX="18.0" layoutY="70.0" text="Attack"/>
+    <Potentiometer fx:id="attack" layoutX="22.0" layoutY="90.0"/>
 
-        <Circle fx:id="output"  onMouseClicked="#connectOut" layoutX="312.0" layoutY="165.0" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
-        <Label layoutX="331.0" layoutY="155.0" text="out" />
+    <Label layoutX="118.0" layoutY="70.0" text="Decay"/>
+    <Potentiometer fx:id="decay" layoutX="122.0" layoutY="90.0"/>
 
-        <ImageView fx:id="close" fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
-            <Image url="@../../images/closeIconMin.png"/>
-        </ImageView>
-    </children>
+    <Label layoutX="215.0" layoutY="70.0" text="Sustain"/>
+    <Potentiometer fx:id="sustain" layoutX="222.0" layoutY="90.0"/>
+
+    <Label layoutX="313.0" layoutY="70.0" text="Release"/>
+    <Potentiometer fx:id="release" layoutX="322.0" layoutY="90.0"/>
+
+    <Label layoutX="11.0" layoutY="140.0" text="Gate" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectGate">
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
+
+    <Label layoutX="330.0" layoutY="140.0" text="Output" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="340.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
+        <Image url="@../../images/redSocket.png"/>
+    </ImageView>
 </AnchorPane>
