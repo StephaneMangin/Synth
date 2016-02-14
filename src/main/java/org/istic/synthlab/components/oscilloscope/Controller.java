@@ -2,18 +2,9 @@ package org.istic.synthlab.components.oscilloscope;
 
 import com.jsyn.scope.swing.AudioScopeView;
 import javafx.embed.swing.SwingNode;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.chart.LineChart;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
 
 import java.awt.*;
 import java.net.URL;
@@ -41,7 +32,6 @@ public class Controller extends AbstractController {
         AudioScopeView byuu = (AudioScopeView) this.oscilloscope.getView();
         byuu.setSize(new Dimension(25, 25));
 
-        //this.oscilloscope.activate();
         final SwingNode swingNode = new SwingNode();
         swingNode.setContent(this.oscilloscope.getView());
         pane.getChildren().add(swingNode);

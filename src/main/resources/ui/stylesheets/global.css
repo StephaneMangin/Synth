@@ -1,5 +1,5 @@
 .component {
-    -fx-background-color: #111;
+    -fx-background-color: radial-gradient(center 66% 33%, radius 100%, #444444, #000000);
     -fx-border-color: #000;
     -fx-border-width: 3;
 }
@@ -10,7 +10,7 @@
 
 .rotation-dial {
     -fx-background-radius: 100;
-    -fx-background-color: white;
+    -fx-background-color: black;
 }
 
 .rotation-handle {
