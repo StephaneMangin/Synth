@@ -5,10 +5,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<AnchorPane fx:id="oscilloscopePane" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #DDD;" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
+<AnchorPane fx:id="oscilloscopePane" maxHeight="200.0" maxWidth="300.0" minHeight="200.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: #DDD;" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
     <Group autoSizeChildren="false">
     <Pane>
-   <GridPane fx:id="pane" styleClass="pane" stylesheets="@../../stylesheets/components.css" layoutX="5.0" layoutY="35.0" prefHeight="123.0" prefWidth="290.0">
+   <GridPane fx:id="pane" layoutX="5.0" layoutY="35.0" prefHeight="123.0" prefWidth="290.0">
      <columnConstraints>
        <ColumnConstraints hgrow="NEVER" minWidth="10.0" maxWidth="100.0" />
      </columnConstraints>
@@ -19,7 +19,7 @@
     </Pane>
     </Group>
 
-    <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="Oscilloscope">
+    <Label layoutX="6.0" layoutY="2.0" text="Oscilloscope">
         <font>
          <Font name="System" size="20.0" />
         </font>
