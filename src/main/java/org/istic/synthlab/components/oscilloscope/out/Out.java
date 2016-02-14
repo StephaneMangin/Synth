@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.oscilloscope.out;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
@@ -24,8 +24,8 @@ public class Out extends AbstractComponent {
     }
 
     @Override
-    public void desactivate() {
-        lineOut.desactivate();
+    public void deactivate() {
+        lineOut.deactivate();
     }
 
     @Override
