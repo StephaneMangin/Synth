@@ -1,3 +1,11 @@
 .main {
     -fx-background-image: url('/ui/images/woodTexture.jpg');
 }
+
+.rotation-dial {
+    -fx-background-color: darkorange;
+}
+
+.rotation-handle {
+    -fx-background-color: black;
+}
