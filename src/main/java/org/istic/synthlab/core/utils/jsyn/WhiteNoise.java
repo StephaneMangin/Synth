@@ -7,7 +7,7 @@ import com.jsyn.util.PseudoRandom;
  * Delegates generation to the jsyn WhiteNoise oscillator which does not inherits from UnitOscillators.
  * Needed by the white noise IOscillator modules.
  *
- * by blacknight on 14/02/16.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class WhiteNoise extends UnitOscillator {
     private PseudoRandom randomNum = new PseudoRandom();
