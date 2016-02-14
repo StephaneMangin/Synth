@@ -7,11 +7,11 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="oscilloscopePane" prefHeight="350.0" prefWidth="610.0" style="-fx-background-color: #DDD;" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
+<AnchorPane fx:id="oscilloscopePane" prefHeight="350.0" prefWidth="610.0" style="-fx-background-color: #DDD;" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
    <children>
        <Group autoSizeChildren="false">
           <children>
-          <Pane fx:id="pane" layoutX="5.0" layoutY="35.0" prefHeight="300.0" prefWidth="605.0" styleClass="pane" stylesheets="@../../stylesheets/components.css">
+          <Pane fx:id="pane" layoutX="5.0" layoutY="35.0" prefHeight="300.0" prefWidth="605.0" styleClass="pane">
              <children>
              </children>
           </Pane>

@@ -49,9 +49,9 @@ public class CoreController implements Initializable, IObserver {
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
 
     @FXML
-    private TitledPane componantList;
-    private final double componantListX = 50.0;
-    private final double componantListY = 50.0;
+    private TitledPane componentList;
+    private final double componentListX = 50.0;
+    private final double componentListY = 50.0;
 
     @FXML
     private BorderPane borderPane;
@@ -83,25 +83,19 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
 
         //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
-        componantList.setLayoutX(componantListX);
-        componantList.setLayoutY(componantListY);
-        scrollpane.vvalueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                componantList.relocate(
-                        componantListX,
-                        componantListY + (anchorPane.getHeight() * newValue.doubleValue()) - (scrollpane.getHeight() * newValue.doubleValue())
-                );
-            }
+        componentList.setLayoutX(componentListX);
+        componentList.setLayoutY(componentListY);
+        scrollpane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+            componentList.relocate(
+                    componentListX,
+                    componentListY + (anchorPane.getHeight() * newValue.doubleValue()) - (scrollpane.getHeight() * newValue.doubleValue())
+            );
         });
-        scrollpane.hvalueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                componantList.relocate(
-                        componantListX + (anchorPane.getWidth() * newValue.doubleValue()) - (scrollpane.getWidth() * newValue.doubleValue()),
-                        componantListY
-                );
-            }
+        scrollpane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
+            componentList.relocate(
+                    componentListX + (anchorPane.getWidth() * newValue.doubleValue()) - (scrollpane.getWidth() * newValue.doubleValue()),
+                    componentListY
+            );
         });
 
         anchorPane.setOnDragOver(event -> {
@@ -303,7 +297,7 @@ public class CoreController implements Initializable, IObserver {
             content.putString(view.getId());
             try {
                 final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
-                // FIXEME
+                // FIXME
                 /*if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
                     WritableImage w  = node.snapshot(null,null);
                     content.putImage(w);

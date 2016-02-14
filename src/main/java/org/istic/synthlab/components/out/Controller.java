@@ -3,12 +3,9 @@ package org.istic.synthlab.components.out;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
 import javafx.scene.Node;
-import org.istic.synthlab.components.AbstractController;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
@@ -22,11 +19,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private AnchorPane outPane;
     @FXML
-    private Node input;
-    @FXML
     private Potentiometer amplitude;
-    @FXML
-    private ImageView close;
 
     private Out componentOut = new Out("Out " + numInstance++);
     private static int numInstance = 0;
@@ -38,15 +31,14 @@ public class Controller extends AbstractController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        outPane.setId("outPane"+numInstance);
-        //componentOut.start();
+        outPane.setId("outPane" + numInstance);
+
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
         amplitude.setTitle("Amplitude");
         amplitude.setMinValue(componentOut.getAmModulator().getMin());
         amplitude.setMaxValue(componentOut.getAmModulator().getMax());
-        close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
     }
 
     /**

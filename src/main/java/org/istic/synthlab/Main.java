@@ -15,7 +15,8 @@ public final class Main extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
         final Scene scene = new Scene(root);
-        scene.getStylesheets().add("/ui/stylesheets/components.css");
+        scene.getStylesheets().add("/ui/stylesheets/global.css");
+        scene.getStylesheets().add("/ui/stylesheets/wood.css");
         ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(scene);
