@@ -1,3 +1,7 @@
+.main {
+    -fx-background-image: url('/ui/images/background.png');
+}
+
 .component {
     -fx-position: relative;
     -fx-background-color: #111;
