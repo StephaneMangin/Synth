@@ -38,6 +38,10 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     public RadioButton sawtoothRadio;
     @FXML
+    public RadioButton redNoiseRadio;
+    @FXML
+    public RadioButton whiteNoiseRadio;
+    @FXML
     private ImageView oscillatorImage;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
@@ -60,6 +64,8 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeImpulse(1);
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
+        vcoa.setAmplitudeRedNoise(1);
+        vcoa.setAmplitudeWhiteNoise(1);
         vcoa.setExponentialFrequency(440);
 
         // Configure exponential potentiometer
@@ -90,11 +96,15 @@ public class Controller extends AbstractController implements Initializable {
         squareRadio.setToggleGroup(groupRadio);
         triangleRadio.setToggleGroup(groupRadio);
         sawtoothRadio.setToggleGroup(groupRadio);
+        redNoiseRadio.setToggleGroup(groupRadio);
+        whiteNoiseRadio.setToggleGroup(groupRadio);
 
         sineRadio.setUserData("sineWave");
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
         sawtoothRadio.setUserData("sawtoothWave");
+        redNoiseRadio.setUserData("rednoiseWave");
+        whiteNoiseRadio.setUserData("whitenoiseWave");
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
@@ -114,6 +124,12 @@ public class Controller extends AbstractController implements Initializable {
                         break;
                     case "sawtoothWave":
                         vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
+                        break;
+                    case "rednoiseWave":
+                        vcoa.setOscillatorType(OscillatorType.REDNOISE);
+                        break;
+                    case "whitenoiseWave":
+                        vcoa.setOscillatorType(OscillatorType.WHITENOISE);
                         break;
                     default:
                         break;
