@@ -45,12 +45,18 @@ public class Controller extends AbstractController implements Initializable {
         close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vca.setAmplitudeModulatorValue((Double) newValue);
+            vca.getAmplitudeModulator().setValue((Double) newValue);
         });
+        amplitude.setTitle("Amplitude");
+        amplitude.setMinValue(vca.getAmplitudeModulator().getMin());
+        amplitude.setMaxValue(vca.getAmplitudeModulator().getMax());
 
         gain.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vca.setGainModulatorValue((Double) newValue);
+            vca.getAmplitudeModulator().setValue((Double) newValue);
         });
+        gain.setTitle("Gain");
+        gain.setMinValue(vca.getAmplitudeModulator().getMin());
+        gain.setMaxValue(vca.getAmplitudeModulator().getMax());
     }
 
     @FXML

@@ -127,7 +127,7 @@ public class BasicChainTest {
         vcoa2.activate();
         vcoa2.setAmplitudeSquare(1);
         vcoa2.setExponentialFrequency(200);
-        vca.setGainModulatorValue(0.0);
+        vca.getAmplitudeModulator().setValue(0.0);
 
         vcoa.getOutput().connect(vca.getInput());
         //vcoa2.getOutput().connect(vca.getAm());
@@ -249,10 +249,10 @@ public class BasicChainTest {
         Out myOut = new Out("OUT1");
         myOut.getAmModulator().setValue(1.0);
 
-        envelope.setAttack(0.2);
-        envelope.setDecay(0.2);
-        envelope.setRelease(1);
-        envelope.setSustain(0.1);
+        envelope.getAttackPotentiometer().setValue(0.2);
+        envelope.getDecayPotentiometer().setValue(0.2);
+        envelope.getReleasePotentiometer().setValue(1);
+        envelope.getSustainPotentiometer().setValue(0.1);
         envelope.activate();
 
         // we create the first sine  oscillator that will be connected to the input gate of EG
@@ -296,12 +296,12 @@ public class BasicChainTest {
         synth.sleepFor(5);
 
         //System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
-        envelope.setAttack(0.5);
+        envelope.getAttackPotentiometer().setValue(0.5);
         synth.sleepFor(5);
 
         //System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
-        envelope.setAttack(0.2);
-        envelope.setDecay(1);
+        envelope.getAttackPotentiometer().setValue(0.2);
+        envelope.getDecayPotentiometer().setValue(1);
         synth.sleepFor(5);
 
 

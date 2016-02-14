@@ -69,17 +69,29 @@ public class Controller extends AbstractController implements Initializable {
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(440);
 
+        // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((Double) newValue);
         });
+        expFrequency.setTitle("Exp. Freq.");
+        expFrequency.setMinValue(vcoa.getExponentialFrequencyMin());
+        expFrequency.setMaxValue(vcoa.getExponentialFrequencyMax());
 
+        // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((Double) newValue);
         });
+        linFrequency.setTitle("Linear Freq.");
+        linFrequency.setMinValue(vcoa.getLinearFrequencyMin());
+        linFrequency.setMaxValue(vcoa.getLinearFrequencyMax());
 
+        // Configure amplitude potentiometer
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setAmplitudeOscillator((Double) newValue);
         });
+        amplitude.setTitle("Amp.");
+        amplitude.setMinValue(vcoa.getAmplitudeOscillatorMin());
+        amplitude.setMaxValue(vcoa.getAmplitudeOscillatorMax());
 
         sineRadio.setToggleGroup(groupRadio);
         squareRadio.setToggleGroup(groupRadio);

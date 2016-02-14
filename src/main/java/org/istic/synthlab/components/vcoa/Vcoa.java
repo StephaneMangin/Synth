@@ -467,4 +467,14 @@ public class Vcoa extends AbstractComponent {
     public IOutput getRedNoiseOutput() {
         return redNoiseOscillator.getOutput();
     }
+
+    public double getAmplitudeOscillator() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getValue();
+    }
+    public double getAmplitudeOscillatorMax() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getMax();
+    }
+    public double getAmplitudeOscillatorMin() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getMin();
+    }
 }

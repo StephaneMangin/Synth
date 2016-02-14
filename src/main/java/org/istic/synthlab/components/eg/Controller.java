@@ -59,21 +59,35 @@ public class Controller implements Initializable{
 
         release.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Release time changed from " + oldValue + " to " + newValue);
-            eg.setRelease((double) newValue);
+            eg.getReleasePotentiometer().setValue((double) newValue);
         });
+        release.setTitle("Release");
+        release.setMinValue(eg.getReleasePotentiometer().getMin());
+        release.setMaxValue(eg.getReleasePotentiometer().getMax());
 
         attack.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Attack changed from " + oldValue + " to " + newValue);
-            eg.setAttack((double) newValue);
+            eg.getAttackPotentiometer().setValue((double) newValue);
         });
+        attack.setTitle("Attack");
+        attack.setMinValue(eg.getAttackPotentiometer().getMin());
+        attack.setMaxValue(eg.getAttackPotentiometer().getMax());
+
         sustain.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Sustain changed from " + oldValue + " to " + newValue);
-            eg.setSustain((double) newValue);
+            eg.getSustainPotentiometer().setValue((double) newValue);
         });
+        sustain.setTitle("Sustain");
+        sustain.setMinValue(eg.getSustainPotentiometer().getMin());
+        sustain.setMaxValue(eg.getSustainPotentiometer().getMax());
+
         decay.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Decay changed from " + oldValue + " to " + newValue);
-            eg.setDecay((double) newValue);
+            eg.getDecayPotentiometer().setValue((double) newValue);
         });
+        decay.setTitle("Decay");
+        decay.setMinValue(eg.getDecayPotentiometer().getMin());
+        decay.setMaxValue(eg.getDecayPotentiometer().getMax());
     }
 
     /**

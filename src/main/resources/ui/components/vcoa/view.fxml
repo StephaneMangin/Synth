@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="vcoaPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane fx:id="vcoaPane"
             prefHeight="230.0" prefWidth="350.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
     <Label layoutX="35.0" layoutY="2.0" styleClass="title" text="VCOA">
@@ -20,13 +20,10 @@
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 
-    <Label layoutX="200.0" layoutY="10.0" text="Exp Frequency" textAlignment="CENTER"/>
     <Potentiometer fx:id="expFrequency" layoutX="225.0" layoutY="30.0"/>
 
-    <Label layoutX="200.0" layoutY="70.0" text="Lin Frequency" textAlignment="CENTER"/>
     <Potentiometer fx:id="linFrequency" layoutX="225.0" layoutY="90.0"/>
 
-    <Label layoutX="205.0" layoutY="130.0" text="Amplitude" textAlignment="CENTER"/>
     <Potentiometer fx:id="amplitude" layoutX="225.0" layoutY="150.0"/>
 
     <Label layoutX="300.0" layoutY="170.0" text="Output"/>

@@ -10,6 +10,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import org.istic.synthlab.ui.ConnectionManager;
 
@@ -25,7 +26,7 @@ public class Controller implements Initializable {
     @FXML
     private AnchorPane oscilloscopePane;
     @FXML
-    private GridPane pane;
+    private Pane pane;
     @FXML
     public Group swingNodeGroup;
     @FXML
@@ -56,7 +57,7 @@ public class Controller implements Initializable {
         //this.oscilloscope.activate();
         final SwingNode swingNode = new SwingNode();
         swingNode.setContent(this.oscilloscope.getView());
-        pane.add(swingNode, 0, 0);
+        pane.getChildren().add(swingNode);
     }
 
     /**

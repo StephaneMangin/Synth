@@ -43,7 +43,9 @@ public class Controller extends AbstractController implements Initializable {
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
-        amplitude.setValue(0);
+        amplitude.setTitle("Amplitude");
+        amplitude.setMinValue(componentOut.getAmModulator().getMin());
+        amplitude.setMaxValue(componentOut.getAmModulator().getMax());
         close.setStyle("-fx-background-image: url('/ui/images/closeIconMin.png');-fx-background-color: white;");
     }
 
