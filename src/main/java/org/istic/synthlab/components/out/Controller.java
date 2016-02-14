@@ -19,7 +19,7 @@ public class Controller extends AbstractController {
     @FXML
     private Potentiometer amplitude;
 
-    private Out componentOut = new Out("Out");
+    private Out componentOut = new Out("Line Out");
 
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent

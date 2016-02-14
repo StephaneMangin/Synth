@@ -26,7 +26,7 @@ public class Controller extends AbstractController {
     @FXML
     private Potentiometer decay;
 
-    private Eg eg = new Eg("EG");
+    private Eg eg = new Eg("Envelope Generator");
 
     /**
      * Called to initialize a controller after its root element has been

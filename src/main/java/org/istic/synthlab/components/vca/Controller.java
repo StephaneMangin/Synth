@@ -23,7 +23,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Potentiometer amplitude;
 
-    private Vca vca = new Vca("VCA");
+    private Vca vca = new Vca("Voltage Controled Amplifier");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

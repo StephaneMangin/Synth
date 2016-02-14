@@ -44,7 +44,7 @@ public class Controller extends AbstractController {
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
-    private Vcoa vcoa = new Vcoa("VCOA");
+    private Vcoa vcoa = new Vcoa("Voltage Controled Oscillator Amplifier");
 
     /**
      * When the component is created, it initialize the component representation and adding listener and MouseEvent
