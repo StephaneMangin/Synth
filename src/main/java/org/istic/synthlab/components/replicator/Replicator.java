@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.replicator;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
@@ -10,18 +10,27 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
+ * this class represents the Replicator module
+ *
+ * It links an output port to 3 input ports (such as a power strip)
  */
 public class Replicator extends AbstractComponent {
 
     private IPassThrough passThrough;
 
+    /*
+    * the first replicated output
+    */
     private IModulator outputModulatorReplicated1;
+    /*
+    * the second replicated output
+    */
     private IModulator outputModulatorReplicated2;
 
     /**
-     * Instantiates a new component.
+     * Instantiates a new replicator.
      *
-     * @param name the name
+     * @param name String
      */
     public Replicator(String name) {
         super(name);
@@ -30,12 +39,12 @@ public class Replicator extends AbstractComponent {
         outputModulatorReplicated1 = Factory.createModulator(
                 "modOut1", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
 
         outputModulatorReplicated2 = Factory.createModulator(
                 "modOut2", this,
                 ModulatorType.AMPLITUDE,
-                PotentiometerType.EXPONENTIAL);
+                PotentiometerType.LINEAR);
 
         getSource().connect(passThrough.getInput());
         passThrough.getOutput1().connect(getSink());

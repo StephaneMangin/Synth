@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.envelope;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
@@ -9,17 +9,37 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
+ * The class EnvelopeDAHDSR
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
+ *
+ * Six stage envelope similar to an ADSR.
+ * DAHDSR is like an ADSR but with an additional Delay stage before the attack,and a Hold stage after the Attack.
+ * If Delay and Hold are both set to zero then it will act like an ADSR.
+ * The envelope is triggered when the input goes above threshold.
+ * The envelope is released when the input goes below threshold.
+ * The input signal go from 0 to 1.
  */
 public class EnvelopeDAHDSR implements IEnvelopeDAHDSR {
 
+    /*
+     * the jsyn DAHDSR envelope
+     */
     private com.jsyn.unitgen.EnvelopeDAHDSR envelope;
 
+    /*
+     * the input port of the envelope
+     */
     private IInput input;
+    /*
+     * the output port of the envelope
+     */
     private IOutput output;
 
     private Potentiometer amplitudePotentiometer;
 
+    /*
+    * all the parameters of the envelope
+    */
     private Potentiometer delayPotentiometer;
     private Potentiometer attackPotentiometer;
     private Potentiometer holdPotentiometer;

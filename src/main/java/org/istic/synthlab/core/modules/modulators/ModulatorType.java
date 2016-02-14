@@ -14,5 +14,5 @@ public enum ModulatorType {
     VOLUME,
     VCOA,
     VCA,
-    PHASE
+    BYPASS, PHASE
 }

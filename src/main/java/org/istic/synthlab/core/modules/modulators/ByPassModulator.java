@@ -1,6 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterAllPass;
+import com.jsyn.unitgen.Multiply;
+import com.jsyn.unitgen.PassThrough;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -10,29 +11,21 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Create an abstraction to manage a gain potentiometer throught a filterAllpass
+ * Create an abstraction to manage an bypass throught a PassThrough
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class GainModulator extends AbstractModulator {
-    private FilterAllPass filter;
+public class ByPassModulator extends AbstractModulator {
+    private PassThrough bypass;
 
-    public GainModulator(String name, IComponent component, PotentiometerType potentiometerType) {
+    public ByPassModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        filter = new FilterAllPass();
-        potentiometer = new Potentiometer(
-                "Gain",
-                filter.gain,
-                potentiometerType,
-                1D,
-                0D,
-                0.8D
-        );
+        bypass = new PassThrough();
 
         // Declare the relation to the mapping
-        Register.declare(component, this.filter);
-        input = Factory.createInput(name + "::gainIn", component, filter.input);
-        output = Factory.createOutput(name + "::gainOut", component, filter.output);
+        Register.declare(component, bypass);
+        input = Factory.createInput(name + "::bpIn", component, bypass.input);
+        output = Factory.createOutput(name + "::bpOut", component, bypass.output);
     }
 
     @Override
@@ -57,17 +50,17 @@ public class GainModulator extends AbstractModulator {
 
     @Override
     public void activate() {
-        filter.setEnabled(true);
+        bypass.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
-        filter.setEnabled(false);
+        bypass.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return filter.isEnabled();
+        return bypass.isEnabled();
     }
 
 }

@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 /**
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
+ * Module Replicator Tester.
  */
 public class ReplicatorTest {
 
@@ -54,5 +55,10 @@ public class ReplicatorTest {
     public void testGetOutputReplicated2() throws Exception {
         assertNotNull(replicator.getOutputReplicated2());
         assertEquals(replicator, Register.getComponent(replicator.getOutputReplicated2()));
+    }
+
+    @Test
+    public void testGetPassThrough() throws Exception {
+        assertNotNull(replicator.getPassThrough());
     }
 }

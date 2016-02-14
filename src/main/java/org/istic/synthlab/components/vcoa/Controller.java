@@ -3,14 +3,16 @@ package org.istic.synthlab.components.vcoa;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.istic.synthlab.components.AbstractController;
 import javafx.scene.layout.AnchorPane;
-import org.istic.synthlab.core.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
@@ -113,6 +115,8 @@ public class Controller extends AbstractController implements Initializable {
                 }
             }
         });
+
+
 
         squareRadio.setSelected(true);
     }
