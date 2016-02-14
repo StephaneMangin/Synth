@@ -16,19 +16,23 @@
         </font>
     </Label>
 
+    <Label layoutX="10.0" layoutY="68.0" text="Input" />
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="14.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
         <Image url="@../../images/blueSocket.png"/>
     </ImageView>
 
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput1">
+    <Label layoutX="235.0" layoutY="10.0" text="Output 1"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput2">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
 
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput2">
+    <Label layoutX="235.0" layoutY="68.0" text="Output 2"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput1">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
 
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput3">
+    <Label layoutX="235.0" layoutY="126.0" text="Output 3"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="260.0" layoutY="146.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput3">
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
 </AnchorPane>
