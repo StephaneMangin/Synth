@@ -1,0 +1,20 @@
+.component {
+    -fx-background-color: radial-gradient(center 66% 33%, radius 100%, #444444, #000000);
+    -fx-border-color: #000;
+    -fx-border-width: 3;
+}
+
+.component Label, .component RadioButton {
+    -fx-text-fill: #DDD;
+}
+
+.rotation-dial {
+    -fx-background-radius: 100;
+    -fx-background-color: black;
+}
+
+.rotation-handle {
+    -fx-background-color: darkgray;
+    -fx-background-insets: 17 1 17 22;
+    -fx-background-radius: 5;
+}

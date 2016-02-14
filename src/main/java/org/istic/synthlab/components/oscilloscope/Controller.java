@@ -2,16 +2,9 @@ package org.istic.synthlab.components.oscilloscope;
 
 import com.jsyn.scope.swing.AudioScopeView;
 import javafx.embed.swing.SwingNode;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.chart.LineChart;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Circle;
-import org.istic.synthlab.ui.ConnectionManager;
+import javafx.scene.layout.Pane;
+import org.istic.synthlab.components.AbstractController;
 
 import java.awt.*;
 import java.net.URL;
@@ -19,26 +12,14 @@ import java.util.ResourceBundle;
 
 /**
  * @author Sebastien
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Controller implements Initializable {
+public class Controller extends AbstractController {
 
     @FXML
-    private AnchorPane oscilloscopePane;
-    @FXML
-    private GridPane pane;
-    @FXML
-    public Group swingNodeGroup;
-    @FXML
-    private Circle input;
-    @FXML
-    private Circle output;
-    @FXML
-    private Circle circleEvent;
-    @FXML
-    private LineChart chart;
+    private Pane pane;
 
-    private static int numInstance      = 0;
-    private Oscilloscope oscilloscope   = new Oscilloscope("Visualizer"+numInstance++);
+    private Oscilloscope oscilloscope   = new Oscilloscope("Visualizer");
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -46,45 +27,15 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        oscilloscopePane.setId("oscilloscopePane"+numInstance);
-        input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
-        output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
+        super.initialize(location, resources);
+        configure(oscilloscope);
 
         AudioScopeView byuu = (AudioScopeView) this.oscilloscope.getView();
         byuu.setSize(new Dimension(25, 25));
 
-        //this.oscilloscope.activate();
         final SwingNode swingNode = new SwingNode();
         swingNode.setContent(this.oscilloscope.getView());
-        pane.add(swingNode, 0, 0);
-    }
-
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the output variable
-     */
-    @FXML
-    public void connectOut(){
-        ConnectionManager.makeOrigin(oscilloscope, circleEvent, oscilloscope.getOutput());
-    }
-
-    /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
-     * with the input variable
-     */
-    @FXML
-    public void connectIn(){
-        ConnectionManager.makeDestination(oscilloscope, circleEvent, oscilloscope.getInput());
-    }
-
-    /**
-     * Get the object clicked in the view and cast it into a Circle object
-     */
-    private class GetIdWithClick implements EventHandler<MouseEvent> {
-        @Override
-        public void handle(MouseEvent event) {
-            circleEvent = (Circle)event.getSource();
-        }
+        pane.getChildren().add(swingNode);
     }
 
 }

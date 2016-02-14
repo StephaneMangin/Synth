@@ -79,6 +79,8 @@ public class Factory {
                 return new ImpulseOscillator(component);
             case REDNOISE:
                 return new RedNoiseOscillator(component);
+            case WHITENOISE:
+                return new WhiteNoiseOscillator(component);
             default:
                 return new SineOscillator(component);
         }

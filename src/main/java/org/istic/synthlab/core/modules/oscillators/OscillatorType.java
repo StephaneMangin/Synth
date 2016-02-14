@@ -13,5 +13,5 @@ public enum OscillatorType {
     TRIANGLE,
     SQUARE,
     REDNOISE,
-    IMPULSE
+    WHITENOISE, IMPULSE
 }

@@ -7,12 +7,14 @@ import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
+import org.istic.synthlab.ui.controls.Potentiometer;
 
 /**
  * @author Dechaud John Marc on 2/8/16.
  * this class represents the VCA (Voltage Controlled Amplifier)  module
  *
  * It controls the amplitude of an incoming signal according to another modulating signal.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Vca extends AbstractComponent {
 
@@ -60,20 +62,8 @@ public class Vca extends AbstractComponent {
         return vcaModulator.isActivated();
     }
 
-    public double getAmplitudeModulatorValue() {
-        return vcaModulator.getValue();
-    }
-
-    public void setAmplitudeModulatorValue(final double value) {
-        vcaModulator.setValue(value);
-    }
-
-    public double getGainModulatorValue() {
-        return vcaModulator.getValue();
-    }
-
-    public void setGainModulatorValue(final double value) {
-        vcaModulator.setValue(value);
+    public IModulator getAmplitudeModulator() {
+        return vcaModulator;
     }
 
 }

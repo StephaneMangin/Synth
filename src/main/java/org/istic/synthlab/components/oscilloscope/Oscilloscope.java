@@ -11,6 +11,7 @@ import javax.swing.*;
  * This class represents the oscilloscope module
  * It displays a signal for analysis
  *
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 
 public class Oscilloscope extends AbstractComponent {
@@ -30,7 +31,9 @@ public class Oscilloscope extends AbstractComponent {
         getSource().connect(getSink());
     }
 
-
+    /*
+    * This methods shows the oscilloscope view
+    */
     public JPanel getView() {
         this.activate();
         return this.visualizer.getView();

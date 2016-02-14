@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -22,15 +23,22 @@ import java.io.IOException;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Potentiometer extends Pane {
+
     @FXML
-    public Button rotatorDial;
+    private Label title;
     @FXML
-    public Button rotatorHandle;
+    private Label maxValue;
+    @FXML
+    private Label minValue;
+    @FXML
+    private Button rotatorDial;
+    @FXML
+    private Button rotatorHandle;
 
     private static final double HEIGHT = 36;
     private static final double WIDTH = 36;
-    private static final double MIN = -140;
-    private static final double MAX = 140;
+    private static final double MIN = -230;
+    private static final double MAX = 50;
 
     private final DoubleProperty value = new SimpleDoubleProperty(0);
 
@@ -61,9 +69,8 @@ public class Potentiometer extends Pane {
 
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);
-        setRotate(-90); // Because we want 0 to be at the bottom to simplify some calculations
-        //rotatorDial.setOnMouseEntered(new MaximiseEventHandler());
-        //rotatorHandle.setOnMouseEntered(new MaximiseEventHandler());
+        rotatorDial.setOnMouseEntered(new MaximiseEventHandler());
+        rotatorHandle.setOnMouseEntered(new MaximiseEventHandler());
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
         rotatorDial.setOnScroll(new ScrollKnobEventHandler());
         rotateHandle(MIN);
@@ -96,7 +103,7 @@ public class Potentiometer extends Pane {
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
         @Override
         public void handle(final ScrollEvent event) {
-            rotateHandle(rotatorHandle.getRotate() + 10 * Math.signum(event.getDeltaY()));
+            rotateHandle(rotatorHandle.getRotate() + 5 * Math.signum(event.getDeltaY()));
             event.consume();
         }
     }
@@ -148,9 +155,23 @@ public class Potentiometer extends Pane {
      * @param degrees The angle to which the handle will be rotated, relative to the start position, not the current one
      */
     private void rotateHandle(final double degrees) {
+        System.out.println(degrees);
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
-            setValue((degrees-MIN) / (MAX-MIN));
+            System.out.println((degrees-(MIN)) / (MAX-MIN));
+            setValue((degrees-(MIN)) / (MAX-MIN));
         }
+    }
+
+    public void setTitle(String value) {
+        title.setText(value);
+    }
+
+    public void setMaxValue(double value) {
+        maxValue.setText(Double.toString(value));
+    }
+
+    public void setMinValue(double value) {
+        minValue.setText(Double.toString(value));
     }
 }

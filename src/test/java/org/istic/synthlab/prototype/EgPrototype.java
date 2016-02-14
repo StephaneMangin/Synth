@@ -24,13 +24,13 @@ public class EgPrototype {
         out = new Out("OUT");
         vcoa = new Vcoa("VCOA");
 
-        eg.setAmplitude(1.0);
-        eg.setDelay(0.0);
-        eg.setAttack(0.2);
-        eg.setHold(1.0);
-        eg.setDecay(1.0);
-        eg.setRelease(2.0);
-        eg.setSustain(0.4);
+        eg.getAmplitudePotentiometer().setValue(1.0);
+        eg.getDelayPotentiometer().setValue(0.0);
+        eg.getAttackPotentiometer().setValue(0.2);
+        eg.getHoldPotentiometer().setValue(1.0);
+        eg.getDecayPotentiometer().setValue(1.0);
+        eg.getReleasePotentiometer().setValue(2.0);
+        eg.getSustainPotentiometer().setValue(0.4);
 
         vcoa.setExponentialFrequency(200);
         vcoa.setAmplitudeSine(1.0);
@@ -47,7 +47,7 @@ public class EgPrototype {
         synth.sleepFor(3.0);
 
         eg.getInput().getUnitInputPort().set(0.0);
-        eg.setAmplitude(0.0);
+        eg.getAmplitudePotentiometer().setValue(0.0);
         vcoa.setAmplitudeSine(0.0);
         System.out.println("PROC");
         System.out.println(eg.getOutput().getUnitOutputPort().getValue());

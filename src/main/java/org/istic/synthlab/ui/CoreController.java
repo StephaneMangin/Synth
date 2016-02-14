@@ -1,6 +1,8 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -17,7 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -46,6 +47,11 @@ import java.util.stream.Collectors;
 public class CoreController implements Initializable, IObserver {
     // Be sure there's never a component named like this for this to work
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
+
+    @FXML
+    private TitledPane componentList;
+    private final double componentListX = 50.0;
+    private final double componentListY = 50.0;
 
     @FXML
     private BorderPane borderPane;
@@ -77,6 +83,20 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
 
         //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
+        componentList.setLayoutX(componentListX);
+        componentList.setLayoutY(componentListY);
+        scrollpane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+            componentList.relocate(
+                    componentListX,
+                    componentListY + (anchorPane.getHeight() * newValue.doubleValue()) - (scrollpane.getHeight() * newValue.doubleValue())
+            );
+        });
+        scrollpane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
+            componentList.relocate(
+                    componentListX + (anchorPane.getWidth() * newValue.doubleValue()) - (scrollpane.getWidth() * newValue.doubleValue()),
+                    componentListY
+            );
+        });
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -105,6 +125,7 @@ public class CoreController implements Initializable, IObserver {
                     }
                 }
                 assert component != null;
+
                 component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
                 component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
                 event.setDropCompleted(true);
@@ -196,7 +217,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "Eg", "vca"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
@@ -276,7 +297,7 @@ public class CoreController implements Initializable, IObserver {
             content.putString(view.getId());
             try {
                 final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
-                // FIXEME
+                // FIXME
                 /*if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
                     WritableImage w  = node.snapshot(null,null);
                     content.putImage(w);
