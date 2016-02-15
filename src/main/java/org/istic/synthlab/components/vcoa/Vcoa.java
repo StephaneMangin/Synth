@@ -31,16 +31,12 @@ public class Vcoa extends AbstractComponent {
     private IOscillator redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
     private IOscillator whiteNoiseOscillator = Factory.createOscillator(this, OscillatorType.WHITENOISE);
     private IOscillator defaultOscillator;
-    private IModulator exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
-    private IModulator linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
+    private IModulator exponentialModulator = Factory.createModulator("Expl. Freq.", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
+    private IModulator linearModulator = Factory.createModulator("Linear Freq.", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
     private double amplitudeValue;
 
     public Vcoa(String name) {
         super(name);
-
-        exponentialModulator = Factory.createModulator("Exp. Freq.", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
-        linearModulator = Factory.createModulator("Linear Freq.", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
-
         getSourceFm().connect(exponentialModulator.getInput());
         exponentialModulator.getOutput().connect(linearModulator.getInput());
         setDefaultOscillator(sineOscillator);

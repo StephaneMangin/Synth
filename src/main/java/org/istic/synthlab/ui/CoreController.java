@@ -1,8 +1,6 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -17,8 +15,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -291,18 +295,19 @@ public class CoreController implements Initializable, IObserver {
         @Override
         public void handle(final MouseEvent event) {
             final Pane pane = (Pane) event.getSource();
-            ImageView view = (ImageView) pane.getChildren().get(0);
+            final ImageView view = (ImageView) pane.getChildren().get(0);
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
             try {
                 final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
-                // FIXME
-                /*if(!(pane.getChildren().get(0).getId() == "oscilloscope")){
-                    WritableImage w  = node.snapshot(null,null);
-                    content.putImage(w);
-                }*/
-            } catch (IOException e) {
+
+                // Temporarily add the node to the pane so the CSS is applied
+                anchorPane.getChildren().add(node);
+                final WritableImage w  = node.snapshot(null,null);
+                anchorPane.getChildren().remove(node);
+                content.putImage(w);
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
             db.setContent(content);
@@ -319,8 +324,9 @@ public class CoreController implements Initializable, IObserver {
             final Node node = (Node) event.getSource();
             final Dragboard db = node.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
-            WritableImage w  = node.snapshot(null,null);
-            content.putImage(w);
+
+            final WritableImage image = node.snapshot(null, null);
+            content.putImage(image);
 
             content.putString(DRAG_N_DROP_MOVE_GUARD);
             db.setContent(content);

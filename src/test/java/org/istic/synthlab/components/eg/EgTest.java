@@ -155,7 +155,7 @@ public class EgTest extends TestCase {
     }
 
     public void testGetSustain() throws Exception {
-        assertEquals(0.5,envelope.getSustainPotentiometer().getValue(),DELTA);
+        assertEquals(0.0,envelope.getSustainPotentiometer().getValue(),DELTA);
     }
 
     public void testGetSustainMax() throws Exception {

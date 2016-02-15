@@ -1,11 +1,9 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
-import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * Create an abstraction to manage a potentiometer throught an internal logic
@@ -63,7 +61,7 @@ public abstract class AbstractModulator implements IModulator {
     }
 
     public double getRawValue() {
-        return potentiometer.getOriginalValue();
+        return potentiometer.getRawValue();
     }
 
     public double getValue() {

@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * The Abstract controller which abstracts componants connections
+ * The Abstract controller which abstracts components connections
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -55,7 +55,7 @@ public abstract class AbstractController implements IController {
      * Method call when the close button is clicked.
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
-    public void close(){
+    public void close() {
         ConnectionManager.deleteComponent(component, anchorPane);
     }
 
