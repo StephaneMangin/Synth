@@ -13,14 +13,14 @@ public class VcaAmplitudeModulator extends AbstractModulator {
     public VcaAmplitudeModulator(String name, IComponent component, PotentiometerType type) {
         super(name, component);
         function = new VcaFunction();
-        potentiometer = new Potentiometer(
+        setPotentiometer(new Potentiometer(
                 "Amplitude",
                 function.inputB,
                 type,
                 2D,
                 0.0,
                 0.0
-        );
+        ));
 
         // Declare the relation to the mapping
         Register.declare(component, this.function);

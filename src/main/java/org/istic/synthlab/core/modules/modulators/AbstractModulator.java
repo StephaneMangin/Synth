@@ -8,13 +8,39 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Create an abstraction to manage a potentiometer throught a filterAllpass
+ * Create an abstraction to manage a potentiometer throught an internal logic
+ *
+ * 'Abstract Modulator' representation
+ * -----------------------------------
+ *
+ *        External View
+ *        +---------------------------------------------------------------+
+ *        |                 +-------------------------------+             |
+ *      +-+-+               |                               |           +-+-+
+ * input|   +---------------> Internal logic                +----------->   | Output
+ *      +-+-+               |                               |           +-+-+
+ *        |                 |                               |             |
+ *        |                 |                               |             |
+ *        |           +-----+                               |             |
+ *        |           |     |                               |             |
+ *        |           |     +-------------------------------+             |
+ *        |           |                                                   |
+ *        |           |setPotentiometer                                   |
+ *        |         +-v-------------------+                               |
+ *        |         |                     |                               |
+ *        |         | Potentiometer       |                               |
+ *        |         |                     +-----------------------------------> getPotentiometer
+ *        |         |                     |                               |
+ *        |         +---------------------+                               |
+ *        |                                                               |
+ *        +---------------------------------------------------------------+
+ *                                        Made with : http://asciiflow.com/
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public abstract class AbstractModulator implements IModulator {
-    protected final IComponent component;
-    protected Potentiometer potentiometer;
+    private final IComponent component;
+    private Potentiometer potentiometer;
     protected IOutput output;
     protected IInput input;
     private final String name;
@@ -35,44 +61,39 @@ public abstract class AbstractModulator implements IModulator {
     }
 
     @Override
-    public double getOriginalValue() {
+    public String getName() {
+        return this.name;
+    }
+
+    public double getRawValue() {
         return potentiometer.getOriginalValue();
     }
-    @Override
+
     public double getValue() {
         return potentiometer.getValue();
     }
 
-    @Override
     public void setValue(double value) {
         potentiometer.setValue(value);
     }
 
-    public String getName() {
-        return this.name;
-    }
-    
-    public Potentiometer getPotentiometer() {
-        return potentiometer;
-    }
-
-    @Override
     public double getMax() {
         return potentiometer.getMax();
     }
 
-    @Override
     public double getMin() {
         return potentiometer.getMin();
     }
 
-    @Override
+    public void setMax(double value) {
+        potentiometer.setMax(value);
+    }
+
     public void setMin(double value) {
         potentiometer.setMin(value);
     }
 
-    @Override
-    public void setMax(double value) {
-        potentiometer.setMax(value);
+    protected void setPotentiometer(Potentiometer potentiometer) {
+        this.potentiometer = potentiometer;
     }
 }

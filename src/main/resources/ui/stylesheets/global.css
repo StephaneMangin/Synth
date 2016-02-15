@@ -4,6 +4,13 @@
     -fx-border-width: 3;
 }
 
+.component .vcoaFrequency {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000, #222);
+    -fx-border-color: #000;
+    -fx-border-width: 2;
+    color: #FFF;
+}
+
 .component Label, .component RadioButton {
     -fx-text-fill: #DDD;
 }

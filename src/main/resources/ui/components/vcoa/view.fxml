@@ -24,6 +24,11 @@
                <Font name="System" size="20.0" />
            </font>
        </Label>
+       <Label fx:id="frequency" prefWidth="140" layoutY="5.0" layoutX="350.0" nodeOrientation="RIGHT_TO_LEFT"  styleClass="vcoaFrequency">
+           <font>
+               <Font name="System" size="30"></Font>
+           </font>
+       </Label>
    
        <Label layoutX="17.0" layoutY="170.0" text="FM" />
        <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="190.0" onMouseClicked="#connectInputFm" pickOnBounds="true" preserveRatio="true">

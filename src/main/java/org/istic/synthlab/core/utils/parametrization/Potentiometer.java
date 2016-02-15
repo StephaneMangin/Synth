@@ -55,6 +55,11 @@ public class Potentiometer extends GenericsParam<Double> {
         }
     }
 
+    /**
+     * Returns the unconverted value
+     *
+     * @return Double
+     */
     public Double getOriginalValue() {
         return value;
     }

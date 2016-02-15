@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -41,6 +42,8 @@ public class Controller extends AbstractController {
     public RadioButton whiteNoiseRadio;
     @FXML
     private ImageView oscillatorImage;
+    @FXML
+    private Label frequency;
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
@@ -69,26 +72,26 @@ public class Controller extends AbstractController {
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((Double) newValue);
+            frequency.setText(String.valueOf((int)vcoa.getFrequency()) + "Hz");
         });
         expFrequency.setTitle("Exp. Freq.");
-        expFrequency.setMinValue(vcoa.getExponentialFrequencyMin());
-        expFrequency.setMaxValue(vcoa.getExponentialFrequencyMax());
+        expFrequency.setMinValue("0Hz");
+        expFrequency.setMaxValue("20KHz");
 
         // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((Double) newValue);
+            frequency.setText(String.valueOf((int)vcoa.getFrequency()) + "Hz");
         });
         linFrequency.setTitle("Linear Freq.");
-        linFrequency.setMinValue(vcoa.getLinearFrequencyMin());
-        linFrequency.setMaxValue(vcoa.getLinearFrequencyMax());
 
         // Configure amplitude potentiometer
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setAmplitudeOscillator((Double) newValue);
         });
         amplitude.setTitle("Amp.");
-        amplitude.setMinValue(vcoa.getAmplitudeOscillatorMin());
-        amplitude.setMaxValue(vcoa.getAmplitudeOscillatorMax());
+        amplitude.setMinValue("0%");
+        amplitude.setMaxValue("100%");
 
         sineRadio.setToggleGroup(groupRadio);
         squareRadio.setToggleGroup(groupRadio);

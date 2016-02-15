@@ -27,14 +27,12 @@ public class VcoaFrequencyModulatorTest extends TestCase {
 
     @org.junit.Test
     public void testVcoaFrequencyModulator(){
-        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         assertNotNull(frequencyModulator.getInput());
         assertEquals(frequencyModulator.getInput().getName(), "Freq Mod::freqIn");
         assertNotNull(frequencyModulator.getOutput());
         assertEquals(frequencyModulator.getOutput().getName(), "Freq Mod::freqOut");
-        assertTrue(potentiometer.getMin() == 20.0);
-        assertTrue(potentiometer.getMax() == 20000.0);
-        assertTrue(potentiometer.getType() == PotentiometerType.EXPONENTIAL);
+        assertTrue(frequencyModulator.getMin() == 20.0);
+        assertTrue(frequencyModulator.getMax() == 20000.0);
     }
 
     @org.junit.Test
@@ -52,16 +50,14 @@ public class VcoaFrequencyModulatorTest extends TestCase {
     @org.junit.Test
     public void testGetValue(){
         double value = frequencyModulator.getValue();
-        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
-        assertEquals(potentiometer.getValue(), value);
+        assertEquals(frequencyModulator.getValue(), value);
     }
 
     @org.junit.Test
     public void testSetValue(){
         frequencyModulator.setValue(20.0);
-        Potentiometer potentiometer= frequencyModulator.getPotentiometer();
         double value = frequencyModulator.getValue();
-        assertEquals(potentiometer.getValue(), value);
+        assertEquals(frequencyModulator.getValue(), value);
     }
     @org.junit.Test
     public void testActivate(){

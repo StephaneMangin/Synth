@@ -174,4 +174,12 @@ public class Potentiometer extends Pane {
     public void setMinValue(double value) {
         minValue.setText(Double.toString(value));
     }
+
+    public void setMaxValue(String value) {
+        maxValue.setText(value);
+    }
+
+    public void setMinValue(String value) {
+        minValue.setText(value);
+    }
 }
