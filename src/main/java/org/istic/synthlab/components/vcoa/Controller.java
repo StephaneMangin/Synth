@@ -1,17 +1,12 @@
 package org.istic.synthlab.components.vcoa;
 
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
 import java.net.URL;
@@ -44,7 +39,7 @@ public class Controller extends AbstractController {
 
     private final ToggleGroup groupRadio = new ToggleGroup();
 
-    private Vcoa vcoa = new Vcoa("Voltage Controled Oscillator Amplifier");
+    private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator Amplifier");
 
     /**
      * When the component is created, it initialize the component representation and adding listener and MouseEvent

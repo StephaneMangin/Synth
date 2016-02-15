@@ -1,81 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.text.*?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
+<AnchorPane fx:id="anchorPane" prefHeight="230.0" prefWidth="400.0" styleClass="component"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.istic.synthlab.components.vcoa.Controller">
 
-<AnchorPane fx:id="anchorPane" prefHeight="230.0" prefWidth="400.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
-   <children>
-   
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
-      <image>
-              <Image url="@../../images/closeIcon.png" />
-      </image>
-       </ImageView>
-   
-       <Label fx:id="title" layoutX="35.0" layoutY="4.0" styleClass="title">
-           <font>
-               <Font name="System" size="20.0" />
-           </font>
-       </Label>
-   
-       <Label layoutX="17.0" layoutY="170.0" text="FM" />
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="190.0" onMouseClicked="#connectInputFm" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@../../images/blueSocket.png" />
-          </image>
-       </ImageView>
-   
-       <Potentiometer fx:id="expFrequency" layoutX="100.0" layoutY="150.0"/>
-   
-       <Potentiometer fx:id="linFrequency" layoutX="200.0" layoutY="150.0"/>
-   
-       <Potentiometer fx:id="amplitude" layoutX="300.0" layoutY="150.0"/>
-   
-       <Label layoutX="403.0" layoutY="170.0" text="Output" />
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="190.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@../../images/redSocket.png" />
-          </image>
-       </ImageView>
-   
-       <RadioButton fx:id="squareRadio" layoutX="127.0" layoutY="49.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Square">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-   
-       <RadioButton fx:id="sineRadio" layoutX="141.0" layoutY="73.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Sine">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="triangleRadio" layoutX="122.0" layoutY="96.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Triangle">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="sawtoothRadio" layoutX="267.0" layoutY="73.0" mnemonicParsing="false" text="Sawtooth">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="redNoiseRadio" layoutX="267.0" layoutY="96.0" mnemonicParsing="false" text="Red Noise">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="whiteNoiseRadio" layoutX="267.0" layoutY="49.0" mnemonicParsing="false" text="White Noise">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <ImageView fx:id="oscillatorImage" fitHeight="64.0" fitWidth="64.0" layoutX="194.0" layoutY="48.0" pickOnBounds="true" preserveRatio="true" />
-   </children>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true"
+               preserveRatio="true" smooth="true">
+        <Image url="@../../images/closeIcon.png"/>
+    </ImageView>
+
+    <Label fx:id="title" layoutX="35.0" layoutY="4.0">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
+
+    <Label layoutX="17.0" layoutY="170.0" text="FM"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="190.0" onMouseClicked="#connectInputFm"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
+
+    <Potentiometer fx:id="expFrequency" layoutX="100.0" layoutY="150.0"/>
+
+    <Potentiometer fx:id="linFrequency" layoutX="200.0" layoutY="150.0"/>
+
+    <Potentiometer fx:id="amplitude" layoutX="300.0" layoutY="150.0"/>
+
+    <Label layoutX="403.0" layoutY="170.0" text="Output"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="413.0" layoutY="190.0" onMouseClicked="#connectOutput"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../../images/redSocket.png"/>
+    </ImageView>
+
+    <RadioButton fx:id="squareRadio" layoutX="127.0" layoutY="49.0" mnemonicParsing="false"
+                 nodeOrientation="RIGHT_TO_LEFT" text="Square">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+
+    <RadioButton fx:id="sineRadio" layoutX="141.0" layoutY="73.0" mnemonicParsing="false"
+                 nodeOrientation="RIGHT_TO_LEFT" text="Sine">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+    <RadioButton fx:id="triangleRadio" layoutX="122.0" layoutY="96.0" mnemonicParsing="false"
+                 nodeOrientation="RIGHT_TO_LEFT" text="Triangle">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+    <RadioButton fx:id="sawtoothRadio" layoutX="267.0" layoutY="73.0" mnemonicParsing="false" text="Sawtooth">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+    <RadioButton fx:id="redNoiseRadio" layoutX="267.0" layoutY="96.0" mnemonicParsing="false" text="Red Noise">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+    <RadioButton fx:id="whiteNoiseRadio" layoutX="267.0" layoutY="49.0" mnemonicParsing="false" text="White Noise">
+        <font>
+            <Font name="System" size="10.0"/>
+        </font>
+    </RadioButton>
+    <ImageView fx:id="oscillatorImage" fitHeight="64.0" fitWidth="64.0" layoutX="194.0" layoutY="48.0"
+               pickOnBounds="true" preserveRatio="true"/>
 </AnchorPane>

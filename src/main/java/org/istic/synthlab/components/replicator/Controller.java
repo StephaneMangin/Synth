@@ -23,16 +23,15 @@ public class Controller extends AbstractController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         configure(replicator);
-        super.initialize(location, resources);
-    }
-
-    @FXML
-    public void connectOutput2(final MouseEvent event) {
-        ConnectionManager.makeOrigin(replicator, (Node) event.getSource(), replicator.getOutputReplicated2());
     }
 
     @FXML
     public void connectOutput1(final MouseEvent event) {
         ConnectionManager.makeOrigin(replicator, (Node) event.getSource(), replicator.getOutputReplicated1());
+    }
+
+    @FXML
+    public void connectOutput2(final MouseEvent event) {
+        ConnectionManager.makeOrigin(replicator, (Node) event.getSource(), replicator.getOutputReplicated2());
     }
 }
