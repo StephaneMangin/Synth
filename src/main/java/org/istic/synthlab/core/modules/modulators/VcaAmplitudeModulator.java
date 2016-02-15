@@ -17,9 +17,9 @@ public class VcaAmplitudeModulator extends AbstractModulator {
                 "Amplitude",
                 function.inputB,
                 type,
-                2D,
-                0.0,
-                0.0
+                1.0D,
+                0.0D,
+                0.0D
         ));
 
         // Declare the relation to the mapping

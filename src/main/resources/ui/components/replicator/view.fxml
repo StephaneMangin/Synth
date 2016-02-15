@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.effect.InnerShadow?>
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="112.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.replicator.Controller">
@@ -23,23 +24,35 @@
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="69.0" onMouseClicked="#connectInput"
                pickOnBounds="true" preserveRatio="true">
         <Image url="@../../images/blueSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 
     <Label layoutX="105.0" layoutY="40.0" text="Output 1"/>
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="122.0" layoutY="69.0" onMouseClicked="#connectOutput1"
                pickOnBounds="true" preserveRatio="true">
         <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 
     <Label layoutX="171.0" layoutY="40.0" text="Output 2"/>
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="188.0" layoutY="69.0" onMouseClicked="#connectOutput"
                pickOnBounds="true" preserveRatio="true">
         <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 
     <Label layoutX="236.0" layoutY="40.0" text="Output 3"/>
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="253.0" layoutY="69.0" onMouseClicked="#connectOutput2"
                pickOnBounds="true" preserveRatio="true">
         <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 </AnchorPane>

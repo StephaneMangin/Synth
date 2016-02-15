@@ -60,7 +60,7 @@ public class Potentiometer extends GenericsParam<Double> {
      *
      * @return Double
      */
-    public Double getOriginalValue() {
+    public Double getRawValue() {
         return value;
     }
     /**
@@ -116,14 +116,14 @@ public class Potentiometer extends GenericsParam<Double> {
      */
     public double calculateStep(double value) {
         double result;
-
         if (type == PotentiometerType.LINEAR) {
             result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
             //result = (getMax() - getMin())*Math.pow(value, POWER_SCALE) + getMin();
             result = Math.pow(2,(getMax()-getMin())*value) + getMin();
+            //result = Math.log(value)/(Math.log(getMax()) - Math.log(getMin()));
         } else {
-            result = value;
+            throw new TypeNotPresentException("Type unmanaged !", new Throwable("This type is not managed by this instance " + type));
         }
         return result;
     }
@@ -135,6 +135,11 @@ public class Potentiometer extends GenericsParam<Double> {
         return type;
     }
 
+    /**
+     * Set the value without passing through convertion
+     *
+     * @param value
+     */
     public void setRawValue(double value) {
         if (value <= getMax() && value >= getMin()) {
             super.setValue(value);

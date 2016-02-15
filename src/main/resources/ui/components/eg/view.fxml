@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import javafx.scene.effect.InnerShadow?>
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="200.0" prefWidth="380.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
@@ -27,10 +28,16 @@
     <Label layoutX="11.0" layoutY="140.0" text="Gate" />
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInputGate">
         <Image url="@../../images/blueSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 
     <Label layoutX="330.0" layoutY="140.0" text="Output" />
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="340.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
         <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
     </ImageView>
 </AnchorPane>
