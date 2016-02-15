@@ -41,11 +41,11 @@ public class Oscilloscope extends AbstractComponent {
 
     @Override
     public void activate() {
-        this.visualizer.start();
+        this.visualizer.activate();
     }
 
     @Override
     public void deactivate() {
-        this.visualizer.stop();
+        this.visualizer.deactivate();
     }
 }

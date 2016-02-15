@@ -16,6 +16,7 @@ import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 /**
@@ -45,7 +46,19 @@ public class Controller extends AbstractController {
     @FXML
     private Label frequency;
 
+    @FXML
+    private RadioButton shortcut1Hz;
+    @FXML
+    private RadioButton shortcut10Hz;
+    @FXML
+    private RadioButton shortcut100Hz;
+    @FXML
+    private RadioButton shortcut1KHz;
+    @FXML
+    private RadioButton shortcut10KHz;
+
     private final ToggleGroup groupRadio = new ToggleGroup();
+    private final ToggleGroup groupShortcut = new ToggleGroup();
 
     private Vcoa vcoa = new Vcoa("Voltage Controled Oscillator Amplifier");
 
@@ -72,16 +85,20 @@ public class Controller extends AbstractController {
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((Double) newValue);
-            frequency.setText(String.valueOf((int)vcoa.getFrequency()) + "Hz");
+            updateScreen();
+            groupShortcut.selectToggle(null);
+            linFrequency.setMinValue(String.valueOf((int)vcoa.getLinearFrequencyMin()*10));
+            linFrequency.setMaxValue(String.valueOf((int)vcoa.getLinearFrequencyMax()*10));
         });
         expFrequency.setTitle("Exp. Freq.");
-        expFrequency.setMinValue("0Hz");
-        expFrequency.setMaxValue("20KHz");
+        expFrequency.setMinValue(0);
+        expFrequency.setMaxValue(20);
 
         // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((Double) newValue);
-            frequency.setText(String.valueOf((int)vcoa.getFrequency()) + "Hz");
+            updateScreen();
+            groupShortcut.selectToggle(null);
         });
         linFrequency.setTitle("Linear Freq.");
 
@@ -89,7 +106,7 @@ public class Controller extends AbstractController {
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setAmplitudeOscillator((Double) newValue);
         });
-        amplitude.setTitle("Amp.");
+        amplitude.setTitle("Amplitude");
         amplitude.setMinValue("0%");
         amplitude.setMaxValue("100%");
 
@@ -106,6 +123,18 @@ public class Controller extends AbstractController {
         sawtoothRadio.setUserData("sawtoothWave");
         redNoiseRadio.setUserData("rednoiseWave");
         whiteNoiseRadio.setUserData("whitenoiseWave");
+
+        shortcut1Hz.setToggleGroup(groupShortcut);
+        shortcut10Hz.setToggleGroup(groupShortcut);
+        shortcut100Hz.setToggleGroup(groupShortcut);
+        shortcut1KHz.setToggleGroup(groupShortcut);
+        shortcut10KHz.setToggleGroup(groupShortcut);
+
+        shortcut1Hz.setUserData("1Hz");
+        shortcut10Hz.setUserData("10Hz");
+        shortcut100Hz.setUserData("10Hz");
+        shortcut1KHz.setUserData("1KHz");
+        shortcut10KHz.setUserData("10KHz");
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
@@ -138,6 +167,36 @@ public class Controller extends AbstractController {
             }
         });
 
+        groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (groupShortcut.getSelectedToggle() != null) {
+                switch (groupShortcut.getSelectedToggle().getUserData().toString()) {
+                    case "1Hz":
+                        vcoa.setExponentialRawFrequency(1);
+                        break;
+                    case "10Hz":
+                        vcoa.setExponentialRawFrequency(10);
+                        break;
+                    case "100Hz":
+                        vcoa.setExponentialRawFrequency(100);
+                        break;
+                    case "1KHz":
+                        vcoa.setExponentialRawFrequency(1000);
+                        break;
+                    case "10KHz":
+                        vcoa.setExponentialRawFrequency(10000);
+                        break;
+                    default:
+                        break;
+                }
+                updateScreen();
+            }
+        });
+
         squareRadio.setSelected(true);
+    }
+
+    private void updateScreen() {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        frequency.setText(String.valueOf(twoDForm.format(vcoa.getFrequency())) + "Hz");
     }
 }

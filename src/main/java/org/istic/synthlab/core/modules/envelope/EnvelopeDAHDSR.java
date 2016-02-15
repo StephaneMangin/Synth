@@ -49,9 +49,8 @@ public class EnvelopeDAHDSR implements IEnvelopeDAHDSR {
 
 
     public EnvelopeDAHDSR(IComponent component){
-
         envelope = new com.jsyn.unitgen.EnvelopeDAHDSR();
-
+        Register.declare(component, envelope);
         input = Factory.createInput("In", component, envelope.input);
         output = Factory.createOutput("Out", component, envelope.output);
 
@@ -60,13 +59,12 @@ public class EnvelopeDAHDSR implements IEnvelopeDAHDSR {
         // WARNING : The configuration of the potentiometers here is only decided by me to make it easier to move forward.
         // It is absolutely NOT DEFINITIVE !!!
         delayPotentiometer = new Potentiometer("Delay", envelope.delay, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
-        attackPotentiometer = new Potentiometer("Attack", envelope.attack, PotentiometerType.LINEAR, 1.0, 0.0, 0.1);
-        holdPotentiometer = new Potentiometer("Hold", envelope.hold, PotentiometerType.LINEAR, 1.0, 0.0, 0.3);
-        decayPotentiometer = new Potentiometer("Decay", envelope.decay, PotentiometerType.LINEAR, 1.0, 0.0, 0.1);
-        sustainPotentiometer = new Potentiometer("Sustain", envelope.sustain, PotentiometerType.LINEAR, 1.0, 0.0, 0.5);
-        releasePotentiometer = new Potentiometer("Release", envelope.release, PotentiometerType.LINEAR, 1.0, 0.0, 0.1);
+        attackPotentiometer = new Potentiometer("Attack", envelope.attack, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
+        holdPotentiometer = new Potentiometer("Hold", envelope.hold, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
+        decayPotentiometer = new Potentiometer("Decay", envelope.decay, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
+        sustainPotentiometer = new Potentiometer("Sustain", envelope.sustain, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
+        releasePotentiometer = new Potentiometer("Release", envelope.release, PotentiometerType.LINEAR, 1.0, 0.0, 0.0);
 
-        Register.declare(component, envelope);
 
     }
 

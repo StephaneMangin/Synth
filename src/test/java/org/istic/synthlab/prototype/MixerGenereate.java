@@ -70,11 +70,11 @@ public class MixerGenereate {
         System.out.println(add.getPortByName("triangle") +", "+add.getPortByName("sine")+", "+add.getPortByName("square"));
         synth.add(add);
         add.start();
-        //mixerStereo.start();
+        //mixerStereo.activate();
 
         //vcoa.getOutput().connect(vcoa1.getInput());
 
-        //out.start();
+        //out.activate();
         lineOut.getInput().connect(add.output);
         synth.start();
         lineOut.start();

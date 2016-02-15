@@ -2,6 +2,7 @@ package org.istic.synthlab.core.modules.oscilloscope;
 
 import com.jsyn.scope.swing.AudioScopeView;
 import javafx.embed.swing.SwingNode;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -10,7 +11,7 @@ import javax.swing.*;
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public interface IOscilloscope {
+public interface IOscilloscope extends IModule {
 
     /**
      * Returns a swing node representing the oscilloscope

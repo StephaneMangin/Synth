@@ -44,31 +44,31 @@ public class Mixer extends AbstractComponent{
     }
 
     public double getGainValueInput1() {
-        return this.mixer.getAmplitudePotentiometerInput1().getValue();
+        return this.mixer.getAmplitudeModulatorInput1().getValue();
     }
     public void setGainValueInput1(double valueInput1) {
-        this.mixer.getAmplitudePotentiometerInput1().setValue(valueInput1);
+        this.mixer.getAmplitudeModulatorInput1().setValue(valueInput1);
     }
 
     public double getGainValueInput2() {
-        return this.mixer.getAmplitudePotentiometerInput2().getValue();
+        return this.mixer.getAmplitudeModulatorInput2().getValue();
     }
     public void setGainValueInput2(double valueInput2) {
-        this.mixer.getAmplitudePotentiometerInput2().setValue(valueInput2);
+        this.mixer.getAmplitudeModulatorInput2().setValue(valueInput2);
     }
 
     public double getGainValueInput3() {
-        return this.mixer.getAmplitudePotentiometerInput2().getValue();
+        return this.mixer.getAmplitudeModulatorInput2().getValue();
     }
     public void setGainValueInput3(double valueInput3) {
-        this.mixer.getAmplitudePotentiometerInput3().setValue(valueInput3);
+        this.mixer.getAmplitudeModulatorInput3().setValue(valueInput3);
     }
 
     public double getGainValueInput4() {
-        return this.mixer.getAmplitudePotentiometerInput4().getValue();
+        return this.mixer.getAmplitudeModulatorInput4().getValue();
     }
     public void setGainValueInput4(double valueInput4) {
-        this.mixer.getAmplitudePotentiometerInput4().setValue(valueInput4);
+        this.mixer.getAmplitudeModulatorInput4().setValue(valueInput4);
     }
 
     @Override

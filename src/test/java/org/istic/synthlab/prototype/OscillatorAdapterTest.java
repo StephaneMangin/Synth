@@ -306,9 +306,9 @@ public class OscillatorAdapterTest {
 //        oscA.output.connect(0, myOut.input, 0);
 //        oscA.output.connect(0, myOut.input, 1);
 //
-//        myOut.start();
-//        synth.start();
-//        inst2.start();
+//        myOut.activate();
+//        synth.activate();
+//        inst2.activate();
 //
 //        oscA.setEnabled(false);
 //        synth.sleepFor(1);

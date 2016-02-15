@@ -3,6 +3,7 @@ package org.istic.synthlab.core.modules.mix;
 import com.jsyn.unitgen.Add;
 import com.jsyn.unitgen.PassThrough;
 import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
@@ -16,16 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/12/16.
- */
-
-/**
  * Class that define a mixer that able to mix multiple signals
  * from different modules and send the mixture on an output port
+ *
+ * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/12/16.
  * */
 public class Mix implements IMix {
 
-    // Variable declaration
     private PassThrough passThroughIn1;
     private PassThrough passThroughIn2;
     private PassThrough passThroughIn3;
@@ -52,35 +50,34 @@ public class Mix implements IMix {
 
     public Mix(IComponent component) {
 
-        // Instantiate the input list
-        this.inputList = new ArrayList<>();
+        inputList = new ArrayList<>();
 
         // Instantiate the PassThrough for the inputs ports
-        this.passThroughIn1 = new PassThrough();
-        this.passThroughIn2 = new PassThrough();
-        this.passThroughIn3 = new PassThrough();
-        this.passThroughIn4 = new PassThrough();
-        this.passThroughOut = new PassThrough();
+        passThroughIn1 = new PassThrough();
+        passThroughIn2 = new PassThrough();
+        passThroughIn3 = new PassThrough();
+        passThroughIn4 = new PassThrough();
+        passThroughOut = new PassThrough();
 
         // Instantiate the adds class to perform a signed addition on its two inputs
-        this.addInput12 = new Add();
-        this.addInput34 = new Add();
-        this.totalAddInput = new Add();
+        addInput12 = new Add();
+        addInput34 = new Add();
+        totalAddInput = new Add();
 
         // Instantiate the gain modulator
-        this.gainInput1 = Factory.createModulator("Gain1", component, ModulatorType.GAIN, PotentiometerType.LINEAR);
-        this.gainInput2 = Factory.createModulator("Gain2", component, ModulatorType.GAIN, PotentiometerType.LINEAR);
-        this.gainInput3 = Factory.createModulator("Gain3", component, ModulatorType.GAIN, PotentiometerType.LINEAR);
-        this.gainInput4 = Factory.createModulator("Gain4", component, ModulatorType.GAIN, PotentiometerType.LINEAR);
+        gainInput1 = Factory.createModulator("Gain1", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
+        gainInput2 = Factory.createModulator("Gain2", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
+        gainInput3 = Factory.createModulator("Gain3", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
+        gainInput4 = Factory.createModulator("Gain4", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
 
         // Create the inputs by the Factory method
-        this.input1 = Factory.createInput("In1", component, this.passThroughIn1.input);
-        this.input2 = Factory.createInput("In2", component, this.passThroughIn2.input);
-        this.input3 = Factory.createInput("In3", component, this.passThroughIn3.input);
-        this.input4 = Factory.createInput("In4", component, this.passThroughIn4.input);
+        input1 = Factory.createInput("In1", component, this.passThroughIn1.input);
+        input2 = Factory.createInput("In2", component, this.passThroughIn2.input);
+        input3 = Factory.createInput("In3", component, this.passThroughIn3.input);
+        input4 = Factory.createInput("In4", component, this.passThroughIn4.input);
 
         // Create the output port by the Factory method
-        this.output = Factory.createOutput("Out", component, this.passThroughOut.output);
+        output = Factory.createOutput("Out", component, this.passThroughOut.output);
 
         // Declare the generator to the register
         Register.declare(component, addInput12);
@@ -88,20 +85,20 @@ public class Mix implements IMix {
         Register.declare(component, totalAddInput);
 
         // Link different ports
-        this.addInput12.inputA.connect(this.passThroughIn1.output);
-        this.addInput12.inputB.connect(this.passThroughIn2.output);
-        this.addInput34.inputA.connect(this.passThroughIn3.output);
-        this.addInput34.inputB.connect(this.passThroughIn4.output);
-        this.totalAddInput.inputA.connect(this.addInput12.output);
-        this.totalAddInput.inputB.connect(this.addInput34.output);
+        addInput12.inputA.connect(this.passThroughIn1.output);
+        addInput12.inputB.connect(this.passThroughIn2.output);
+        addInput34.inputA.connect(this.passThroughIn3.output);
+        addInput34.inputB.connect(this.passThroughIn4.output);
+        totalAddInput.inputA.connect(this.addInput12.output);
+        totalAddInput.inputB.connect(this.addInput34.output);
 
-        this.totalAddInput.output.connect(this.passThroughOut.input);
+        totalAddInput.output.connect(this.passThroughOut.input);
 
         // Add the input int the list
-        this.inputList.add(input1);
-        this.inputList.add(input2);
-        this.inputList.add(input3);
-        this.inputList.add(input4);
+        inputList.add(input1);
+        inputList.add(input2);
+        inputList.add(input3);
+        inputList.add(input4);
     }
 
     /**
@@ -211,23 +208,23 @@ public class Mix implements IMix {
     }
 
     @Override
-    public Potentiometer getAmplitudePotentiometerInput1() {
-        return (Potentiometer) this.gainInput1;
+    public IModulator getAmplitudeModulatorInput1() {
+        return gainInput1;
     }
 
     @Override
-    public Potentiometer getAmplitudePotentiometerInput2() {
-        return (Potentiometer) this.gainInput2;
+    public IModulator getAmplitudeModulatorInput2() {
+        return gainInput2;
     }
 
     @Override
-    public Potentiometer getAmplitudePotentiometerInput3() {
-        return (Potentiometer) this.gainInput3;
+    public IModulator getAmplitudeModulatorInput3() {
+        return gainInput3;
     }
 
     @Override
-    public Potentiometer getAmplitudePotentiometerInput4() {
-        return (Potentiometer) this.gainInput4;
+    public IModulator getAmplitudeModulatorInput4() {
+        return gainInput4;
     }
 
 }

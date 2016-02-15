@@ -1,8 +1,10 @@
 package org.istic.synthlab.core.modules.mix;
 
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
@@ -12,7 +14,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 /**
  * Interface that define the property of the Mix
  * */
-public interface IMix extends Resource{
+public interface IMix extends IModule, Resource{
 
     /**
      * Return the input number one of the mixer
@@ -65,11 +67,11 @@ public interface IMix extends Resource{
      */
     void addInputPort(IInput input);
 
-    Potentiometer getAmplitudePotentiometerInput1();
+    IModulator getAmplitudeModulatorInput1();
 
-    Potentiometer getAmplitudePotentiometerInput2();
+    IModulator getAmplitudeModulatorInput2();
 
-    Potentiometer getAmplitudePotentiometerInput3();
+    IModulator getAmplitudeModulatorInput3();
 
-    Potentiometer getAmplitudePotentiometerInput4();
+    IModulator getAmplitudeModulatorInput4();
 }

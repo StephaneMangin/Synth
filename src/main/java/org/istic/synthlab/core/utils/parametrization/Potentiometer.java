@@ -135,4 +135,10 @@ public class Potentiometer extends GenericsParam<Double> {
         return type;
     }
 
+    public void setRawValue(double value) {
+        if (value <= getMax() && value >= getMin()) {
+            super.setValue(value);
+            this.port.set(value);
+        }
+    }
 }

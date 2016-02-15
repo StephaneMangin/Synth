@@ -20,6 +20,7 @@ public class Oscilloscope implements IOscilloscope {
     private IInput input;
     private IOutput output;
     private AudioScope scope;
+    private boolean start;
 
     public Oscilloscope(IComponent component) {
         this.component = component;
@@ -62,5 +63,22 @@ public class Oscilloscope implements IOscilloscope {
     @Override
     public void setPeriod(double value) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public void activate() {
+        start = true;
+        scope.start();
+    }
+
+    @Override
+    public void deactivate() {
+        start = false;
+        scope.stop();
+    }
+
+    @Override
+    public boolean isActivated() {
+        return start;
     }
 }

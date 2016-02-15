@@ -12,9 +12,6 @@ import org.istic.synthlab.core.services.Register;
 public class PassThrough implements IPassThrough {
 
     private com.jsyn.unitgen.PassThrough passThroughIn;
-    private com.jsyn.unitgen.PassThrough passThroughOut1;
-    private com.jsyn.unitgen.PassThrough passThroughOut2;
-    private com.jsyn.unitgen.PassThrough passThroughOut3;
     private IInput input;
     private IOutput output1;
     private IOutput output2;
@@ -24,9 +21,9 @@ public class PassThrough implements IPassThrough {
 
         passThroughIn = new com.jsyn.unitgen.PassThrough();
 
-        passThroughOut1 = new com.jsyn.unitgen.PassThrough();
-        passThroughOut2 = new com.jsyn.unitgen.PassThrough();
-        passThroughOut3 = new com.jsyn.unitgen.PassThrough();
+        com.jsyn.unitgen.PassThrough passThroughOut1 = new com.jsyn.unitgen.PassThrough();
+        com.jsyn.unitgen.PassThrough passThroughOut2 = new com.jsyn.unitgen.PassThrough();
+        com.jsyn.unitgen.PassThrough passThroughOut3 = new com.jsyn.unitgen.PassThrough();
 
         input = Factory.createInput("In", component, passThroughIn.input);
 

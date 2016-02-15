@@ -2,13 +2,14 @@ package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.modules.IModule;
 
 /**
  *
  * The interface Input port.
  *
  */
-public interface IInput {
+public interface IInput extends IModule {
 
     /**
      * Connect.

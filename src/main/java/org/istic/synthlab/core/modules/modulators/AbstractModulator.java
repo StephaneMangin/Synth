@@ -74,6 +74,11 @@ public abstract class AbstractModulator implements IModulator {
         potentiometer.setValue(value);
     }
 
+    @Override
+    public void setRawValue(double value) {
+        potentiometer.setRawValue(value);
+    }
+
     public double getMax() {
         return potentiometer.getMax();
     }

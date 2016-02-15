@@ -76,7 +76,7 @@ public abstract class AbstractController implements IController {
     }
 
     /**
-     * Method called in view component file and start a connection manager calling the makeDestination method
+     * Method called in view component file and activate a connection manager calling the makeDestination method
      * with the output variable
      */
     public void connectOutput(final MouseEvent event) {

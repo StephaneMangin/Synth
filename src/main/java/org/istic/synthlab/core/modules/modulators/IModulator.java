@@ -1,15 +1,15 @@
 package org.istic.synthlab.core.modules.modulators;
 
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public interface IModulator extends Resource {
+public interface IModulator extends IModule, Resource {
 
     /**
      * Return the input
@@ -81,19 +81,9 @@ public interface IModulator extends Resource {
     void setMin(double value);
 
     /**
-     * Activate this module
-     */
-    void activate();
-
-    /**
-     * Deactivate this module
-     */
-    void deactivate();
-
-    /**
-     * Is this module activated ?
+     * Bypass the convertion when setting a value
      *
-     * @return boolean
+     * @param value
      */
-    boolean isActivated();
+    void setRawValue(double value);
 }

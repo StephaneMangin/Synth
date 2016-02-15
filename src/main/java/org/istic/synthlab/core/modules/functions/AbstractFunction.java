@@ -53,4 +53,20 @@ public class AbstractFunction implements IFunction {
         this.unitBinaryOperator.inputB.set(value);
     }
 
+    @Override
+    public void activate() {
+        unitBinaryOperator.setEnabled(true);
+        unitBinaryOperator.start();
+    }
+
+    @Override
+    public void deactivate() {
+        unitBinaryOperator.stop();
+        unitBinaryOperator.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return unitBinaryOperator.isEnabled();
+    }
 }

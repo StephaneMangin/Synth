@@ -37,8 +37,8 @@ public class Potentiometer extends Pane {
 
     private static final double HEIGHT = 36;
     private static final double WIDTH = 36;
-    private static final double MIN = -230;
-    private static final double MAX = 50;
+    private static final double MIN = -230.0D;
+    private static final double MAX = 50.0D;
 
     private final DoubleProperty value = new SimpleDoubleProperty(0);
 
@@ -79,10 +79,10 @@ public class Potentiometer extends Pane {
     private class MaximiseEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(final MouseEvent event) {
-            rotatorDial.setScaleX(1.8);
-            rotatorDial.setScaleY(1.8);
-            rotatorHandle.setScaleX(1.8);
-            rotatorHandle.setScaleY(1.8);
+            rotatorDial.setScaleX(2);
+            rotatorDial.setScaleY(2);
+            rotatorHandle.setScaleX(2);
+            rotatorHandle.setScaleY(2);
             rotatorDial.setOnMouseExited(new MinimizeEventHandler());
             rotatorHandle.setOnMouseExited(new MinimizeEventHandler());
             event.consume();
@@ -103,7 +103,7 @@ public class Potentiometer extends Pane {
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
         @Override
         public void handle(final ScrollEvent event) {
-            rotateHandle(rotatorHandle.getRotate() + 5 * Math.signum(event.getDeltaY()));
+            rotateHandle(rotatorHandle.getRotate() + 1 * Math.signum(event.getDeltaY()));
             event.consume();
         }
     }
@@ -152,13 +152,11 @@ public class Potentiometer extends Pane {
 
     /**
      * Rotate the handle by taking in consideration the MIN and MAX values
-     * @param degrees The angle to which the handle will be rotated, relative to the start position, not the current one
+     * @param degrees The angle to which the handle will be rotated, relative to the activate position, not the current one
      */
     private void rotateHandle(final double degrees) {
-        System.out.println(degrees);
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
-            System.out.println((degrees-(MIN)) / (MAX-MIN));
             setValue((degrees-(MIN)) / (MAX-MIN));
         }
     }

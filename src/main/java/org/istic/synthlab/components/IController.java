@@ -15,7 +15,7 @@ import org.istic.synthlab.ui.ConnectionManager;
 public interface IController extends Initializable {
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
@@ -23,7 +23,7 @@ public interface IController extends Initializable {
     void connectInput(final MouseEvent event);
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
@@ -31,7 +31,7 @@ public interface IController extends Initializable {
     void connectInputAm(final MouseEvent event);
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
@@ -39,7 +39,7 @@ public interface IController extends Initializable {
     void connectInputFm(final MouseEvent event);
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
@@ -47,7 +47,7 @@ public interface IController extends Initializable {
     void connectInputGate(final MouseEvent event);
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
@@ -55,7 +55,7 @@ public interface IController extends Initializable {
     void connectOutput(final MouseEvent event);
 
     /**
-     * Method called to start a connection manager
+     * Method called to activate a connection manager
      *
      * @param event
      */
