@@ -20,39 +20,19 @@ public class GainModulator extends AbstractModulator {
     public GainModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
         filter = new FilterAllPass();
-        potentiometer = new Potentiometer(
+        setPotentiometer(new Potentiometer(
                 "Gain",
                 filter.gain,
                 potentiometerType,
                 1D,
                 0D,
                 0.8D
-        );
+        ));
 
         // Declare the relation to the mapping
         Register.declare(component, this.filter);
         input = Factory.createInput(name + "::gainIn", component, filter.input);
         output = Factory.createOutput(name + "::gainOut", component, filter.output);
-    }
-
-    @Override
-    public IInput getInput() {
-        return input;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return output;
-    }
-
-    @Override
-    public double getValue() {
-        return potentiometer.getValue();
-    }
-
-    @Override
-    public void setValue(double value) {
-        potentiometer.setValue(value);
     }
 
     @Override

@@ -51,10 +51,6 @@ public class Eg extends AbstractComponent {
         //?
     }
 
-    public IInput getInput(){ return envelope.getInput(); }
-
-    public IOutput getOutput(){ return envelope.getOutput(); }
-
     public Potentiometer getAmplitudePotentiometer() { return envelope.getAmplitudePotentiometer(); }
 
     public Potentiometer getDelayPotentiometer() { return envelope.getDelayPotentiometer(); }

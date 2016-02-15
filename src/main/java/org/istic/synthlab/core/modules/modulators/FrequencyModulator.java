@@ -20,39 +20,19 @@ public class FrequencyModulator extends AbstractModulator {
     public FrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
         addFunction = new Add();
-        potentiometer = new Potentiometer(
+        setPotentiometer(new Potentiometer(
                 "Frequency",
                 addFunction.inputB,
                 potentiometerType,
                 20000.0D,
                 0.0D,
                 0.0D
-        );
+        ));
 
         // Declare the relation to the mapping
         Register.declare(component, this.addFunction);
         input = Factory.createInput(name + "::freqIn", component, addFunction.inputA);
         output = Factory.createOutput(name + "::freqOut", component, addFunction.output);
-    }
-
-    @Override
-    public IInput getInput() {
-        return input;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return output;
-    }
-
-    @Override
-    public double getValue() {
-        return potentiometer.getValue();
-    }
-
-    @Override
-    public void setValue(double value) {
-        potentiometer.setValue(value);
     }
 
     @Override

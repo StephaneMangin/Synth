@@ -97,10 +97,24 @@ public class Vcoa extends AbstractComponent {
      */
     public void setExponentialFrequency(double value) {
         exponentialModulator.setValue(value);
-        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getOriginalValue();
+        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getRawValue();
         linearModulator.setMax(Math.pow(2,octave+1));
         linearModulator.setMin(Math.pow(2,octave-1));
-        linearModulator.setValue(linearModulator.getOriginalValue());
+        linearModulator.setValue(linearModulator.getRawValue());
+    }
+
+
+    /**
+     * Set the value of the exponential frequency parameter and update linear modulator
+     *
+     * @param value
+     */
+    public void setExponentialRawFrequency(double value) {
+        exponentialModulator.setRawValue(value);
+        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getRawValue();
+        linearModulator.setMax(Math.pow(2,octave+1));
+        linearModulator.setMin(Math.pow(2,octave-1));
+        linearModulator.setValue(linearModulator.getRawValue());
     }
 
     /**

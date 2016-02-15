@@ -127,7 +127,7 @@ public class BasicChainTest {
         vcoa2.activate();
         vcoa2.setAmplitudeSquare(1);
         vcoa2.setExponentialFrequency(200);
-        vca.getAmplitudeModulator().setValue(0.0);
+        vca.getGainModulator().setValue(0.0);
 
         vcoa.getOutput().connect(vca.getInput());
         //vcoa2.getOutput().connect(vca.getAm());

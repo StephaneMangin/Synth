@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.ports.UnitInputPort;
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
@@ -9,7 +9,7 @@ import org.istic.synthlab.core.modules.io.IOutput;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public interface IModulator extends Resource {
+public interface IModulator extends IModule, Resource {
 
     /**
      * Return the input
@@ -25,36 +25,6 @@ public interface IModulator extends Resource {
      */
     IOutput getOutput();
 
-    double getOriginalValue();
-
-    /**
-     * Returns an amplitude.
-     *
-     * @return double
-     */
-    double getValue();
-
-    /**
-     * Set the amplitude.
-     *
-     */
-    void setValue(double value);
-
-
-    /**
-     * The maximum value defined by the potentiometer of the modulator
-     *
-     * @return double
-     */
-    double getMax();
-
-    /**
-     * The minimum value defined by the potentiometer of the modulator
-     *
-     * @return double
-     */
-    double getMin();
-
     /**
      * Returns the name of the modulator
      *
@@ -63,16 +33,57 @@ public interface IModulator extends Resource {
     String getName();
 
     /**
-     * The minimum value defined by the potentiometer of the modulator
+     * Returns the raw value from the potentiometer
      *
-     * @param value double between 0 and 1
+     * @return double
+     */
+    double getRawValue();
+
+    /**
+     * Returns the modulation value
+     *
+     * @return double
+     */
+    double getValue();
+
+    /**
+     * Set the modulation value
+     *
+     */
+    void setValue(double value);
+
+
+    /**
+     * Returns the maximum modulation value
+     *
+     * @return double
+     */
+    double getMax();
+
+    /**
+     * Returns the minimum modulation value
+     *
+     * @return double
+     */
+    double getMin();
+    /**
+     * Set the maximum modulation value
+     *
+     * @return double
+     */
+    void setMax(double value);
+
+    /**
+     * Set the minimum modulation value
+     *
+     * @return double
      */
     void setMin(double value);
 
     /**
-     * The maximum value defined by the potentiometer of the modulator
+     * Bypass the convertion when setting a value
      *
-     * @param value double between 0 and 1
+     * @param value
      */
-    void setMax(double value);
+    void setRawValue(double value);
 }
