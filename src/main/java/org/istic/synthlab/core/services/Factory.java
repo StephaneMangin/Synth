@@ -16,12 +16,15 @@ import org.istic.synthlab.core.modules.io.Output;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.mix.IMix;
+import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.oscilloscope.IOscilloscope;
+import org.istic.synthlab.core.modules.oscilloscope.Oscilloscope;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
 import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-
 
 /**
  * Helper class to manage adapters creation.
@@ -79,6 +82,8 @@ public class Factory {
                 return new ImpulseOscillator(component);
             case REDNOISE:
                 return new RedNoiseOscillator(component);
+            case WHITENOISE:
+                return new WhiteNoiseOscillator(component);
             default:
                 return new SineOscillator(component);
         }
@@ -192,5 +197,13 @@ public class Factory {
             default:
                 return null;
         }
+    }
+
+    public static IOscilloscope createOscilloscope(IComponent component) {
+        return new Oscilloscope(component);
+    }
+
+    public static IMix createMixer(IComponent component){
+        return new Mix(component);
     }
 }

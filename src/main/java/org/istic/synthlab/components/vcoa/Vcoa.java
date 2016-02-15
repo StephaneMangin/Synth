@@ -29,6 +29,7 @@ public class Vcoa extends AbstractComponent {
     private IOscillator sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
     private IOscillator triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
     private IOscillator redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
+    private IOscillator whiteNoiseOscillator = Factory.createOscillator(this, OscillatorType.WHITENOISE);
     private IOscillator defaultOscillator;
     private IModulator exponentialModulator = Factory.createModulator("Expl Freq", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
     private IModulator linearModulator = Factory.createModulator("Lin Freq", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
@@ -54,6 +55,7 @@ public class Vcoa extends AbstractComponent {
         sawToothOscillator.activate();
         triangleOscillator.activate();
         redNoiseOscillator.activate();
+        whiteNoiseOscillator.activate();
     }
 
     @Override
@@ -65,6 +67,7 @@ public class Vcoa extends AbstractComponent {
         sawToothOscillator.deactivate();
         triangleOscillator.deactivate();
         redNoiseOscillator.deactivate();
+        whiteNoiseOscillator.deactivate();
     }
 
     @Override
@@ -75,7 +78,8 @@ public class Vcoa extends AbstractComponent {
         impulseOscillator.isActivated() ||
         sawToothOscillator.isActivated() ||
         triangleOscillator.isActivated() ||
-        redNoiseOscillator.isActivated();
+        redNoiseOscillator.isActivated() ||
+        whiteNoiseOscillator.isActivated();
     }
 
     @Override
@@ -93,10 +97,24 @@ public class Vcoa extends AbstractComponent {
      */
     public void setExponentialFrequency(double value) {
         exponentialModulator.setValue(value);
-        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getOriginalValue();
+        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getRawValue();
         linearModulator.setMax(Math.pow(2,octave+1));
         linearModulator.setMin(Math.pow(2,octave-1));
-        linearModulator.setValue(linearModulator.getOriginalValue());
+        linearModulator.setValue(linearModulator.getRawValue());
+    }
+
+
+    /**
+     * Set the value of the exponential frequency parameter and update linear modulator
+     *
+     * @param value
+     */
+    public void setExponentialRawFrequency(double value) {
+        exponentialModulator.setRawValue(value);
+        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getRawValue();
+        linearModulator.setMax(Math.pow(2,octave+1));
+        linearModulator.setMin(Math.pow(2,octave-1));
+        linearModulator.setValue(linearModulator.getRawValue());
     }
 
     /**
@@ -322,6 +340,15 @@ public class Vcoa extends AbstractComponent {
         redNoiseOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
+    /**
+     * Set the amplitude of the white noise oscillator
+     *
+     * @param value
+     */
+    public void setAmplitudeWhiteNoise(double value) {
+        whiteNoiseOscillator.getAmplitudePotentiometer().setValue(value);
+    }
+
     public void setAmplitudeOscillator(double value) {
         this.amplitudeValue = value;
         defaultOscillator.getAmplitudePotentiometer().setValue(value);
@@ -466,5 +493,24 @@ public class Vcoa extends AbstractComponent {
      */
     public IOutput getRedNoiseOutput() {
         return redNoiseOscillator.getOutput();
+    }
+
+    /**
+     * Returns the white noise oscillator output
+     *
+     * @return IOutput
+     */
+    public IOutput getWhiteNoiseOutput() {
+        return redNoiseOscillator.getOutput();
+    }
+
+    public double getAmplitudeOscillator() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getValue();
+    }
+    public double getAmplitudeOscillatorMax() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getMax();
+    }
+    public double getAmplitudeOscillatorMin() {
+        return this.defaultOscillator.getAmplitudePotentiometer().getMin();
     }
 }

@@ -24,34 +24,14 @@ public class AmplitudeModulator extends AbstractModulator {
         Register.declare(component, this.multiply);
         input = Factory.createInput(name + "::ampIn", component, multiply.inputA);
         output = Factory.createOutput(name + "::ampOut", component, multiply.output);
-        potentiometer = new Potentiometer("Amplitude", multiply.inputB, potentiometerType,
+        setPotentiometer(new Potentiometer("Amplitude", multiply.inputB, potentiometerType,
                 1, 0, 1
-        );
+        ));
 
         // WARNING :
         // By setting the initial value of the amplitude Modulator, you are modifying the initial value
         // of TWO modulator on any component, at both sourceAm and output (which is also using
         // an amplitudeModulator
-    }
-
-    @Override
-    public IInput getInput() {
-        return input;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return output;
-    }
-
-    @Override
-    public double getValue() {
-        return potentiometer.getValue();
-    }
-
-    @Override
-    public void setValue(double value) {
-        potentiometer.setValue(value);
     }
 
     @Override

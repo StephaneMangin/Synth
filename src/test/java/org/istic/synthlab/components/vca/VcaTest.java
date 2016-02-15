@@ -32,7 +32,7 @@ public class VcaTest extends TestCase{
     @org.junit.Test
     public void testGetAmplitudeModulatorValue() throws Exception {
         Double v = 1.0;
-        this.vca.setAmplitudeModulatorValue(v);
+        this.vca.getGainModulator().setValue(v);
 
         // FIXME: assertion error
         // TODO: uncomment when done
@@ -41,14 +41,14 @@ public class VcaTest extends TestCase{
 
     @org.junit.Test
     public void testGetGainModulatorValue() throws Exception {
-        this.vca.getGainModulatorValue();
-        assertEquals((long) 0.0, (long) (this.vca.getGainModulatorValue()));
+        this.vca.getGainModulator().getValue();
+        assertEquals((long) 0.0, (long) (this.vca.getGainModulator().getValue()));
     }
 
     @org.junit.Test
     public void testSetGainModulatorValue() throws Exception {
-        this.vca.setGainModulatorValue(0.001);
-        Assert.assertEquals((long) 0.001, (long) (this.vca.getGainModulatorValue()));
+        this.vca.getGainModulator().setValue(0.001);
+        Assert.assertEquals((long) 0.001, (long) (this.vca.getGainModulator().getValue()));
     }
 
     @org.junit.After

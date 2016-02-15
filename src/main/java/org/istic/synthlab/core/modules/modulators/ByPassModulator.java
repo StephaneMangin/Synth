@@ -29,26 +29,6 @@ public class ByPassModulator extends AbstractModulator {
     }
 
     @Override
-    public IInput getInput() {
-        return input;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return output;
-    }
-
-    @Override
-    public double getValue() {
-        return potentiometer.getValue();
-    }
-
-    @Override
-    public void setValue(double value) {
-        potentiometer.setValue(value);
-    }
-
-    @Override
     public void activate() {
         bypass.setEnabled(true);
     }

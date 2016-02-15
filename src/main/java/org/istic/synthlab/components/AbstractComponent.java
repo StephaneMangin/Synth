@@ -65,6 +65,9 @@ public abstract class AbstractComponent implements IComponent {
     private IModulator inputGateModulator;
     private IModulator outputModulator;
     private IModulator outputGateModulator;
+    private IModulator gainModulator;
+
+    private int id = 0;
 
     /**
      * Instantiates a new component.
@@ -96,6 +99,10 @@ public abstract class AbstractComponent implements IComponent {
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
                 ModulatorType.BYPASS, null);
+        this.gainModulator = Factory.createModulator(
+                "Gain", this,
+                ModulatorType.GAIN,
+                PotentiometerType.LINEAR);
     }
 
     /**
@@ -103,6 +110,7 @@ public abstract class AbstractComponent implements IComponent {
      *
      * @return the name
      */
+    @Override
     public String getName() {
         return name;
     }
@@ -112,7 +120,8 @@ public abstract class AbstractComponent implements IComponent {
      *
      * @param name the name
      */
-    protected void setName(String name) {
+    @Override
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -151,6 +160,7 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the input for external connexions
      * @return input of the component
      */
+    @Override
     public IInput getInput() {
         return inputByPass.getInput();
     }
@@ -159,6 +169,7 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the input for external connexions
      * @return gate input of the component
      */
+    @Override
     public IInput getInputGate() {
         return inputGateModulator.getInput();
     }
@@ -167,6 +178,7 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the input for external connexions
      * @return FM input of the component
      */
+    @Override
     public IInput getFm() {
         return frequencyModulator.getInput();
     }
@@ -175,6 +187,7 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the input for external connexions
      * @return AM input of the component
      */
+    @Override
     public IInput getAm() {
         return amplitudeModulator.getInput();
     }
@@ -183,6 +196,7 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the output for external connexions
      * @return output of the component
      */
+    @Override
     public IOutput getOutput() {
         return outputModulator.getOutput();
     }
@@ -191,7 +205,8 @@ public abstract class AbstractComponent implements IComponent {
      * Returns the output for external connexions
      * @return gate output of the component
      */
-    protected IOutput getOutputGate() {
+    @Override
+    public IOutput getOutputGate() {
         return outputGateModulator.getOutput();
     }
 
@@ -243,19 +258,37 @@ public abstract class AbstractComponent implements IComponent {
         return outputGateModulator.getInput();
     }
 
+    @Override
     public IModulator getInputByPass() { return inputByPass; }
+
+    @Override
     public IModulator getFmModulator() {
         return frequencyModulator;
     }
+
+    @Override
     public IModulator getAmModulator() {
         return amplitudeModulator;
     }
+
+    @Override
     public IModulator getOutputModulator() {
         return outputModulator;
     }
+    public IModulator getGainModulator() { return this.gainModulator; }
 
     @Override
     public String toString() {
-        return this.getName() + "<" + this.hashCode() + ">";
+        return this.getName() + "-" + id + "<" + this.hashCode() + ">";
+    }
+
+    @Override
+    public void setId(int num) {
+        id = num;
+    }
+
+    @Override
+    public int getId() {
+        return id;
     }
 }

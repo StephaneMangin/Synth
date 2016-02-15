@@ -14,14 +14,13 @@ import javax.swing.*;
 public class Visualizer implements IVisualizer {
 
     private AudioScope scope;
-    private IComponent component;
+    private boolean start;
 
     public Visualizer(IComponent component) {
-        this.component = component;
         // Pour l'affichage des courbes
-        this.scope = new AudioScope( Factory.createSynthesizer());
-        this.scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
-        this.scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.01 );
+        scope = new AudioScope( Factory.createSynthesizer());
+        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.01 );
     }
 
     @Override
@@ -35,19 +34,22 @@ public class Visualizer implements IVisualizer {
         this.scope.addProbe(Register.retrieve(output));
     }
 
-    /**
-     * Start the scope
-     */
     @Override
-    public void start() {
+    public void activate() {
+        start = true;
         this.scope.start();
     }
 
-    /**
-     * Stop the scope
-     */
     @Override
-    public void stop() {
+    public void deactivate() {
+        start = false;
         this.scope.stop();
     }
+
+    @Override
+    public boolean isActivated() {
+        return start;
+    }
+
+
 }

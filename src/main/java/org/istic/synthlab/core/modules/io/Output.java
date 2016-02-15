@@ -62,4 +62,17 @@ public class Output implements IOutput {
     public String toString() {
         return this.component + "::" + this.getName() + "<" + this.hashCode() + ">";
     }
+
+    @Override
+    public void activate() {
+    }
+
+    @Override
+    public void deactivate() {
+    }
+
+    @Override
+    public boolean isActivated() {
+        return true;
+    }
 }

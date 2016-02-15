@@ -13,6 +13,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * this class represents the Replicator module
  *
  * It links an output port to 3 input ports (such as a power strip)
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Replicator extends AbstractComponent {
 
@@ -50,8 +51,6 @@ public class Replicator extends AbstractComponent {
         passThrough.getOutput1().connect(getSink());
         passThrough.getOutput2().connect(outputModulatorReplicated1.getInput());
         passThrough.getOutput3().connect(outputModulatorReplicated2.getInput());
-
-
     }
 
     @Override
