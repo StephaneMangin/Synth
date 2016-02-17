@@ -319,19 +319,12 @@ public class CoreController implements Initializable, IObserver {
             double oldHeight = anchorPane.getPrefHeight();
             double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
             double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
-
             anchorPane.setScaleX(anchorPane.getScaleX() + ZOOM_STEP);
             anchorPane.setScaleY(anchorPane.getScaleY() + ZOOM_STEP);
-            anchorPane.setPrefSize(newWidth, newHeight);
-            scrollpane.setVvalue(scrollpane.getVvalue() * anchorPane.getScaleY());
-            scrollpane.setHvalue(scrollpane.getHvalue() * anchorPane.getScaleX());
-
-            System.out.println(anchorPane.getScaleX());
-            System.out.println(anchorPane.getScaleY());
-            System.out.println(anchorPane.getPrefWidth());
-            System.out.println(anchorPane.getPrefHeight());
-            System.out.println(scrollpane.getVvalue());
-            System.out.println(scrollpane.getHvalue());
+            anchorPane.resize(newWidth, newHeight);
+            scrollpane.setVvalue(scrollpane.getVvalue() + (oldHeight / newHeight));
+            scrollpane.setHvalue(scrollpane.getHvalue() + (oldWidth / newWidth));
+            scrollpane.getContent().relocate(0.0, 0.0);
         }
     }
 
@@ -348,16 +341,9 @@ public class CoreController implements Initializable, IObserver {
             double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
             anchorPane.setScaleX(anchorPane.getScaleX() - ZOOM_STEP);
             anchorPane.setScaleY(anchorPane.getScaleY() - ZOOM_STEP);
-            anchorPane.setPrefSize(newWidth, newHeight);
-            scrollpane.setVvalue(scrollpane.getVvalue() + (newHeight / oldHeight));
-            scrollpane.setHvalue(scrollpane.getHvalue() + (newWidth / oldWidth));
-
-            System.out.println(anchorPane.getScaleX());
-            System.out.println(anchorPane.getScaleY());
-            System.out.println(anchorPane.getPrefWidth());
-            System.out.println(anchorPane.getPrefHeight());
-            System.out.println(scrollpane.getVvalue());
-            System.out.println(scrollpane.getHvalue());
+            anchorPane.resize(newWidth, newHeight);
+            scrollpane.setVvalue(scrollpane.getVvalue() + (oldHeight / newHeight));
+            scrollpane.setHvalue(scrollpane.getHvalue() + (oldWidth / newWidth));
         }
     }
 
