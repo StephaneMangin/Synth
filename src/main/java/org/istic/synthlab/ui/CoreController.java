@@ -1,24 +1,22 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.geometry.Bounds;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -40,6 +38,7 @@ import org.reflections.util.FilterBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -51,9 +50,13 @@ import java.util.stream.Collectors;
 public class CoreController implements Initializable, IObserver {
     // Be sure there's never a component named like this for this to work
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
+    private static final double ZOOM_STEP = 0.01;
+    private static final double ZOOM_MAX = 1.2;
+    private static final double ZOOM_MIN = 0.6;
 
     @FXML
     private TitledPane componentList;
+
     private final double componentListX = 50.0;
     private final double componentListY = 50.0;
 
@@ -86,21 +89,38 @@ public class CoreController implements Initializable, IObserver {
         onPause();
         initializeListView();
 
-        //anchorPane.setOnMouseClicked(e -> System.out.println(e.getX() + " " + e.getY()));
-        componentList.setLayoutX(componentListX);
-        componentList.setLayoutY(componentListY);
-        scrollpane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-            componentList.relocate(
-                    componentListX,
-                    componentListY + (anchorPane.getHeight() * newValue.doubleValue()) - (scrollpane.getHeight() * newValue.doubleValue())
-            );
-        });
-        scrollpane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
-            componentList.relocate(
-                    componentListX + (anchorPane.getWidth() * newValue.doubleValue()) - (scrollpane.getWidth() * newValue.doubleValue()),
-                    componentListY
-            );
-        });
+//        componentList.setLayoutX(componentListX);
+//        componentList.setLayoutY(componentListY);
+//        scrollpane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
+//            componentList.relocate(
+//                componentList.getLayoutX(),
+//                componentListY + (anchorPane.getPrefHeight() * scrollpane.getVvalue() * 0.72)
+//            );
+//        });
+//        scrollpane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println(anchorPane.getPrefWidth());
+//            System.out.println(scrollpane.getPrefWidth());
+//            System.out.println(anchorPane.getPrefWidth() / scrollpane.getPrefWidth());
+//            System.out.println(scrollpane.getPrefWidth() / anchorPane.getPrefWidth());
+//            componentList.relocate(
+//                componentListX + (anchorPane.getPrefWidth() * scrollpane.getHvalue() * 0.3824),
+//                componentList.getLayoutY()
+//            );
+//        });
+
+        // Center the anchorpane inside the scrollpane when zooming
+//        anchorPane.boundsInParentProperty().addListener(
+//                new ChangeListener<Bounds>() {
+//                    @Override
+//                    public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
+//                        System.out.println("Bound changed");
+//                        anchorPane.setPrefSize(
+//                                Math.max(scrollpane.getBoundsInParent().getMaxX(), newBounds.getWidth()),
+//                                Math.max(scrollpane.getBoundsInParent().getMaxY(), newBounds.getHeight())
+//                        );
+//                    }
+//                }
+//        );
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -286,6 +306,68 @@ public class CoreController implements Initializable, IObserver {
 
         Factory.createSynthesizer().start();
         Register.startComponents();
+    }
+
+    /**
+     * Zoom in
+     */
+    @FXML
+    public void zoomIn(ActionEvent actionEvent) {
+        if (anchorPane.getScaleX() < ZOOM_MAX && anchorPane.getScaleY() < ZOOM_MAX) {
+
+            double oldWidth = anchorPane.getPrefWidth();
+            double oldHeight = anchorPane.getPrefHeight();
+            double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
+            double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
+
+            anchorPane.setScaleX(anchorPane.getScaleX() + ZOOM_STEP);
+            anchorPane.setScaleY(anchorPane.getScaleY() + ZOOM_STEP);
+            anchorPane.setPrefSize(newWidth, newHeight);
+            scrollpane.setVvalue(scrollpane.getVvalue() * anchorPane.getScaleY());
+            scrollpane.setHvalue(scrollpane.getHvalue() * anchorPane.getScaleX());
+
+            System.out.println(anchorPane.getScaleX());
+            System.out.println(anchorPane.getScaleY());
+            System.out.println(anchorPane.getPrefWidth());
+            System.out.println(anchorPane.getPrefHeight());
+            System.out.println(scrollpane.getVvalue());
+            System.out.println(scrollpane.getHvalue());
+        }
+    }
+
+    /**
+     * Zoom in
+     */
+    @FXML
+    public void zoomOut(ActionEvent actionEvent) {
+        if (anchorPane.getScaleX() > ZOOM_MIN && anchorPane.getScaleY() > ZOOM_MIN) {
+
+            double oldWidth = anchorPane.getPrefWidth();
+            double oldHeight = anchorPane.getPrefHeight();
+            double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
+            double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
+            anchorPane.setScaleX(anchorPane.getScaleX() - ZOOM_STEP);
+            anchorPane.setScaleY(anchorPane.getScaleY() - ZOOM_STEP);
+            anchorPane.setPrefSize(newWidth, newHeight);
+            scrollpane.setVvalue(scrollpane.getVvalue() + (newHeight / oldHeight));
+            scrollpane.setHvalue(scrollpane.getHvalue() + (newWidth / oldWidth));
+
+            System.out.println(anchorPane.getScaleX());
+            System.out.println(anchorPane.getScaleY());
+            System.out.println(anchorPane.getPrefWidth());
+            System.out.println(anchorPane.getPrefHeight());
+            System.out.println(scrollpane.getVvalue());
+            System.out.println(scrollpane.getHvalue());
+        }
+    }
+
+    public void defaultZoom(ActionEvent actionEvent) {
+        anchorPane.setScaleX(1);
+        anchorPane.setScaleY(1);
+        anchorPane.setPrefSize(
+                anchorPane.getMinWidth(),
+                anchorPane.getMinHeight()
+        );
     }
 
     /**
