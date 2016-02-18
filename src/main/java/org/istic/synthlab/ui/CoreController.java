@@ -139,7 +139,6 @@ public class CoreController implements Initializable, IObserver {
             IInput destination = arg.get(origin);
             total += origin.toString() + " ---------> " + destination.toString() + "\n";
         }
-        textarea.setText(total);
     }
 
     public void draw(Node node){
