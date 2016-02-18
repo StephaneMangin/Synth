@@ -89,7 +89,7 @@ public class EnveloppeGeneratorTest {
         sineOsc.output.connect(0, out.input, 0);
         sineOsc.output.connect(0, out.input, 1);
 
-        // Start the LineOut, the last one of the chain, to start everything like a cascade.
+        // Start the LineOut, the last one of the chain, to activate everything like a cascade.
         out.start();
         // Start the synthesizer
         synth.start();
@@ -175,7 +175,7 @@ public class EnveloppeGeneratorTest {
         sineOsc.output.connect(0, out.input, 0);
         sineOsc.output.connect(0, out.input, 1);
 
-        // Start the LineOut, the last one of the chain, to start everything like a cascade.
+        // Start the LineOut, the last one of the chain, to activate everything like a cascade.
         out.start();
         // Start the synthesizer
         synth.start();

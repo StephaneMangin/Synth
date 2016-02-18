@@ -4,8 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
-import org.istic.synthlab.components.out.Out;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.filters.*;
@@ -17,12 +16,15 @@ import org.istic.synthlab.core.modules.io.Output;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
+import org.istic.synthlab.core.modules.mix.IMix;
+import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
 import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.oscilloscope.IOscilloscope;
+import org.istic.synthlab.core.modules.oscilloscope.Oscilloscope;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
 import org.istic.synthlab.core.modules.passThrough.PassThrough;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-
 
 /**
  * Helper class to manage adapters creation.
@@ -80,6 +82,8 @@ public class Factory {
                 return new ImpulseOscillator(component);
             case REDNOISE:
                 return new RedNoiseOscillator(component);
+            case WHITENOISE:
+                return new WhiteNoiseOscillator(component);
             default:
                 return new SineOscillator(component);
         }
@@ -154,6 +158,8 @@ public class Factory {
                 return new VcoaFrequencyModulator(name, component, potentiometerType);
             case VCA:
                 return new VcaAmplitudeModulator(name, component, potentiometerType);
+            case BYPASS:
+                return new ByPassModulator(name, component, potentiometerType);
             default:
                 return new AmplitudeModulator(name, component, potentiometerType);
         }
@@ -191,5 +197,13 @@ public class Factory {
             default:
                 return null;
         }
+    }
+
+    public static IOscilloscope createOscilloscope(IComponent component) {
+        return new Oscilloscope(component);
+    }
+
+    public static IMix createMixer(IComponent component){
+        return new Mix(component);
     }
 }

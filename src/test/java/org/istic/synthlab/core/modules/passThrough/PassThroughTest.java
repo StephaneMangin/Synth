@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vcoa.Vcoa;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
@@ -22,6 +22,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * Created by cyprien on 09/02/16.
+ *
+ * The PassThrough Tester.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PassThroughTest extends TestCase {

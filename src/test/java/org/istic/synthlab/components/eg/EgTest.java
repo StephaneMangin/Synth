@@ -7,8 +7,11 @@ import org.istic.synthlab.core.services.Register;
 import org.junit.Test;
 
 /**
+ * Module EG Tester.
+ *
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 10/02/16.
  * @author npaolita[at]yahoo[dot]fr on 10/02/16
+ *
  */
 public class EgTest extends TestCase {
 
@@ -24,7 +27,6 @@ public class EgTest extends TestCase {
     @org.junit.Test
     public void testEGModule(){
         assertTrue(envelope.getName()=="ENVELOPE");
-        assertTrue(Channel.contains(new Pair<>(envelope.getInput(),envelope.getInputModulator().getOutput())));
         assertTrue(Channel.contains(new Pair<>(envelope.getOutputModulator().getInput(),envelope.getOutput())));
     }
 
@@ -61,42 +63,42 @@ public class EgTest extends TestCase {
     }
 
     public void testSetAmplitude() throws Exception {
-        envelope.setAmplitude(0.8);
-        assertEquals(0.8,envelope.getAmplitude(),DELTA);
+        envelope.getAmplitudePotentiometer().setValue(0.8);
+        assertEquals(0.8,envelope.getAmplitudePotentiometer().getValue(),DELTA);
     }
 
     public void testGetAmplitude() throws Exception {
-        assertEquals(1.0,envelope.getAmplitude(),DELTA);
+        assertEquals(1.0,envelope.getAmplitudePotentiometer().getValue(),DELTA);
     }
 
     public void testGetAmplitudeMax() throws Exception {
-        assertEquals(1.0,envelope.getAmplitudeMax(),DELTA);
+        assertEquals(1.0,envelope.getAmplitudePotentiometer().getMax(),DELTA);
     }
 
     public void testGetAmplitudeMin() throws Exception {
-        assertEquals(0.0,envelope.getAmplitudeMin(),DELTA);
+        assertEquals(0.0,envelope.getAmplitudePotentiometer().getMin(),DELTA);
     }
 
     public void testSetDelay() throws Exception {
-        envelope.setDelay(0.3);
-        assertEquals(0.3, envelope.getDelay(),DELTA);
+        envelope.getDelayPotentiometer().setValue(0.3);
+        assertEquals(0.3, envelope.getDelayPotentiometer().getValue(),DELTA);
     }
 
     public void testGetDelay() throws Exception {
-        assertEquals(0.0,envelope.getDelay(),DELTA);
+        assertEquals(0.0,envelope.getDelayPotentiometer().getValue(),DELTA);
     }
 
     public void testGetDelayMax() throws Exception {
-        assertEquals(1.0,envelope.getDelayMax(),DELTA);
+        assertEquals(1.0,envelope.getDelayPotentiometer().getMax(),DELTA);
     }
 
     public void testGetDelayMin() throws Exception {
-        assertEquals(0.0,envelope.getDelayMin(),DELTA);
+        assertEquals(0.0,envelope.getDelayPotentiometer().getMin(),DELTA);
     }
 
     public void testSetAttack() throws Exception {
-        envelope.setAttack(0.8);
-        assertEquals(0.8, envelope.getAttack(),DELTA);
+        envelope.getAmplitudePotentiometer().setValue(0.8);
+        assertEquals(0.8, envelope.getAttackPotentiometer().getValue(),DELTA);
     }
 
     // FIXME: value is 0.809, should be 0.1 ??
@@ -106,12 +108,12 @@ public class EgTest extends TestCase {
 //    }
 
     public void testGetAttackMax() throws Exception {
-        assertEquals(1.0,envelope.getAttackMax(),DELTA);
+        assertEquals(1.0,envelope.getAttackPotentiometer().getMax(),DELTA);
     }
 
     public void testSetHold() throws Exception {
-         envelope.setHold(0.6);
-         assertEquals(0.6, envelope.getHold(),DELTA);
+         envelope.getHoldPotentiometer().setValue(0.6);
+         assertEquals(0.6, envelope.getHoldPotentiometer().getValue(),DELTA);
     }
 
     // FIXME: value is 0.6, should be 0.3 ??
@@ -121,16 +123,16 @@ public class EgTest extends TestCase {
 //    }
 
     public void testGetHoldMax() throws Exception {
-        assertEquals(1.0,envelope.getHoldMax(),DELTA);
+        assertEquals(1.0,envelope.getHoldPotentiometer().getMax(),DELTA);
     }
 
     public void testGetHoldMin() throws Exception {
-        assertEquals(0.0,envelope.getHoldMin(),DELTA);
+        assertEquals(0.0,envelope.getHoldPotentiometer().getMin(),DELTA);
     }
 
     public void testSetDecay() throws Exception {
-        envelope.setDecay(0.2);
-        assertEquals(0.2, envelope.getDecay(),DELTA);
+        envelope.getDecayPotentiometer().setValue(0.2);
+        assertEquals(0.2, envelope.getDecayPotentiometer().getValue(),DELTA);
     }
 
     // FIXME: value is 0.809, should be 0.1 ??
@@ -140,33 +142,33 @@ public class EgTest extends TestCase {
 //    }
 
     public void testGetDecayMax() throws Exception {
-        assertEquals(1.0,envelope.getDecayMax(),DELTA);
+        assertEquals(1.0,envelope.getDecayPotentiometer().getMax(),DELTA);
     }
 
     public void testGetDecayMin() throws Exception {
-        assertEquals(0.0,envelope.getDecayMin(),DELTA);
+        assertEquals(0.0,envelope.getDecayPotentiometer().getMin(),DELTA);
     }
 
     public void testSetSustain() throws Exception {
-        envelope.setSustain(0.2);
-        assertEquals(0.2, envelope.getSustain(),DELTA);
+        envelope.getSustainPotentiometer().setValue(0.2);
+        assertEquals(0.2, envelope.getSustainPotentiometer().getValue(),DELTA);
     }
 
     public void testGetSustain() throws Exception {
-        assertEquals(0.5,envelope.getSustain(),DELTA);
+        assertEquals(0.0,envelope.getSustainPotentiometer().getValue(),DELTA);
     }
 
     public void testGetSustainMax() throws Exception {
-        assertEquals(1.0,envelope.getSustainMax(),DELTA);
+        assertEquals(1.0,envelope.getSustainPotentiometer().getMax(),DELTA);
     }
 
     public void testGetSustainMin() throws Exception {
-        assertEquals(0.0,envelope.getSustainMin(),DELTA);
+        assertEquals(0.0,envelope.getSustainPotentiometer().getMin(),DELTA);
     }
 
     public void testSetRelease() throws Exception {
-        envelope.setRelease(0.2);
-        assertEquals(0.2, envelope.getRelease(),DELTA);
+        envelope.getReleasePotentiometer().setValue(0.2);
+        assertEquals(0.2, envelope.getReleasePotentiometer().getValue(),DELTA);
     }
 
     // FIXME: value is 0.809, should be 0.1 ??
@@ -176,11 +178,11 @@ public class EgTest extends TestCase {
 //    }
 
     public void testGetReleaseMax() throws Exception {
-        assertEquals(1.0,envelope.getReleaseMax(),DELTA);
+        assertEquals(1.0,envelope.getReleasePotentiometer().getMax(),DELTA);
     }
 
     public void testGetReleaseMin() throws Exception {
-        assertEquals(0.0,envelope.getReleaseMin(),DELTA);
+        assertEquals(0.0,envelope.getReleasePotentiometer().getMin(),DELTA);
     }
 
     public void tearDown() throws Exception {

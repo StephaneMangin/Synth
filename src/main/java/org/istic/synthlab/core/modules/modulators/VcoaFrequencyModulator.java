@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.utils.jsyn.VcoaFunction;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
@@ -19,40 +19,19 @@ public class VcoaFrequencyModulator extends AbstractModulator {
     public VcoaFrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
         algorithm = new VcoaFunction();
-        potentiometer = new Potentiometer(
+        setPotentiometer(new Potentiometer(
                 "Frequency",
                 algorithm.potentiometer,
                 potentiometerType,
-                10D,
+                10.0D,
                 0.0D,
                 0.0D
-        );
+        ));
 
         // Declare the relation to the mapping
         Register.declare(component, this.algorithm);
         input = Factory.createInput(name + "::freqIn", component, algorithm.frequencyModulation);
         output = Factory.createOutput(name + "::freqOut", component, algorithm.output);
-    }
-
-
-    @Override
-    public IInput getInput() {
-        return input;
-    }
-
-    @Override
-    public IOutput getOutput() {
-        return output;
-    }
-
-    @Override
-    public double getValue() {
-        return potentiometer.getValue();
-    }
-
-    @Override
-    public void setValue(double value) {
-        potentiometer.setValue(value);
     }
 
     @Override

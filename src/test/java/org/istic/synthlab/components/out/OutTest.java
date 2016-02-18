@@ -1,11 +1,13 @@
 package org.istic.synthlab.components.out;
 
+import junit.framework.TestCase;
 import org.junit.Assert;
 
 /**
  * Created by stephane on 02/02/16.
+ * Module OUT Tester.
  */
-public class OutTest {
+public class OutTest extends TestCase{
 
     private Out out;
 
@@ -16,7 +18,7 @@ public class OutTest {
 
     @org.junit.After
     public void tearDown() throws Exception {
-
+        super.tearDown();
     }
 
     @org.junit.Test
@@ -48,7 +50,7 @@ public class OutTest {
 
     @org.junit.Test
     public void testGetLineout() throws Exception {
-        //Assert.assertNotNull(this.out.getLineOut());
+        Assert.assertNotNull(this.out.getLineOut());
     }
 
 }

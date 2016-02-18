@@ -11,10 +11,11 @@
 =======
 >>>>>>> #GLOB_thibhul
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.Group?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.GridPane?>
@@ -65,20 +66,23 @@
    </GridPane>
     </Pane>
     </Group>
+=======
+<?import javafx.scene.effect.InnerShadow?>
+<AnchorPane fx:id="anchorPane" prefHeight="350.0" prefWidth="610.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 
-    <Label layoutX="6.0" layoutY="2.0" styleClass="title" text="Oscilloscope">
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true"
+               preserveRatio="true" smooth="true" onMouseClicked="#close">
+        <Image url="@../../images/closeIcon.png"/>
+    </ImageView>
+
+    <Label layoutX="35.0" layoutY="4.0" fx:id="title" styleClass="title">
         <font>
-         <Font name="System" size="20.0" />
+            <Font name="System" size="20.0"/>
         </font>
     </Label>
 
-    <Label layoutX="12.0" layoutY="158.0" text="IN" textAlignment="CENTER">
-        <font>
-         <Font size="10.0" />
-        </font>
-    </Label>
-    <Circle fx:id="input" layoutX="18.0" layoutY="182.0" onMouseClicked="#connectIn" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
-
+<<<<<<< HEAD
     <Label layoutX="272.0" layoutY="158.0" text="OUT">
         <font>
          <Font size="10.0" />
@@ -87,3 +91,23 @@
     <Circle fx:id="output" layoutX="283.0" layoutY="182.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
 </AnchorPane>
 >>>>>>> #GLOB_thibhul
+=======
+    <Pane fx:id="pane" layoutX="5.0" layoutY="35.0" />
+
+    <Label layoutX="11.0" layoutY="290.0" text="Input" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
+        <Image url="@../../images/blueSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
+    </ImageView>
+
+    <Label layoutX="560.0" layoutY="290.0" text="Output" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="570.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
+        <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
+    </ImageView>
+</AnchorPane>
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56

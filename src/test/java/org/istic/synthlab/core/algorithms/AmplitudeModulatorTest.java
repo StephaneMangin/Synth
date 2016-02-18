@@ -2,7 +2,7 @@ package org.istic.synthlab.core.algorithms;
 
 import junit.framework.TestCase;
 import org.istic.synthlab.components.replicator.Replicator;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.AmplitudeModulator;
@@ -27,14 +27,12 @@ public class AmplitudeModulatorTest extends TestCase {
     }
     @org.junit.Test
     public void testAmplitudeModulator(){
-        Potentiometer potentiometer= amplitudeModulator.getPotentiometer();
         assertNotNull(amplitudeModulator.getInput());
         assertEquals(amplitudeModulator.getInput().getName(), "Am Mod::ampIn");
         assertNotNull(amplitudeModulator.getOutput());
         assertEquals(amplitudeModulator.getOutput().getName(), "Am Mod::ampOut");
-        assertTrue(potentiometer.getMin() == 0D);
-        assertTrue(potentiometer.getMax() == 1D);
-        assertTrue(potentiometer.getType() == PotentiometerType.EXPONENTIAL);
+        assertTrue(amplitudeModulator.getMin() == 0D);
+        assertTrue(amplitudeModulator.getMax() == 1D);
     }
 
     @org.junit.Test
@@ -52,16 +50,14 @@ public class AmplitudeModulatorTest extends TestCase {
     @org.junit.Test
     public void testGetValue(){
         double value = amplitudeModulator.getValue();
-        Potentiometer potentiometer= amplitudeModulator.getPotentiometer();
-        assertEquals(potentiometer.getValue(), value);
+        assertEquals(amplitudeModulator.getValue(), value);
     }
 
     @org.junit.Test
     public void testSetValue(){
         amplitudeModulator.setValue(10.0);
-        Potentiometer potentiometer= amplitudeModulator.getPotentiometer();
         double value = amplitudeModulator.getValue();
-        assertEquals(potentiometer.getValue(), value);
+        assertEquals(amplitudeModulator.getValue(), value);
     }
 
     @org.junit.Test

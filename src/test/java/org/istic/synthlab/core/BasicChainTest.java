@@ -12,14 +12,12 @@ import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.CoreController;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.*;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Cyprien
@@ -36,10 +34,10 @@ public class BasicChainTest {
         vcoa.activate();
         out = new Out("OUT");
         out.activate();
-        vcoa.setAmplitudeSquare(1);
-        vcoa.setExponentialFrequency(200);
-        vcoa.setAmplitudeSine(10000);
-        //vcoa.setAmplitudeSquare(10000);
+        out.getAmModulator().setValue(0.5);
+        vcoa.setAmplitudeOscillator(0.5);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         synth = Factory.createSynthesizer();
     }
 
@@ -129,7 +127,7 @@ public class BasicChainTest {
         vcoa2.activate();
         vcoa2.setAmplitudeSquare(1);
         vcoa2.setExponentialFrequency(200);
-        vca.setGainModulatorValue(0.0);
+        vca.getGainModulator().setValue(0.0);
 
         vcoa.getOutput().connect(vca.getInput());
         //vcoa2.getOutput().connect(vca.getAm());
@@ -138,36 +136,104 @@ public class BasicChainTest {
         out.start();
         synth.start();
 
-        int n = 200;
-        while (n > 0) {
-            n--;
+        ((SynthesisEngine)synth).printConnections();
+
+        int n = 2000;
+        while (n >= 0) {
+
+            if (n % 50 == 0){
+                if (out.getAmModulator().getValue() > 0.0){
+                    out.getAmModulator().setValue(0.0);
+                } else {
+                    out.getAmModulator().setValue(1.0);
+                }
+
+            }
+
+            //System.out.println(out.getAmModulator().getInputB().isConnected());
+            //out.getAmModulator().getInputB().setValueInternal(((double) 200 - (double) n) / (double) 200);
+            //out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
+            out.getAmModulator().getValue();
+            //System.out.println(out.getAmModulator().getValue());
             //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
-            System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
+            //System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
 
             //assertNotEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
 
             synth.sleepFor(0.01);
+            n--;
         }
 
        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test
+    public void TestVolume() throws InterruptedException {
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        vcoa.setLinearFrequency(320.0);
+
+        vcoa.getInputByPass().activate();
+
+        vcoa.getOutput().connect(out.getInput());
+
+        out.start();
+        synth.start();
+
+        Assert.assertNotEquals(Register.retrieve(out.getInput()),Register.retrieve(out.getLineOut().getInput()));
+
+
+        ((SynthesisEngine)synth).printConnections();
+
+        int n = 200;
+        while (n >= 0) {
+
+            if (n % 20 == 0){
+
+                if (out.getAmModulator().getValue() > 0.0){
+                    out.getAmModulator().setValue(0.0);
+                } else {
+                    out.getAmModulator().setValue(1.0);
+                }
+
+/*                if (out.getLineOut().getInput().getUnitInputPort() > 0.0){
+                    out.getLineOut().setVolume(0.0);
+                } else {
+                    out.getLineOut().setVolume(1.0);
+                }*/
+
+/*                if (vcoa.getAmplitudeSine() > 0.0){
+                    vcoa.setAmplitudeSine(0.0);
+                } else {
+                    vcoa.setAmplitudeSine(1.0);
+                }*/
+
+            }
+
+            System.out.println("Vcoa.getOutput().getValue() : " + vcoa.getOutput().getUnitOutputPort().getValue());
+            //System.out.println("out.getLineOut().getInput().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            //System.out.println("AmplitudeModulator : " + out.getAmModulator().getValue());
+            System.out.println("out.getAmModulator().getValue() : " + out.getAmModulator().getValue());
+            System.out.println("out.getAmModulator().getInput().getUnitInputPort().getValue() : " + out.getAmModulator().getInput().getUnitInputPort().getValue());
+            System.out.println("out.getAmModulator().getOutput().getUnitOutputPort().getValue() : " + out.getAmModulator().getOutput().getUnitOutputPort().getValue());
+            System.out.println("out.getLineOut().getInput().getUnitInputPort().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            //out.getLineOut().getVolume();
+
+            synth.sleepFor(0.1);
+            n--;
+        }
+
+        ((SynthesisEngine)synth).printConnections();
+    }
+
+    @Test
     public void testReplicator() throws InterruptedException {
-
-        Vcoa myVcoa = new Vcoa("VCOA1");
-
         Replicator repl = new Replicator("REPL");
 
-        Out myOut = new Out("OUT1");
-        myOut.getAmModulator().setValue(1.0);
+        vcoa.getOutput().connect(repl.getInput());
+        repl.getOutputReplicated1().connect(out.getInput());
 
-        myVcoa.setExponentialFrequency(40);
-        myVcoa.setAmplitudeSine(1.0);
-        myVcoa.getOutput().connect(repl.getInput());
-
-        repl.getOutputReplicated1().connect(myOut.getInput());
-        myOut.start();
+        out.start();
         synth.start();
         synth.sleepFor(5);
 
@@ -183,10 +249,10 @@ public class BasicChainTest {
         Out myOut = new Out("OUT1");
         myOut.getAmModulator().setValue(1.0);
 
-        envelope.setAttack(0.2);
-        envelope.setDecay(0.2);
-        envelope.setRelease(1);
-        envelope.setSustain(0.1);
+        envelope.getAttackPotentiometer().setValue(0.2);
+        envelope.getDecayPotentiometer().setValue(0.2);
+        envelope.getReleasePotentiometer().setValue(1);
+        envelope.getSustainPotentiometer().setValue(0.1);
         envelope.activate();
 
         // we create the first sine  oscillator that will be connected to the input gate of EG
@@ -230,12 +296,12 @@ public class BasicChainTest {
         synth.sleepFor(5);
 
         //System.out.println("\nAttack = 0.5s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
-        envelope.setAttack(0.5);
+        envelope.getAttackPotentiometer().setValue(0.5);
         synth.sleepFor(5);
 
         //System.out.println("\nAttack = 0.2s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
-        envelope.setAttack(0.2);
-        envelope.setDecay(1);
+        envelope.getAttackPotentiometer().setValue(0.2);
+        envelope.getDecayPotentiometer().setValue(1);
         synth.sleepFor(5);
 
 

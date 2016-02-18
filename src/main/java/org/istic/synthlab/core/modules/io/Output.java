@@ -1,13 +1,12 @@
 package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitOutputPort;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.services.Register;
 
 
 /**
- * @author  Group1
- * The type Output adapter
+ * The  Output adapter class
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -67,5 +66,18 @@ public class Output implements IOutput {
     @Override
     public String toString() {
         return this.component + "::" + this.getName() + "<" + this.hashCode() + ">";
+    }
+
+    @Override
+    public void activate() {
+    }
+
+    @Override
+    public void deactivate() {
+    }
+
+    @Override
+    public boolean isActivated() {
+        return true;
     }
 }

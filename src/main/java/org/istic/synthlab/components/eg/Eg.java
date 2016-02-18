@@ -1,15 +1,19 @@
 package org.istic.synthlab.components.eg;
 
-import org.istic.synthlab.core.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
- * Module EG.
+ * The model of EG component.
+ *
+ * It creates an Envelope Generator that produce a "one shot" waveform
  *
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @since <pre>Feb 8, 2016</pre>
  */
 public class Eg extends AbstractComponent {
@@ -47,63 +51,17 @@ public class Eg extends AbstractComponent {
         //?
     }
 
-    public IInput getInput(){ return envelope.getInput(); }
+    public Potentiometer getAmplitudePotentiometer() { return envelope.getAmplitudePotentiometer(); }
 
-    public IOutput getOutput(){ return envelope.getOutput(); }
+    public Potentiometer getDelayPotentiometer() { return envelope.getDelayPotentiometer(); }
 
-    public void setAmplitude(double value) { envelope.getAmplitudePotentiometer().setValue(value); }
+    public Potentiometer getAttackPotentiometer() { return envelope.getAttackPotentiometer(); }
 
-    public double getAmplitude() { return envelope.getAmplitudePotentiometer().getValue(); }
+    public Potentiometer getHoldPotentiometer() { return envelope.getHoldPotentiometer(); }
 
-    public double getAmplitudeMax() { return envelope.getAmplitudePotentiometer().getMax(); }
+    public Potentiometer getDecayPotentiometer() { return envelope.getDecayPotentiometer(); }
 
-    public double getAmplitudeMin() { return envelope.getAmplitudePotentiometer().getMin(); }
+    public Potentiometer getSustainPotentiometer() { return envelope.getSustainPotentiometer(); }
 
-    public void setDelay(double value) { envelope.getDelayPotentiometer().setValue(value); }
-
-    public double getDelay() { return envelope.getDelayPotentiometer().getValue(); }
-
-    public double getDelayMax() { return envelope.getDelayPotentiometer().getMax(); }
-
-    public double getDelayMin() { return envelope.getDelayPotentiometer().getMin(); }
-
-    public void setAttack(double value) { envelope.getAttackPotentiometer().setValue(value); }
-
-    public double getAttack() { return envelope.getAttackPotentiometer().getValue(); }
-
-    public double getAttackMax() { return envelope.getAttackPotentiometer().getMax(); }
-
-    public double getAttackMin() { return envelope.getAttackPotentiometer().getMin(); }
-
-    public void setHold(double value) { envelope.getHoldPotentiometer().setValue(value); }
-
-    public double getHold() { return envelope.getHoldPotentiometer().getValue(); }
-
-    public double getHoldMax() { return envelope.getHoldPotentiometer().getMax(); }
-
-    public double getHoldMin() { return envelope.getHoldPotentiometer().getMin(); }
-
-    public void setDecay(double value) { envelope.getDecayPotentiometer().setValue(value); }
-
-    public double getDecay() { return envelope.getDecayPotentiometer().getValue(); }
-
-    public double getDecayMax() { return envelope.getDecayPotentiometer().getMax(); }
-
-    public double getDecayMin() { return envelope.getDecayPotentiometer().getMin(); }
-
-    public void setSustain(double value) { envelope.getSustainPotentiometer().setValue(value); }
-
-    public double getSustain() { return envelope.getSustainPotentiometer().getValue(); }
-
-    public double getSustainMax() { return envelope.getSustainPotentiometer().getMax(); }
-
-    public double getSustainMin() { return envelope.getSustainPotentiometer().getMin(); }
-
-    public void setRelease(double value) { envelope.getReleasePotentiometer().setValue(value); }
-
-    public double getRelease() { return envelope.getReleasePotentiometer().getValue(); }
-
-    public double getReleaseMax() { return envelope.getReleasePotentiometer().getMax(); }
-
-    public double getReleaseMin() { return envelope.getReleasePotentiometer().getMin(); }
+    public Potentiometer getReleasePotentiometer() { return envelope.getReleasePotentiometer(); }
 }

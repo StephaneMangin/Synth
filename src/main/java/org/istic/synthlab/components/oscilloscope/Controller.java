@@ -1,10 +1,13 @@
 package org.istic.synthlab.components.oscilloscope;
 
+<<<<<<< HEAD
 import com.jsyn.scope.swing.AudioScopeView;
 import javafx.animation.AnimationTimer;
+=======
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 import javafx.embed.swing.SwingNode;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+<<<<<<< HEAD
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.chart.LineChart;
@@ -16,8 +19,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.istic.synthlab.ui.ConnectionManager;
+=======
+import javafx.scene.layout.Pane;
+import org.istic.synthlab.components.AbstractController;
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -27,7 +33,9 @@ import java.util.concurrent.ThreadFactory;
 
 /**
  * @author Sebastien
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
+<<<<<<< HEAD
 public class Controller implements Initializable {
 
 <<<<<<< HEAD
@@ -53,9 +61,14 @@ public class Controller implements Initializable {
 
     private XYChart.Series<Number, Number> samples = new XYChart.Series<>();
     private int xSamplesData = 0;
+=======
+public class Controller extends AbstractController {
+    @FXML
+    private Pane pane;
 
-    private static int numInstance      = 0;
-    private Oscilloscope oscilloscope   = new Oscilloscope("Visualizer"+numInstance++);
+    private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope");
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
+
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -63,6 +76,7 @@ public class Controller implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+<<<<<<< HEAD
         oscilloscopePane.setId("oscilloscopePane"+numInstance);
         input.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
         output.addEventHandler(MouseEvent.MOUSE_CLICKED, new GetIdWithClick());
@@ -114,6 +128,14 @@ public class Controller implements Initializable {
         public void handle(MouseEvent event) {
             circleEvent = (Circle)event.getSource();
         }
+=======
+        super.initialize(location, resources);
+        configure(oscilloscope);
+
+        final SwingNode swingNode = new SwingNode();
+        swingNode.setContent(oscilloscope.getView());
+        pane.getChildren().add(swingNode);
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
     }
 
 }

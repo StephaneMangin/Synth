@@ -1,11 +1,12 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
-public interface IOscillator extends Resource {
+public interface IOscillator extends IModule, Resource {
 
     /**
      * Returns an frequency modulation input instance.
@@ -27,13 +28,6 @@ public interface IOscillator extends Resource {
      * @return IOutput
      */
     IOutput getOutput();
-
-    /**
-     * test if the oscillator is enabled or not
-     *
-     * @return boolean
-     */
-    boolean isActivated();
 
     /**
      * Returns the amplitude potentiometer

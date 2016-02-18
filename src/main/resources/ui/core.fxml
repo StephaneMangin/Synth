@@ -1,48 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
+
+<BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
-        <ScrollPane fx:id="scrollpane">
-            <AnchorPane fx:id="anchorPane" prefHeight="3000.0" prefWidth="3000.0">
-                <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </padding>
-            </AnchorPane>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+         <children>
+        <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" focusTraversable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+           <content>
+               <AnchorPane fx:id="anchorPane" minHeight="3000.0" minWidth="3000.0" prefHeight="3000.0" prefWidth="3000.0" styleClass="main" />
+           </content>
         </ScrollPane>
+         <TitledPane fx:id="componentList" blendMode="SRC_ATOP" prefWidth="160" cache="true" collapsible="true" focusTraversable="false" layoutX="50.0" layoutY="50.0" mnemonicParsing="true" snapToPixel="false" text="Components">
+             <content>
+                 <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                         <ListView fx:id="listView" focusTraversable="false" prefWidth="160">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </ListView>
+                     </content>
+                 </ScrollPane>
+             </content>
+               <effect>
+                  <DropShadow />
+               </effect>
+         </TitledPane>
+         </children>
+      </AnchorPane>
     </center>
     <top>
         <VBox>
-            <MenuBar>
-                <Menu mnemonicParsing="false" text="File">
-                    <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <MenuItem mnemonicParsing="false" text="About" />
-                </Menu>
-            </MenuBar>
-            <ToolBar prefHeight="40.0" prefWidth="200.0">
-                <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
-                <Button fx:id="playButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
-            <Button mnemonicParsing="false" onAction="#onCut" text="Delete Cable" />
-            </ToolBar>
+           <children>
+               <MenuBar>
+                  <menus>
+                      <Menu mnemonicParsing="false" text="File">
+                         <items>
+                             <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
+                         </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Edit">
+                         <items>
+                             <MenuItem mnemonicParsing="false" text="Delete" />
+                         </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="View">
+                         <items>
+                             <Menu mnemonicParsing="false" text="Zoom">
+                                <items>
+                                    <MenuItem accelerator="Alt + Page Up" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In" />
+                                    <MenuItem accelerator="Alt + Page Down" mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out" />
+                                    <SeparatorMenuItem />
+                                    <MenuItem mnemonicParsing="false" onAction="#defaultZoom" text="Normal" />
+                                </items>
+                             </Menu>
+                         </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                         <items>
+                             <MenuItem mnemonicParsing="false" text="About" />
+                         </items>
+                      </Menu>
+                  </menus>
+               </MenuBar>
+               <ToolBar prefHeight="40.0" prefWidth="200.0">
+                  <items>
+                      <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause" />
+                      <Button fx:id="playButton" defaultButton="true" disable="true" mnemonicParsing="false" onAction="#onPlay" text="Play" />
+                  <Button mnemonicParsing="false" onAction="#onCut" text="Delete Cable" />
+                  </items>
+               </ToolBar>
+           </children>
         </VBox>
     </top>
-    <left>
-        <SplitPane dividerPositions="1.5" orientation="VERTICAL" prefWidth="130.0" BorderPane.alignment="CENTER">
-            <TitledPane collapsible="false" text="Components">
-                 <ScrollPane fitToHeight="true" fitToWidth="true">
-                     <ListView fx:id="listView" editable="true" />
-                 </ScrollPane>
-            </TitledPane>
-            <TextArea fx:id="textarea" prefWidth="130.0" visible="false" />
-        </SplitPane>
-    </left>
 </BorderPane>

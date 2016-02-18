@@ -1,6 +1,7 @@
 package org.istic.synthlab.ui.plugins.cable;
 
 import javafx.geometry.Point2D;
+import javafx.scene.effect.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
@@ -57,6 +58,7 @@ public class CurveCable extends CubicCurve {
         setFill(Color.TRANSPARENT);
         setColor(color);
         autosize();
+        this.setEffect(new InnerShadow());
     }
 
     public Color getColor(){

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
+<<<<<<< HEAD
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.*?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
@@ -53,4 +55,43 @@
         </font></Label>
     <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
 </children>
+=======
+<?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import javafx.scene.effect.InnerShadow?>
+<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="200.0" prefWidth="380.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
+
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
+        <Image url="@../../images/closeIcon.png"/>
+    </ImageView>
+
+    <Label fx:id="title" layoutX="35.0" layoutY="4.0">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
+
+    <Potentiometer fx:id="attack" layoutX="10.0" layoutY="70.0" />
+    <Potentiometer fx:id="decay" layoutX="93.0" layoutY="70.0" />
+    <Potentiometer fx:id="sustain" layoutX="187.0" layoutY="70.0" />
+    <Potentiometer fx:id="release" layoutX="292.0" layoutY="70.0" />
+
+    <Label layoutX="11.0" layoutY="140.0" text="Gate" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInputGate">
+        <Image url="@../../images/blueSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
+    </ImageView>
+
+    <Label layoutX="330.0" layoutY="140.0" text="Output" />
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="340.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
+        <Image url="@../../images/redSocket.png"/>
+        <effect>
+            <InnerShadow />
+        </effect>
+    </ImageView>
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 </AnchorPane>

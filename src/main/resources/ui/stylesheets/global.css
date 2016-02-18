@@ -1,0 +1,33 @@
+.component {
+    -fx-background-color: radial-gradient(center 66% 33%, radius 100%, #444444, #000000);
+    -fx-border-color: #000;
+    -fx-border-width: 3;
+}
+
+.component .vcoaFrequency {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000, #222);
+    -fx-border-color: #000;
+    -fx-border-width: 2;
+    color: #FFF;
+}
+
+.component Label, .component RadioButton {
+    -fx-text-fill: #DDD;
+}
+
+.component .title {
+    -fx-font-size: 12;
+    -fx-font-weight: bolder;
+    -fx-stroke: darkorange;
+}
+
+.rotation-dial {
+    -fx-background-radius: 100;
+    -fx-background-color: black;
+}
+
+.rotation-handle {
+    -fx-background-color: darkgray;
+    -fx-background-insets: 17 1 17 22;
+    -fx-background-radius: 5;
+}

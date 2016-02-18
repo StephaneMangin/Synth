@@ -22,7 +22,9 @@ public class Main {
         /*ProofDisconnectInput pdi = new ProofDisconnectInput();
         pdi.run();*/
 
-        JSynSynchronizeTesting jst = new JSynSynchronizeTesting();
+        //JSynSynchronizeTesting jst = new JSynSynchronizeTesting();
+
+        ProofFilterAmplitude pfa = new ProofFilterAmplitude();
 
     }
 

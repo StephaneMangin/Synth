@@ -1,8 +1,12 @@
 package org.istic.synthlab.core.modules.visualizer;
 
 import com.jsyn.scope.AudioScope;
+<<<<<<< HEAD
 import com.jsyn.scope.WaveTraceModel;
 import org.istic.synthlab.core.IComponent;
+=======
+import org.istic.synthlab.components.IComponent;
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
@@ -17,15 +21,24 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class Visualizer implements IVisualizer {
 
     private AudioScope scope;
+<<<<<<< HEAD
     private IComponent component;
     private ConcurrentLinkedQueue<Number> values = new ConcurrentLinkedQueue<>();
+=======
+    private boolean start;
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 
     public Visualizer(IComponent component) {
-        this.component = component;
         // Pour l'affichage des courbes
+<<<<<<< HEAD
         this.scope = new AudioScope(Factory.createSynthesizer());
         this.scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
         this.scope.getModel().getTriggerModel().getLevelModel().setDoubleValue(0.01);
+=======
+        scope = new AudioScope( Factory.createSynthesizer());
+        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.01 );
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
     }
 
     @Override
@@ -42,22 +55,19 @@ public class Visualizer implements IVisualizer {
 
     }
 
-    /**
-     * Start the scope
-     */
     @Override
-    public void start() {
+    public void activate() {
+        start = true;
         this.scope.start();
     }
 
-    /**
-     * Stop the scope
-     */
     @Override
-    public void stop() {
+    public void deactivate() {
+        start = false;
         this.scope.stop();
     }
 
+<<<<<<< HEAD
 
     public Number getValue() {
         WaveTraceModel wave = this.scope.getModel().getProbes()[0].getWaveTraceModel();
@@ -80,4 +90,12 @@ public class Visualizer implements IVisualizer {
 
         return 0;
     }
+=======
+    @Override
+    public boolean isActivated() {
+        return start;
+    }
+
+
+>>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 }

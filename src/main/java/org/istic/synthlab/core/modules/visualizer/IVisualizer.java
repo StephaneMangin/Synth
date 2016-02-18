@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.visualizer;
 
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import javax.swing.*;
 /**
  * Created by stephane on 08/02/16.
  */
-public interface IVisualizer {
+public interface IVisualizer extends IModule {
 
     /**
      * Return the view representation
@@ -22,17 +23,5 @@ public interface IVisualizer {
      * @param output
      */
     void linkTo(IOutput output);
-
-
-    /**
-     * Stop the scope
-     */
-    void stop();
-
-
-    /**
-     * Stop the scope
-     */
-    void start();
 
 }

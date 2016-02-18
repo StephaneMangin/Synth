@@ -14,9 +14,12 @@ public final class Main extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
+        final Scene scene = new Scene(root);
+        scene.getStylesheets().add("/ui/stylesheets/global.css");
+        scene.getStylesheets().add("/ui/stylesheets/dark.css");
         ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
         primaryStage.show();
     }

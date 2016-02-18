@@ -2,13 +2,14 @@ package org.istic.synthlab.core.modules.lineOuts;
 
 
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 
 /**
- * An output line
+ * This interface represents our LineOut
  *
  */
-public interface ILineOut extends Resource {
+public interface ILineOut extends IModule, Resource {
 
     /**
      * Launch the line pulling

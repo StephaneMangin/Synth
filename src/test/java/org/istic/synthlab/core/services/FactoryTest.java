@@ -5,14 +5,12 @@ import com.jsyn.ports.UnitOutputPort;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.modules.oscillators.SquareOscillator;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Modules factory  Tester.
@@ -47,7 +45,7 @@ public class FactoryTest  {
     @Test
     public void createOutputTest() {
         UnitOutputPort Port= new UnitOutputPort("out");
-        IOutput outputPort= Factory.createOutput("Out",vcoa, Port);
+        IOutput outputPort= Factory.createOutput("Out", vcoa, Port);
         UnitOutputPort output =  outputPort.getUnitOutputPort();
         assertEquals(Port,output);
     }
@@ -56,7 +54,7 @@ public class FactoryTest  {
      * Testing method createOscillator(IComponent component, OscillatorType type)
      */
     @Test
-    public void createOscillatorTest() {
+    public void createSineOscillatorTest() {
         SineOscillator sineOscillator = (SineOscillator) Factory.createOscillator(vcoa, OscillatorType.SINE);
         Vcoa component = (Vcoa) sineOscillator.getComponent();
         assertEquals(vcoa,component);
@@ -66,20 +64,9 @@ public class FactoryTest  {
      * Testing method createSquare(IComponent component, OscillatorType type)
      */
     @Test
-    public void createSquareTest()  {
+    public void createSquareOscillatorTest()  {
         SquareOscillator squareOscillator = (SquareOscillator) Factory.createOscillator(vcoa, OscillatorType.SQUARE);
         Vcoa component = (Vcoa) squareOscillator.getComponent();
         assertEquals(vcoa, component);
-    }
-
-    /**
-     * Testing method createLineOut(IComponent component, LineType type)
-     *
-     */
-    @Test
-    public void createLineOutTest()  {
-        Factory.createLineOut(vcoa, LineType.OUT);
-        assertTrue(Register.mappingInput.containsKey(vcoa));
-        assertTrue(Register.mappingGenerator.containsKey(vcoa));
     }
 }

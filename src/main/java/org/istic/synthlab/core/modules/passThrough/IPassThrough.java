@@ -1,13 +1,14 @@
 package org.istic.synthlab.core.modules.passThrough;
 
 import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
  * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
  */
-public interface IPassThrough extends Resource {
+public interface IPassThrough extends IModule, Resource {
 
     /**
      * Returns the input the Pass Through module

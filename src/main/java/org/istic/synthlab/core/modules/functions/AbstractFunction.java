@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.functions;
 
 import com.jsyn.unitgen.UnitBinaryOperator;
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
@@ -50,6 +50,23 @@ public class AbstractFunction implements IFunction {
 
     @Override
     public void setVariableInput(double value) {
-        this.unitBinaryOperator.inputB.setDefault(value);
+        this.unitBinaryOperator.inputB.set(value);
+    }
+
+    @Override
+    public void activate() {
+        unitBinaryOperator.setEnabled(true);
+        unitBinaryOperator.start();
+    }
+
+    @Override
+    public void deactivate() {
+        unitBinaryOperator.stop();
+        unitBinaryOperator.setEnabled(false);
+    }
+
+    @Override
+    public boolean isActivated() {
+        return unitBinaryOperator.isEnabled();
     }
 }

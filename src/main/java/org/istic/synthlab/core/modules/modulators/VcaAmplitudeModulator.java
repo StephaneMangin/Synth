@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.core.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.jsyn.VcaFunction;
@@ -13,14 +13,14 @@ public class VcaAmplitudeModulator extends AbstractModulator {
     public VcaAmplitudeModulator(String name, IComponent component, PotentiometerType type) {
         super(name, component);
         function = new VcaFunction();
-        potentiometer = new Potentiometer(
+        setPotentiometer(new Potentiometer(
                 "Amplitude",
                 function.inputB,
                 type,
-                2D,
-                0.0,
-                0.0
-        );
+                1.0D,
+                0.0D,
+                0.0D
+        ));
 
         // Declare the relation to the mapping
         Register.declare(component, this.function);
