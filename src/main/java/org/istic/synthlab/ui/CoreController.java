@@ -21,6 +21,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Affine;
+import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -57,9 +59,6 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     private TitledPane componentList;
 
-    private final double componentListX = 50.0;
-    private final double componentListY = 50.0;
-
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -88,39 +87,6 @@ public class CoreController implements Initializable, IObserver {
     public void initialize(URL location, ResourceBundle resources) {
         onPause();
         initializeListView();
-
-//        componentList.setLayoutX(componentListX);
-//        componentList.setLayoutY(componentListY);
-//        scrollpane.vvalueProperty().addListener((observable, oldValue, newValue) -> {
-//            componentList.relocate(
-//                componentList.getLayoutX(),
-//                componentListY + (anchorPane.getPrefHeight() * scrollpane.getVvalue() * 0.72)
-//            );
-//        });
-//        scrollpane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
-//            System.out.println(anchorPane.getPrefWidth());
-//            System.out.println(scrollpane.getPrefWidth());
-//            System.out.println(anchorPane.getPrefWidth() / scrollpane.getPrefWidth());
-//            System.out.println(scrollpane.getPrefWidth() / anchorPane.getPrefWidth());
-//            componentList.relocate(
-//                componentListX + (anchorPane.getPrefWidth() * scrollpane.getHvalue() * 0.3824),
-//                componentList.getLayoutY()
-//            );
-//        });
-
-        // Center the anchorpane inside the scrollpane when zooming
-//        anchorPane.boundsInParentProperty().addListener(
-//                new ChangeListener<Bounds>() {
-//                    @Override
-//                    public void changed(ObservableValue<? extends Bounds> observableValue, Bounds oldBounds, Bounds newBounds) {
-//                        System.out.println("Bound changed");
-//                        anchorPane.setPrefSize(
-//                                Math.max(scrollpane.getBoundsInParent().getMaxX(), newBounds.getWidth()),
-//                                Math.max(scrollpane.getBoundsInParent().getMaxY(), newBounds.getHeight())
-//                        );
-//                    }
-//                }
-//        );
 
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -322,9 +288,8 @@ public class CoreController implements Initializable, IObserver {
             anchorPane.setScaleX(anchorPane.getScaleX() + ZOOM_STEP);
             anchorPane.setScaleY(anchorPane.getScaleY() + ZOOM_STEP);
             anchorPane.resize(newWidth, newHeight);
-            scrollpane.setVvalue(scrollpane.getVvalue() + (oldHeight / newHeight));
-            scrollpane.setHvalue(scrollpane.getHvalue() + (oldWidth / newWidth));
-            scrollpane.getContent().relocate(0.0, 0.0);
+            //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
+            //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
         }
     }
 
@@ -342,8 +307,8 @@ public class CoreController implements Initializable, IObserver {
             anchorPane.setScaleX(anchorPane.getScaleX() - ZOOM_STEP);
             anchorPane.setScaleY(anchorPane.getScaleY() - ZOOM_STEP);
             anchorPane.resize(newWidth, newHeight);
-            scrollpane.setVvalue(scrollpane.getVvalue() + (oldHeight / newHeight));
-            scrollpane.setHvalue(scrollpane.getHvalue() + (oldWidth / newWidth));
+            //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
+            //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
         }
     }
 
@@ -389,11 +354,20 @@ public class CoreController implements Initializable, IObserver {
     private class DragDetectedComponentEventHandler implements EventHandler<MouseEvent> {
         @Override
         public void handle(final MouseEvent event) {
-            final Node node = (Node) event.getSource();
-            final Dragboard db = node.startDragAndDrop(TransferMode.COPY);
+            final AnchorPane node = (AnchorPane) event.getSource();
+            final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
             final ClipboardContent content = new ClipboardContent();
 
-            final WritableImage image = node.snapshot(null, null);
+            final SnapshotParameters params = new SnapshotParameters();
+            final Scale scale = new Scale();
+            scale.setX(anchorPane.getScaleX());
+            scale.setY(anchorPane.getScaleY());
+            // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
+            final WritableImage image = node.snapshot(
+                    params,
+                    new WritableImage(
+                            ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
+                            ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()));
             content.putImage(image);
 
             content.putString(DRAG_N_DROP_MOVE_GUARD);
