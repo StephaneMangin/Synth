@@ -94,8 +94,8 @@ public abstract class AbstractComponent implements IComponent {
                 ModulatorType.BYPASS, null);
         outputModulator = Factory.createModulator(
                 "modOut", this,
-                ModulatorType.AMPLITUDE,
-                PotentiometerType.LINEAR);
+                ModulatorType.BYPASS,
+                null);
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
                 ModulatorType.BYPASS, null);

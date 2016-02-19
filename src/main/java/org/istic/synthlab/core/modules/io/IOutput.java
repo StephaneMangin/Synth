@@ -38,6 +38,4 @@ public interface IOutput extends IModule {
      */
     IComponent getComponent();
     UnitOutputPort getUnitOutputPort();
-
-    double[] getValues();
 }

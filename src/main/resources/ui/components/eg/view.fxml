@@ -3,59 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<<<<<<< HEAD
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.*?>
-<?import org.istic.synthlab.ui.controls.Potentiometer?>
-<AnchorPane fx:id="egPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="380.0" styleClass="component" stylesheets="@../../stylesheets/components.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
-<children>
-
-    <Label layoutX="35.0" layoutY="4.0" styleClass="title" text="EG(ADSR)">
-        <font>
-            <Font name="System Bold" size="20.0" />
-        </font>
-    </Label>
-
-
-    <Label layoutX="302.0" layoutY="64.0" text="Release">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-    <Potentiometer fx:id="release" layoutX="313.0" layoutY="85.0"/>
-
-    <Label layoutX="198.0" layoutY="64.0" text="Sustain">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-    <Potentiometer fx:id="sustain" layoutX="205.0" layoutY="85.0"/>
-
-    <Label layoutX="107.0" layoutY="64.0" text="Decay">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-    <Potentiometer fx:id="decay" layoutX="113.0" layoutY="85.0"/>
-
-    <Label layoutX="20.0" layoutY="64.0" text="Attack">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-    <Potentiometer fx:id="attack" layoutX="25.0" layoutY="85.0"/>
-
-
-    <Circle fx:id="gate" layoutX="29.0" layoutY="175.0" onMouseClicked="#connectGate" radius="10.0" stroke="#2600ff" strokeType="INSIDE" strokeWidth="5.0" />
-    <Label layoutX="10.0" layoutY="145.0" prefHeight="16.0" prefWidth="41.0" text="GATE" textAlignment="CENTER">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-
-    <Circle fx:id="output" layoutX="353.0" layoutY="175.0" onMouseClicked="#connectOut" radius="10.0" stroke="RED" strokeType="INSIDE" strokeWidth="5.0" />
-    <Label layoutX="337.0" layoutY="145.0" text="OUT">
-        <font>
-            <Font name="System Bold" size="13.0" />
-        </font></Label>
-    <Button fx:id="close" layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeIt" prefHeight="25.0" prefWidth="25.0" />
-</children>
-=======
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -93,5 +40,4 @@
             <InnerShadow />
         </effect>
     </ImageView>
->>>>>>> 8497725a496336bc7041b5139af56285bcd34f56
 </AnchorPane>
