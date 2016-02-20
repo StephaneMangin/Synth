@@ -26,7 +26,11 @@ public class Mixer extends AbstractComponent{
     public Mixer(String name) {
         super(name);
         this.mixer = Factory.createMixer(this);
-        this.mixer.getOutput().connect(this.getSink());
+        getSourceInputMix1().connect(getInput1());
+        getSourceInputMix2().connect(getInput2());
+        getSourceInputMix3().connect(getInput3());
+        getSourceInputMix4().connect(getInput4());
+        getOutput().connect(this.getSink());
     }
 
     public IOutput getOutput(){ return this.mixer.getOutput(); }
@@ -44,31 +48,43 @@ public class Mixer extends AbstractComponent{
     }
 
     public double getGainValueInput1() {
-        return this.mixer.getAmplitudeModulatorInput1().getValue();
+        return this.getInputModulatorMixer1().getValue();
     }
+
     public void setGainValueInput1(double valueInput1) {
-        this.mixer.getAmplitudeModulatorInput1().setValue(valueInput1);
+        this.getInputModulatorMixer1().setValue(valueInput1);
     }
 
     public double getGainValueInput2() {
-        return this.mixer.getAmplitudeModulatorInput2().getValue();
+        return this.getInputModulatorMixer2().getValue();
     }
+
     public void setGainValueInput2(double valueInput2) {
-        this.mixer.getAmplitudeModulatorInput2().setValue(valueInput2);
+        this.getInputModulatorMixer2().setValue(valueInput2);
     }
 
     public double getGainValueInput3() {
-        return this.mixer.getAmplitudeModulatorInput2().getValue();
+        return this.getInputModulatorMixer3().getValue();
     }
+
     public void setGainValueInput3(double valueInput3) {
-        this.mixer.getAmplitudeModulatorInput3().setValue(valueInput3);
+        this.getInputModulatorMixer3().setValue(valueInput3);
     }
 
     public double getGainValueInput4() {
-        return this.mixer.getAmplitudeModulatorInput4().getValue();
+        return this.getInputModulatorMixer3().getValue();
     }
+
     public void setGainValueInput4(double valueInput4) {
-        this.mixer.getAmplitudeModulatorInput4().setValue(valueInput4);
+        this.getInputModulatorMixer4().setValue(valueInput4);
+    }
+
+    public double getMaxValue(){
+       return this.getInputModulatorMixer1().getMax();
+    }
+
+    public double getMinValue(){
+        return this.getInputModulatorMixer1().getMin();
     }
 
     @Override
