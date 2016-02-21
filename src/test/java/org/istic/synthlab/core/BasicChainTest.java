@@ -331,15 +331,10 @@ public class BasicChainTest {
         v4.setExponentialFrequency(0.5);
         v4.setLinearFrequency(0.7);
 
-        mixer.setGainValueInput1(0.0);
         v1.getOutput().connect(mixer.getInput1());
-        mixer.setGainValueInput1(0.0);
         v2.getOutput().connect(mixer.getInput2());
-        mixer.setGainValueInput2(0.0);
         v3.getOutput().connect(mixer.getInput3());
-        mixer.setGainValueInput3(0.0);
         v4.getOutput().connect(mixer.getInput4());
-        mixer.setGainValueInput4(0.0);
         mixer.getOutputMixer().connect(out.getInput());
 
         out.start();
