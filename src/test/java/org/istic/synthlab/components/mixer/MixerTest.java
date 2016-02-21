@@ -7,8 +7,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * @author gottstein[dot]cyprien[at]gmail[dot]com on 09/02/16.
- * Module Replicator Tester.
+ * @author johnmarcdechaud[at]gmail[dot]com on 21/02/16.
+ * Module Mixer Tester.
  */
 public class MixerTest {
 
