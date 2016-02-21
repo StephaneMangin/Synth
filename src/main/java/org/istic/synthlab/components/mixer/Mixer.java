@@ -30,10 +30,10 @@ public class Mixer extends AbstractComponent{
         getSourceInputMix2().connect(getInput2());
         getSourceInputMix3().connect(getInput3());
         getSourceInputMix4().connect(getInput4());
-        getOutput().connect(this.getSink());
+        getOutputMixer().connect(this.getSink());
     }
 
-    public IOutput getOutput(){ return this.mixer.getOutput(); }
+    public IOutput getOutputMixer(){ return this.mixer.getOutput(); }
 
     public IInput getInput1(){ return this.mixer.getInput1(); }
 
@@ -72,7 +72,7 @@ public class Mixer extends AbstractComponent{
     }
 
     public double getGainValueInput4() {
-        return this.getInputModulatorMixer3().getValue();
+        return this.getInputModulatorMixer4().getValue();
     }
 
     public void setGainValueInput4(double valueInput4) {

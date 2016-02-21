@@ -71,7 +71,7 @@ public class Controller extends AbstractController implements Initializable{
 
     @FXML
     public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(this.mixer, (Node) event.getSource(), this.mixer.getOutput());
+        ConnectionManager.makeOrigin(this.mixer, (Node) event.getSource(), this.mixer.getOutputMixer());
     }
 
     @FXML

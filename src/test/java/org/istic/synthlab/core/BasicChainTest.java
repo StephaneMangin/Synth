@@ -4,6 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.eg.Eg;
+import org.istic.synthlab.components.mixer.Mixer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
@@ -303,10 +304,49 @@ public class BasicChainTest {
         envelope.getAttackPotentiometer().setValue(0.2);
         envelope.getDecayPotentiometer().setValue(1);
         synth.sleepFor(5);
+    }
 
 
+    @Test
+    public void testMixer() throws InterruptedException {
+        Mixer mixer = new Mixer("MIX");
+        Vcoa v1 = new Vcoa("v1");
+        Vcoa v2 = new Vcoa("v2");
+        Vcoa v3 = new Vcoa("v3");
+        Vcoa v4 = new Vcoa("v4");
 
+        v1.setAmplitudeOscillator(0.5);
+        v1.setExponentialFrequency(0.40);
+        v1.setLinearFrequency(0.5);
 
+        v2.setAmplitudeOscillator(1.0);
+        v2.setExponentialFrequency(0.80);
+        v2.setLinearFrequency(0.55);
+
+        v3.setAmplitudeOscillator(1.0);
+        v3.setExponentialFrequency(0.60);
+        v3.setLinearFrequency(0.8);
+
+        v4.setAmplitudeOscillator(0.6);
+        v4.setExponentialFrequency(0.5);
+        v4.setLinearFrequency(0.7);
+
+        mixer.setGainValueInput1(0.0);
+        v1.getOutput().connect(mixer.getInput1());
+        mixer.setGainValueInput1(0.0);
+        v2.getOutput().connect(mixer.getInput2());
+        mixer.setGainValueInput2(0.0);
+        v3.getOutput().connect(mixer.getInput3());
+        mixer.setGainValueInput3(0.0);
+        v4.getOutput().connect(mixer.getInput4());
+        mixer.setGainValueInput4(0.0);
+        mixer.getOutputMixer().connect(out.getInput());
+
+        out.start();
+        synth.start();
+        synth.sleepFor(10);
+
+        ((SynthesisEngine) synth).printConnections();
     }
 
 }
