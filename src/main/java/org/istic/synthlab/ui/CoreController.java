@@ -1,8 +1,6 @@
 package org.istic.synthlab.ui;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,21 +8,23 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Affine;
 import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.istic.synthlab.Main;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
@@ -40,7 +40,6 @@ import org.reflections.util.FilterBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -57,8 +56,9 @@ public class CoreController implements Initializable, IObserver {
     private static final double ZOOM_MIN = 0.6;
 
     @FXML
+    public Menu skinMenu;
+    @FXML
     private TitledPane componentList;
-
     @FXML
     private BorderPane borderPane;
     @FXML
@@ -86,6 +86,7 @@ public class CoreController implements Initializable, IObserver {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         onPause();
+        initializeSkinMenu();
         initializeListView();
 
         anchorPane.setOnDragOver(event -> {
@@ -129,6 +130,29 @@ public class CoreController implements Initializable, IObserver {
 
     }
 
+    private final List<RadioMenuItem> stylesheets = new ArrayList<RadioMenuItem>() {{
+        add(new RadioMenuItem("Metal"));
+        add(new RadioMenuItem("Wood"));
+    }};
+    private final ToggleGroup skinToggleGroup = new ToggleGroup();
+    private String currentStylesheet = "/ui/stylesheets/" + Main.DEFAULT_SKIN.toLowerCase() + ".css";
+
+    private void initializeSkinMenu() {
+        for (final RadioMenuItem item : stylesheets) {
+            item.setToggleGroup(skinToggleGroup);
+            if (item.getText().equalsIgnoreCase(Main.DEFAULT_SKIN))
+                item.setSelected(true);
+
+            item.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                final String stylesheet = "/ui/stylesheets/" + item.getText().toLowerCase() + ".css";
+                final Scene scene = anchorPane.getScene();
+                scene.getStylesheets().remove(currentStylesheet);
+                scene.getStylesheets().add(stylesheet);
+                currentStylesheet = stylesheet;
+            });
+            skinMenu.getItems().add(item);
+        }
+    }
 
     @Override
     public void update(Map<IOutput, IInput> arg) {
