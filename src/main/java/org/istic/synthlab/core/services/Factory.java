@@ -19,6 +19,8 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
+import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
+import org.istic.synthlab.core.modules.noise.ModelWhiteNoise;
 import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.oscilloscope.IOscilloscope;
 import org.istic.synthlab.core.modules.oscilloscope.Oscilloscope;
@@ -176,6 +178,7 @@ public class Factory {
     }
 
     public static IEnvelopeDAHDSR createEnvelopeDAHDSR(IComponent component) { return new EnvelopeDAHDSR(component); }
+    public static IModelWhiteNoise createWhiteNoise(IComponent component) { return new ModelWhiteNoise(component);}
 
     /**
      * Returns a IFunction instance
