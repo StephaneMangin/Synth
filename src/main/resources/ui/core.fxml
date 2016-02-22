@@ -4,14 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.Group?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
             <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" focusTraversable="false"
                         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                         AnchorPane.topAnchor="0.0">
-                <AnchorPane fx:id="anchorPane" minHeight="3000.0" minWidth="3000.0" prefHeight="3000.0"
-                            prefWidth="3000.0" styleClass="main"/>
+                <Group>
+                    <AnchorPane fx:id="anchorPane" minHeight="3000.0" minWidth="3000.0" prefHeight="3000.0"
+                                prefWidth="3000.0" styleClass="main"/>
+                </Group>
             </ScrollPane>
             <TitledPane fx:id="componentList" blendMode="SRC_ATOP" cache="true" collapsible="true"
                         focusTraversable="false" layoutX="50.0" layoutY="50.0" mnemonicParsing="true" prefWidth="160"
