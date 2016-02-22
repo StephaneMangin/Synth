@@ -7,6 +7,8 @@ import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.services.Factory;
 import org.junit.Test;
 
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 /**
@@ -40,6 +42,26 @@ public class LineOutTest {
         lineOut.start();
         lineOut.stop();
         assertFalse(synth.isRunning());
+    }
+
+    @Test
+    public void testStartRecording()  {
+        // Not Testable
+        // JSyn provides no tool to check on the recording state of a waveRecorder
+    }
+
+    @Test
+    public void testStopRecording()  {
+        // Not Testable
+        // JSyn provides no tool to check on the recording state of a waveRecorder
+    }
+
+    @Test
+    public void testSetAndGetFileToWrite() {
+        File file = new File("/tmp/chazam.wav");
+        assertNotEquals(file, lineOut.getFileToWrite());
+        lineOut.setFileToWrite(file);
+        assertEquals(file, lineOut.getFileToWrite());
     }
 
     @Test

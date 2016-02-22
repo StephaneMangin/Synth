@@ -99,13 +99,15 @@ public class BasicChainTest {
     public void TestVcoaSwitch() throws InterruptedException {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSquare(1);
-        vcoa.setExponentialFrequency(440);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         vcoa.getOutput().connect(out.getInput());
 
         out.start();
         synth.start();
         synth.sleepUntil(3);
-        vcoa.setExponentialFrequency(880);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         vcoa.setAmplitudeSquare(0);
         synth.sleepUntil(6);
         vcoa.setAmplitudeSquare(1);
@@ -119,20 +121,24 @@ public class BasicChainTest {
 
     @Test
     public void TestVca() throws InterruptedException {
+        double amplitude = 0.1;
         Vca vca = new Vca("VCA");
         Vcoa vcoa2 = new Vcoa("VCOA2");
+
+        //Configuration
         vcoa.setOscillatorType(OscillatorType.SINE);
         vcoa.setAmplitudeSine(1);
-        //vcoa2.setExponentialFrequency(440.0);
-        //vcoa2.setAmplitudeSine(1.0);
-        vcoa2.activate();
-        vcoa2.setAmplitudeSquare(1);
-        vcoa2.setExponentialFrequency(200);
+        vcoa2.setOscillatorType(OscillatorType.SQUARE);
+        vcoa2.setAmplitudeSquare(amplitude);
+        vcoa2.setExponentialFrequency(0.8);
+        vcoa2.setLinearFrequency(0.8);
         vca.getGainModulator().setValue(0.0);
 
+        //Connection
         vcoa.getOutput().connect(vca.getInput());
-        //vcoa2.getOutput().connect(vca.getAm());
-        vcoa2.getOutput().connect(this.out.getInput());
+        vcoa2.getOutput().connect(vca.getAm());
+        //vcoa2.getOutput().connect(this.out.getInput());
+        vca.getOutput().connect(this.out.getInput());
 
         out.start();
         synth.start();
@@ -141,25 +147,15 @@ public class BasicChainTest {
 
         int n = 2000;
         while (n >= 0) {
-
             if (n % 50 == 0){
                 if (out.getAmModulator().getValue() > 0.0){
                     out.getAmModulator().setValue(0.0);
                 } else {
-                    out.getAmModulator().setValue(1.0);
+                    out.getAmModulator().setValue(amplitude);
+                    amplitude = amplitude - 0.025;
                 }
 
             }
-
-            //System.out.println(out.getAmModulator().getInputB().isConnected());
-            //out.getAmModulator().getInputB().setValueInternal(((double) 200 - (double) n) / (double) 200);
-            //out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
-            out.getAmModulator().getValue();
-            //System.out.println(out.getAmModulator().getValue());
-            //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
-            //System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
-
-            //assertNotEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
 
             synth.sleepFor(0.01);
             n--;
