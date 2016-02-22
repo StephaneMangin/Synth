@@ -4,11 +4,14 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -46,6 +49,30 @@ public class Controller extends AbstractController {
         }
         else {
             componentOut.activate();
+        }
+    }
+
+    @FXML
+    public void toggleRecord(final Event event) {
+        final ToggleButton recordButton = (ToggleButton) event.getSource();
+        if (recordButton.isSelected()) {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName("record.wav");
+            fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
+            fileChooser.setTitle("Save File");
+            final File fileToWrite = fileChooser.showSaveDialog(ConnectionManager.getStage());
+
+            // If the user closes the FileChooser, cancel
+            if (fileToWrite == null) {
+                recordButton.setSelected(false);
+                return;
+            }
+
+            componentOut.getLineOut().setFileToWrite(fileToWrite);
+            componentOut.getLineOut().startRecord();
+        }
+        else {
+            componentOut.getLineOut().stopRecord();
         }
     }
 }

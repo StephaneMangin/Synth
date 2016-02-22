@@ -107,22 +107,6 @@ public abstract class AbstractComponent implements IComponent {
                 "Gain", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-        inputByPassMixer1 = Factory.createModulator(
-                "mixerModIn1", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer2 = Factory.createModulator(
-                "mixerModIn2", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer3 = Factory.createModulator(
-                "mixerModIn3", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer4 = Factory.createModulator(
-                "mixerModIn4", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
     }
 
     /**

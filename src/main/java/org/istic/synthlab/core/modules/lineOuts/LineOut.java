@@ -1,5 +1,6 @@
 package org.istic.synthlab.core.modules.lineOuts;
 
+import com.jsyn.util.WaveRecorder;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.services.Factory;
@@ -20,7 +21,7 @@ public class LineOut implements ILineOut {
 
     private com.jsyn.unitgen.LineOut lineOut;
     private com.jsyn.unitgen.PassThrough passThrough;
-    private com.jsyn.util.WaveRecorder waveRecorder;
+    private WaveRecorder waveRecorder;
     private IInput input;
 
     private Date date = new Date();
@@ -37,7 +38,7 @@ public class LineOut implements ILineOut {
 
         try {
             file = new File(path);
-            waveRecorder = new com.jsyn.util.WaveRecorder(Factory.createSynthesizer(), file);
+            waveRecorder = new WaveRecorder(Factory.createSynthesizer(), file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -83,7 +84,7 @@ public class LineOut implements ILineOut {
     @Override
     public void setFileToWrite(File file) {
         try {
-            waveRecorder = new com.jsyn.util.WaveRecorder(Factory.createSynthesizer(), file);
+            waveRecorder = new WaveRecorder(Factory.createSynthesizer(), file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
