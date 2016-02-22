@@ -9,7 +9,7 @@
 <?import javafx.scene.effect.InnerShadow?>
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="200.0" prefWidth="176.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcfa.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close"
                pickOnBounds="true" preserveRatio="true" smooth="true">
@@ -22,10 +22,10 @@
         </font>
     </Label>
 
-    <Potentiometer fx:id="gain" layoutX="100.0" layoutY="50.0"/>
+    <Potentiometer fx:id="cutoffFrequency" layoutX="100.0" layoutY="50.0"/>
 
-    <Label layoutX="17.0" layoutY="90.0" text="AM"/>
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" onMouseClicked="#connectInputAm"
+    <Label layoutX="17.0" layoutY="90.0" text="FM"/>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" onMouseClicked="#connectInputFm"
                pickOnBounds="true" preserveRatio="true">
         <effect>
             <InnerShadow/>
