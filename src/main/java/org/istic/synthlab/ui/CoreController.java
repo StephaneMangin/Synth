@@ -221,7 +221,7 @@ public class CoreController implements Initializable, IObserver {
 
         // FIXME: autodetect the components
         // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca"};
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca","mixer"};
         //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
         for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
