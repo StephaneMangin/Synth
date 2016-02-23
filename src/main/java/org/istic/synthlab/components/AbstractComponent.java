@@ -66,10 +66,6 @@ public abstract class AbstractComponent implements IComponent {
     private IModulator outputModulator;
     private IModulator outputGateModulator;
     private IModulator gainModulator;
-    private IModulator inputByPassMixer1;
-    private IModulator inputByPassMixer2;
-    private IModulator inputByPassMixer3;
-    private IModulator inputByPassMixer4;
 
     private int id = 0;
 
@@ -107,22 +103,7 @@ public abstract class AbstractComponent implements IComponent {
                 "Gain", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-        inputByPassMixer1 = Factory.createModulator(
-                "mixerModIn1", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer2 = Factory.createModulator(
-                "mixerModIn2", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer3 = Factory.createModulator(
-                "mixerModIn3", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
-        inputByPassMixer4 = Factory.createModulator(
-                "mixerModIn4", this,
-                ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
+
     }
 
     /**
@@ -240,38 +221,6 @@ public abstract class AbstractComponent implements IComponent {
 
     /**
      * Returns the input for internal connexions
-     * @return intern output of the component
-     */
-    protected IOutput getSourceInputMix1() {
-        return inputByPassMixer1.getOutput();
-    }
-
-    /**
-     * Returns the input for internal connexions
-     * @return intern output of the component
-     */
-    protected IOutput getSourceInputMix2() {
-        return inputByPassMixer2.getOutput();
-    }
-
-    /**
-     * Returns the input for internal connexions
-     * @return intern output of the component
-     */
-    protected IOutput getSourceInputMix3() {
-        return inputByPassMixer3.getOutput();
-    }
-
-    /**
-     * Returns the input for internal connexions
-     * @return intern output of the component
-     */
-    protected IOutput getSourceInputMix4() {
-        return inputByPassMixer4.getOutput();
-    }
-
-    /**
-     * Returns the input for internal connexions
      * @return intern gate output of the component
      */
     protected IOutput getSourceGate() {
@@ -329,11 +278,6 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     public IModulator getGainModulator() { return this.gainModulator; }
-
-    public IModulator getInputModulatorMixer1() { return this.inputByPassMixer1; }
-    public IModulator getInputModulatorMixer2() { return this.inputByPassMixer2; }
-    public IModulator getInputModulatorMixer3() { return this.inputByPassMixer3; }
-    public IModulator getInputModulatorMixer4() { return this.inputByPassMixer4; }
 
     @Override
     public String toString() {
