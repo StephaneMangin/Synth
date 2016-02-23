@@ -3,6 +3,7 @@ package org.istic.synthlab.core.services;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
+import org.istic.synthlab.components.oscilloscope.Oscilloscope;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.components.IComponent;
@@ -268,8 +269,12 @@ public class Register {
     public static void startComponents() {
         for (IComponent component : mappingGenerator.keySet()) {
             if (component instanceof Out) {
-                Out ugly = (Out) component;
-                ugly.start();
+                Out out = (Out) component;
+                out.start();
+            }
+            else if (component instanceof Oscilloscope) {
+                Oscilloscope scope = (Oscilloscope) component;
+                scope.activate();
             }
         }
     }

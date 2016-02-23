@@ -1,39 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.effect.InnerShadow?>
 <AnchorPane fx:id="anchorPane" prefHeight="350.0" prefWidth="610.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
-
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true"
-               preserveRatio="true" smooth="true" onMouseClicked="#close">
-        <Image url="@../../images/closeIcon.png"/>
-    </ImageView>
-
-    <Label layoutX="35.0" layoutY="4.0" fx:id="title" styleClass="title">
-        <font>
-            <Font name="System" size="20.0"/>
-        </font>
-    </Label>
-
-    <Pane fx:id="pane" layoutX="5.0" layoutY="35.0" />
-
-    <Label layoutX="11.0" layoutY="290.0" text="Input" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectInput">
-        <Image url="@../../images/blueSocket.png"/>
-        <effect>
-            <InnerShadow />
-        </effect>
-    </ImageView>
-
-    <Label layoutX="560.0" layoutY="290.0" text="Output" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="570.0" layoutY="310.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#connectOutput">
-        <Image url="@../../images/redSocket.png"/>
-        <effect>
-            <InnerShadow />
-        </effect>
-    </ImageView>
+   <children>
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
+          <image>
+              <Image url="@../../images/closeIcon.png" />
+          </image>
+       </ImageView>
+   
+       <Label fx:id="title" layoutX="35.0" layoutY="4.0">
+           <font>
+               <Font name="System" size="20.0" />
+           </font>
+       </Label>
+       <LineChart fx:id="chart" animated="false" createSymbols="false" layoutX="-10.0" layoutY="20.0" prefHeight="269.0" prefWidth="610.0" verticalGridLinesVisible="false">
+           <xAxis>
+               <NumberAxis fx:id="timeAxis" lowerBound="0" upperBound="500" tickUnit="50" autoRanging="false" forceZeroInRange="false" minorTickVisible="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
+           </xAxis>
+           <yAxis>
+               <NumberAxis fx:id="scaleAxis" autoRanging="false" forceZeroInRange="false" lowerBound="-10" minorTickVisible="false" side="LEFT" upperBound="10" />
+           </yAxis>
+       </LineChart>
+       <Label layoutX="11.0" layoutY="290.0" text="Input" />
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="310.0" onMouseClicked="#connectInput" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@../../images/blueSocket.png" />
+          </image>
+           <effect>
+               <InnerShadow />
+           </effect>
+       </ImageView>
+   
+       <Label layoutX="560.0" layoutY="290.0" text="Output" />
+       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="570.0" layoutY="310.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
+          <image>
+              <Image url="@../../images/redSocket.png" />
+          </image>
+           <effect>
+               <InnerShadow />
+           </effect>
+       </ImageView>
+   </children>
 </AnchorPane>
