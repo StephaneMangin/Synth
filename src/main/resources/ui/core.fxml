@@ -60,7 +60,6 @@
                 <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#onPause" text="Pause"/>
                 <Button fx:id="playButton" defaultButton="true" disable="true" mnemonicParsing="false"
                         onAction="#onPlay" text="Play"/>
-                <Button mnemonicParsing="false" onAction="#onCut" text="Delete Cable"/>
             </ToolBar>
         </VBox>
     </top>

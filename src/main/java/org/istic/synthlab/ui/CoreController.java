@@ -20,7 +20,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -74,9 +74,6 @@ public class CoreController implements Initializable, IObserver {
     @FXML
     public AnchorPane anchorPane;
 
-    private Image imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
-
-    private Boolean deleteMod = false;
 
     /**
      * This method initializes the list view and the grid
@@ -85,51 +82,18 @@ public class CoreController implements Initializable, IObserver {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Stop the synthesizer att the beginning
         onPause();
         initializeSkinMenu();
         initializeListView();
-
-        anchorPane.setOnDragOver(event -> {
-            if (event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
-            event.consume();
-        });
-
-        anchorPane.setOnDragDropped(event -> {
-            final Dragboard db = event.getDragboard();
-            if (db.hasString()) {
-                Node component = null;
-                if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
-                    component = (Node) event.getGestureSource();
-                }
-                else {
-                    try {
-                        component = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
-                        component.setOnDragDetected(new DragDetectedComponentEventHandler());
-
-                        anchorPane.getChildren().add(component);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                        event.consume();
-                        return;
-                    }
-                }
-                assert component != null;
-
-                component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
-                component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
-                event.setDropCompleted(true);
-            }
-            event.consume();
-        });
-
+        initializeMainPane();
         initializeFunctions();
         ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
 
     }
 
+    // Skin related stuff
     private final List<RadioMenuItem> stylesheets = new ArrayList<RadioMenuItem>() {{
         add(new RadioMenuItem("Metal"));
         add(new RadioMenuItem("Wood"));
@@ -154,6 +118,89 @@ public class CoreController implements Initializable, IObserver {
         }
     }
 
+    private void initializeListView() {
+        final ObservableList<Node> data = FXCollections.observableArrayList();
+
+        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca", "mixer"};
+
+        // FIXME: autodetect the components
+        // replicator wasn't detected by findAllPackagesStartingWith()
+        //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
+        for (final String component: components) {
+            final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
+            if (image == null) {
+                continue;
+            }
+
+            final Pane pane = new Pane();
+            final ImageView imageView = new ImageView(new Image(image.toString()));
+            imageView.setPreserveRatio(true);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(50);
+            imageView.setSmooth(true);
+            imageView.setId(component);
+
+            pane.getChildren().add(imageView);
+            pane.setOnDragDetected(new DragDetectedListItemEventHandler());
+            data.add(pane);
+        }
+        listView.setItems(data);
+    }
+
+    // A list of all the components on the pane
+    private final ArrayList<Node> components = new ArrayList<>();
+
+    private void initializeMainPane() {
+        anchorPane.setOnDragOver(event -> {
+            if (event.getDragboard().hasString()) {
+                event.acceptTransferModes(TransferMode.COPY);
+            }
+            event.consume();
+        });
+
+        anchorPane.setOnDragDropped(event -> {
+            final Dragboard db = event.getDragboard();
+            if (db.hasString()) {
+                Node component = null;
+
+                // Move a component
+                if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
+                    component = (Node) event.getGestureSource();
+                }
+                // Load a component
+                else {
+                    try {
+                        component = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
+                        component.setOnDragDetected(new DragDetectedComponentEventHandler());
+                        anchorPane.getChildren().add(component);
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                        event.consume();
+                        return;
+                    }
+                }
+                assert component != null;
+                component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
+                component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
+                components.add(component);
+                event.setDropCompleted(true);
+            }
+            event.consume();
+        });
+    }
+
+    private void initializeFunctions() {
+        // We set this event so that when we click somewhere random when in cable remove mode
+        // it goes back to normal mode
+        anchorPane.setOnMouseClicked(event -> {
+            if (cableRemoveMode) {
+                cableRemoveMode = false;
+                borderPane.setCursor(Cursor.DEFAULT);
+            }
+            event.consume();
+        });
+    }
+
     @Override
     public void update(Map<IOutput, IInput> arg) {
         String total = "";
@@ -174,37 +221,39 @@ public class CoreController implements Initializable, IObserver {
     }
 
     /**
-     * Draw a cable between to point (one input and one one output)
-     * @param arg an HashMap which contains all the cable we have into our view
+     *
      */
     @Override
-    public void drawLine(HashMap<CurveCable, Connection> arg) {
-        for(CurveCable key : arg.keySet()){
-            key.setOnMouseClicked(event -> {
-                if(deleteMod){
-                    ConnectionManager.deleteLine(key);
-                    deleteMod = false;
+    public void drawLine(final HashMap<CurveCable, Connection> arg) {
+        for (final CurveCable cable : arg.keySet()){
+            cable.setOnMouseClicked(event -> {
+                // Remove the cable
+                if (cableRemoveMode) {
+                    ConnectionManager.deleteLine(cable);
+                    cableRemoveMode = false;
                     borderPane.setCursor(Cursor.DEFAULT);
                 }
-                else{
-                    Stage dialog = new Stage();
+                // Chose the color of the cable
+                else {
+                    final Stage dialog = new Stage();
                     dialog.initModality(Modality.NONE);
                     dialog.initOwner(ConnectionManager.getStage());
-                    ColorPicker colorPicker = new ColorPicker();
-                    VBox dialogVbox = new VBox();
-                    colorPicker.setValue(key.getColor());
-                    dialogVbox.getChildren().add(colorPicker);
-                    Scene dialogScene = new Scene(dialogVbox);
+
+                    final ColorPicker colorPicker = new ColorPicker();
+                    colorPicker.setValue(cable.getColor());
+
+                    final Scene dialogScene = new Scene(colorPicker);
                     dialog.setScene(dialogScene);
                     dialog.show();
-                    event.consume();
+
                     colorPicker.valueProperty().addListener(e -> {
-                            key.setColor(colorPicker.getValue());
-                            dialog.hide();
+                        cable.setColor(colorPicker.getValue());
+                        dialog.hide();
                     });
                 }
+                event.consume();
             });
-            anchorPane.getChildren().add(key);
+            anchorPane.getChildren().add(cable);
         }
     }
 
@@ -216,42 +265,9 @@ public class CoreController implements Initializable, IObserver {
         temp.forEach(list::remove);
     }
 
-    private void initializeFunctions(){
-        imageScissors = new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true);
-        scrollpane.setOnMouseClicked(event -> {
-            deleteMod = false;
-            borderPane.setCursor(Cursor.DEFAULT);
-        });
-        //imageScissors = new Image(getClass().getResource("/ui/images/scissors.png").getPath());
-    }
-
-    private void initializeListView() {
-        final ObservableList<Node> data = FXCollections.observableArrayList();
-
-        // FIXME: autodetect the components
-        // replicator wasn't detected by findAllPackagesStartingWith()
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca","mixer"};
-        //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
-        for (final String component: components) {
-            final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
-            if (image == null) {
-                continue;
-            }
-
-            final Pane pane = new Pane();
-            final ImageView imageView = new ImageView(new Image(image.toString()));
-            imageView.setPreserveRatio(true);
-            imageView.setFitWidth(100);
-            imageView.setFitHeight(50);
-            imageView.setSmooth(true);
-            imageView.setId(component);
-
-            pane.getChildren().add(imageView);
-            pane.setOnDragDetected(new DragDetectedListItemEventHandler());
-            data.add(pane);
-        }
-
-        listView.setItems(data);
+    @Override
+    public void test(Line currentlyDrawnCable) {
+        anchorPane.getChildren().add(currentlyDrawnCable);
     }
 
     /**
@@ -274,13 +290,16 @@ public class CoreController implements Initializable, IObserver {
         Factory.createSynthesizer().stop();
     }
 
+    // Cable deletion stuff
+    private boolean cableRemoveMode = false;
+
     @FXML
-    public void onCut(){
-        deleteMod = !deleteMod;
-        if(deleteMod){
-            borderPane.setCursor(new ImageCursor(imageScissors));
+    public void onCut() {
+        cableRemoveMode = !cableRemoveMode;
+        if (cableRemoveMode) {
+            borderPane.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true)));
         }
-        else{
+        else {
             borderPane.setCursor(Cursor.DEFAULT);
         }
     }
