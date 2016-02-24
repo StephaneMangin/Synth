@@ -72,8 +72,11 @@ public class CoreController implements Initializable {
     @FXML
     private Button playButton;
     @FXML
-    public AnchorPane anchorPane;
+    private AnchorPane anchorPane;
 
+    public AnchorPane getAnchorPane() {
+        return anchorPane;
+    }
 
     /**
      * This method initializes the list view and the grid

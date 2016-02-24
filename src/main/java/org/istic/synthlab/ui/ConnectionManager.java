@@ -2,7 +2,6 @@ package org.istic.synthlab.ui;
 
 
 import javafx.event.EventHandler;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
@@ -10,40 +9,24 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
-import static javafx.scene.paint.Color.*;
 
 /**
  * @author Sebastien
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class ConnectionManager {
-    private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
-    private static List<IObserver> observers = new ArrayList<>();
-    private static Boolean cableSelected = false;
-    private static HashMap<CurveCable, Connection> lineConnection = new HashMap<>();    //Each CurveCable has an IInput and an IOutput
-    private static HashMap<IComponent, List<CurveCable>> componentCurveCableHashMap = new HashMap<>();  //Each IComponent has a list of CurveCable
-    private static List <IComponent> componentList = new ArrayList<>(); //List of two IComponent which will used for create a connection
-    private static Node inputNode;
-    private static Node outputNode;
-    private static Node lastDraw;
-    private static Color colorCurrentCable = RED;
     private static Stage stage;
     private static CoreController coreController;
-
 
     public static void setCoreController(CoreController coreController) {
         ConnectionManager.coreController = coreController;
@@ -57,190 +40,221 @@ public class ConnectionManager {
         return stage;
     }
 
-    public static void addObserver(IObserver observer) {
-        observers.add(observer);
-    }
-
-    private static Node originNode;
-    private static Node destinationNode;
-    private static IOutput output;
-    private static IInput input;
+    private static Pair<Node, IOutput> output;
+    private static Pair<Node, IInput> input;
     private static CurveCable currentlyDrawnCable;
 
+    /**
+     * Used to remember the cables associated to a node
+     */
     private static final HashMap<Node, CurveCable> nodeToCableBinding = new HashMap<>();
-    private static final HashMap<CurveCable, IInput> cableToInputBinding = new HashMap<>();
-    private static final HashMap<CurveCable, IOutput> cableToOutputBinding = new HashMap<>();
+
+    //private static final HashMap<CurveCable, Pair<IInput, IOutput>> cableToInputOutputBinding = new HashMap<>();
+    private static final HashMap<Node, IInput> nodeToInputBinding = new HashMap<>();
+    private static final HashMap<Node, IOutput> nodeToOutputBinding = new HashMap<>();
+
+    public static boolean isInputNode(final Node node) {
+        return nodeToInputBinding.containsKey(node);
+    }
+
+    public static boolean isOutputNode(final Node node) {
+        return nodeToOutputBinding.containsKey(node);
+    }
+
+    private static boolean isNodeFree(final Node node) {
+        return !nodeToCableBinding.containsKey(node);
+    }
+
+    private static void resetDrawingSystem() {
+        coreController.getAnchorPane().setOnMouseMoved(null);
+        coreController.getAnchorPane().setOnMouseClicked(null);
+        currentlyDrawnCable = null;
+        input = null;
+        output = null;
+    }
+
+    public static void plug(final IComponent abstractComponent, final Node node, final IOutput futureConnectionOrigin) {
+        // Handle the case when the user clicks on an input and then on another input
+        if (output != null) {
+            coreController.getAnchorPane().getChildren().remove(currentlyDrawnCable);
+        }
+
+        output = new Pair<>(node, futureConnectionOrigin);
+
+        plugCable(node);
+    }
+
+    public static void plug(final IComponent abstractComponent, final Node node, final IInput futureConnectionDestination) {
+        // Handle the case when the user clicks on an output and then on another output
+        if (input != null) {
+            coreController.getAnchorPane().getChildren().remove(currentlyDrawnCable);
+        }
+
+        input = new Pair<>(node, futureConnectionDestination);
+
+        plugCable(node);
+    }
+
+    /**
+     * Try to plug a cable in a socket
+     */
+    private static void plugCable(final Node node) {
+        if (currentlyDrawnCable == null) {
+            if (isNodeFree(node)) {
+                plugStartCable(node);
+            }
+            else {
+                moveCable(node);
+            }
+        }
+        // If it's connected on one end
+        else {
+            plugEndCable(node);
+        }
+    }
+
+    /**
+     * Plug the first end of a cable
+     */
+    private static void plugStartCable(final Node node) {
+        currentlyDrawnCable = new CurveCable(node, node);
+
+        // Make the cable follow the cursor
+        currentlyDrawnCable.setMouseTransparent(true);
+        coreController.getAnchorPane().setOnMouseMoved(event -> {
+            currentlyDrawnCable.setStartX(event.getX());
+            currentlyDrawnCable.setStartY(event.getY());
+        });
+
+        // Cancel the drawing if we click on the void
+        coreController.getAnchorPane().setOnMouseClicked(event -> cancelCable());
+
+        // Actually draw the cable
+        coreController.getAnchorPane().getChildren().add(currentlyDrawnCable);
+    }
+
+    /**
+     * Plug the second end of a cable
+     */
+    private static void plugEndCable(final Node node) {
+        if (!isNodeFree(node)) {
+            return;
+        }
+
+        // Redraw the cable to its final coordinates
+        // FIXME: should be simply `currentlyDrawnCable.setEndNode(node);`
+        coreController.getAnchorPane().getChildren().remove(currentlyDrawnCable);
+        currentlyDrawnCable = new CurveCable(currentlyDrawnCable.getStartNode(), node);
+        coreController.getAnchorPane().getChildren().add(currentlyDrawnCable);
+
+        // Add a context menu to the cable
+        currentlyDrawnCable.setOnMouseClicked(new CableContextMenu());
+
+        // Save some state data
+        nodeToCableBinding.put(currentlyDrawnCable.getStartNode(), currentlyDrawnCable);
+        nodeToCableBinding.put(currentlyDrawnCable.getEndNode(), currentlyDrawnCable);
+        nodeToInputBinding.put(input.getKey(), input.getValue());
+        nodeToOutputBinding.put(output.getKey(), output.getValue());
+
+        // Make the model connection
+        Register.connect(input.getValue(), output.getValue());
+
+        resetDrawingSystem();
+    }
+
+    // FIXME: bad values for the input/output
+    private static void moveCable(final Node node) {
+        final CurveCable cable = nodeToCableBinding.get(node);
+        final Node toKeepPlugged = cable.getStartNode() != node ? cable.getStartNode() : cable.getEndNode();
+
+        if (isInputNode(toKeepPlugged)) {
+            final IInput in = nodeToInputBinding.get(toKeepPlugged);
+            deleteCable(cable);
+            plug(null, toKeepPlugged, in);
+        }
+        else if (isOutputNode(toKeepPlugged)) {
+            final IOutput out = nodeToOutputBinding.get(toKeepPlugged);
+            deleteCable(cable);
+            plug(null, toKeepPlugged, out);
+        }
+        else {
+            throw new RuntimeException("Should not happen...");
+        }
+    }
+
+    private static void cancelCable() {
+        if (currentlyDrawnCable != null) {
+            deleteCable(currentlyDrawnCable);
+            resetDrawingSystem();
+        }
+    }
 
     private static void deleteCable(final CurveCable cable) {
         nodeToCableBinding.remove(cable.getStartNode());
         nodeToCableBinding.remove(cable.getEndNode());
-        Register.disconnect(cableToInputBinding.get(cable));
-        cableToInputBinding.remove(cable);
-        cableToOutputBinding.remove(cable);
-        coreController.anchorPane.getChildren().remove(cable);
-        originNode = destinationNode = null;
+
+        // We need this verification for the case when the cable is currently being drawn
+        if (cable.getStartNode() != cable.getEndNode()) {
+            if (isInputNode(cable.getStartNode())) {
+                Register.disconnect(nodeToInputBinding.get(cable.getStartNode()));
+                nodeToInputBinding.remove(cable.getStartNode());
+                nodeToOutputBinding.remove(cable.getEndNode());
+            }
+            else if (isOutputNode(cable.getStartNode())) {
+                Register.disconnect(nodeToOutputBinding.get(cable.getStartNode()));
+                nodeToInputBinding.remove(cable.getEndNode());
+                nodeToOutputBinding.remove(cable.getStartNode());
+            }
+            else {
+                throw new RuntimeException("This should not happen...");
+            }
+        }
+
+        coreController.getAnchorPane().getChildren().remove(cable);
+    }
+
+    public static void deleteComponent(final IComponent component, final AnchorPane anchorPane) {
+        cancelCable();
+
+        coreController.getAnchorPane().getChildren().remove(anchorPane);
+        //componentToCablesBinding.get(component).forEach(ConnectionManager::deleteCable);
+        //componentToCablesBinding.remove(component);
     }
 
     /**
-     * Call makeConnection if an Input as already been clicked and that the connection is authorized by the model
-     * otherwise it disconnect the current connection using this output
-     * @param node the instance of the node click in the view
-     * @param futureConnectionOrigin the output destination for the new connection
+     * Event handler when right clicking on a cable
      */
-    public static void makeOrigin(IComponent abstractComponent, final Node node, final IOutput futureConnectionOrigin) {
-        // Handle the case when the user clicks on an input and then on another input
-        if (originNode != null) {
-            coreController.anchorPane.getChildren().remove(currentlyDrawnCable);
-        }
-
-        originNode = node;
-        output = futureConnectionOrigin;
-
-        // Start drawing the cable
-        if (destinationNode == null) {
-            // If the socket already has a cable plugged in
-            if (nodeToCableBinding.containsKey(node)) {
-                final CurveCable cable = nodeToCableBinding.get(node);
-                final IInput in = cableToInputBinding.get(cable);
-                deleteCable(cable);
-                makeDestination(null, cable.getEndNode(), in);
-            }
-            else {
-                currentlyDrawnCable = new CurveCable(originNode, originNode);
-
-                // Make the cable follow the cursor
-                currentlyDrawnCable.setMouseTransparent(true);
-                coreController.anchorPane.setOnMouseMoved(event -> {
-                    currentlyDrawnCable.setEndX(event.getX());
-                    currentlyDrawnCable.setEndY(event.getY());
-                });
-
-                coreController.anchorPane.getChildren().add(currentlyDrawnCable);
-            }
-        }
-        // Finalize the drawing
-        else {
-            // Check the second port we click is free
-            if (!nodeToCableBinding.containsKey(node)) {
-                finalizeDrawing();
-            }
-            else {
-                originNode = null;
-            }
-        }
-    }
-
-    /**
-     * Call makeConnection if an Output as already been clicked and that the connection is authorized by the model
-     * otherwise it disconnect the current connection using this input
-     * @param node the instance of the node click in the view
-     * @param futureConnectionDestination the input destination for the new connection
-     */
-    public static void makeDestination(IComponent abstractComponent, final Node node, final IInput futureConnectionDestination) {
-        // Handle the case when the user clicks on an output and then on another output
-        if (destinationNode != null) {
-            coreController.anchorPane.getChildren().remove(currentlyDrawnCable);
-        }
-
-        destinationNode = node;
-        input = futureConnectionDestination;
-
-        // Start drawing the cable
-        if (originNode == null) {
-            if (nodeToCableBinding.containsKey(node)) {
-                final CurveCable cable = nodeToCableBinding.get(node);
-                final IOutput out = cableToOutputBinding.get(cable);
-                deleteCable(cable);
-                makeOrigin(null, cable.getStartNode(), out);
-            }
-            else {
-                currentlyDrawnCable = new CurveCable(destinationNode, destinationNode);
-
-                // Make the cable follow the cursor
-                currentlyDrawnCable.setMouseTransparent(true);
-                coreController.anchorPane.setOnMouseMoved(event -> {
-                    currentlyDrawnCable.setStartX(event.getX());
-                    currentlyDrawnCable.setStartY(event.getY());
-                });
-
-                coreController.anchorPane.getChildren().add(currentlyDrawnCable);
-            }
-        }
-        // Finalize the drawing
-        else {
-            // Check the second port we click is free
-            if (!nodeToCableBinding.containsKey(node)) {
-                finalizeDrawing();
-            }
-            else {
-                destinationNode = null;
-            }
-        }
-    }
-
-    private static void finalizeDrawing() {
-        // VIEW
-        coreController.anchorPane.setOnMouseMoved(null);
-
-        // Redraw the cable to its final coordinates
-        coreController.anchorPane.getChildren().remove(currentlyDrawnCable);
-        currentlyDrawnCable = new CurveCable(originNode, destinationNode);
-        coreController.anchorPane.getChildren().add(currentlyDrawnCable);
-
-        // Add a context menu to the cable
-        currentlyDrawnCable.addEventHandler(MouseEvent.MOUSE_CLICKED, new CableContextMenu(currentlyDrawnCable));
-
-        // Reinitialize the drawing system
-        nodeToCableBinding.put(originNode, currentlyDrawnCable);
-        nodeToCableBinding.put(destinationNode, currentlyDrawnCable);
-        originNode = destinationNode = null;
-
-        // MODEL
-        cableToInputBinding.put(currentlyDrawnCable, input);
-        cableToOutputBinding.put(currentlyDrawnCable, output);
-        Register.connect(input, output);
-    }
-
     private static class CableContextMenu implements EventHandler<MouseEvent> {
-        private final CurveCable cable;
-        private final ContextMenu contextMenu = new ContextMenu();
-
-        public CableContextMenu(final CurveCable cable) {
-            this.cable = cable;
-            final MenuItem deleteMenu = new MenuItem(null, new Label("Delete"));
-            deleteMenu.setOnAction(event -> deleteCable(cable));
-
-            final ColorPicker colorPicker = new ColorPicker();
-            colorPicker.setValue(cable.getColor());
-            colorPicker.getStyleClass().add("button");
-            colorPicker.setStyle("-fx-background-color: transparent;");
-
-            final MenuItem colorMenu = new MenuItem(null, colorPicker);
-            colorMenu.setOnAction(event -> cable.setColor(colorPicker.getValue()));
-
-            contextMenu.getItems().addAll(deleteMenu, colorMenu);
-        }
-
         @Override
         public void handle(final MouseEvent event) {
+            // On right click
             if (event.getButton() == MouseButton.SECONDARY) {
-                contextMenu.show((Node) event.getSource() , event.getScreenX(), event.getScreenY());
+                cancelCable();
+
+                final CurveCable cable = (CurveCable) event.getSource();
+
+                // Create a context menu
+                final ContextMenu contextMenu = new ContextMenu();
+
+                // Entry to delete a cable
+                final MenuItem deleteMenu = new MenuItem(null, new Label("Delete"));
+                deleteMenu.setOnAction(e -> deleteCable(cable));
+
+                // Entry to change the color of a cable
+                final ColorPicker colorPicker = new ColorPicker();
+                colorPicker.setValue(cable.getColor());
+                colorPicker.getStyleClass().add("button");
+                colorPicker.setStyle("-fx-background-color: transparent;");
+
+                final MenuItem colorMenu = new MenuItem(null, colorPicker);
+                colorMenu.setOnAction(e -> cable.setColor(colorPicker.getValue()));
+
+                // Show the context menu
+                contextMenu.getItems().addAll(deleteMenu, colorMenu);
+                contextMenu.show(cable , event.getScreenX(), event.getScreenY());
+
+                event.consume();
             }
         }
-    }
-
-    /**
-     * Return the coordinates relative to the scene for the center of a node
-     * @param node The node to which convert the coordinates
-     * @return A Point2D containing the scene coordinates of the center of node.
-     */
-    private static Point2D computeCoordinates(final Node node) {
-        double x = node.getParent().getBoundsInParent().getMinX() + node.getBoundsInParent().getMinX(),
-               y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
-
-        x += node.getBoundsInParent().getWidth()/2;
-        y += node.getBoundsInParent().getHeight()/2;
-
-        return new Point2D(x, y);
     }
 }

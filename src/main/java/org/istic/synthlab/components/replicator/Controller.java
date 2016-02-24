@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
 
@@ -27,11 +26,11 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     public void connectOutput1(final MouseEvent event) {
-        ConnectionManager.makeOrigin(replicator, (Node) event.getSource(), replicator.getOutputReplicated1());
+        ConnectionManager.plug(replicator, (Node) event.getSource(), replicator.getOutputReplicated1());
     }
 
     @FXML
     public void connectOutput2(final MouseEvent event) {
-        ConnectionManager.makeOrigin(replicator, (Node) event.getSource(), replicator.getOutputReplicated2());
+        ConnectionManager.plug(replicator, (Node) event.getSource(), replicator.getOutputReplicated2());
     }
 }
