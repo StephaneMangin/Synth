@@ -54,7 +54,7 @@ public class EgPrototype {
 
         synth.sleepFor(3.0);
 
-        // Test not functionnal as long as the VCA Component won't be completed.
+        // Test not functional as long as the VCA Component won't be completed.
         // Do not take it as granted.
     }
 }

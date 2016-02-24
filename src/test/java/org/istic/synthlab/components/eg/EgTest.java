@@ -38,7 +38,7 @@ public class EgTest extends TestCase {
     }
 
     @Test
-    public void testDesactivate() throws Exception {
+    public void testDeactivate() throws Exception {
         envelope.deactivate();
         assertFalse(envelope.isActivated());
     }

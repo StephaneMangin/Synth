@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by Dechaud John Marc and Ngassam Paola on 2/13/16.
  */
-public class MixerGenereate {
+public class MixerGenerate {
 
     SineOscillator sineOscillator;
     SquareOscillator squareOscillator;

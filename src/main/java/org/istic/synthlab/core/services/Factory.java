@@ -38,7 +38,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  */
 public class Factory {
 
-    // A singleton for the synthetizer
+    // A singleton for the synthesizer
     private static Synthesizer synthesizer = null;
 
     /**
@@ -130,7 +130,7 @@ public class Factory {
     }
 
     /**
-     * Return the synthetizer singleton
+     * Return the synthesizer singleton
      *
      * @return Synthesizer
      */
@@ -138,7 +138,7 @@ public class Factory {
         if (synthesizer == null) {
             synthesizer = new SynthesisEngine();
             synthesizer.setRealTime(true);
-            // Parametrization of the synthetizer
+            // Parametrization of the synthesizer
         }
         return synthesizer;
     }
@@ -193,7 +193,7 @@ public class Factory {
         switch(type) {
             case MULTIPLY:
                 return new Multiply(component);
-            case SUBSTRACT:
+            case SUBTRACT:
                 return new Substract(component);
             case ADD:
                 return new Add(component);

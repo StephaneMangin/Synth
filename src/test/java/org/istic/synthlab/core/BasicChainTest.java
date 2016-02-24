@@ -63,7 +63,7 @@ public class BasicChainTest {
         vcoa1.getOutput().connect(vcoa.getInput());
         vcoa.getSawToothOutput().connect(out.getInput());
 
-        // Pour l'affichage des courbes
+        // to display curves
         AudioScope scope = new AudioScope( synth );
         scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
@@ -287,7 +287,7 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        //System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Module with different parameter");
 
         //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);

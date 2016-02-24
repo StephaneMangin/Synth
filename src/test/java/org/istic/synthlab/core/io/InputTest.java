@@ -60,10 +60,10 @@ public class InputTest extends TestCase {
         vcoa = new Vcoa("VCOA");
         unitOutputPort = new UnitOutputPort("PortOut");
         IOutput output = new Output("OUT",vcoa,unitOutputPort);
-        //we connect first the 2 ports before deconnecting them
+        //we connect first the 2 ports before disconnecting them
         input.connect(output);
         // we test if the input port of the out is well disconnected from the output vco
-        input.deconnect();
+        input.disconnect();
         assertFalse(Channel.contains(new Pair<>(input, output)));
     }
 }

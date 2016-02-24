@@ -116,8 +116,8 @@ public class Controller extends AbstractController {
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
         sawtoothRadio.setUserData("sawtoothWave");
-        redNoiseRadio.setUserData("rednoiseWave");
-        whiteNoiseRadio.setUserData("whitenoiseWave");
+        redNoiseRadio.setUserData("redNoiseWave");
+        whiteNoiseRadio.setUserData("whiteNoiseWave");
 
         shortcut1Hz.setToggleGroup(groupShortcut);
         shortcut10Hz.setToggleGroup(groupShortcut);
@@ -150,10 +150,10 @@ public class Controller extends AbstractController {
                     case "sawtoothWave":
                         vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
                         break;
-                    case "rednoiseWave":
+                    case "redNoiseWave":
                         vcoa.setOscillatorType(OscillatorType.REDNOISE);
                         break;
-                    case "whitenoiseWave":
+                    case "whiteNoiseWave":
                         vcoa.setOscillatorType(OscillatorType.WHITENOISE);
                         break;
                     default:
@@ -162,7 +162,7 @@ public class Controller extends AbstractController {
             }
         });
 
-        // TODO: not finished. Find a way to calculate exponential based on herz
+        // TODO: not finished. Find a way to calculate exponential based on hertz
         groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupShortcut.getSelectedToggle() != null) {
                 switch (groupShortcut.getSelectedToggle().getUserData().toString()) {

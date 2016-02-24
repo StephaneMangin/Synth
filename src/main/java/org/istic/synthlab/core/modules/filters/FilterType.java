@@ -8,19 +8,19 @@ package org.istic.synthlab.core.modules.filters;
  */
 public enum FilterType {
     /**
-     * Allpass filter type.
+     * All-pass filter type.
      */
     ALLPASS,
     /**
-     * Highpass filter type.
+     * High-pass filter type.
      */
     HIGHPASS,
     /**
-     * Lowpass filter type.
+     * Low-pass filter type.
      */
     LOWPASS,
     /**
-     * Statevariable filter type.
+     * State variable filter type.
      */
     STATEVARIABLE
 }
