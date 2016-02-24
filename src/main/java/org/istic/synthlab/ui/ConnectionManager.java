@@ -18,7 +18,6 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -26,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * @author Sebastien
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
 public class ConnectionManager {
     private static Stage stage;
@@ -43,23 +43,37 @@ public class ConnectionManager {
     }
 
     private static Pair<Node, IOutput> output;
-
     private static Pair<Node, IInput> input;
     private static CurveCable currentlyDrawnCable;
+
     /**
      * Used to remember the cables associated to a node
      */
     private static final HashMap<Node, CurveCable> nodeToCableBinding = new HashMap<>();
+
+    private static boolean isNodeFree(final Node node) {
+        return !nodeToCableBinding.containsKey(node);
+    }
+
+    /**
+     * Used to maintain a list of cables associated to a component
+     */
     private static HashMap<IComponent, List<CurveCable>> componentToCablesBinding = new HashMap<>();
 
-    public static void addComponentToCableBinding(final IComponent component, final CurveCable cable) {
+    /**
+     * Utility method to add a component/cable binding to the componentToCablesBinding attribute
+     */
+    private static void addComponentToCableBinding(final IComponent component, final CurveCable cable) {
         if (!componentToCablesBinding.containsKey(component)) {
             componentToCablesBinding.put(component, new CopyOnWriteArrayList<>());
         }
         componentToCablesBinding.get(component).add(cable);
     }
 
-    public static void removeComponentToCableBinding(final IComponent component, final CurveCable cable) {
+    /**
+     * Utility method to remove a component/cable binding to the componentToCablesBinding attribute
+     */
+    private static void removeComponentToCableBinding(final IComponent component, final CurveCable cable) {
         if (componentToCablesBinding.containsKey(component)) {
             componentToCablesBinding.get(component).remove(cable);
         }
@@ -76,10 +90,6 @@ public class ConnectionManager {
         return nodeToOutputBinding.containsKey(node);
     }
 
-    private static boolean isNodeFree(final Node node) {
-        return !nodeToCableBinding.containsKey(node);
-    }
-
     private static void resetDrawingSystem() {
         coreController.getAnchorPane().setOnMouseMoved(null);
         coreController.getAnchorPane().setOnMouseClicked(null);
@@ -88,7 +98,7 @@ public class ConnectionManager {
         output = null;
     }
 
-    public static void plug(final IComponent abstractComponent, final Node node, final IOutput futureConnectionOrigin) {
+    public static void plug(final Node node, final IOutput futureConnectionOrigin) {
         // Handle the case when the user clicks on an input and then on another input
         if (output != null) {
             coreController.getAnchorPane().getChildren().remove(currentlyDrawnCable);
@@ -99,7 +109,7 @@ public class ConnectionManager {
         plugCable(node);
     }
 
-    public static void plug(final IComponent abstractComponent, final Node node, final IInput futureConnectionDestination) {
+    public static void plug(final Node node, final IInput futureConnectionDestination) {
         // Handle the case when the user clicks on an output and then on another output
         if (input != null) {
             coreController.getAnchorPane().getChildren().remove(currentlyDrawnCable);
@@ -187,12 +197,12 @@ public class ConnectionManager {
         if (isInputNode(toKeepPlugged)) {
             final IInput in = nodeToInputBinding.get(toKeepPlugged);
             deleteCable(cable);
-            plug(null, toKeepPlugged, in);
+            plug(toKeepPlugged, in);
         }
         else if (isOutputNode(toKeepPlugged)) {
             final IOutput out = nodeToOutputBinding.get(toKeepPlugged);
             deleteCable(cable);
-            plug(null, toKeepPlugged, out);
+            plug(toKeepPlugged, out);
         }
         else {
             // This should never happen if the state data are correctly managed

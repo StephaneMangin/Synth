@@ -26,11 +26,11 @@ public class Controller extends AbstractController implements Initializable {
 
     @FXML
     public void connectOutput1(final MouseEvent event) {
-        ConnectionManager.plug(replicator, (Node) event.getSource(), replicator.getOutputReplicated1());
+        ConnectionManager.plug((Node) event.getSource(), replicator.getOutputReplicated1());
     }
 
     @FXML
     public void connectOutput2(final MouseEvent event) {
-        ConnectionManager.plug(replicator, (Node) event.getSource(), replicator.getOutputReplicated2());
+        ConnectionManager.plug((Node) event.getSource(), replicator.getOutputReplicated2());
     }
 }
