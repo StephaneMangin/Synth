@@ -53,7 +53,7 @@ public class CoreController implements Initializable, IObserver {
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
     private static final double ZOOM_STEP = 0.01;
     private static final double ZOOM_MAX = 2;
-    private static final double ZOOM_MIN = 0.5;
+    private static final double ZOOM_MIN = 0.4;
 
     @FXML
     public Menu skinMenu;
