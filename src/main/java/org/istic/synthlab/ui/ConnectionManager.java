@@ -47,7 +47,7 @@ public class ConnectionManager {
     private static Node inputNode;
     private static Node outputNode;
     private static Node lastDraw;
-    private static Color colorCurrentCable = RED;
+    private static Color colorCurrentCable = Color.RED;
     private static Stage stage;
     private static CoreController coreController;
 
@@ -245,6 +245,7 @@ public class ConnectionManager {
 
         // MODEL
         cables.put(currentlyDrawnCable, output);
+        currentlyDrawnCable.setColor(colorCurrentCable);
         Register.connect(input, output);
     }
 
