@@ -8,15 +8,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -53,7 +51,7 @@ public class CoreController implements Initializable {
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
     private static final double ZOOM_STEP = 0.01;
     private static final double ZOOM_MAX = 2;
-    private static final double ZOOM_MIN = 0.5;
+    private static final double ZOOM_MIN = 0.4;
 
     @FXML
     public Menu skinMenu;
@@ -122,13 +120,8 @@ public class CoreController implements Initializable {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-
-        final String[] components = {"vcoa", "out", "oscilloscope", "replicator", "eg", "vca", "mixer"};
-
         // FIXME: autodetect the components
-        // replicator wasn't detected by findAllPackagesStartingWith()
-        //for (String component: findAllPackagesStartingWith("org.istic.synthlab.components")) {
-        for (final String component: components) {
+        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components", false)) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -173,8 +166,7 @@ public class CoreController implements Initializable {
                 else {
                     try {
                         component = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
-                        component.setOnDragDetected(new DragDetectedComponentEventHandler());
-                        anchorPane.getChildren().add(component);
+                        addWithDragging(anchorPane, component);
                     } catch (final IOException e) {
                         e.printStackTrace();
                         event.consume();
@@ -324,38 +316,12 @@ public class CoreController implements Initializable {
     }
 
     /**
-     * Move a component inside the pane
-     */
-    private class DragDetectedComponentEventHandler implements EventHandler<MouseEvent> {
-        @Override
-        public void handle(final MouseEvent event) {
-            final AnchorPane node = (AnchorPane) event.getSource();
-            final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
-            final ClipboardContent content = new ClipboardContent();
-
-            final SnapshotParameters params = new SnapshotParameters();
-            final Scale scale = new Scale();
-            scale.setX(anchorPane.getScaleX());
-            scale.setY(anchorPane.getScaleY());
-            // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
-            final WritableImage image = node.snapshot(
-                    params,
-                    new WritableImage(
-                            ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
-                            ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()));
-            content.putImage(image);
-
-            content.putString(DRAG_N_DROP_MOVE_GUARD);
-            db.setContent(content);
-            event.consume();
-        }
-    }
-
-    /**
      * Finds all package names starting with prefix
-     * @return Set of package names
+     * @param prefix
+     * @param statik True to statically return components names
+     * @return a set of component name
      */
-    public Set<String> findAllPackagesStartingWith(String prefix) {
+    public Set<String> findAllPackagesStartingWith(String prefix, Boolean statik) {
         final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
 
@@ -371,6 +337,17 @@ public class CoreController implements Initializable {
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
             packageNameSet.add(packageName);
         }
+        if (statik) {
+            packageNameSet.clear();
+            packageNameSet.add("vcoa");
+            packageNameSet.add("out");
+            packageNameSet.add("oscilloscope");
+            packageNameSet.add("replicator");
+            packageNameSet.add("eg");
+            packageNameSet.add("vca");
+            packageNameSet.add("vcfa");
+            packageNameSet.add("mixer");
+        }
         return packageNameSet;
     }
 
@@ -380,5 +357,41 @@ public class CoreController implements Initializable {
      */
     public void removeViewComponent(Pane pane){
         anchorPane.getChildren().remove(pane);
+    }
+
+    /**
+     * Add a component to the anchorpane and declare the dragging controls handlers
+     *
+     * @param root
+     * @param component
+     */
+    private void addWithDragging(final AnchorPane root, final Node component) {
+
+        // Mandage drag and drop
+        component.setOnDragDetected(event -> {
+                component.setStyle("");
+                // TODO: add component relocation
+                final AnchorPane node = (AnchorPane) event.getSource();
+                node.startFullDrag();
+                final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
+                final ClipboardContent content = new ClipboardContent();
+
+                final SnapshotParameters params = new SnapshotParameters();
+                final Scale scale = new Scale();
+                scale.setX(anchorPane.getScaleX());
+                scale.setY(anchorPane.getScaleY());
+                // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
+                final WritableImage image = node.snapshot(
+                        params,
+                        new WritableImage(
+                                ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
+                                ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()));
+                content.putImage(image);
+
+                content.putString(DRAG_N_DROP_MOVE_GUARD);
+                db.setContent(content);
+                event.consume();
+        });
+        root.getChildren().add(component);
     }
 }

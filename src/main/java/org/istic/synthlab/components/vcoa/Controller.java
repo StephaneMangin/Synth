@@ -55,7 +55,7 @@ public class Controller extends AbstractController {
     private final ToggleGroup groupRadio = new ToggleGroup();
     private final ToggleGroup groupShortcut = new ToggleGroup();
 
-    private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator Amplifier");
+    private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
     /**
      * When the component is created, it initialize the component representation and adding listener and MouseEvent
@@ -82,8 +82,8 @@ public class Controller extends AbstractController {
             vcoa.setExponentialFrequency((Double) newValue);
             updateScreen();
             groupShortcut.selectToggle(null);
-            linFrequency.setMinValue(String.valueOf((int)vcoa.getLinearFrequencyMin()*10));
-            linFrequency.setMaxValue(String.valueOf((int)vcoa.getLinearFrequencyMax()*10));
+            linFrequency.setMinValue(String.valueOf((int) vcoa.getLinearFrequencyMin() * 10));
+            linFrequency.setMaxValue(String.valueOf((int) vcoa.getLinearFrequencyMax() * 10));
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
@@ -127,7 +127,7 @@ public class Controller extends AbstractController {
 
         shortcut1Hz.setUserData("1Hz");
         shortcut10Hz.setUserData("10Hz");
-        shortcut100Hz.setUserData("10Hz");
+        shortcut100Hz.setUserData("100Hz");
         shortcut1KHz.setUserData("1KHz");
         shortcut10KHz.setUserData("10KHz");
 
@@ -162,27 +162,29 @@ public class Controller extends AbstractController {
             }
         });
 
+        // TODO: not finished. Find a way to calculate exponential based on herz
         groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupShortcut.getSelectedToggle() != null) {
                 switch (groupShortcut.getSelectedToggle().getUserData().toString()) {
                     case "1Hz":
-                        vcoa.setExponentialRawFrequency(1);
+                        expFrequency.valueProperty().setValue(0.05);
                         break;
                     case "10Hz":
-                        vcoa.setExponentialRawFrequency(10);
+                        expFrequency.valueProperty().setValue(0.2161);
                         break;
                     case "100Hz":
-                        vcoa.setExponentialRawFrequency(100);
+                        expFrequency.valueProperty().setValue(0.78);
                         break;
                     case "1KHz":
-                        vcoa.setExponentialRawFrequency(1000);
+                        expFrequency.valueProperty().setValue(1);
                         break;
                     case "10KHz":
-                        vcoa.setExponentialRawFrequency(10000);
+                        expFrequency.valueProperty().setValue(1);
                         break;
                     default:
                         break;
                 }
+                linFrequency.valueProperty().setValue(0);
                 updateScreen();
             }
         });

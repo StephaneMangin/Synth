@@ -189,7 +189,6 @@ public class ConnectionManager {
         resetDrawingSystem();
     }
 
-    // FIXME: bad values for the input/output
     private static void moveCable(final Node node) {
         final CurveCable cable = nodeToCableBinding.get(node);
         final Node toKeepPlugged = cable.getStartNode() != node ? cable.getStartNode() : cable.getEndNode();
