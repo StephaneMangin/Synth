@@ -94,11 +94,15 @@ public abstract class AbstractComponent implements IComponent {
                 ModulatorType.BYPASS, null);
         outputModulator = Factory.createModulator(
                 "modOut", this,
-                ModulatorType.AMPLITUDE,
-                PotentiometerType.LINEAR);
+                ModulatorType.BYPASS,
+                null);
         outputGateModulator = Factory.createModulator(
                 "modOutGate", this,
                 ModulatorType.BYPASS, null);
+        this.gainModulator = Factory.createModulator(
+                "Gain", this,
+                ModulatorType.GAIN,
+                PotentiometerType.LINEAR);
     }
 
     /**
@@ -271,6 +275,9 @@ public abstract class AbstractComponent implements IComponent {
     public IModulator getOutputModulator() {
         return outputModulator;
     }
+
+    // FIXME: This method isn't present in the interface
+    public IModulator getGainModulator() { return this.gainModulator; }
 
     @Override
     public String toString() {

@@ -1,28 +1,28 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.FilterAllPass;
 import org.istic.synthlab.components.IComponent;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.core.utils.jsyn.GainFunction;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
+import java.util.Random;
+
 /**
- * Create an abstraction to manage a gain potentiometer throught a filterAllpass
+ * Create an abstraction to manage a gain potentiometer through a function that compute a gain in decibel
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class GainModulator extends AbstractModulator {
-    private FilterAllPass filter;
+    private GainFunction function;
 
     public GainModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        filter = new FilterAllPass();
+        function = new GainFunction();
         setPotentiometer(new Potentiometer(
                 "Gain",
-                filter.gain,
+                function.potentiometer,
                 potentiometerType,
                 1D,
                 0D,
@@ -30,24 +30,24 @@ public class GainModulator extends AbstractModulator {
         ));
 
         // Declare the relation to the mapping
-        Register.declare(component, this.filter);
-        input = Factory.createInput(name + "::gainIn", component, filter.input);
-        output = Factory.createOutput(name + "::gainOut", component, filter.output);
+        Register.declare(component, this.function);
+        input = Factory.createInput(name + "::gainIn", component, function.input);
+        output = Factory.createOutput(name + "::gainOut", component, function.output);
     }
 
     @Override
     public void activate() {
-        filter.setEnabled(true);
+        function.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
-        filter.setEnabled(false);
+        function.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return filter.isEnabled();
+        return function.isEnabled();
     }
 
 }

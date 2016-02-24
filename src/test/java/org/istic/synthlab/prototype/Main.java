@@ -17,14 +17,16 @@ public class Main {
         ptt.SimpleTest();*/
 
         /*EgPrototype egp = new EgPrototype();
-        egp.simpleEgTest();*/
+        egp.simpleEgTest2();*/
 
         /*ProofDisconnectInput pdi = new ProofDisconnectInput();
         pdi.run();*/
 
         //JSynSynchronizeTesting jst = new JSynSynchronizeTesting();
 
-        ProofFilterAmplitude pfa = new ProofFilterAmplitude();
+        //ProofFilterAmplitude pfa = new ProofFilterAmplitude();
+        ProofWriteToFile pwtf = new ProofWriteToFile();
+        pwtf.writeToFileWithComponent();
 
     }
 

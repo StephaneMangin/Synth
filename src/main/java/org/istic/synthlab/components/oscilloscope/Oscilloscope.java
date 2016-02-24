@@ -6,11 +6,11 @@ import org.istic.synthlab.core.modules.visualizer.Visualizer;
 import javax.swing.*;
 
 /**
- * Created by seb on 04/02/16.
  *
  * This class represents the oscilloscope module
  * It displays a signal for analysis
  *
+ * @author Sébastien François
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 
@@ -47,5 +47,13 @@ public class Oscilloscope extends AbstractComponent {
     @Override
     public void deactivate() {
         this.visualizer.deactivate();
+    }
+
+    public Number getValue() {
+        return this.visualizer.getValue();
+    }
+
+    public double getWidth() {
+        return this.visualizer.getWidth();
     }
 }

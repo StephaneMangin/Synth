@@ -4,8 +4,6 @@ import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.modulators.IModulator;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  * @author  Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/12/16.
@@ -67,11 +65,4 @@ public interface IMix extends IModule, Resource{
      */
     void addInputPort(IInput input);
 
-    IModulator getAmplitudeModulatorInput1();
-
-    IModulator getAmplitudeModulatorInput2();
-
-    IModulator getAmplitudeModulatorInput3();
-
-    IModulator getAmplitudeModulatorInput4();
 }
