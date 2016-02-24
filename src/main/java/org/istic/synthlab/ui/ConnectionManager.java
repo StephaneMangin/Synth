@@ -61,37 +61,6 @@ public class ConnectionManager {
         observers.add(observer);
     }
 
-    @SuppressWarnings("unused")
-    public static void removeObserver(IObserver observer) {
-        observers.remove(observer);
-    }
-
-    /**
-     * Update all observers
-     */
-    private static void update() {
-        for (IObserver observer : observers) {
-            observer.update(connectionTab);
-            observer.unDrawLine(lineConnection);
-            observer.drawLine(lineConnection);
-        }
-    }
-
-    /**
-     * Delete a CurveCable from the HashMap lineConnection
-     * @param line the line we want to remove
-     */
-    public static void deleteLine(CurveCable line){
-        if(lineConnection.containsKey(line)){
-            Connection connection = lineConnection.get(line);
-            IOutput output = connection.getOutput();
-            Register.disconnect(output);
-            connectionTab.remove(output);
-            lineConnection.remove(line);
-            update();
-        }
-    }
-
     private static Node originNode;
     private static Node destinationNode;
     private static IOutput output;
@@ -261,91 +230,6 @@ public class ConnectionManager {
     }
 
     /**
-     * Create a connection in the model and call the method update to create the connection in the view
-     */
-    private static boolean makeConnection(){
-        if(drawCable()) {
-            connectionTab.put(output, input);
-            Register.connect(input, output);
-            update();
-            input = null;
-            output = null;
-            cableSelected = false;
-            List<IComponent> tmpComponentList = new ArrayList<>(componentList);
-            for(IComponent abs : tmpComponentList){ //Browse the List<IComponent>
-                componentList.remove(abs);  //Remove the IComponent from the List<IComponent>
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Initialize a CurveCable between two points and add a color picker on the representation
-     * @return true if the cable is create or false if not
-     */
-    private static boolean drawCable(){
-        Connection connection = new Connection(output, input);
-        if((!lineConnection.containsValue(connection))      //Check that the connection is not already existing
-                && (!connectionTab.containsValue(input))    //Check if the input destination is not involve with an other connection
-                && (!connectionTab.containsKey(output))){   //Check if the output source is not involve with an other connection
-
-            final Point2D point1 = computeCoordinates(inputNode);
-            final Point2D point2 = computeCoordinates(outputNode);
-            final CurveCable curveCable = new CurveCable(point1, point2);
-
-            if (colorCurrentCable != null) {
-                curveCable.setColor(colorCurrentCable);
-            }
-            lineConnection.put(curveCable, connection);
-            List <CurveCable> cables = new ArrayList<>();   //Create a List<CurveCable>
-            for(IComponent abs : componentList){    //Browse the List<IComponent>
-                if(componentCurveCableHashMap.containsKey(abs)){    //Check if the IComponent is already in the HashMap
-                    cables = componentCurveCableHashMap.get(abs);   //get the list of CurveCable link to this IComponent
-                }
-                cables.add(curveCable); //Add the CurveCable to the List<CurveCable>
-                componentCurveCableHashMap.put(abs,cables); //Add the new list of CurveCable to this IComponent
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get the CurveCable attached to an input
-     * @param value value of the input
-     * @return a CurveCable object
-     */
-    private static CurveCable getKeyLine(IInput value){
-        Set keys = lineConnection.keySet();
-        for (Object key1 : keys) {
-            CurveCable key = (CurveCable) key1;
-            Connection co = lineConnection.get(key);
-            if (co.getInput() == value) {
-                return key;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Get the Output attached to an input
-     * @param value value of the input
-     * @return an Output object
-     */
-    private static IOutput getKey(IInput value){
-        Set keys = connectionTab.keySet();
-        for (Object key1 : keys) {
-            IOutput key = (IOutput) key1;
-            IInput value_key = connectionTab.get(key);
-            if (value_key == value) {
-                return key;
-            }
-        }
-        return null;
-    }
-
-    /**
      * Return the coordinates relative to the scene for the center of a node
      * @param node The node to which convert the coordinates
      * @return A Point2D containing the scene coordinates of the center of node.
@@ -358,54 +242,5 @@ public class ConnectionManager {
         y += node.getBoundsInParent().getHeight()/2;
 
         return new Point2D(x, y);
-    }
-
-    /**
-     * Method adding a mouse event to disconnect and reconnect a cable
-     * @param node the destination node
-     */
-    private static void addMouseEventFlyingCable(Node node){
-        coreController.anchorPane.setOnMouseMoved(event -> {
-            coreController.undraw(lastDraw);
-            // FIXME: make coordonates relative to realign
-            // 131 , 70 is the position of the main corner of the anchorpane.
-            CurveCable curveCable = new CurveCable(
-                    event.getX(),
-                    event.getY(),
-                    computeCoordinates(node).getX(),
-                    computeCoordinates(node).getY(),
-                    colorCurrentCable
-            );
-            curveCable.setMouseTransparent(true);
-            curveCable.setId("cableDrag");
-            curveCable.setOnMouseClicked(null);
-            coreController.draw(curveCable);
-            lastDraw = curveCable;
-        });
-    }
-
-    /**
-     * Check if there are connection between this pane and an other.
-     * If yes, it will delete all curveCable.
-     * After that, it will call the method removeViewComponent from the class CoreController to remove the
-     * representation of the component in the view.
-     * @param abstractComponent the instance of an IComponent
-     * @param pane the container
-     */
-    public static void deleteComponent(IComponent abstractComponent, Pane pane){
-        Set keySet = componentCurveCableHashMap.keySet();
-        if(componentCurveCableHashMap.containsKey(abstractComponent)){   //if the component is link to something
-            List<CurveCable> cables = componentCurveCableHashMap.get(abstractComponent); //get the list of CurveCable
-            List<CurveCable> tmpCables = new ArrayList<>(cables);   //Copy the list
-            for(Object obj : keySet){   //Browse the HashMap<IComponent, List<CurveCable>>
-                for(CurveCable cC : tmpCables){     //Browse the list of CurveCable
-                    componentCurveCableHashMap.get(obj).remove(cC); //Try to remove for each IComponent to remove the CurveCable
-                    deleteLine(cC); //Remove the CurveCable from the copy
-                }
-            }
-            componentCurveCableHashMap.remove(abstractComponent);   //Remove the IComponent from the HashMap
-            //A FAIRER DESTRUCTION DE L'OBJET COTE MODEL
-        }
-        coreController.removeViewComponent(pane);   //Delete the pane in the view
     }
 }

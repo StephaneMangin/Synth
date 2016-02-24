@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class CoreController implements Initializable, IObserver {
+public class CoreController implements Initializable {
     // Be sure there's never a component named like this for this to work
     private static final String DRAG_N_DROP_MOVE_GUARD = "";
     private static final double ZOOM_STEP = 0.01;
@@ -88,7 +88,6 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
         initializeMainPane();
         initializeFunctions();
-        ConnectionManager.addObserver(this);
         ConnectionManager.setCoreController(this);
 
     }
@@ -199,75 +198,6 @@ public class CoreController implements Initializable, IObserver {
             }
             event.consume();
         });
-    }
-
-    @Override
-    public void update(Map<IOutput, IInput> arg) {
-        String total = "";
-        Set keys = arg.keySet();
-        for (Object key : keys) {
-            IOutput origin = (IOutput) key;
-            IInput destination = arg.get(origin);
-            total += origin.toString() + " ---------> " + destination.toString() + "\n";
-        }
-    }
-
-    public void draw(Node node){
-        anchorPane.getChildren().add(node);
-    }
-
-    public void undraw(Node node){
-        anchorPane.getChildren().remove(node);
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void drawLine(final HashMap<CurveCable, Connection> arg) {
-        for (final CurveCable cable : arg.keySet()){
-            cable.setOnMouseClicked(event -> {
-                // Remove the cable
-                if (cableRemoveMode) {
-                    ConnectionManager.deleteLine(cable);
-                    cableRemoveMode = false;
-                    borderPane.setCursor(Cursor.DEFAULT);
-                }
-                // Chose the color of the cable
-                else {
-                    final Stage dialog = new Stage();
-                    dialog.initModality(Modality.NONE);
-                    dialog.initOwner(ConnectionManager.getStage());
-
-                    final ColorPicker colorPicker = new ColorPicker();
-                    colorPicker.setValue(cable.getColor());
-
-                    final Scene dialogScene = new Scene(colorPicker);
-                    dialog.setScene(dialogScene);
-                    dialog.show();
-
-                    colorPicker.valueProperty().addListener(e -> {
-                        cable.setColor(colorPicker.getValue());
-                        dialog.hide();
-                    });
-                }
-                event.consume();
-            });
-            anchorPane.getChildren().add(cable);
-        }
-    }
-
-    public void unDrawLine(HashMap<CurveCable, Connection> arg){
-        ObservableList<Node> list = anchorPane.getChildren();
-        ObservableList<Node> temp = FXCollections.observableArrayList();
-
-        temp.addAll(list.stream().filter(node -> node instanceof CurveCable).collect(Collectors.toList()));
-        temp.forEach(list::remove);
-    }
-
-    @Override
-    public void test(Line currentlyDrawnCable) {
-        anchorPane.getChildren().add(currentlyDrawnCable);
     }
 
     /**
