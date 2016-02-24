@@ -69,11 +69,8 @@ public class Potentiometer extends Pane {
             throw new RuntimeException(exception);
         }
 
-        valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                rotateHandle(convertFromValue(newValue.doubleValue()));
-            }
+        valueProperty().addListener((observable, oldValue, newValue) -> {
+            rotateHandle(convertFromValue(newValue.doubleValue()));
         });
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);

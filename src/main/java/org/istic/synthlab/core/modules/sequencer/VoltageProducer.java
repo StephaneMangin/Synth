@@ -10,8 +10,6 @@ public class VoltageProducer extends UnitFilter{
     public void generate(int start, int limit) {
         double[] inputValues = input.getValues();
         double[] outputValues = output.getValues();
-        for (int i = start; i < limit; i++ ){
-            outputValues[i] = inputValues[i];
-        }
+        System.arraycopy(inputValues, start, outputValues, start, limit - start);
     }
 }
