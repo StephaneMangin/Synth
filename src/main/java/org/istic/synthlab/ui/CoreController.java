@@ -120,7 +120,6 @@ public class CoreController implements Initializable {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        // FIXME: autodetect the components
         for (String component: findAllPackagesStartingWith("org.istic.synthlab.components", false)) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
