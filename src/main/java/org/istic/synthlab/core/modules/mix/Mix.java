@@ -3,15 +3,10 @@ package org.istic.synthlab.core.modules.mix;
 import com.jsyn.unitgen.Add;
 import com.jsyn.unitgen.PassThrough;
 import org.istic.synthlab.components.IComponent;
-import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.modulators.IModulator;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.parametrization.Potentiometer;
-import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +24,6 @@ public class Mix implements IMix {
     private PassThrough passThroughIn3;
     private PassThrough passThroughIn4;
     private PassThrough passThroughOut;
-
-    private IModulator gainInput1;
-    private IModulator gainInput2;
-    private IModulator gainInput3;
-    private IModulator gainInput4;
 
     private List<IInput> inputList;
 
@@ -63,12 +53,6 @@ public class Mix implements IMix {
         addInput12 = new Add();
         addInput34 = new Add();
         totalAddInput = new Add();
-
-        // Instantiate the gain modulator
-        gainInput1 = Factory.createModulator("Gain1", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
-        gainInput2 = Factory.createModulator("Gain2", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
-        gainInput3 = Factory.createModulator("Gain3", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
-        gainInput4 = Factory.createModulator("Gain4", component, ModulatorType.AMPLITUDE, PotentiometerType.EXPONENTIAL);
 
         // Create the inputs by the Factory method
         input1 = Factory.createInput("In1", component, this.passThroughIn1.input);
@@ -206,25 +190,4 @@ public class Mix implements IMix {
                 || this.passThroughIn3.isEnabled()
                 || this.passThroughIn4.isEnabled();
     }
-
-    @Override
-    public IModulator getAmplitudeModulatorInput1() {
-        return gainInput1;
-    }
-
-    @Override
-    public IModulator getAmplitudeModulatorInput2() {
-        return gainInput2;
-    }
-
-    @Override
-    public IModulator getAmplitudeModulatorInput3() {
-        return gainInput3;
-    }
-
-    @Override
-    public IModulator getAmplitudeModulatorInput4() {
-        return gainInput4;
-    }
-
 }
