@@ -4,6 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.eg.Eg;
+import org.istic.synthlab.components.mixer.Mixer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
@@ -98,13 +99,15 @@ public class BasicChainTest {
     public void TestVcoaSwitch() throws InterruptedException {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSquare(1);
-        vcoa.setExponentialFrequency(440);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         vcoa.getOutput().connect(out.getInput());
 
         out.start();
         synth.start();
         synth.sleepUntil(3);
-        vcoa.setExponentialFrequency(880);
+        vcoa.setExponentialFrequency(0.75);
+        vcoa.setLinearFrequency(0.5);
         vcoa.setAmplitudeSquare(0);
         synth.sleepUntil(6);
         vcoa.setAmplitudeSquare(1);
@@ -118,20 +121,24 @@ public class BasicChainTest {
 
     @Test
     public void TestVca() throws InterruptedException {
+        double amplitude = 0.1;
         Vca vca = new Vca("VCA");
         Vcoa vcoa2 = new Vcoa("VCOA2");
+
+        //Configuration
         vcoa.setOscillatorType(OscillatorType.SINE);
         vcoa.setAmplitudeSine(1);
-        //vcoa2.setExponentialFrequency(440.0);
-        //vcoa2.setAmplitudeSine(1.0);
-        vcoa2.activate();
-        vcoa2.setAmplitudeSquare(1);
-        vcoa2.setExponentialFrequency(200);
+        vcoa2.setOscillatorType(OscillatorType.SQUARE);
+        vcoa2.setAmplitudeSquare(amplitude);
+        vcoa2.setExponentialFrequency(0.8);
+        vcoa2.setLinearFrequency(0.8);
         vca.getGainModulator().setValue(0.0);
 
+        //Connection
         vcoa.getOutput().connect(vca.getInput());
-        //vcoa2.getOutput().connect(vca.getAm());
-        vcoa2.getOutput().connect(this.out.getInput());
+        vcoa2.getOutput().connect(vca.getAm());
+        //vcoa2.getOutput().connect(this.out.getInput());
+        vca.getOutput().connect(this.out.getInput());
 
         out.start();
         synth.start();
@@ -140,25 +147,15 @@ public class BasicChainTest {
 
         int n = 2000;
         while (n >= 0) {
-
             if (n % 50 == 0){
                 if (out.getAmModulator().getValue() > 0.0){
                     out.getAmModulator().setValue(0.0);
                 } else {
-                    out.getAmModulator().setValue(1.0);
+                    out.getAmModulator().setValue(amplitude);
+                    amplitude = amplitude - 0.025;
                 }
 
             }
-
-            //System.out.println(out.getAmModulator().getInputB().isConnected());
-            //out.getAmModulator().getInputB().setValueInternal(((double) 200 - (double) n) / (double) 200);
-            //out.getAmModulator().setValue(((double) 2000 - (double) n) / (double) 2000);
-            out.getAmModulator().getValue();
-            //System.out.println(out.getAmModulator().getValue());
-            //assertEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
-            //System.out.println(vcoa2.getOutput().getUnitOutputPort().getValue());
-
-            //assertNotEquals(0D, vca.getOutput().getUnitOutputPort().getValue(), 0.0);
 
             synth.sleepFor(0.01);
             n--;
@@ -303,10 +300,55 @@ public class BasicChainTest {
         envelope.getAttackPotentiometer().setValue(0.2);
         envelope.getDecayPotentiometer().setValue(1);
         synth.sleepFor(5);
+    }
 
 
+    @Test
+    public void testMixer() throws InterruptedException {
+        Mixer mixer = new Mixer("MIX");
+        Vcoa v1 = new Vcoa("v1");
+        Vcoa v2 = new Vcoa("v2");
+        Vcoa v3 = new Vcoa("v3");
+        Vcoa v4 = new Vcoa("v4");
 
+        v1.setAmplitudeOscillator(0.5);
+        v1.setExponentialFrequency(0.80);
+        v1.setLinearFrequency(0.5);
+        v1.setOscillatorType(OscillatorType.SQUARE);
 
+        v2.setAmplitudeOscillator(1.0);
+        v2.setExponentialFrequency(0.80);
+        v2.setLinearFrequency(0.55);
+        v2.setOscillatorType(OscillatorType.SINE);
+
+        v3.setAmplitudeOscillator(1.0);
+        v3.setExponentialFrequency(0.60);
+        v3.setLinearFrequency(0.8);
+        v3.setOscillatorType(OscillatorType.SQUARE);
+
+        v4.setAmplitudeOscillator(0.6);
+        v4.setExponentialFrequency(0.5);
+        v4.setLinearFrequency(0.7);
+        v4.setOscillatorType(OscillatorType.SAWTOOTH);
+
+        v1.getOutput().connect(mixer.getInput1());
+        v2.getOutput().connect(mixer.getInput2());
+        v3.getOutput().connect(mixer.getInput3());
+        v4.getOutput().connect(mixer.getInput4());
+        mixer.getOutputMixer().connect(out.getInput());
+
+        out.start();
+        synth.start();
+        synth.sleepFor(5);
+        mixer.setGainValueInput2(0.000001);
+        mixer.setGainValueInput3(0.000001);
+        mixer.setGainValueInput4(0.000001);
+        v2.setOscillatorType(OscillatorType.TRIANGLE);
+        v3.setOscillatorType(OscillatorType.TRIANGLE);
+        v4.setOscillatorType(OscillatorType.TRIANGLE);
+        synth.sleepFor(5);
+
+        ((SynthesisEngine) synth).printConnections();
     }
 
 }
