@@ -36,9 +36,4 @@ public class Controller extends AbstractController {
         super.initialize(location, resources);
         configure(noise);
     }
-
-    @FXML
-    public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(this.noise, (Node) event.getSource(), this.noise.getOutput());
-    }
 }
