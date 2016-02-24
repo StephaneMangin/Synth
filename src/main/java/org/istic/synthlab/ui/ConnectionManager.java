@@ -18,7 +18,10 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Sebastien
@@ -27,7 +30,6 @@ import java.util.HashMap;
 public class ConnectionManager {
     private static Stage stage;
     private static CoreController coreController;
-
     public static void setCoreController(CoreController coreController) {
         ConnectionManager.coreController = coreController;
     }
@@ -41,15 +43,28 @@ public class ConnectionManager {
     }
 
     private static Pair<Node, IOutput> output;
+
     private static Pair<Node, IInput> input;
     private static CurveCable currentlyDrawnCable;
-
     /**
      * Used to remember the cables associated to a node
      */
     private static final HashMap<Node, CurveCable> nodeToCableBinding = new HashMap<>();
+    private static HashMap<IComponent, List<CurveCable>> componentToCablesBinding = new HashMap<>();
 
-    //private static final HashMap<CurveCable, Pair<IInput, IOutput>> cableToInputOutputBinding = new HashMap<>();
+    public static void addComponentToCableBinding(final IComponent component, final CurveCable cable) {
+        if (!componentToCablesBinding.containsKey(component)) {
+            componentToCablesBinding.put(component, new CopyOnWriteArrayList<>());
+        }
+        componentToCablesBinding.get(component).add(cable);
+    }
+
+    public static void removeComponentToCableBinding(final IComponent component, final CurveCable cable) {
+        if (componentToCablesBinding.containsKey(component)) {
+            componentToCablesBinding.get(component).remove(cable);
+        }
+    }
+
     private static final HashMap<Node, IInput> nodeToInputBinding = new HashMap<>();
     private static final HashMap<Node, IOutput> nodeToOutputBinding = new HashMap<>();
 
@@ -155,6 +170,8 @@ public class ConnectionManager {
         nodeToCableBinding.put(currentlyDrawnCable.getEndNode(), currentlyDrawnCable);
         nodeToInputBinding.put(input.getKey(), input.getValue());
         nodeToOutputBinding.put(output.getKey(), output.getValue());
+        addComponentToCableBinding(input.getValue().getComponent(), currentlyDrawnCable);
+        addComponentToCableBinding(output.getValue().getComponent(), currentlyDrawnCable);
 
         // Make the model connection
         Register.connect(input.getValue(), output.getValue());
@@ -178,7 +195,8 @@ public class ConnectionManager {
             plug(null, toKeepPlugged, out);
         }
         else {
-            throw new RuntimeException("Should not happen...");
+            // This should never happen if the state data are correctly managed
+            throw new RuntimeException("This should not happen...");
         }
     }
 
@@ -195,19 +213,32 @@ public class ConnectionManager {
 
         // We need this verification for the case when the cable is currently being drawn
         if (cable.getStartNode() != cable.getEndNode()) {
+            IInput in;
+            IOutput out;
+
             if (isInputNode(cable.getStartNode())) {
-                Register.disconnect(nodeToInputBinding.get(cable.getStartNode()));
-                nodeToInputBinding.remove(cable.getStartNode());
-                nodeToOutputBinding.remove(cable.getEndNode());
+                in = nodeToInputBinding.get(cable.getStartNode());
+                out = nodeToOutputBinding.get(cable.getEndNode());
             }
             else if (isOutputNode(cable.getStartNode())) {
-                Register.disconnect(nodeToOutputBinding.get(cable.getStartNode()));
-                nodeToInputBinding.remove(cable.getEndNode());
-                nodeToOutputBinding.remove(cable.getStartNode());
+                in = nodeToInputBinding.get(cable.getEndNode());
+                out = nodeToOutputBinding.get(cable.getStartNode());
             }
             else {
+                // This should never happen if the state data are correctly managed
                 throw new RuntimeException("This should not happen...");
             }
+
+            assert in != null;
+            assert out != null;
+
+            Register.disconnect(in);
+
+            // Maintain the state data up to date
+            removeComponentToCableBinding(in.getComponent(), cable);
+            removeComponentToCableBinding(out.getComponent(), cable);
+            nodeToInputBinding.remove(cable.getEndNode());
+            nodeToOutputBinding.remove(cable.getStartNode());
         }
 
         coreController.getAnchorPane().getChildren().remove(cable);
@@ -217,8 +248,8 @@ public class ConnectionManager {
         cancelCable();
 
         coreController.getAnchorPane().getChildren().remove(anchorPane);
-        //componentToCablesBinding.get(component).forEach(ConnectionManager::deleteCable);
-        //componentToCablesBinding.remove(component);
+        componentToCablesBinding.get(component).forEach(ConnectionManager::deleteCable);
+        componentToCablesBinding.remove(component);
     }
 
     /**
