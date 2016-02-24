@@ -61,6 +61,7 @@ public abstract class AbstractController implements IController {
 
     public void connectInput(final MouseEvent event) {
         ConnectionManager.makeDestination(component, (Node) event.getSource(), component.getInput());
+        event.consume();
     }
 
     public void connectInputFm(final MouseEvent event) {
@@ -81,6 +82,7 @@ public abstract class AbstractController implements IController {
      */
     public void connectOutput(final MouseEvent event) {
         ConnectionManager.makeOrigin(component, (Node) event.getSource(), component.getOutput());
+        event.consume();
     }
 
     public void connectOutputGate(final MouseEvent event) {
