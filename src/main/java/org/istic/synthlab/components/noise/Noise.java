@@ -6,8 +6,13 @@ import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
 
 /**
- * Created by paola on 22/02/16.
+ * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
  */
+
+/**
+ * The model of White noise component
+ * It creates a  white noise module to produce a signal conforming to the definition of white noise.
+ * */
 public class Noise extends AbstractComponent  {
 
     private IModelWhiteNoise noise;

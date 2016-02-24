@@ -15,6 +15,9 @@ import org.istic.synthlab.ui.ConnectionManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
+ */
 public class Controller extends AbstractController {
 
     @FXML

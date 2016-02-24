@@ -5,6 +5,7 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
+import org.istic.synthlab.components.noise.Noise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
@@ -177,7 +178,7 @@ public class BasicChainTest {
         out.start();
         synth.start();
 
-        Assert.assertNotEquals(Register.retrieve(out.getInput()),Register.retrieve(out.getLineOut().getInput()));
+        Assert.assertNotEquals(Register.retrieve(out.getInput()), Register.retrieve(out.getLineOut().getInput()));
 
 
         ((SynthesisEngine)synth).printConnections();
@@ -334,6 +335,17 @@ public class BasicChainTest {
         mixer.getOutputMixer().connect(out.getInput());
 
         out.start();
+        synth.start();
+        synth.sleepFor(10);
+
+        ((SynthesisEngine) synth).printConnections();
+    }
+    @Test
+    public void testWhiteNoise() throws InterruptedException {
+        Noise noise = new Noise("WHITE NOISE");
+        noise.activate();
+        out.start();
+        out.getInput().connect(noise.getOutput());
         synth.start();
         synth.sleepFor(10);
 
