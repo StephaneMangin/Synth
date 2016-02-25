@@ -136,9 +136,6 @@ public class CoreController implements Initializable {
         listView.setItems(data);
     }
 
-    // A list of all the components on the pane
-    private final ArrayList<Node> components = new ArrayList<>();
-
     private void initializeMainPane() {
         anchorPane.setOnDragOver(event -> {
             if (event.getDragboard().hasString()) {
@@ -201,7 +198,6 @@ public class CoreController implements Initializable {
                     }
                 }
 
-                //components.add(component);
                 event.setDropCompleted(true);
             }
             event.consume();
