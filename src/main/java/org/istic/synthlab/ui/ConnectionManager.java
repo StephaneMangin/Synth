@@ -22,12 +22,12 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.history.ACareTaker;
+import org.istic.synthlab.ui.plugins.history.IOrigin;
+import org.istic.synthlab.ui.plugins.history.StateType;
 import sun.awt.geom.Curve;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static javafx.scene.paint.Color.*;
 
@@ -35,7 +35,7 @@ import static javafx.scene.paint.Color.*;
  * @author Sebastien
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class ConnectionManager {
+public class ConnectionManager extends ACareTaker implements Observer {
     private static IOutput output;
     private static IInput input;
     private static HashMap<IOutput,IInput> connectionTab = new HashMap<>();
@@ -431,5 +431,15 @@ public class ConnectionManager {
             //A FAIRER DESTRUCTION DE L'OBJET COTE MODEL
         }
         coreController.removeViewComponent(pane);   //Delete the pane in the view
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof IOrigin) {
+            IOrigin obj = (IOrigin) o;
+            saveState(obj.save(), StateType.CHANGED);
+        }
+        notifyAll();
     }
 }

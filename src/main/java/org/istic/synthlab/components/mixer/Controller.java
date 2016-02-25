@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;

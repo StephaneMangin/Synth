@@ -27,6 +27,7 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.plugins.Component;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -52,6 +53,8 @@ public class CoreController implements Initializable, IObserver {
     private static final double ZOOM_STEP = 0.01;
     private static final double ZOOM_MAX = 2;
     private static final double ZOOM_MIN = 0.5;
+
+    private ConnectionManager manager = new ConnectionManager();
 
     @FXML
     public Menu skinMenu;
@@ -86,8 +89,8 @@ public class CoreController implements Initializable, IObserver {
         initializeListView();
         initializeMainPane();
         initializeFunctions();
-        ConnectionManager.addObserver(this);
-        ConnectionManager.setCoreController(this);
+        manager.addObserver(this);
+        manager.setCoreController(this);
 
     }
 
@@ -221,7 +224,7 @@ public class CoreController implements Initializable, IObserver {
             cable.setOnMouseClicked(event -> {
                 // Remove the cable
                 if (cableRemoveMode) {
-                    ConnectionManager.deleteLine(cable);
+                    manager.deleteLine(cable);
                     cableRemoveMode = false;
                     borderPane.setCursor(Cursor.DEFAULT);
                 }
@@ -229,7 +232,7 @@ public class CoreController implements Initializable, IObserver {
                 else {
                     final Stage dialog = new Stage();
                     dialog.initModality(Modality.NONE);
-                    dialog.initOwner(ConnectionManager.getStage());
+                    dialog.initOwner(manager.getStage());
 
                     final ColorPicker colorPicker = new ColorPicker();
                     colorPicker.setValue(cable.getColor());
@@ -367,12 +370,11 @@ public class CoreController implements Initializable, IObserver {
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
             try {
-                final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
-
+                final Component component = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
                 // Temporarily add the node to the pane so the CSS is applied
-                anchorPane.getChildren().add(node);
-                final WritableImage w  = node.snapshot(null,null);
-                anchorPane.getChildren().remove(node);
+                anchorPane.getChildren().add(component);
+                final WritableImage w  = component.snapshot(null,null);
+                anchorPane.getChildren().remove(component);
                 content.putImage(w);
             } catch (final IOException e) {
                 e.printStackTrace();
@@ -435,6 +437,7 @@ public class CoreController implements Initializable, IObserver {
     private void addWithDragging(final AnchorPane root, final Node component) {
 
         // Mandage drag and drop
+
         component.setOnDragDetected(event -> {
                 component.setStyle("");
                 // TODO: add component relocation

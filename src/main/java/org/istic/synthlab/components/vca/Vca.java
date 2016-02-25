@@ -7,7 +7,6 @@ import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-import org.istic.synthlab.ui.controls.Potentiometer;
 
 /**
  * @author Dechaud John Marc on 2/8/16.

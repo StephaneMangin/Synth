@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.controls;
+package org.istic.synthlab.ui.plugins.controls;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -10,6 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import net.minidev.json.JSONObject;
+import org.istic.synthlab.ui.plugins.history.IOrigin;
+import org.istic.synthlab.ui.plugins.history.State;
 
 import java.io.IOException;
 
@@ -22,7 +25,7 @@ import java.io.IOException;
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Potentiometer extends Pane {
+public class Potentiometer extends Pane implements IOrigin {
 
     @FXML
     private Label title;
@@ -63,6 +66,9 @@ public class Potentiometer extends Pane {
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
+            valueProperty().addListener((observable, oldValue, newValue) -> {
+                notifyAll();
+            });
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }
@@ -72,6 +78,38 @@ public class Potentiometer extends Pane {
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
         rotatorDial.setOnScroll(new ScrollKnobEventHandler());
         rotateHandle(MIN);
+    }
+
+    @Override
+    public void setJson(JSONObject state) {
+
+        state.forEach((s, o) -> {
+            switch(s) {
+                case "startX":
+                    valueProperty().set((double) o);
+                    break;
+                default:
+                    // Do nothing yet
+            }
+        });
+    }
+
+    @Override
+    public JSONObject getJson() {
+        StringBuffer buffer = new StringBuffer();
+        JSONObject obj = new JSONObject();
+        obj.put("value", getValue());
+        return obj;
+    }
+
+    @Override
+    public State save() {
+        return new State(this);
+    }
+
+    @Override
+    public void restore(State state) {
+        setJson(state.getContent());
     }
 
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {

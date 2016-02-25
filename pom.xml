@@ -74,6 +74,11 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/jgraphx_3_4_1_3.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 </project>
 

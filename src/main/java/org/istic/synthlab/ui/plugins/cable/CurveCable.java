@@ -1,13 +1,20 @@
 package org.istic.synthlab.ui.plugins.cable;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.effect.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
+import net.minidev.json.JSONObject;
+import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.plugins.history.State;
+import org.istic.synthlab.ui.plugins.history.IOrigin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Manage cable insertion and linking.
@@ -15,13 +22,14 @@ import javafx.scene.shape.StrokeLineCap;
  * @author Augustion Bardou <>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class CurveCable extends CubicCurve {
+public class CurveCable extends CubicCurve implements IOrigin, Observable {
 
     // Keep the color to override setter
     private Color color;
 
     private Node startNode;
     private Node endNode;
+    private final List<InvalidationListener> observers = new ArrayList<>();
 
     public CurveCable(final Node start, final Node end) {
         this(computeCoordinates(start), computeCoordinates(end));
@@ -38,10 +46,12 @@ public class CurveCable extends CubicCurve {
 
         startNode.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
             setStartX(computeCoordinates(startNode).getX());
+            notifyAll();
         });
 
         startNode.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
             setStartY(computeCoordinates(startNode).getY());
+            notifyAll();
         });
     }
 
@@ -54,10 +64,12 @@ public class CurveCable extends CubicCurve {
 
         endNode.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
             setEndX(computeCoordinates(endNode).getX());
+            notifyAll();
         });
 
         endNode.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
             setEndY(computeCoordinates(endNode).getY());
+            notifyAll();
         });
     }
 
@@ -110,18 +122,22 @@ public class CurveCable extends CubicCurve {
 
         startXProperty().addListener((observable, oldValue, newValue) -> {
             setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            notifyAll();
         });
 
         startYProperty().addListener((observable, oldValue, newValue) -> {
             setControlY1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            notifyAll();
         });
 
         endXProperty().addListener((observable, oldValue, newValue) -> {
             setControlX2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            notifyAll();
         });
 
         endYProperty().addListener((observable, oldValue, newValue) -> {
             setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            notifyAll();
         });
 
         setStrokeWidth(7.5);
@@ -152,4 +168,56 @@ public class CurveCable extends CubicCurve {
         this.setControlY2(this.getControlY2() - y);
     }
 
+    @Override
+    public void setJson(JSONObject state) {
+        state.forEach((s, o) -> {
+            switch(s) {
+                case "startX":
+                    setStartX((double)o);
+                    break;
+                case "startY":
+                    setStartX((double)o);
+                    break;
+                case "endX":
+                    setStartX((double)o);
+                    break;
+                case "endY":
+                    setStartX((double)o);
+                    break;
+                default:
+                    // Do nothing yet
+            }
+        });
+    }
+
+    @Override
+    public JSONObject getJson() {
+        StringBuffer buffer = new StringBuffer();
+        JSONObject obj = new JSONObject();
+        obj.put("startX", getStartX());
+        obj.put("startY", getEndX());
+        obj.put("endX", getStartY());
+        obj.put("endY", getEndY());
+        return obj;
+    }
+
+    @Override
+    public State save() {
+        return new State(this);
+    }
+
+    @Override
+    public void restore(State state) {
+        setJson(state.getContent());
+    }
+
+    @Override
+    public void addListener(InvalidationListener listener) {
+        observers.add(listener);
+    }
+
+    @Override
+    public void removeListener(InvalidationListener listener) {
+        observers.remove(listener);
+    }
 }
