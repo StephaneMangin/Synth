@@ -70,6 +70,7 @@
                 <Menu mnemonicParsing="false" text="View">
                     <Menu fx:id="skinMenu" mnemonicParsing="false" text="Skin"/>
                     <Menu mnemonicParsing="false" text="Zoom">
+                        <!-- We can't use the standard Ctrl + + / Ctrl + - because of this issue: https://bugs.openjdk.java.net/browse/JDK-8087572 -->
                         <MenuItem accelerator="Alt + Page Up" mnemonicParsing="false" onAction="#zoomIn"
                                   text="Zoom In"/>
                         <MenuItem accelerator="Alt + Page Down" mnemonicParsing="false" onAction="#zoomOut"
