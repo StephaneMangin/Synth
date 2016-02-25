@@ -8,26 +8,22 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 import javafx.scene.transform.Scale;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.istic.synthlab.Main;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -38,7 +34,6 @@ import org.reflections.util.FilterBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * FX controller of core.fxml
@@ -54,7 +49,7 @@ public class CoreController implements Initializable {
     private static final double ZOOM_MIN = 0.4;
 
     @FXML
-    public Menu skinMenu;
+    private Menu skinMenu;
     @FXML
     private TitledPane componentList;
     @FXML
@@ -172,10 +167,41 @@ public class CoreController implements Initializable {
                         return;
                     }
                 }
+
+
                 assert component != null;
-                component.setLayoutX(event.getX()-(component.getBoundsInLocal().getWidth()/2));
-                component.setLayoutY(event.getY()-(component.getBoundsInLocal().getHeight()/2));
-                components.add(component);
+                double x = event.getX()-(component.getBoundsInLocal().getWidth()/2),
+                       y = event.getY()-(component.getBoundsInLocal().getHeight()/2);
+
+                // Prevent the components from being outside the anchorPane
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
+                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
+                }
+                if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
+                    y = anchorPane.getHeight() - component.getBoundsInParent().getHeight();
+                }
+
+                // Place the component
+                component.setLayoutX(x);
+                component.setLayoutY(y);
+
+                // Detect collisions
+                // TODO: modify x and y so that there's no collision
+                for (final Node otherComponent : anchorPane.getChildren()) {
+                    if (component != otherComponent) {
+                        if (component.getBoundsInParent().intersects(otherComponent.getBoundsInParent())) {
+                            System.out.println("Collision");
+                        }
+                    }
+                }
+
+                //components.add(component);
                 event.setDropCompleted(true);
             }
             event.consume();
@@ -244,11 +270,10 @@ public class CoreController implements Initializable {
      * Zoom in
      */
     @FXML
-    public void zoomIn(ActionEvent actionEvent) {
+    public void zoomIn(final ActionEvent actionEvent) {
         if (anchorPane.getScaleX() < ZOOM_MAX && anchorPane.getScaleY() < ZOOM_MAX) {
-
-            double oldWidth = anchorPane.getPrefWidth();
-            double oldHeight = anchorPane.getPrefHeight();
+            //double oldWidth = anchorPane.getPrefWidth();
+            //double oldHeight = anchorPane.getPrefHeight();
             double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
             double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
             anchorPane.setScaleX(anchorPane.getScaleX() + ZOOM_STEP);
@@ -260,14 +285,14 @@ public class CoreController implements Initializable {
     }
 
     /**
-     * Zoom in
+     * Zoom out
      */
     @FXML
-    public void zoomOut(ActionEvent actionEvent) {
+    public void zoomOut(final ActionEvent actionEvent) {
         if (anchorPane.getScaleX() > ZOOM_MIN && anchorPane.getScaleY() > ZOOM_MIN) {
 
-            double oldWidth = anchorPane.getPrefWidth();
-            double oldHeight = anchorPane.getPrefHeight();
+            //double oldWidth = anchorPane.getPrefWidth();
+            //double oldHeight = anchorPane.getPrefHeight();
             double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
             double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
             anchorPane.setScaleX(anchorPane.getScaleX() - ZOOM_STEP);
@@ -278,7 +303,7 @@ public class CoreController implements Initializable {
         }
     }
 
-    public void defaultZoom(ActionEvent actionEvent) {
+    public void defaultZoom() {
         anchorPane.setScaleX(1);
         anchorPane.setScaleY(1);
         anchorPane.setPrefSize(
@@ -316,11 +341,11 @@ public class CoreController implements Initializable {
 
     /**
      * Finds all package names starting with prefix
-     * @param prefix
+     * @param prefix The package in which to start searching
      * @param statik True to statically return components names
      * @return a set of component name
      */
-    public Set<String> findAllPackagesStartingWith(String prefix, Boolean statik) {
+    public Set<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
         final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
 
@@ -360,36 +385,32 @@ public class CoreController implements Initializable {
 
     /**
      * Add a component to the anchorpane and declare the dragging controls handlers
-     *
-     * @param root
-     * @param component
      */
     private void addWithDragging(final AnchorPane root, final Node component) {
-
-        // Mandage drag and drop
         component.setOnDragDetected(event -> {
-                component.setStyle("");
-                // TODO: add component relocation
-                final AnchorPane node = (AnchorPane) event.getSource();
-                node.startFullDrag();
-                final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
-                final ClipboardContent content = new ClipboardContent();
+            // TODO: add component relocation
+            final AnchorPane node = (AnchorPane) event.getSource();
+            node.startFullDrag();
+            final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
+            final ClipboardContent content = new ClipboardContent();
 
-                final SnapshotParameters params = new SnapshotParameters();
-                final Scale scale = new Scale();
-                scale.setX(anchorPane.getScaleX());
-                scale.setY(anchorPane.getScaleY());
-                // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
-                final WritableImage image = node.snapshot(
-                        params,
-                        new WritableImage(
-                                ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
-                                ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()));
-                content.putImage(image);
+            final SnapshotParameters params = new SnapshotParameters();
+            final Scale scale = new Scale();
+            scale.setX(anchorPane.getScaleX());
+            scale.setY(anchorPane.getScaleY());
+            // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
+            final WritableImage image = node.snapshot(
+                    params,
+                    new WritableImage(
+                            ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
+                            ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()
+                    )
+            );
+            content.putImage(image);
 
-                content.putString(DRAG_N_DROP_MOVE_GUARD);
-                db.setContent(content);
-                event.consume();
+            content.putString(DRAG_N_DROP_MOVE_GUARD);
+            db.setContent(content);
+            event.consume();
         });
         root.getChildren().add(component);
     }
