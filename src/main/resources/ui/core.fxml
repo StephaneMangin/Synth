@@ -67,9 +67,6 @@
                 <Menu mnemonicParsing="false" text="File">
                     <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                    <MenuItem mnemonicParsing="false" text="Delete"/>
-                </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <Menu fx:id="skinMenu" mnemonicParsing="false" text="Skin"/>
                     <Menu mnemonicParsing="false" text="Zoom">
