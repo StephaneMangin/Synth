@@ -43,7 +43,7 @@ public interface IMix extends IModule, Resource{
     IInput getInput4();
 
     /**
-     * Return the ieme input port
+     * Return the i-th input port
      *
      * @param i
      * @return IInput

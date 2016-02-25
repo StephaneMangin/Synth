@@ -56,7 +56,7 @@ public class Channel {
     /**
      * Method Contains .
      *
-     * @param pair the pair input,ouput
+     * @param pair the pair input, output
      * @return the boolean
      */
     public static boolean contains(Pair<IInput, IOutput> pair) {

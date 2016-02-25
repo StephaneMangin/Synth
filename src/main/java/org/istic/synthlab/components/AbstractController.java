@@ -60,32 +60,36 @@ public abstract class AbstractController implements IController {
     }
 
     public void connectInput(final MouseEvent event) {
-        ConnectionManager.makeDestination(component, (Node) event.getSource(), component.getInput());
+        ConnectionManager.plug((Node) event.getSource(), component.getInput());
         event.consume();
     }
 
     public void connectInputFm(final MouseEvent event) {
-        ConnectionManager.makeDestination(component, (Node) event.getSource(), component.getFm());
+        ConnectionManager.plug((Node) event.getSource(), component.getFm());
+        event.consume();
     }
 
     public void connectInputAm(final MouseEvent event) {
-        ConnectionManager.makeDestination(component, (Node) event.getSource(), component.getAm());
+        ConnectionManager.plug((Node) event.getSource(), component.getAm());
+        event.consume();
     }
 
     public void connectInputGate(final MouseEvent event) {
-        ConnectionManager.makeDestination(component, (Node) event.getSource(), component.getInputGate());
+        ConnectionManager.plug((Node) event.getSource(), component.getInputGate());
+        event.consume();
     }
 
     /**
-     * Method called in view component file and activate a connection manager calling the makeDestination method
+     * Method called in view component file and activate a connection manager calling the plug method
      * with the output variable
      */
     public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(component, (Node) event.getSource(), component.getOutput());
+        ConnectionManager.plug((Node) event.getSource(), component.getOutput());
         event.consume();
     }
 
     public void connectOutputGate(final MouseEvent event) {
-        ConnectionManager.makeOrigin(component, (Node) event.getSource(), component.getOutputGate());
+        ConnectionManager.plug((Node) event.getSource(), component.getOutputGate());
+        event.consume();
     }
 }

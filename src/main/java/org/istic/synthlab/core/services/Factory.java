@@ -19,11 +19,15 @@ import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
+import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
+import org.istic.synthlab.core.modules.noise.ModelWhiteNoise;
 import org.istic.synthlab.core.modules.oscillators.*;
 import org.istic.synthlab.core.modules.oscilloscope.IOscilloscope;
 import org.istic.synthlab.core.modules.oscilloscope.Oscilloscope;
 import org.istic.synthlab.core.modules.passThrough.IPassThrough;
 import org.istic.synthlab.core.modules.passThrough.PassThrough;
+import org.istic.synthlab.core.modules.sequencer.ISequencer;
+import org.istic.synthlab.core.modules.sequencer.Sequencer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
@@ -34,7 +38,7 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  */
 public class Factory {
 
-    // A singleton for the synthetizer
+    // A singleton for the synthesizer
     private static Synthesizer synthesizer = null;
 
     /**
@@ -126,7 +130,7 @@ public class Factory {
     }
 
     /**
-     * Return the synthetizer singleton
+     * Return the synthesizer singleton
      *
      * @return Synthesizer
      */
@@ -134,7 +138,7 @@ public class Factory {
         if (synthesizer == null) {
             synthesizer = new SynthesisEngine();
             synthesizer.setRealTime(true);
-            // Parametrization of the synthetizer
+            // Parametrization of the synthesizer
         }
         return synthesizer;
     }
@@ -176,6 +180,7 @@ public class Factory {
     }
 
     public static IEnvelopeDAHDSR createEnvelopeDAHDSR(IComponent component) { return new EnvelopeDAHDSR(component); }
+    public static IModelWhiteNoise createWhiteNoise(IComponent component) { return new ModelWhiteNoise(component);}
 
     /**
      * Returns a IFunction instance
@@ -188,7 +193,7 @@ public class Factory {
         switch(type) {
             case MULTIPLY:
                 return new Multiply(component);
-            case SUBSTRACT:
+            case SUBTRACT:
                 return new Substract(component);
             case ADD:
                 return new Add(component);
@@ -206,4 +211,9 @@ public class Factory {
     public static IMix createMixer(IComponent component){
         return new Mix(component);
     }
+
+    public static ISequencer createSequencer(IComponent component){
+        return new Sequencer(component);
+    }
+
 }

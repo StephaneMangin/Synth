@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.controls.Potentiometer?>
-
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="450.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.mixer.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
         <Image url="@../../images/closeIcon.png" />
     </ImageView>
 
-    <Label fx:id="title" layoutX="35.0" layoutY="4.0">
+    <Label fx:id="title" layoutX="35.0" layoutY="4.0" styleClass="title">
         <font>
             <Font name="System" size="20.0" />
         </font>
@@ -40,36 +37,32 @@
 
     <Label layoutX="211.0" layoutY="119.0" text="Input 3" />
    <Label layoutX="297.0" layoutY="119.0" text="Input 4" />
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="305.0" layoutY="143.0" onMouseClicked="#connectInput1" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="46.0" layoutY="143.0" onMouseClicked="#connectInput2" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="138.0" layoutY="143.0" onMouseClicked="#connectInput3" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="224.0" layoutY="143.0" onMouseClicked="#connectInput4" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="305.0" layoutY="143.0" onMouseClicked="#connectInput1"
+               pickOnBounds="true" preserveRatio="true">
+        <effect>
+            <InnerShadow/>
+        </effect>
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="46.0" layoutY="143.0" onMouseClicked="#connectInput2"
+               pickOnBounds="true" preserveRatio="true">
+        <effect>
+            <InnerShadow/>
+        </effect>
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="138.0" layoutY="143.0" onMouseClicked="#connectInput3"
+               pickOnBounds="true" preserveRatio="true">
+        <effect>
+            <InnerShadow/>
+        </effect>
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
+    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="224.0" layoutY="143.0" onMouseClicked="#connectInput4"
+               pickOnBounds="true" preserveRatio="true">
+        <effect>
+            <InnerShadow/>
+        </effect>
+        <Image url="@../../images/blueSocket.png"/>
+    </ImageView>
 </AnchorPane>

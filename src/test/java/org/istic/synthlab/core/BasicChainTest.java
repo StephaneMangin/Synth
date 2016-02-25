@@ -63,7 +63,7 @@ public class BasicChainTest {
         vcoa1.getOutput().connect(vcoa.getInput());
         vcoa.getSawToothOutput().connect(out.getInput());
 
-        // Pour l'affichage des courbes
+        // to display curves
         AudioScope scope = new AudioScope( synth );
         scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
@@ -287,7 +287,7 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        //System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Module with different parameter");
 
         //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);
@@ -312,20 +312,24 @@ public class BasicChainTest {
         Vcoa v4 = new Vcoa("v4");
 
         v1.setAmplitudeOscillator(0.5);
-        v1.setExponentialFrequency(0.40);
+        v1.setExponentialFrequency(0.80);
         v1.setLinearFrequency(0.5);
+        v1.setOscillatorType(OscillatorType.SQUARE);
 
         v2.setAmplitudeOscillator(1.0);
         v2.setExponentialFrequency(0.80);
         v2.setLinearFrequency(0.55);
+        v2.setOscillatorType(OscillatorType.SINE);
 
         v3.setAmplitudeOscillator(1.0);
         v3.setExponentialFrequency(0.60);
         v3.setLinearFrequency(0.8);
+        v3.setOscillatorType(OscillatorType.SQUARE);
 
         v4.setAmplitudeOscillator(0.6);
         v4.setExponentialFrequency(0.5);
         v4.setLinearFrequency(0.7);
+        v4.setOscillatorType(OscillatorType.SAWTOOTH);
 
         v1.getOutput().connect(mixer.getInput1());
         v2.getOutput().connect(mixer.getInput2());
@@ -335,7 +339,14 @@ public class BasicChainTest {
 
         out.start();
         synth.start();
-        synth.sleepFor(10);
+        synth.sleepFor(5);
+        mixer.setGainValueInput2(0.000001);
+        mixer.setGainValueInput3(0.000001);
+        mixer.setGainValueInput4(0.000001);
+        v2.setOscillatorType(OscillatorType.TRIANGLE);
+        v3.setOscillatorType(OscillatorType.TRIANGLE);
+        v4.setOscillatorType(OscillatorType.TRIANGLE);
+        synth.sleepFor(5);
 
         ((SynthesisEngine) synth).printConnections();
     }

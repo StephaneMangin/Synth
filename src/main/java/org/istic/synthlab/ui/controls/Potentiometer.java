@@ -2,6 +2,8 @@ package org.istic.synthlab.ui.controls;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -67,6 +69,9 @@ public class Potentiometer extends Pane {
             throw new RuntimeException(exception);
         }
 
+        valueProperty().addListener((observable, oldValue, newValue) -> {
+            rotateHandle(convertFromValue(newValue.doubleValue()));
+        });
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
@@ -131,7 +136,7 @@ public class Potentiometer extends Pane {
     private void rotateHandle(final double degrees) {
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
-            setValue((degrees-(MIN)) / (MAX-MIN));
+            setValue(convertFromDegrees(degrees));
         }
     }
 
@@ -153,5 +158,25 @@ public class Potentiometer extends Pane {
 
     public void setMinValue(String value) {
         minValue.setText(value);
+    }
+
+    /**
+     * Return the related value from potentiometer angle
+     *
+     * @param degrees
+     * @return
+     */
+    private double convertFromDegrees(double degrees) {
+        return (degrees - MIN) / (MAX - MIN);
+    }
+
+    /**
+     * Return the related angle from potentiometer value
+     *
+     * @param value
+     * @return
+     */
+    private double convertFromValue(double value) {
+        return (value * (MAX-MIN)) + MIN;
     }
 }

@@ -14,7 +14,7 @@
         <Image url="@../../images/closeIcon.png"/>
     </ImageView>
 
-    <Label fx:id="title" layoutX="35.0" layoutY="4.0">
+    <Label fx:id="title" layoutX="35.0" layoutY="4.0" styleClass="title">
         <font>
             <Font name="System" size="20.0"/>
         </font>

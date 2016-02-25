@@ -136,7 +136,7 @@ public class Mix implements IMix {
     }
 
     /**
-     * Return the ieme input port
+     * Return the i-th input port
      *
      * @param i
      * @return IInput
