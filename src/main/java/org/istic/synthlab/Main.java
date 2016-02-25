@@ -11,12 +11,15 @@ import org.istic.synthlab.ui.ConnectionManager;
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
 public final class Main extends Application {
+
+    public static final String DEFAULT_SKIN = "Metal";
+
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
         final Scene scene = new Scene(root);
         scene.getStylesheets().add("/ui/stylesheets/global.css");
-        scene.getStylesheets().add("/ui/stylesheets/dark.css");
+        scene.getStylesheets().add("/ui/stylesheets/" + DEFAULT_SKIN.toLowerCase() + ".css");
         ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(scene);

@@ -69,41 +69,15 @@ public class Potentiometer extends Pane {
 
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);
-        rotatorDial.setOnMouseEntered(new MaximiseEventHandler());
-        rotatorHandle.setOnMouseEntered(new MaximiseEventHandler());
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
         rotatorDial.setOnScroll(new ScrollKnobEventHandler());
         rotateHandle(MIN);
     }
 
-    private class MaximiseEventHandler implements EventHandler<MouseEvent> {
-        @Override
-        public void handle(final MouseEvent event) {
-            rotatorDial.setScaleX(2);
-            rotatorDial.setScaleY(2);
-            rotatorHandle.setScaleX(2);
-            rotatorHandle.setScaleY(2);
-            rotatorDial.setOnMouseExited(new MinimizeEventHandler());
-            rotatorHandle.setOnMouseExited(new MinimizeEventHandler());
-            event.consume();
-        }
-    }
-
-    private class MinimizeEventHandler implements EventHandler<MouseEvent> {
-        @Override
-        public void handle(final MouseEvent event) {
-            rotatorDial.setScaleX(1);
-            rotatorDial.setScaleY(1);
-            rotatorHandle.setScaleX(1);
-            rotatorHandle.setScaleY(1);
-            event.consume();
-        }
-    }
-
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
         @Override
         public void handle(final ScrollEvent event) {
-            rotateHandle(rotatorHandle.getRotate() + 1 * Math.signum(event.getDeltaY()));
+            rotateHandle(rotatorHandle.getRotate() + 5 * Math.signum(event.getDeltaY()));
             event.consume();
         }
     }

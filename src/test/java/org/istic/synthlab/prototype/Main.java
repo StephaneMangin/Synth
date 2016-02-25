@@ -26,7 +26,7 @@ public class Main {
 
         //ProofFilterAmplitude pfa = new ProofFilterAmplitude();
         ProofWriteToFile pwtf = new ProofWriteToFile();
-        pwtf.writeToMultipleFileWithComponent();
+        pwtf.writeToFileWithComponent();
 
     }
 
