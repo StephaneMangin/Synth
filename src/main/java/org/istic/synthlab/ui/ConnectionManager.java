@@ -82,11 +82,11 @@ public class ConnectionManager {
     private static final HashMap<Node, IInput> nodeToInputBinding = new HashMap<>();
     private static final HashMap<Node, IOutput> nodeToOutputBinding = new HashMap<>();
 
-    public static boolean isInputNode(final Node node) {
+    private static boolean isInputNode(final Node node) {
         return nodeToInputBinding.containsKey(node);
     }
 
-    public static boolean isOutputNode(final Node node) {
+    private static boolean isOutputNode(final Node node) {
         return nodeToOutputBinding.containsKey(node);
     }
 
