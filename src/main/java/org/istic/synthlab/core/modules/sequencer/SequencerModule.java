@@ -1,8 +1,7 @@
 package org.istic.synthlab.core.modules.sequencer;
 
-import com.jsyn.ports.UnitGatePort;
 import com.jsyn.ports.UnitInputPort;
-import com.jsyn.unitgen.Multiply;
+import com.jsyn.unitgen.MultiplyAdd;
 import com.jsyn.unitgen.UnitGate;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -13,53 +12,65 @@ import org.istic.synthlab.core.services.Register;
 /**
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/22/16.
  */
-public class Sequencer extends UnitGate implements ISequencer {
+public class SequencerModule extends UnitGate implements ISequencer {
 
-    // A UnitGatePort from JSYN
-    private UnitGatePort inputGate;
-    UnitInputPort p;
+    private UnitInputPort inputSignal;
     // The iInput port for the sequencer
     private IInput iInput;
     // The iOutput port for the sequencer
     private IOutput iOutput;
     // The out signal
-    private Multiply outputMultiply;
+    private MultiplyAdd ioMultiply;
     // Current Step
     protected int currentStep;
     // A table of the different step (8 step)
     private double[] steps;
     // Producer of voltage
     private VoltageProducer voltageProducer;
+    // Input voltage MIN and MAX
+    private final double MIN = -1;
+    private final double MAX = 1;
 
 
-    public Sequencer(IComponent component) {
-        this.outputMultiply = new Multiply();
-        Register.declare(component, this.outputMultiply);
+    public SequencerModule(IComponent component) {
+        this.ioMultiply = new MultiplyAdd();
 
-        this.inputGate = new UnitGatePort("InputGate");
-        this.iInput = Factory.createInput("InputGate", component, this.inputGate);
-        this.iOutput = Factory.createOutput("OutputPort", component, this.outputMultiply.output);
+        this.inputSignal = new UnitInputPort("inputSignal");
+        this.inputSignal.setDefault(0.0);
+        addPort(this.inputSignal);
+
+        Register.declare(component, this);
+        Register.declare(component, this.ioMultiply);
+        this.output.connect(this.ioMultiply.inputC);
+
+        this.iInput = Factory.createInput("InputGate", component, this.inputSignal);
+        this.iOutput = Factory.createOutput("OutputPort", component, this.ioMultiply.output);
 
         this.voltageProducer = new VoltageProducer();
         this.voltageProducer.input.set(1.0/5);
-        this.voltageProducer.output.connect(this.outputMultiply.inputB);
+        this.voltageProducer.output.connect(this.ioMultiply.inputB);
+
+        // Start the gate
+        this.start();
 
         this.currentStep = 1;
         this.steps = new double[8];
         for (int i = 0; i < this.steps.length; i++){
-            this.steps[i] = 0;
+            this.steps[i] = 0.0;
         }
     }
 
     @Override
     public void generate(int start, int limit) {
-        double[] inputs = inputGate.getValues();
+        double[] samples = this.inputSignal.getValues();
         double[] outputs = output.getValues();
 
-        for (int i = start; i < limit; i++) {
-            if(inputGate.checkGate(i))
-                nextStep();
-            outputs[i] = inputs[i];
+        for (int i = start; i < limit; i++ ){
+            boolean triggered = input.checkGate(i);
+            if (triggered) {
+                outputs[i] = samples[i];
+                this.nextStep();
+            }
         }
     }
 
@@ -91,9 +102,12 @@ public class Sequencer extends UnitGate implements ISequencer {
      */
     @Override
     public void setStepValue(int step, double value) {
-        this.steps[step - 1] = value;
-        if (this.currentStep == step)
-            this.outputMultiply.inputA.set(value);
+        if (value >= this.MIN && value <= this.MAX){
+            this.steps[step - 1] = value;
+            if (this.currentStep == step)
+                this.ioMultiply.inputA.set(value);
+            System.out.println(ioMultiply.output.getValue());
+        }
     }
 
     /**
@@ -113,7 +127,28 @@ public class Sequencer extends UnitGate implements ISequencer {
             this.currentStep = 1;
         else
             this.currentStep++;
-        this.outputMultiply.inputA.set(steps[currentStep - 1]);
+        this.ioMultiply.inputA.set(steps[currentStep - 1]);
+        System.out.println("BOUYA");
+    }
+
+    /**
+     * Get the max value per step
+     *
+     * @return double
+     */
+    @Override
+    public double getMaxValue() {
+        return this.MAX;
+    }
+
+    /**
+     * Get the min value per step
+     *
+     * @return double
+     */
+    @Override
+    public double getMinValue() {
+        return this.MIN;
     }
 
     /**
@@ -134,6 +169,24 @@ public class Sequencer extends UnitGate implements ISequencer {
     @Override
     public IOutput getOutputPort() {
         return this.iOutput;
+    }
+
+    @Override
+    public void activate() {
+        this.input.on();
+    }
+
+    @Override
+    public void deactivate() {
+        this.input.off();
+    }
+
+    @Override
+    public boolean isActivated() {
+        if (this.input.isOff())
+            return false;
+        else
+            return true;
     }
 
 }
