@@ -1,21 +1,35 @@
 package org.istic.synthlab.ui;
 
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import sun.awt.geom.Curve;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import static javafx.scene.paint.Color.*;
 
 /**
  * @author Sebastien
@@ -54,6 +68,7 @@ public class ConnectionManager {
         observers.add(observer);
     }
 
+    @SuppressWarnings("unused")
     public static void removeObserver(IObserver observer) {
         observers.remove(observer);
     }
@@ -84,16 +99,41 @@ public class ConnectionManager {
         }
     }
 
+    private static Node origin;
+    private static Node destination;
+    private static CurveCable currentlyDrawnCable;
+
     /**
      * Call makeConnection if an Input as already been clicked and that the connection is authorized by the model
      * otherwise it disconnect the current connection using this output
      * @param node the instance of the node click in the view
      * @param futureConnectionOrigin the output destination for the new connection
      */
-    public static void makeOrigin(IComponent abstractComponent, Node node, IOutput futureConnectionOrigin){
+    public static void makeOrigin(IComponent abstractComponent, Node node, IOutput futureConnectionOrigin) {
+        origin = node;
+        output = futureConnectionOrigin;
+        if (destination == null) {
+            currentlyDrawnCable = new CurveCable(origin, origin);
+
+            // Make the cable follow the cursor
+            currentlyDrawnCable.setMouseTransparent(true);
+            coreController.anchorPane.setOnMouseMoved(event -> {
+                currentlyDrawnCable.setEndX(event.getX());
+                currentlyDrawnCable.setEndY(event.getY());
+            });
+
+            coreController.anchorPane.getChildren().add(currentlyDrawnCable);
+        }
+        else {
+            finalizeDrawing();
+        }
+
+        /*
         output = futureConnectionOrigin;
         outputNode = node;
         componentList.add(abstractComponent);
+
+        // Disconnect an end of a plugged cable
         if(!cableSelected && connectionTab.containsKey(output)){
             cableSelected = true;
             IInput value = connectionTab.get(output);
@@ -106,8 +146,6 @@ public class ConnectionManager {
             Register.disconnect(output);
             input = value;
             addMouseEventFlyingCable(inputNode);
-
-
 
             update();
         }
@@ -124,6 +162,7 @@ public class ConnectionManager {
             }
 
         }
+        */
     }
 
     /**
@@ -133,7 +172,25 @@ public class ConnectionManager {
      * @param futureConnectionDestination the input destination for the new connection
      */
     public static void makeDestination(IComponent abstractComponent, Node node, IInput futureConnectionDestination){
+        destination = node;
         input = futureConnectionDestination;
+        if (origin == null) {
+            currentlyDrawnCable = new CurveCable(destination, destination);
+
+            // Make the cable follow the cursor
+            currentlyDrawnCable.setMouseTransparent(true);
+            coreController.anchorPane.setOnMouseMoved(event -> {
+                currentlyDrawnCable.setStartX(event.getX());
+                currentlyDrawnCable.setStartY(event.getY());
+            });
+
+            coreController.anchorPane.getChildren().add(currentlyDrawnCable);
+        }
+        else {
+            finalizeDrawing();
+        }
+
+        /*input = futureConnectionDestination;
         inputNode = node;
         componentList.add(abstractComponent);
         if(!cableSelected && connectionTab.containsValue(input)){
@@ -165,6 +222,64 @@ public class ConnectionManager {
                         componentList.remove(abstractComponent); //Remove the IComponent from the List<IComponent>
                     }
                 }
+            }
+        }*/
+    }
+
+    private static final HashMap<CurveCable, IOutput> cables = new HashMap<>();
+
+    private static void finalizeDrawing() {
+        // VIEW
+        coreController.anchorPane.setOnMouseMoved(null);
+
+        // Redraw the cable to its final coordinates
+        coreController.anchorPane.getChildren().remove(currentlyDrawnCable);
+        currentlyDrawnCable = new CurveCable(origin, destination);
+        coreController.anchorPane.getChildren().add(currentlyDrawnCable);
+
+        // Add a context menu to the cable
+        currentlyDrawnCable.addEventHandler(MouseEvent.MOUSE_CLICKED, new CableContextMenu(currentlyDrawnCable));
+
+        // Reinitialize the drawing system
+        origin = destination = null;
+
+        // MODEL
+        cables.put(currentlyDrawnCable, output);
+        currentlyDrawnCable.setColor(colorCurrentCable);
+        Register.connect(input, output);
+    }
+
+    private static class CableContextMenu implements EventHandler<MouseEvent> {
+        private final CurveCable cable;
+        private final ContextMenu contextMenu = new ContextMenu();
+
+        public CableContextMenu(final CurveCable cable) {
+            this.cable = cable;
+            final MenuItem deleteMenu = new MenuItem(null, new Label("Delete"));
+            deleteMenu.setOnAction(event -> {
+                // MODEL
+                Register.disconnect(cables.get(cable));
+                cables.remove(cable);
+
+                // VIEW
+                coreController.anchorPane.getChildren().remove(cable);
+            });
+
+            final ColorPicker colorPicker = new ColorPicker();
+            colorPicker.setValue(cable.getColor());
+            colorPicker.getStyleClass().add("button");
+            colorPicker.setStyle("-fx-background-color: transparent;");
+
+            final MenuItem colorMenu = new MenuItem(null, colorPicker);
+            colorMenu.setOnAction(event -> cable.setColor(colorPicker.getValue()));
+
+            contextMenu.getItems().addAll(deleteMenu, colorMenu);
+        }
+
+        @Override
+        public void handle(final MouseEvent event) {
+            if (event.getButton() == MouseButton.SECONDARY) {
+                contextMenu.show(cable, event.getScreenX(), event.getScreenY());
             }
         }
     }

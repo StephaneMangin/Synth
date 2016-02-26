@@ -103,7 +103,6 @@ public abstract class AbstractComponent implements IComponent {
                 "Gain", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-
     }
 
     /**
@@ -277,6 +276,7 @@ public abstract class AbstractComponent implements IComponent {
         return outputModulator;
     }
 
+    // FIXME: This method isn't present in the interface
     public IModulator getGainModulator() { return this.gainModulator; }
 
     @Override
