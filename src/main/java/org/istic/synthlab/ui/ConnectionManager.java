@@ -29,18 +29,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
 public class ConnectionManager {
-    private static Stage stage;
     private static CoreController coreController;
     public static void setCoreController(CoreController coreController) {
         ConnectionManager.coreController = coreController;
-    }
-
-    public static void setStage(Stage node) {
-        stage = node;
-    }
-
-    public static Stage getStage(){
-        return stage;
     }
 
     private static Pair<Node, IOutput> output;
