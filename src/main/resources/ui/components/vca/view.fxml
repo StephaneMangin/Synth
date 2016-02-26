@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Potentiometer?>
-
 <?import javafx.scene.effect.InnerShadow?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Component?>
-<Component fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-           prefHeight="200.0" prefWidth="176.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+               prefHeight="200.0" prefWidth="176.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
+               xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vca.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close"
                pickOnBounds="true" preserveRatio="true" smooth="true">
@@ -51,4 +49,4 @@
         </effect>
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
-</Component>
+</ComponentPane>

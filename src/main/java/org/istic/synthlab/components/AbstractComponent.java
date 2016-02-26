@@ -43,10 +43,10 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *           +-----------------------------------------------------------------------------------------------+
  *                                                                                    Made with : http://asciiflow.com/
  * Abstraction by getter (see code):
- *  Component's inputs linked to IModulator's inputs by getter
- *  Component's outputs linked to IModulator's outputs by getter
- *  Component's sources linked to IModulator's outputs by getter
- *  Component's sinks linked to IModulator's inputs by getter
+ *  ComponentPane's inputs linked to IModulator's inputs by getter
+ *  ComponentPane's outputs linked to IModulator's outputs by getter
+ *  ComponentPane's sources linked to IModulator's outputs by getter
+ *  ComponentPane's sinks linked to IModulator's inputs by getter
  *
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>

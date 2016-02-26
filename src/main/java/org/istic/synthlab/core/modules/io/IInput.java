@@ -20,11 +20,11 @@ public interface IInput extends IModule {
     void connect(IOutput out);
 
     /**
-     * Deconnect.
+     * Disconnect.
      * It disconnects the input port to the output port
      *
      */
-    void deconnect();
+    void disconnect();
 
 
     /**

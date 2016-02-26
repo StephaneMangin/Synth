@@ -11,7 +11,7 @@ import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * Create an abstraction to manage an bypass throught a PassThrough
+ * Create an abstraction to manage an bypass through a PassThrough
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */

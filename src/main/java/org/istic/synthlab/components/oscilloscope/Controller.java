@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class Controller extends AbstractController {
     @FXML
-    private LineChart chart;
+    private LineChart<Number, Number> chart;
     @FXML
     private NumberAxis timeAxis;
     @FXML
@@ -48,7 +48,7 @@ public class Controller extends AbstractController {
         yScale.setMinValue(0.1);
         yScale.setMaxValue(10);
 
-        chart.getData().addAll(samples);
+        chart.getData().add(samples);
 
         scaleAxis.setUpperBound(1.0);
         scaleAxis.setLowerBound(-1.0);

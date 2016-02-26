@@ -9,7 +9,7 @@ import org.istic.synthlab.ui.ConnectionManager;
 /**
  * @author  Group1
  *
- * The interface Component
+ * The interface ComponentPane
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public interface IController extends Initializable {
@@ -68,4 +68,13 @@ public interface IController extends Initializable {
     @FXML
     void close();
 
+    void activate();
+
+    void deactivate();
+
+    boolean isActivated();
+
+    void init();
+
+    void run();
 }

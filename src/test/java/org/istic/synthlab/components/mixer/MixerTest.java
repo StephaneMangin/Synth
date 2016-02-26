@@ -48,8 +48,8 @@ public class MixerTest {
 
     @Test
     public void testGetOutputMixer() throws Exception {
-        assertNotNull(mixer.getOutputMixer());
-        assertEquals(mixer, Register.getComponent(mixer.getOutputMixer()));
+        assertNotNull(mixer.getOutput());
+        assertEquals(mixer, Register.getComponent(mixer.getOutput()));
     }
 
     @Test

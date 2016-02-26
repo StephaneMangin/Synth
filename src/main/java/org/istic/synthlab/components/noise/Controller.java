@@ -15,6 +15,9 @@ import org.istic.synthlab.ui.ConnectionManager;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
+ */
 public class Controller extends AbstractController {
 
     @FXML
@@ -35,10 +38,5 @@ public class Controller extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
         configure(noise);
-    }
-
-    @FXML
-    public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(this.noise, (Node) event.getSource(), this.noise.getOutput());
     }
 }

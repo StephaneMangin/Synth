@@ -7,7 +7,7 @@ import org.istic.synthlab.core.modules.modulators.IModulator;
 /**
  * @author  Group1
  *
- * The interface Component
+ * The interface ComponentPane
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public interface IComponent {
@@ -97,21 +97,21 @@ public interface IComponent {
     void setId(int numInstance);
 
     /**
-     * Set the componant name
+     * Set the component name
      *
      * @param name
      */
     void setName(String name);
 
     /**
-     * Returns componant name
+     * Returns component name
      *
      * @return String
      */
     String getName();
 
     /**
-     * Returns componant identifier
+     * Returns component identifier
      *
      * @return int
      */

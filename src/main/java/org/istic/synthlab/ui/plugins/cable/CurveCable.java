@@ -1,41 +1,30 @@
 package org.istic.synthlab.ui.plugins.cable;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.effect.*;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import net.minidev.json.JSONObject;
-import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.IOrigin;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.istic.synthlab.ui.plugins.history.Origin;
 
 /**
  * Manage cable insertion and linking.
  *
  * @author Augustion Bardou <>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
-public class CurveCable extends CubicCurve implements IOrigin, Observable {
+public class CurveCable extends CubicCurve implements Origin {
 
     // Keep the color to override setter
     private Color color;
 
     private Node startNode;
     private Node endNode;
-    private final List<InvalidationListener> observers = new ArrayList<>();
-
-    public CurveCable(final Node start, final Node end) {
-        this(computeCoordinates(start), computeCoordinates(end));
-        setStartNode(start);
-        setEndNode(end);
-    }
+    private String name;
 
     public Node getStartNode() {
         return startNode;
@@ -44,14 +33,13 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
     public void setStartNode(final Node startNode) {
         this.startNode = startNode;
 
+        // Modify the coordinates of the curve as the node moves
         startNode.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
             setStartX(computeCoordinates(startNode).getX());
-            notifyAll();
         });
 
         startNode.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
             setStartY(computeCoordinates(startNode).getY());
-            notifyAll();
         });
     }
 
@@ -62,20 +50,19 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
     public void setEndNode(Node endNode) {
         this.endNode = endNode;
 
+        // Modify the coordinates of the curve as the node moves
         endNode.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
             setEndX(computeCoordinates(endNode).getX());
-            notifyAll();
         });
 
         endNode.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
             setEndY(computeCoordinates(endNode).getY());
-            notifyAll();
         });
     }
 
     private static Point2D computeCoordinates(final Node node) {
         double x = node.getParent().getBoundsInParent().getMinX() + node.getBoundsInParent().getMinX(),
-                y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
+               y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
 
         x += node.getBoundsInParent().getWidth()/2;
         y += node.getBoundsInParent().getHeight()/2;
@@ -83,20 +70,14 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
         return new Point2D(x, y);
     }
 
-    public CurveCable(final Point2D start, final Point2D end) {
-        this(start.getX(), start.getY(), end.getX(), end.getY());
+    public CurveCable(final Node startNode, final Node endNode) {
+        this(computeCoordinates(startNode), computeCoordinates(endNode));
+        setStartNode(startNode);
+        setEndNode(endNode);
     }
 
-    /**
-     * Returns an instance of CubicCurve
-     *
-     * @param startX    position X of the starting point
-     * @param startY    position Y of the starting point
-     * @param endX      position X of the ending point
-     * @param endY      position Y of the ending point
-     */
-    public CurveCable(final double startX, final double startY, final double endX, final double endY) {
-        this(startX, startY, endX, endY, Color.BLACK);
+    private CurveCable(final Point2D start, final Point2D end) {
+        this(start.getX(), start.getY(), end.getX(), end.getY());
     }
 
     /**
@@ -106,9 +87,8 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
      * @param startY    position Y of the starting point
      * @param endX      position X of the ending point
      * @param endY      position Y of the ending point
-     * @param color     color of the CubicCurve object
      */
-    public CurveCable(final double startX, final double startY, final double endX, final double endY, final Color color) {
+    private CurveCable(final double startX, final double startY, final double endX, final double endY) {
         super(
                 startX,
                 startY,
@@ -120,32 +100,29 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
                 endY
         );
 
+        // Modify the control points as the coordinate of the curve change
         startXProperty().addListener((observable, oldValue, newValue) -> {
             setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
-            notifyAll();
         });
 
         startYProperty().addListener((observable, oldValue, newValue) -> {
             setControlY1(newValue.doubleValue() + newValue.doubleValue() % 100);
-            notifyAll();
         });
 
         endXProperty().addListener((observable, oldValue, newValue) -> {
             setControlX2(newValue.doubleValue() - newValue.doubleValue() % 100);
-            notifyAll();
         });
 
         endYProperty().addListener((observable, oldValue, newValue) -> {
             setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
-            notifyAll();
         });
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
         setFill(Color.TRANSPARENT);
-        setColor(color);
+        setColor(Color.RED);
+        setEffect(new InnerShadow());
         autosize();
-        this.setEffect(new InnerShadow());
     }
 
     public Color getColor(){
@@ -166,6 +143,16 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
         this.setControlX2(this.getControlX2() - x);
         this.setControlY1(this.getControlY1() - y);
         this.setControlY2(this.getControlY2() - y);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -198,26 +185,20 @@ public class CurveCable extends CubicCurve implements IOrigin, Observable {
         obj.put("startY", getEndX());
         obj.put("endX", getStartY());
         obj.put("endY", getEndY());
+        obj.put("fill", getFill().toString());
+        obj.put("stroke", getStroke().toString());
+        obj.put("type", "cable");
         return obj;
     }
 
     @Override
-    public State save() {
+    public State getState() {
         return new State(this);
     }
 
     @Override
-    public void restore(State state) {
+    public void restoreState(State state) {
         setJson(state.getContent());
     }
 
-    @Override
-    public void addListener(InvalidationListener listener) {
-        observers.add(listener);
-    }
-
-    @Override
-    public void removeListener(InvalidationListener listener) {
-        observers.remove(listener);
-    }
 }

@@ -3,12 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.Font?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Potentiometer?>
 <?import javafx.scene.effect.InnerShadow?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Component?>
-<Component fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-           prefHeight="200.0" prefWidth="380.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+               prefHeight="200.0" prefWidth="380.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
+               xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.eg.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" smooth="true" onMouseClicked="#close">
         <Image url="@../../images/closeIcon.png"/>
@@ -40,4 +40,4 @@
             <InnerShadow />
         </effect>
     </ImageView>
-</Component>
+</ComponentPane>

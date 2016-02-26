@@ -7,10 +7,10 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Potentiometer?>
-<?import org.istic.synthlab.ui.plugins.cable.controls.Component?>
-<Component fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-           prefHeight="200.0" prefWidth="300.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40"
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+           prefHeight="200.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.out.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true"
@@ -47,4 +47,4 @@
     </ImageView>
     <ToggleButton fx:id="recordButton" prefWidth="80.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0"
                   mnemonicParsing="false" text="Record"/>
-</Component>
+</ComponentPane>

@@ -10,10 +10,11 @@ import net.minidev.json.JSONObject;
 public class State {
 
     private JSONObject content;
-    private IOrigin origin;
+    private Origin origin;
     private StateType type;
+    private long time;
 
-    public State(IOrigin origin) {
+    public State(Origin origin) {
         content = origin.getJson();
         this.origin = origin;
     }
@@ -22,11 +23,19 @@ public class State {
         return content;
     }
 
-    public IOrigin getOrigin() {
+    public Origin getOrigin() {
         return origin;
     }
 
     public void setType(StateType type) {
         this.type = type;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public StateType getType() {
+        return type;
     }
 }

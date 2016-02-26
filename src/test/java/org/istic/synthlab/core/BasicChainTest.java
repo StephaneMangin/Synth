@@ -5,6 +5,7 @@ import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
+import org.istic.synthlab.components.noise.Noise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.vca.Vca;
@@ -63,7 +64,7 @@ public class BasicChainTest {
         vcoa1.getOutput().connect(vcoa.getInput());
         vcoa.getSawToothOutput().connect(out.getInput());
 
-        // Pour l'affichage des courbes
+        // to display curves
         AudioScope scope = new AudioScope( synth );
         scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
         scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
@@ -177,7 +178,7 @@ public class BasicChainTest {
         out.start();
         synth.start();
 
-        Assert.assertNotEquals(Register.retrieve(out.getInput()),Register.retrieve(out.getLineOut().getInput()));
+        Assert.assertNotEquals(Register.retrieve(out.getInput()), Register.retrieve(out.getLineOut().getInput()));
 
 
         ((SynthesisEngine)synth).printConnections();
@@ -287,7 +288,7 @@ public class BasicChainTest {
         frame.pack();
         frame.setVisible(true);
 
-        //System.out.println("\n Testing EG Modulewith different parameter");
+        //System.out.println("\n Testing EG Module with different parameter");
 
         //System.out.println("\nAttack = 1s, Decay = 1s, Sustain = 1dB, Release = 0.5s");
         synth.sleepFor(5);
@@ -335,7 +336,7 @@ public class BasicChainTest {
         v2.getOutput().connect(mixer.getInput2());
         v3.getOutput().connect(mixer.getInput3());
         v4.getOutput().connect(mixer.getInput4());
-        mixer.getOutputMixer().connect(out.getInput());
+        mixer.getOutput().connect(out.getInput());
 
         out.start();
         synth.start();
@@ -347,6 +348,17 @@ public class BasicChainTest {
         v3.setOscillatorType(OscillatorType.TRIANGLE);
         v4.setOscillatorType(OscillatorType.TRIANGLE);
         synth.sleepFor(5);
+
+        ((SynthesisEngine) synth).printConnections();
+    }
+    @Test
+    public void testWhiteNoise() throws InterruptedException {
+        Noise noise = new Noise("WHITE NOISE");
+        noise.activate();
+        out.start();
+        out.getInput().connect(noise.getOutput());
+        synth.start();
+        synth.sleepFor(10);
 
         ((SynthesisEngine) synth).printConnections();
     }

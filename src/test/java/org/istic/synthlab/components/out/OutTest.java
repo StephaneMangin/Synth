@@ -1,54 +1,51 @@
 package org.istic.synthlab.components.out;
 
-import junit.framework.TestCase;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by stephane on 02/02/16.
  * Module OUT Tester.
  */
-public class OutTest extends TestCase{
+public class OutTest {
 
     private Out out;
 
-    @org.junit.Before
-    public void setUp() throws Exception {
+    @Before
+    public void setUp() {
         this.out = new Out("OUT");
     }
 
-    @org.junit.After
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
-    @org.junit.Test
+    @Test
     public void testActivate() throws Exception {
         this.out.activate();
         Assert.assertTrue(this.out.isActivated());
     }
 
-    @org.junit.Test
+    @Test
     public void testDesactivate() throws Exception {
         this.out.deactivate();
         Assert.assertFalse(this.out.isActivated());
     }
 
-    @org.junit.Test
+    @Test
     public void testInit() throws Exception {
 
     }
 
-    @org.junit.Test
+    @Test
     public void testRun() throws Exception {
 
     }
 
-    @org.junit.Test
+    @Test
     public void testGetInput() throws Exception {
         Assert.assertNotNull(this.out.getInput());
     }
 
-    @org.junit.Test
+    @Test
     public void testGetLineout() throws Exception {
         Assert.assertNotNull(this.out.getLineOut());
     }

@@ -7,7 +7,21 @@ import net.minidev.json.JSONObject;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public interface IOrigin {
+public interface Origin {
+
+    /**
+     * Returns the reference named
+     *
+     * @return
+     */
+    String getName();
+
+    /**
+     * Set the reference named
+     *
+     * @return
+     */
+    void setName(String name);
 
     /**
      * Change current state content
@@ -28,12 +42,19 @@ public interface IOrigin {
      *
      * @return
      */
-    State save();
+    State getState();
 
     /**
      * Restore state for State
      *
      * @param state
      */
-    void restore(State state);
+    void restoreState(State state);
+
+    /**
+     * Returns the unique id of this origin
+     *
+     * @return
+     */
+    String getId();
 }

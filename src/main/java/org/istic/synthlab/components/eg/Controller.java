@@ -2,6 +2,7 @@ package org.istic.synthlab.components.eg;
 
 import javafx.fxml.FXML;
 import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;

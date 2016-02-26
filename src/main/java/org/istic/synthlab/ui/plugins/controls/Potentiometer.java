@@ -11,8 +11,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import net.minidev.json.JSONObject;
-import org.istic.synthlab.ui.plugins.history.IOrigin;
+import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.history.Origin;
 import org.istic.synthlab.ui.plugins.history.State;
+import org.istic.synthlab.ui.plugins.history.StateType;
 
 import java.io.IOException;
 
@@ -25,7 +27,17 @@ import java.io.IOException;
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Potentiometer extends Pane implements IOrigin {
+public class Potentiometer extends Pane implements Origin {
+
+    @Override
+    public String getName() {
+        return title.getText();
+    }
+
+    @Override
+    public void setName(String name) {
+        title.setText(name);
+    }
 
     @FXML
     private Label title;
@@ -66,13 +78,14 @@ public class Potentiometer extends Pane implements IOrigin {
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
-            valueProperty().addListener((observable, oldValue, newValue) -> {
-                notifyAll();
-            });
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }
 
+        valueProperty().addListener((observable, oldValue, newValue) -> {
+            rotateHandle(convertFromValue(newValue.doubleValue()));
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
+        });
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
@@ -85,7 +98,7 @@ public class Potentiometer extends Pane implements IOrigin {
 
         state.forEach((s, o) -> {
             switch(s) {
-                case "startX":
+                case "value":
                     valueProperty().set((double) o);
                     break;
                 default:
@@ -99,16 +112,17 @@ public class Potentiometer extends Pane implements IOrigin {
         StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         obj.put("value", getValue());
+        obj.put("component", "Potentiometer");
         return obj;
     }
 
     @Override
-    public State save() {
+    public State getState() {
         return new State(this);
     }
 
     @Override
-    public void restore(State state) {
+    public void restoreState(State state) {
         setJson(state.getContent());
     }
 
@@ -169,7 +183,7 @@ public class Potentiometer extends Pane implements IOrigin {
     private void rotateHandle(final double degrees) {
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
-            setValue((degrees-(MIN)) / (MAX-MIN));
+            setValue(convertFromDegrees(degrees));
         }
     }
 
@@ -191,5 +205,25 @@ public class Potentiometer extends Pane implements IOrigin {
 
     public void setMinValue(String value) {
         minValue.setText(value);
+    }
+
+    /**
+     * Return the related value from potentiometer angle
+     *
+     * @param degrees
+     * @return
+     */
+    private double convertFromDegrees(double degrees) {
+        return (degrees - MIN) / (MAX - MIN);
+    }
+
+    /**
+     * Return the related angle from potentiometer value
+     *
+     * @param value
+     * @return
+     */
+    private double convertFromValue(double value) {
+        return (value * (MAX-MIN)) + MIN;
     }
 }

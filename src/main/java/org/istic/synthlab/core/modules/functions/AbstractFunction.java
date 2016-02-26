@@ -22,7 +22,7 @@ public class AbstractFunction implements IFunction {
         this.unitBinaryOperator = unitBinaryOperator;
         // Declare the generator to the register
         Register.declare(component, unitBinaryOperator);
-        // Link differents ports
+        // Link different ports
         this.input = Factory.createInput("In", component, unitBinaryOperator.inputA);
         this.variableInput = Factory.createInput("Mod", component, unitBinaryOperator.inputB);
         this.output = Factory.createOutput("Out", component, unitBinaryOperator.output);

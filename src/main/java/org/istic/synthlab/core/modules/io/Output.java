@@ -40,7 +40,7 @@ public class Output implements IOutput {
     }
 
     @Override
-    public void deconnect() {
+    public void disconnect() {
         Register.disconnect(this);
     }
 
