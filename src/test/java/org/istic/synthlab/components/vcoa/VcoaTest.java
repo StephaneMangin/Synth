@@ -61,8 +61,10 @@ public class VcoaTest {
         assertFalse(squareOscillator.isActivated());
     }
 
-    @Test
-    public void testSetExponentialFrequency() {
+    @org.junit.Test
+    @Deprecated
+    /** Value must be between 0 and 1*/
+    public void testSetExponentialFrequency() throws Exception {
         vcoa.setExponentialFrequency(30.0D);
         assertEquals(30.0D, vcoa.getExponentialFrequency(), 1e-15);
     }

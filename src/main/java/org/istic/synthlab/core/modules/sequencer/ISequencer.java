@@ -1,12 +1,14 @@
 package org.istic.synthlab.core.modules.sequencer;
 
+import org.istic.synthlab.core.Resource;
+import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 
 /**
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/22/16.
  */
-public interface ISequencer {
+public interface ISequencer extends IModule, Resource {
 
     /**
      * Get the current step value of the sequencer
@@ -21,6 +23,18 @@ public interface ISequencer {
      * @param value
      * */
     void setStepValue(int step, double value);
+
+    /**
+     * Get the min value per step
+     * @return  double
+     * */
+    double getMinValue();
+
+    /**
+     * Get the max value per step
+     * @return  double
+     * */
+    double getMaxValue();
 
     /**
      * Get the current step of the sequencer

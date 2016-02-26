@@ -21,7 +21,7 @@ public class ProofDisconnectInput {
         out = new Out("OUT");
 
         vcoa.setAmplitudeSine(1.0);
-        vcoa.setExponentialFrequency(320.0);
+        vcoa.setExponentialFrequency(0.4);
 
         vcoa.getOutput().connect(out.getInput());
 

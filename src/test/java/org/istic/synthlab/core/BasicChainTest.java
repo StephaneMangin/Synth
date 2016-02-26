@@ -3,11 +3,14 @@ package org.istic.synthlab.core;
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
+import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
 import org.istic.synthlab.components.noise.Noise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
+import org.istic.synthlab.components.seq.Sequencer;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
@@ -20,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.swing.*;
+
 
 /**
  * @author Cyprien
@@ -363,4 +367,41 @@ public class BasicChainTest {
         ((SynthesisEngine) synth).printConnections();
     }
 
+    @Test
+    public void testSequencer() throws InterruptedException {
+        TriangleOscillator oscillator = new TriangleOscillator();
+
+        oscillator.frequency.set(440.);
+        oscillator.amplitude.set(0.9);
+        Sequencer sequencer = new Sequencer("SEQ");
+        Synthesizer synthesis = Factory.createSynthesizer();
+        LineOut lineOut = new LineOut();
+
+        oscillator.getOutput().connect(sequencer.getInputgate().getUnitInputPort());
+        lineOut.input.connect(sequencer.getOutputSeq().getUnitOutputPort());
+
+        // For the display of curves
+        AudioScope scope = new AudioScope(synth);
+        scope.addProbe(sequencer.getOutputSeq().getUnitOutputPort());
+
+        scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
+        scope.getModel().getTriggerModel().getLevelModel()
+                .setDoubleValue(0.0001);
+        scope.getView().setControlsVisible(true);
+        scope.start();
+        JFrame frame = new JFrame();
+        frame.add(scope.getView());
+        frame.pack();
+        frame.setVisible(true);
+
+        synthesis.add(lineOut);
+        synthesis.add(oscillator);
+        lineOut.start();
+        synthesis.start();
+        synthesis.sleepFor(3);
+        sequencer.activate();
+        synthesis.sleepFor(5);
+        sequencer.deactivate();
+        synthesis.sleepFor(5);
+    }
 }

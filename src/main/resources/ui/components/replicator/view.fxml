@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
 <?import org.istic.synthlab.ui.plugins.ComponentPane?>
 <?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
 <?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
