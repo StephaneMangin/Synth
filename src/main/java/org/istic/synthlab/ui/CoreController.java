@@ -190,7 +190,6 @@ public class CoreController implements Initializable {
                 component.setLayoutX(x);
                 component.setLayoutY(y);
 
-                // FIXME: weird placement when there are cables and a component is moved
                 layoutComponents();
 
                 event.setDropCompleted(true);
@@ -208,13 +207,11 @@ public class CoreController implements Initializable {
 
         while (components.size() > 0) {
             components.sort(new NodeComparator());
-            // FIXME: try to put the last added component in first position so that it doesn't move?
 
             final Node fixedNode = components.get(0);
             for (int i = 1; i < components.size(); i++) {
                 final Node currentNode = components.get(i);
                 if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
-                    // FIXME: maybe find a better heuristic
                     if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
                     //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
                         currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
