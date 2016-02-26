@@ -116,7 +116,12 @@ public class CoreController implements Initializable {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components", false)) {
+        final List<String> components = findAllPackagesStartingWith("org.istic.synthlab.components", false);
+
+        // Sort the components alphabetically
+        components.sort(String::compareTo);
+
+        for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -386,7 +391,7 @@ public class CoreController implements Initializable {
      * @param statik True to statically return components names
      * @return a set of component name
      */
-    public Set<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
+    public List<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
         final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
 
@@ -396,24 +401,13 @@ public class CoreController implements Initializable {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
         Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-        final Set<String> packageNameSet = new HashSet<>();
+        final Set<String> packages = new HashSet<>();
         for (final Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
-            packageNameSet.add(packageName);
+            packages.add(packageName);
         }
-        if (statik) {
-            packageNameSet.clear();
-            packageNameSet.add("vcoa");
-            packageNameSet.add("out");
-            packageNameSet.add("oscilloscope");
-            packageNameSet.add("replicator");
-            packageNameSet.add("eg");
-            packageNameSet.add("vca");
-            packageNameSet.add("vcfa");
-            packageNameSet.add("mixer");
-        }
-        return packageNameSet;
+        return new ArrayList<>(packages);
     }
 
     /**
