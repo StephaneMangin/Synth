@@ -14,10 +14,6 @@ import java.util.ResourceBundle;
  */
 public class Controller extends AbstractController {
 
-    @FXML
-    private Pane rootModulePane;
-    @FXML private ImageView output;
-
     private Noise noise = new Noise("White Noise");
 
     /**

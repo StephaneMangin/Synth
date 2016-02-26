@@ -2,16 +2,16 @@
     -fx-background-color: radial-gradient(center 66% 33%, radius 100%, #444444, #000000);
     -fx-border-color: #000;
     -fx-border-width: 3;
+    color: #FFF;
 }
 
 .componentPane .vcoaFrequency {
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000, #222);
     -fx-border-color: #000;
     -fx-border-width: 2;
-    color: #FFF;
 }
 
-.componentPane Label, .component RadioButton {
+.componentPane Label, .componentPane RadioButton {
     -fx-text-fill: #DDD;
 }
 

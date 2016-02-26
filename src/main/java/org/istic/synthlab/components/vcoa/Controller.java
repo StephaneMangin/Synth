@@ -82,8 +82,8 @@ public class Controller extends AbstractController {
             vcoa.setExponentialFrequency((Double)newValue);
             updateScreen();
             groupShortcut.selectToggle(null);
-            linFrequency.setMinValue((int)vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency());
-            linFrequency.setMaxValue((int)vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency());
+            linFrequency.setMinValue(String.valueOf((int) (vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency())));
+            linFrequency.setMaxValue(String.valueOf((int) (vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency())));
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
