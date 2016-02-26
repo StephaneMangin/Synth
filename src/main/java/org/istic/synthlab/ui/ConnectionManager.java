@@ -17,6 +17,7 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.cable.CurveCable;
+import sun.awt.geom.Curve;
 
 import java.util.HashMap;
 import java.util.List;
@@ -295,7 +296,10 @@ public class ConnectionManager {
         cancelCable();
 
         coreController.getAnchorPane().getChildren().remove(anchorPane);
-        componentToCablesBinding.get(component).forEach(ConnectionManager::deleteCable);
+        final List<CurveCable> cablesToDelete = componentToCablesBinding.get(component);
+        if (cablesToDelete != null) {
+            cablesToDelete.forEach(ConnectionManager::deleteCable);
+        }
         componentToCablesBinding.remove(component);
     }
 

@@ -24,6 +24,7 @@ import javafx.scene.transform.Scale;
 import org.istic.synthlab.Main;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -202,7 +203,9 @@ public class CoreController implements Initializable {
      * Move the components so that there is no overlapping
      */
     private void layoutComponents() {
-        final List<Node> components = new ArrayList<>(anchorPane.getChildren());
+        final List<Node> components = new ArrayList<>(anchorPane.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        Collections.reverse(components);
+
         while (components.size() > 0) {
             components.sort(new NodeComparator());
             // FIXME: try to put the last added component in first position so that it doesn't move?
@@ -212,14 +215,14 @@ public class CoreController implements Initializable {
                 final Node currentNode = components.get(i);
                 if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
                     // FIXME: maybe find a better heuristic
-                    //if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
-                    if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
                         currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
-                        currentNode.setLayoutY(fixedNode.getLayoutY());
+                        //currentNode.setLayoutY(fixedNode.getLayoutY());
                     }
                     else {
                         currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
-                        currentNode.setLayoutX(fixedNode.getLayoutX());
+                        //currentNode.setLayoutX(fixedNode.getLayoutX());
                     }
                 }
             }
@@ -234,9 +237,18 @@ public class CoreController implements Initializable {
         @Override
         public int compare(final Node node1, final Node node2) {
             // Sort according to the distance to anchorPane (0, 0)
-            final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
-            final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
-            return posNode1.compareTo(posNode2);
+            //final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            //final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            //return posNode1.compareTo(posNode2);
+            if (node1.getLayoutY() > node2.getLayoutY()) {
+                return 1;
+            }
+            else if (node1.getLayoutY() < node2.getLayoutY()) {
+                return -1;
+            }
+            else {
+                return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
+            }
         }
     }
 
