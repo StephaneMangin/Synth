@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.CoreController;
 
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
@@ -17,8 +18,8 @@ public final class Main extends Application {
     @Override
     public void start(final Stage primaryStage) throws Exception {
         final Parent root = FXMLLoader.load(getClass().getResource("/ui/core.fxml"));
+        CoreController.setStage(primaryStage);
         final Scene scene = new Scene(root);
-        ConnectionManager manager = new ConnectionManager();
         scene.getStylesheets().add("/ui/stylesheets/global.css");
         scene.getStylesheets().add("/ui/stylesheets/" + DEFAULT_SKIN.toLowerCase() + ".css");
         primaryStage.setTitle("Synth");

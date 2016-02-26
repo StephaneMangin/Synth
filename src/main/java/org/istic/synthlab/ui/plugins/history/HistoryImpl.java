@@ -44,6 +44,7 @@ public class HistoryImpl extends Observable implements History {
     }
 
     @Override
+    @SuppressWarnings("deprecated")
     public void load(File file, WorkspacePane workspacePane) throws Exception {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(file);

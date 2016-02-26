@@ -17,10 +17,10 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.istic.synthlab.Main;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
@@ -28,7 +28,7 @@ import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.WorkspacePane;
 import org.istic.synthlab.ui.plugins.history.StateType;
-import org.istic.synthlab.ui.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -51,8 +51,9 @@ import java.util.*;
  */
 public class CoreController implements Initializable {
 
+    // TODO: bad if we want to have multiple instances inside tab for example
     private static ConnectionManager manager = new ConnectionManager();
-
+    private static Stage stage;
     @FXML
     private Menu skinMenu;
     @FXML
@@ -72,7 +73,15 @@ public class CoreController implements Initializable {
     @FXML
     private WorkspacePane workspace;
 
-    public AnchorPane getWorkspace() {
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        CoreController.stage = stage;
+    }
+
+    public WorkspacePane getWorkspace() {
         return workspace;
     }
 
@@ -288,6 +297,7 @@ public class CoreController implements Initializable {
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
+            System.out.println(pane.getChildren().get(0).getId().toLowerCase());
             final ComponentPane componentPane = loadComponent(pane.getChildren().get(0).getId().toLowerCase());
             final WritableImage w  = componentPane.snapshot(null,null);
             //workspace.getChildren().remove(componentPane);
@@ -337,7 +347,7 @@ public class CoreController implements Initializable {
         fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
         fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
         fileChooser.setTitle("Save File");
-        final File file = fileChooser.showSaveDialog(manager.getStage());
+        final File file = fileChooser.showSaveDialog(getStage());
         try {
             manager.getHistory().save(file);
         } catch (IOException e) {
@@ -383,7 +393,7 @@ public class CoreController implements Initializable {
             fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
             fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
             fileChooser.setTitle("Load File");
-            final File file = fileChooser.showOpenDialog(manager.getStage());
+            final File file = fileChooser.showOpenDialog(stage);
             try {
                 manager.getHistory().load(file, workspace);
             } catch (Exception e) {

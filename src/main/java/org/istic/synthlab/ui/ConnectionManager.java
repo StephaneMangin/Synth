@@ -33,13 +33,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class ConnectionManager {
     private History history = new HistoryImpl();
-    private static CoreController coreController;
-    public static void setCoreController(CoreController coreController) {
-        ConnectionManager.coreController = coreController;
+    private CoreController coreController;
+    public void setCoreController(CoreController coreController) {
+        this.coreController = coreController;
     }
-    private static Pair<Node, IOutput> output;
-    private static Pair<Node, IInput> input;
-    private static CurveCable currentlyDrawnCable;
+    private Pair<Node, IOutput> output;
+    private Pair<Node, IInput> input;
+    private CurveCable currentlyDrawnCable;
 
     /**
      * Used to remember the cables associated to a node
