@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +18,18 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Scale;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.istic.synthlab.Main;
+import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.plugins.ComponentPane;
+import org.istic.synthlab.ui.plugins.WorkspacePane;
+import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -31,8 +37,11 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -42,12 +51,10 @@ import java.util.*;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class CoreController implements Initializable {
-    // Be sure there's never a component named like this for this to work
-    private static final String DRAG_N_DROP_MOVE_GUARD = "";
-    private static final double ZOOM_STEP = 0.01;
-    private static final double ZOOM_MAX = 2;
-    private static final double ZOOM_MIN = 0.4;
 
+    // TODO: bad if we want to have multiple instances inside tab for example
+    private static ConnectionManager manager = new ConnectionManager();
+    private static Stage stage;
     @FXML
     private Menu skinMenu;
     @FXML
@@ -65,10 +72,18 @@ public class CoreController implements Initializable {
     @FXML
     private Button playButton;
     @FXML
-    private AnchorPane anchorPane;
+    private WorkspacePane workspace;
 
-    public AnchorPane getAnchorPane() {
-        return anchorPane;
+    public static Stage getStage() {
+        return stage;
+    }
+
+    public static void setStage(Stage stage) {
+        CoreController.stage = stage;
+    }
+
+    public WorkspacePane getWorkspace() {
+        return workspace;
     }
 
     /**
@@ -84,8 +99,7 @@ public class CoreController implements Initializable {
         initializeListView();
         initializeMainPane();
         initializeFunctions();
-        ConnectionManager.setCoreController(this);
-
+        manager.setCoreController(this);
     }
 
     // Skin related stuff
@@ -104,7 +118,7 @@ public class CoreController implements Initializable {
 
             item.selectedProperty().addListener((observable, oldValue, newValue) -> {
                 final String stylesheet = "/ui/stylesheets/" + item.getText().toLowerCase() + ".css";
-                final Scene scene = anchorPane.getScene();
+                final Scene scene = workspace.getScene();
                 scene.getStylesheets().remove(currentStylesheet);
                 scene.getStylesheets().add(stylesheet);
                 currentStylesheet = stylesheet;
@@ -115,7 +129,12 @@ public class CoreController implements Initializable {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components", false)) {
+        final List<String> components = findAllPackagesStartingWith("org.istic.synthlab.components", false);
+
+        // Sort the components alphabetically
+        components.sort(String::compareTo);
+
+        for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -137,77 +156,63 @@ public class CoreController implements Initializable {
     }
 
     private void initializeMainPane() {
-        anchorPane.setOnDragOver(event -> {
-            if (event.getDragboard().hasString()) {
-                event.acceptTransferModes(TransferMode.COPY);
-            }
-            event.consume();
-        });
+    }
 
-        anchorPane.setOnDragDropped(event -> {
-            final Dragboard db = event.getDragboard();
-            if (db.hasString()) {
-                Node component = null;
+    /**
+     * Move the components so that there is no overlapping
+     */
+    private void layoutComponents() {
+        final List<Node> components = new ArrayList<>(workspace.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        Collections.reverse(components);
 
-                // Move a component
-                if (db.getString().equals(DRAG_N_DROP_MOVE_GUARD)) {
-                    component = (Node) event.getGestureSource();
-                }
-                // Load a component
-                else {
-                    try {
-                        component = FXMLLoader.load(getClass().getResource("/ui/components/" + db.getString().toLowerCase() + "/view.fxml"));
-                        addWithDragging(anchorPane, component);
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                        event.consume();
-                        return;
+        while (components.size() > 0) {
+            components.sort(new NodeComparator());
+
+            final Node fixedNode = components.get(0);
+            for (int i = 1; i < components.size(); i++) {
+                final Node currentNode = components.get(i);
+                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
+                        //currentNode.setLayoutY(fixedNode.getLayoutY());
+                    }
+                    else {
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
+                        //currentNode.setLayoutX(fixedNode.getLayoutX());
                     }
                 }
-
-
-                assert component != null;
-                double x = event.getX()-(component.getBoundsInLocal().getWidth()/2),
-                       y = event.getY()-(component.getBoundsInLocal().getHeight()/2);
-
-                // Prevent the components from being outside the anchorPane
-                if (x < 0) {
-                    x = 0;
-                }
-                if (y < 0) {
-                    y = 0;
-                }
-                if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
-                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
-                }
-                if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
-                    y = anchorPane.getHeight() - component.getBoundsInParent().getHeight();
-                }
-
-                // Place the component
-                component.setLayoutX(x);
-                component.setLayoutY(y);
-
-                // Detect collisions
-                // TODO: modify x and y so that there's no collision
-                for (final Node otherComponent : anchorPane.getChildren()) {
-                    if (component != otherComponent) {
-                        if (component.getBoundsInParent().intersects(otherComponent.getBoundsInParent())) {
-                            System.out.println("Collision");
-                        }
-                    }
-                }
-
-                event.setDropCompleted(true);
             }
-            event.consume();
-        });
+            components.remove(0);
+        }
+    }
+
+    /**
+     * Allow to compare two nodes according to the distance from the coordinate (0, 0) of their parent to their top left corner
+     */
+    private class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(final Node node1, final Node node2) {
+            // Sort according to the distance to anchorPane (0, 0)
+            //final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            //final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            //return posNode1.compareTo(posNode2);
+            if (node1.getLayoutY() > node2.getLayoutY()) {
+                return 1;
+            }
+            else if (node1.getLayoutY() < node2.getLayoutY()) {
+                return -1;
+            }
+            else {
+                return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
+            }
+        }
     }
 
     private void initializeFunctions() {
         // We set this event so that when we click somewhere random when in cable remove mode
         // it goes back to normal mode
-        anchorPane.setOnMouseClicked(event -> {
+        workspace.setOnMouseClicked(event -> {
             if (cableRemoveMode) {
                 cableRemoveMode = false;
                 borderPane.setCursor(Cursor.DEFAULT);
@@ -267,17 +272,7 @@ public class CoreController implements Initializable {
      */
     @FXML
     public void zoomIn(final ActionEvent actionEvent) {
-        if (anchorPane.getScaleX() < ZOOM_MAX && anchorPane.getScaleY() < ZOOM_MAX) {
-            //double oldWidth = anchorPane.getPrefWidth();
-            //double oldHeight = anchorPane.getPrefHeight();
-            double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
-            double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
-            anchorPane.setScaleX(anchorPane.getScaleX() + ZOOM_STEP);
-            anchorPane.setScaleY(anchorPane.getScaleY() + ZOOM_STEP);
-            anchorPane.resize(newWidth, newHeight);
-            //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
-            //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
-        }
+        workspace.zoomIn();
     }
 
     /**
@@ -285,27 +280,11 @@ public class CoreController implements Initializable {
      */
     @FXML
     public void zoomOut(final ActionEvent actionEvent) {
-        if (anchorPane.getScaleX() > ZOOM_MIN && anchorPane.getScaleY() > ZOOM_MIN) {
-
-            //double oldWidth = anchorPane.getPrefWidth();
-            //double oldHeight = anchorPane.getPrefHeight();
-            double newWidth = anchorPane.getMinWidth() * (1 / anchorPane.getScaleX());
-            double newHeight = anchorPane.getMinHeight() * (1 / anchorPane.getScaleY());
-            anchorPane.setScaleX(anchorPane.getScaleX() - ZOOM_STEP);
-            anchorPane.setScaleY(anchorPane.getScaleY() - ZOOM_STEP);
-            anchorPane.resize(newWidth, newHeight);
-            //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
-            //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
-        }
+        workspace.zoomOut();
     }
 
     public void defaultZoom() {
-        anchorPane.setScaleX(1);
-        anchorPane.setScaleY(1);
-        anchorPane.setPrefSize(
-                anchorPane.getMinWidth(),
-                anchorPane.getMinHeight()
-        );
+        workspace.defaultZoom();
     }
 
     /**
@@ -319,17 +298,11 @@ public class CoreController implements Initializable {
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
-            try {
-                final Node node = FXMLLoader.load(getClass().getResource("/ui/components/" + pane.getChildren().get(0).getId().toLowerCase() + "/view.fxml"));
-
-                // Temporarily add the node to the pane so the CSS is applied
-                anchorPane.getChildren().add(node);
-                final WritableImage w  = node.snapshot(null,null);
-                anchorPane.getChildren().remove(node);
-                content.putImage(w);
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
+            System.out.println(pane.getChildren().get(0).getId().toLowerCase());
+            final ComponentPane componentPane = loadComponent(pane.getChildren().get(0).getId().toLowerCase());
+            componentPane.applyCss();
+            final WritableImage w  = componentPane.snapshot(null,null);
+            content.putImage(w);
             db.setContent(content);
             event.consume();
         }
@@ -341,7 +314,7 @@ public class CoreController implements Initializable {
      * @param statik True to statically return components names
      * @return a set of component name
      */
-    public Set<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
+    public List<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
         final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
 
@@ -351,63 +324,132 @@ public class CoreController implements Initializable {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
         Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-        final Set<String> packageNameSet = new HashSet<>();
+        final Set<String> packages = new HashSet<>();
         for (final Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
-            packageNameSet.add(packageName);
+            packages.add(packageName);
         }
-        if (statik) {
-            packageNameSet.clear();
-            packageNameSet.add("vcoa");
-            packageNameSet.add("out");
-            packageNameSet.add("oscilloscope");
-            packageNameSet.add("replicator");
-            packageNameSet.add("eg");
-            packageNameSet.add("vca");
-            packageNameSet.add("vcfa");
-            packageNameSet.add("mixer");
+        return new ArrayList<>(packages);
+    }
+
+    public static ConnectionManager getConnectionManager() {
+        return manager;
+    }
+
+
+    /**
+     * Save a configuration
+     */
+    @FXML
+    public void saveConfiguration() {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
+        fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
+        fileChooser.setTitle("Save File");
+        final File file = fileChooser.showSaveDialog(getStage());
+        try {
+            manager.getHistory().save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return packageNameSet;
     }
 
     /**
-     * Remove a component from the anchorPane
-     * @param pane the pane we will remove.
+     * Load a configuration
      */
-    public void removeViewComponent(Pane pane){
-        anchorPane.getChildren().remove(pane);
+    @FXML
+    public void cancelConfiguration(Event event) {
+        workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
     }
 
     /**
-     * Add a component to the anchorpane and declare the dragging controls handlers
+     * Load a configuration
      */
-    private void addWithDragging(final AnchorPane root, final Node component) {
-        component.setOnDragDetected(event -> {
-            // TODO: add component relocation
-            final AnchorPane node = (AnchorPane) event.getSource();
-            node.startFullDrag();
-            final Dragboard db = node.startDragAndDrop(TransferMode.ANY);
-            final ClipboardContent content = new ClipboardContent();
+    @FXML
+    public void loadConfiguration(Event event) {
+        if (workspace.getChildrenUnmodifiable().size() > 0) {
 
-            final SnapshotParameters params = new SnapshotParameters();
-            final Scale scale = new Scale();
-            scale.setX(anchorPane.getScaleX());
-            scale.setY(anchorPane.getScaleY());
-            // FIXME: Work fot the minimum scale value but not for the maximum while zooming the anchorpane ?!
-            final WritableImage image = node.snapshot(
-                    params,
-                    new WritableImage(
-                            ((Double)(node.getWidth() * anchorPane.getScaleX())).intValue(),
-                            ((Double)(node.getHeight() * anchorPane.getScaleY())).intValue()
-                    )
-            );
-            content.putImage(image);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Modification detected");
+            alert.setHeaderText("The workspace needs to be cleaned !");
+            alert.setContentText("Are your sure ?");
 
-            content.putString(DRAG_N_DROP_MOVE_GUARD);
-            db.setContent(content);
-            event.consume();
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                cancelConfiguration(event);
+            }
+        }
+        if (workspace.getChildrenUnmodifiable().size() == 0) {
+            final FileChooser fileChooser = new FileChooser();
+            fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
+            fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
+            fileChooser.setTitle("Load File");
+            final File file = fileChooser.showOpenDialog(stage);
+            try {
+                manager.getHistory().load(file, workspace);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * Return to the previous state
+     */
+    @FXML
+    public void previousConfiguration(Event event) {
+        manager.getHistory().previous();
+    }
+
+    /**
+     * Go to the next state
+     */
+    @FXML
+    public void nextConfiguration(Event event) {
+        manager.getHistory().next();
+    }
+
+    /**
+     * Helper class to load a specific component
+     *
+     *
+     * @param name
+     * @return
+     */
+    public static ComponentPane loadComponent(String name) {
+        ComponentPane componentPane = null;
+        try {
+            FXMLLoader loader = new FXMLLoader(CoreController.class.getResource("/ui/components/" + name + "/view.fxml"));
+            componentPane = loader.load();
+            componentPane.setName(name);
+            componentPane.setController(loader.<IController>getController());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        return componentPane;
+    }
+
+    /**
+     * This method is needed by the #SAVE function !!!
+     *
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     * @return
+     */
+    public CurveCable createCable(double startX, double startY, double endX, double endY) {
+        workspace.getChildrenUnmodifiable().forEach(node -> {
+            if (node instanceof ComponentPane && node.contains(startX, startY)) {
+                ComponentPane componentPane = (ComponentPane) node;
+                componentPane.getChildren().forEach(port -> {
+                    if (port instanceof ImageView && port.contains(startX, startY)) {
+                        // TODO
+                    }
+                });
+            }
         });
-        root.getChildren().add(component);
+        return null;
     }
 }

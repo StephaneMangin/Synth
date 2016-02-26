@@ -22,11 +22,11 @@ public class Replicator extends AbstractComponent {
     /*
     * the first replicated output
     */
-    private IModulator outputModulatorReplicated1;
+    private IModulator outputModulator2;
     /*
     * the second replicated output
     */
-    private IModulator outputModulatorReplicated2;
+    private IModulator outputModulator3;
 
     /**
      * Instantiates a new replicator.
@@ -37,20 +37,20 @@ public class Replicator extends AbstractComponent {
         super(name);
         passThrough = Factory.createPassThrough(this);
 
-        outputModulatorReplicated1 = Factory.createModulator(
-                "modOut1", this,
+        outputModulator2 = Factory.createModulator(
+                "modOut2", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.LINEAR);
 
-        outputModulatorReplicated2 = Factory.createModulator(
-                "modOut2", this,
+        outputModulator3 = Factory.createModulator(
+                "modOut3", this,
                 ModulatorType.AMPLITUDE,
                 PotentiometerType.LINEAR);
 
         getSource().connect(passThrough.getInput());
         passThrough.getOutput1().connect(getSink());
-        passThrough.getOutput2().connect(outputModulatorReplicated1.getInput());
-        passThrough.getOutput3().connect(outputModulatorReplicated2.getInput());
+        passThrough.getOutput2().connect(outputModulator2.getInput());
+        passThrough.getOutput3().connect(outputModulator3.getInput());
     }
 
     @Override
@@ -71,14 +71,14 @@ public class Replicator extends AbstractComponent {
      *
      * @return IOutput
      */
-    public IOutput getOutputReplicated1(){ return outputModulatorReplicated1.getOutput(); }
+    public IOutput getOutput2(){ return outputModulator2.getOutput(); }
 
     /**
      * Return the second replicated output, corresponding to output number three.
      *
      * @return IOutput
      */
-    public IOutput getOutputReplicated2(){ return outputModulatorReplicated2.getOutput(); }
+    public IOutput getOutput3(){ return outputModulator3.getOutput(); }
 
     /**
      * Return the module handling the signal replication.

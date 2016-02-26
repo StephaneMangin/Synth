@@ -5,6 +5,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.*?>
+<?import org.istic.synthlab.ui.plugins.WorkspacePane?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
@@ -12,8 +13,8 @@
                         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                         AnchorPane.topAnchor="0.0">
                 <Group>
-                    <AnchorPane fx:id="anchorPane" minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0"
-                                prefWidth="3000.0" styleClass="main"/>
+                    <WorkspacePane fx:id="workspace" minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0"
+                                   prefWidth="3000.0" styleClass="main"/>
                 </Group>
             </ScrollPane>
             <TitledPane fx:id="componentList" blendMode="SRC_ATOP" cache="true" collapsible="true"
@@ -65,7 +66,20 @@
             </ToolBar-->
             <MenuBar>
                 <Menu mnemonicParsing="false" text="File">
+                    <MenuItem accelerator="Ctrl + N" mnemonicParsing="false" onAction="#cancelConfiguration"
+                              text="New project"/>
+                    <MenuItem accelerator="Ctrl + S" mnemonicParsing="false" onAction="#saveConfiguration"
+                              text="Save As"/>
+                    <MenuItem accelerator="Ctrl + O" mnemonicParsing="false" onAction="#loadConfiguration"
+                              text="Open a project"/>
+                    <SeparatorMenuItem/>
                     <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem accelerator="Ctrl + Z" mnemonicParsing="false" onAction="#previousConfiguration"
+                              text="Undo"/>
+                    <MenuItem accelerator="Ctrl + Y" mnemonicParsing="false" onAction="#nextConfiguration"
+                              text="Redo"/>
                 </Menu>
                 <Menu mnemonicParsing="false" text="View">
                     <Menu fx:id="skinMenu" mnemonicParsing="false" text="Skin"/>

@@ -1,16 +1,10 @@
 package org.istic.synthlab.components.noise;
 
-/**
- * Created by paola on 22/02/16.
- */
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
 
 import java.net.URL;
 import java.util.ResourceBundle;

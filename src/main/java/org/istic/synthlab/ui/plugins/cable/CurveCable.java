@@ -6,6 +6,9 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
+import net.minidev.json.JSONObject;
+import org.istic.synthlab.ui.plugins.history.State;
+import org.istic.synthlab.ui.plugins.history.Origin;
 
 /**
  * Manage cable insertion and linking.
@@ -14,20 +17,14 @@ import javafx.scene.shape.StrokeLineCap;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
-public class CurveCable extends CubicCurve {
+public class CurveCable extends CubicCurve implements Origin {
+
+    // Keep the color to override setter
     private Color color;
-
-    public Color getColor() {
-        return this.color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-        strokeProperty().set(color);
-    }
 
     private Node startNode;
     private Node endNode;
+    private String name;
 
     public Node getStartNode() {
         return startNode;
@@ -127,4 +124,81 @@ public class CurveCable extends CubicCurve {
         setEffect(new InnerShadow());
         autosize();
     }
+
+    public Color getColor(){
+        return this.color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        strokeProperty().set(color);
+    }
+
+    public void reCenter(double x, double y){
+        this.setStartX(this.getStartX() - x);
+        this.setEndX(this.getEndX() - x);
+        this.setStartY(this.getStartY() - y);
+        this.setEndY(this.getEndY() - y);
+        this.setControlX1(this.getControlX1() - x);
+        this.setControlX2(this.getControlX2() - x);
+        this.setControlY1(this.getControlY1() - y);
+        this.setControlY2(this.getControlY2() - y);
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setJson(JSONObject state) {
+        state.forEach((s, o) -> {
+            switch(s) {
+                case "startX":
+                    setStartX((double)o);
+                    break;
+                case "startY":
+                    setStartX((double)o);
+                    break;
+                case "endX":
+                    setStartX((double)o);
+                    break;
+                case "endY":
+                    setStartX((double)o);
+                    break;
+                default:
+                    // Do nothing yet
+            }
+        });
+    }
+
+    @Override
+    public JSONObject getJson() {
+        StringBuffer buffer = new StringBuffer();
+        JSONObject obj = new JSONObject();
+        obj.put("startX", getStartX());
+        obj.put("startY", getEndX());
+        obj.put("endX", getStartY());
+        obj.put("endY", getEndY());
+        obj.put("fill", getFill().toString());
+        obj.put("stroke", getStroke().toString());
+        obj.put("type", "cable");
+        return obj;
+    }
+
+    @Override
+    public State getState() {
+        return new State(this);
+    }
+
+    @Override
+    public void restoreState(State state) {
+        setJson(state.getContent());
+    }
+
 }

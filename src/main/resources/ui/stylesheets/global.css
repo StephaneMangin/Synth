@@ -1,21 +1,21 @@
-.component {
+.componentPane {
     -fx-background-color: radial-gradient(center 66% 33%, radius 100%, #444444, #000000);
     -fx-border-color: #000;
     -fx-border-width: 3;
 }
 
-.component .vcoaFrequency {
+.componentPane .vcoaFrequency {
     -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000, #222);
     -fx-border-color: #000;
     -fx-border-width: 2;
     color: #FFF;
 }
 
-.component Label, .component RadioButton {
+.componentPane Label, .component RadioButton {
     -fx-text-fill: #DDD;
 }
 
-.component .title {
+.componentPane .title {
     -fx-font-size: 12;
     -fx-font-weight: bolder;
     -fx-stroke: darkorange;

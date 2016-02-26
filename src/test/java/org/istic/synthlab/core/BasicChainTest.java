@@ -229,7 +229,7 @@ public class BasicChainTest {
         Replicator repl = new Replicator("REPL");
 
         vcoa.getOutput().connect(repl.getInput());
-        repl.getOutputReplicated1().connect(out.getInput());
+        repl.getOutput2().connect(out.getInput());
 
         out.start();
         synth.start();
@@ -336,7 +336,7 @@ public class BasicChainTest {
         v2.getOutput().connect(mixer.getInput2());
         v3.getOutput().connect(mixer.getInput3());
         v4.getOutput().connect(mixer.getInput4());
-        mixer.getOutputMixer().connect(out.getInput());
+        mixer.getOutput().connect(out.getInput());
 
         out.start();
         synth.start();
