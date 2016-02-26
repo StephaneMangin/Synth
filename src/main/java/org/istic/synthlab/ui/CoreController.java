@@ -372,14 +372,6 @@ public class CoreController implements Initializable {
     }
 
     /**
-     * Remove a component from the anchorPane
-     * @param pane the pane we will remove.
-     */
-    public void removeViewComponent(Pane pane){
-        anchorPane.getChildren().remove(pane);
-    }
-
-    /**
      * Add a component to the anchorpane and declare the dragging controls handlers
      */
     private void addWithDragging(final AnchorPane root, final Node component) {

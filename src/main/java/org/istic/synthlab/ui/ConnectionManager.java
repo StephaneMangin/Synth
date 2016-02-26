@@ -10,13 +10,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Pair;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.cable.CurveCable;
 
 import java.util.HashMap;
 import java.util.List;

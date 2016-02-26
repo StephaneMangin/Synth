@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.istic.synthlab.ui.ConnectionManager;
 
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>

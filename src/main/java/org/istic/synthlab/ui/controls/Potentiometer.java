@@ -2,8 +2,6 @@ package org.istic.synthlab.ui.controls;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -140,43 +138,37 @@ public class Potentiometer extends Pane {
         }
     }
 
-    public void setTitle(String value) {
+    public void setTitle(final String value) {
         title.setText(value);
     }
 
-    public void setMaxValue(double value) {
+    public void setMaxValue(final double value) {
         maxValue.setText(Double.toString(value));
     }
 
-    public void setMinValue(double value) {
+    public void setMinValue(final double value) {
         minValue.setText(Double.toString(value));
     }
 
-    public void setMaxValue(String value) {
+    public void setMaxValue(final String value) {
         maxValue.setText(value);
     }
 
-    public void setMinValue(String value) {
+    public void setMinValue(final String value) {
         minValue.setText(value);
     }
 
     /**
      * Return the related value from potentiometer angle
-     *
-     * @param degrees
-     * @return
      */
-    private double convertFromDegrees(double degrees) {
+    private double convertFromDegrees(final double degrees) {
         return (degrees - MIN) / (MAX - MIN);
     }
 
     /**
      * Return the related angle from potentiometer value
-     *
-     * @param value
-     * @return
      */
-    private double convertFromValue(double value) {
+    private double convertFromValue(final double value) {
         return (value * (MAX-MIN)) + MIN;
     }
 }

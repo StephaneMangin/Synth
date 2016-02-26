@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.plugins.cable;
+package org.istic.synthlab.ui.cable;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
