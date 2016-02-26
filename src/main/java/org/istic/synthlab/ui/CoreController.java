@@ -188,20 +188,51 @@ public class CoreController implements Initializable {
                 component.setLayoutX(x);
                 component.setLayoutY(y);
 
-                // Detect collisions
-                // TODO: modify x and y so that there's no collision
-                for (final Node otherComponent : anchorPane.getChildren()) {
-                    if (component != otherComponent) {
-                        if (component.getBoundsInParent().intersects(otherComponent.getBoundsInParent())) {
-                            System.out.println("Collision");
-                        }
-                    }
-                }
+                layoutComponents();
 
                 event.setDropCompleted(true);
             }
             event.consume();
         });
+    }
+
+    /**
+     * Move the components so that there is no overlapping
+     */
+    private void layoutComponents() {
+        final List<Node> components = new ArrayList<>(anchorPane.getChildren());
+        while (components.size() > 0) {
+            components.sort(new NodeComparator());
+            // FIXME: try to put the last added component in first position so that it doesn't move?
+
+            final Node fixedNode = components.get(0);
+            for (int i = 1; i < components.size(); i++) {
+                final Node currentNode = components.get(i);
+                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    //if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                    if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() + 1);
+                    }
+                    else {
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() + 1);
+                    }
+                }
+            }
+            components.remove(0);
+        }
+    }
+
+    /**
+     * Allow to compare two nodes according to the distance from the coordinate (0, 0) of their parent to their top left corner
+     */
+    private class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(final Node node1, final Node node2) {
+            // Sort according to the distance to anchorPane (0, 0)
+            final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            return posNode1.compareTo(posNode2);
+        }
     }
 
     private void initializeFunctions() {
