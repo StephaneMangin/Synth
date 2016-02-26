@@ -10,6 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Pair;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
@@ -148,8 +149,28 @@ public class ConnectionManager {
         // Make the cable follow the cursor
         currentlyDrawnCable.setMouseTransparent(true);
         coreController.getAnchorPane().setOnMouseMoved(event -> {
-            currentlyDrawnCable.setStartX(event.getX());
-            currentlyDrawnCable.setStartY(event.getY());
+            double x = event.getX(),
+                   y = event.getY();
+
+            final Pane pane = (Pane) event.getSource();
+
+            // Ensure the cables aren't dragged outside the anchorPane
+            if (x < 0) {
+                x = 0;
+            }
+            else if (x > pane.getWidth()) {
+                x = pane.getWidth();
+            }
+
+            if (y < 0) {
+                y = 0;
+            }
+            else if (y > pane.getHeight()) {
+                y = pane.getHeight();
+            }
+
+            currentlyDrawnCable.setStartX(x);
+            currentlyDrawnCable.setStartY(y);
         });
 
         // Cancel the drawing if we click on the void

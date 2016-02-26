@@ -174,13 +174,14 @@ public class CoreController implements Initializable {
                 if (x < 0) {
                     x = 0;
                 }
+                else if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
+                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
+                }
+
                 if (y < 0) {
                     y = 0;
                 }
-                if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
-                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
-                }
-                if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
+                else if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
                     y = anchorPane.getHeight() - component.getBoundsInParent().getHeight();
                 }
 
