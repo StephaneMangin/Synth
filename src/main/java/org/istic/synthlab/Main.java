@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.istic.synthlab.ui.ConnectionManager;
 
 /**
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
@@ -20,7 +19,6 @@ public final class Main extends Application {
         final Scene scene = new Scene(root);
         scene.getStylesheets().add("/ui/stylesheets/global.css");
         scene.getStylesheets().add("/ui/stylesheets/" + DEFAULT_SKIN.toLowerCase() + ".css");
-        ConnectionManager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

@@ -1,29 +1,14 @@
 package org.istic.synthlab.components.out;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -75,15 +60,20 @@ public class Controller extends AbstractController {
                 fileChooser.setInitialFileName("record.wav");
                 fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
                 fileChooser.setTitle("Save File");
-                final File fileToWrite = fileChooser.showSaveDialog(ConnectionManager.getStage());
-                componentOut.getLineOut().setFileToWrite(fileToWrite);
-                componentOut.getLineOut().startRecord();
-                button.setSelected(true);
-                button.setText("Stop");
-                button.setTextFill(Color.RED);
-            } else {
+
+                final File fileToWrite = fileChooser.showSaveDialog(button.getScene().getWindow());
+                // fileToWrite can be null if the user closes the file chooser
+                if (fileToWrite != null) {
+                    componentOut.getLineOut().setFileToWrite(fileToWrite);
+                    componentOut.getLineOut().startRecord();
+                    button.setText("Stop");
+                }
+                else {
+                    button.setSelected(false);
+                }
+            }
+            else {
                 componentOut.getLineOut().stopRecord();
-                button.setSelected(false);
                 button.setText("Record");
             }
             event.consume();
@@ -91,7 +81,7 @@ public class Controller extends AbstractController {
     }
 
     /**
-     * Start / Stop recording
+     * Mute/unmute the sound of a line out
      */
     private class MuteEventHandler implements EventHandler<MouseEvent> {
         @Override
@@ -99,11 +89,10 @@ public class Controller extends AbstractController {
             final ToggleButton button = (ToggleButton) event.getSource();
             if (button.isSelected()) {
                 componentOut.deactivate();
-                button.setSelected(true);
-                button.setText("Un-Mute");
-            } else {
+                button.setText("Unmute");
+            }
+            else {
                 componentOut.activate();
-                button.setSelected(false);
                 button.setText("Mute");
             }
             event.consume();

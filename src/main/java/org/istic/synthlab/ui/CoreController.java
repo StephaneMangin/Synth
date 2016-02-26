@@ -24,6 +24,7 @@ import javafx.scene.transform.Scale;
 import org.istic.synthlab.Main;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.ui.cable.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -115,7 +116,12 @@ public class CoreController implements Initializable {
 
     private void initializeListView() {
         final ObservableList<Node> data = FXCollections.observableArrayList();
-        for (String component: findAllPackagesStartingWith("org.istic.synthlab.components", false)) {
+        final List<String> components = findAllPackagesStartingWith("org.istic.synthlab.components", false);
+
+        // Sort the components alphabetically
+        components.sort(String::compareTo);
+
+        for (final String component: components) {
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -174,13 +180,14 @@ public class CoreController implements Initializable {
                 if (x < 0) {
                     x = 0;
                 }
+                else if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
+                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
+                }
+
                 if (y < 0) {
                     y = 0;
                 }
-                if (x + component.getBoundsInParent().getWidth() > anchorPane.getWidth()) {
-                    x = anchorPane.getWidth() - component.getBoundsInParent().getWidth();
-                }
-                if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
+                else if (y + component.getBoundsInParent().getHeight() > anchorPane.getHeight()) {
                     y = anchorPane.getHeight() - component.getBoundsInParent().getHeight();
                 }
 
@@ -188,20 +195,63 @@ public class CoreController implements Initializable {
                 component.setLayoutX(x);
                 component.setLayoutY(y);
 
-                // Detect collisions
-                // TODO: modify x and y so that there's no collision
-                for (final Node otherComponent : anchorPane.getChildren()) {
-                    if (component != otherComponent) {
-                        if (component.getBoundsInParent().intersects(otherComponent.getBoundsInParent())) {
-                            System.out.println("Collision");
-                        }
-                    }
-                }
+                layoutComponents();
 
                 event.setDropCompleted(true);
             }
             event.consume();
         });
+    }
+
+    /**
+     * Move the components so that there is no overlapping
+     */
+    private void layoutComponents() {
+        final List<Node> components = new ArrayList<>(anchorPane.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        Collections.reverse(components);
+
+        while (components.size() > 0) {
+            components.sort(new NodeComparator());
+
+            final Node fixedNode = components.get(0);
+            for (int i = 1; i < components.size(); i++) {
+                final Node currentNode = components.get(i);
+                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
+                        //currentNode.setLayoutY(fixedNode.getLayoutY());
+                    }
+                    else {
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
+                        //currentNode.setLayoutX(fixedNode.getLayoutX());
+                    }
+                }
+            }
+            components.remove(0);
+        }
+    }
+
+    /**
+     * Allow to compare two nodes according to the distance from the coordinate (0, 0) of their parent to their top left corner
+     */
+    private class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(final Node node1, final Node node2) {
+            // Sort according to the distance to anchorPane (0, 0)
+            //final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            //final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            //return posNode1.compareTo(posNode2);
+            if (node1.getLayoutY() > node2.getLayoutY()) {
+                return 1;
+            }
+            else if (node1.getLayoutY() < node2.getLayoutY()) {
+                return -1;
+            }
+            else {
+                return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
+            }
+        }
     }
 
     private void initializeFunctions() {
@@ -341,7 +391,7 @@ public class CoreController implements Initializable {
      * @param statik True to statically return components names
      * @return a set of component name
      */
-    public Set<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
+    public List<String> findAllPackagesStartingWith(final String prefix, final boolean statik) {
         final List<ClassLoader> classLoadersList = new ArrayList<>();
         classLoadersList.add(ClasspathHelper.contextClassLoader());
 
@@ -351,32 +401,13 @@ public class CoreController implements Initializable {
                 .filterInputsBy(new FilterBuilder().include(FilterBuilder.prefix(prefix))));
         Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-        final Set<String> packageNameSet = new HashSet<>();
+        final Set<String> packages = new HashSet<>();
         for (final Class classInstance : classes) {
             String packageName = classInstance.getPackage().getName();
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
-            packageNameSet.add(packageName);
+            packages.add(packageName);
         }
-        if (statik) {
-            packageNameSet.clear();
-            packageNameSet.add("vcoa");
-            packageNameSet.add("out");
-            packageNameSet.add("oscilloscope");
-            packageNameSet.add("replicator");
-            packageNameSet.add("eg");
-            packageNameSet.add("vca");
-            packageNameSet.add("vcfa");
-            packageNameSet.add("mixer");
-        }
-        return packageNameSet;
-    }
-
-    /**
-     * Remove a component from the anchorPane
-     * @param pane the pane we will remove.
-     */
-    public void removeViewComponent(Pane pane){
-        anchorPane.getChildren().remove(pane);
+        return new ArrayList<>(packages);
     }
 
     /**

@@ -10,36 +10,29 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
 import javafx.util.Pair;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.cable.CurveCable;
+import sun.awt.geom.Curve;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
+ * This class manages the creation of cables
  * @author Sebastien
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  */
 public class ConnectionManager {
-    private static Stage stage;
     private static CoreController coreController;
     public static void setCoreController(CoreController coreController) {
         ConnectionManager.coreController = coreController;
-    }
-
-    public static void setStage(Stage node) {
-        stage = node;
-    }
-
-    public static Stage getStage(){
-        return stage;
     }
 
     private static Pair<Node, IOutput> output;
@@ -98,6 +91,11 @@ public class ConnectionManager {
         output = null;
     }
 
+    /**
+     * This method is used to connect a cable on an output
+     * @param node The graphical node representing the output
+     * @param futureConnectionOrigin The model representation of the output
+     */
     public static void plug(final Node node, final IOutput futureConnectionOrigin) {
         // Handle the case when the user clicks on an input and then on another input
         if (output != null) {
@@ -109,6 +107,11 @@ public class ConnectionManager {
         plugCable(node);
     }
 
+    /**
+     * This method is used to connect a cable on an input
+     * @param node The graphical node representing the input
+     * @param futureConnectionDestination The model representation of the input
+     */
     public static void plug(final Node node, final IInput futureConnectionDestination) {
         // Handle the case when the user clicks on an output and then on another output
         if (input != null) {
@@ -147,8 +150,28 @@ public class ConnectionManager {
         // Make the cable follow the cursor
         currentlyDrawnCable.setMouseTransparent(true);
         coreController.getAnchorPane().setOnMouseMoved(event -> {
-            currentlyDrawnCable.setStartX(event.getX());
-            currentlyDrawnCable.setStartY(event.getY());
+            double x = event.getX(),
+                   y = event.getY();
+
+            final Pane pane = (Pane) event.getSource();
+
+            // Ensure the cables aren't dragged outside the anchorPane
+            if (x < 0) {
+                x = 0;
+            }
+            else if (x > pane.getWidth()) {
+                x = pane.getWidth();
+            }
+
+            if (y < 0) {
+                y = 0;
+            }
+            else if (y > pane.getHeight()) {
+                y = pane.getHeight();
+            }
+
+            currentlyDrawnCable.setStartX(x);
+            currentlyDrawnCable.setStartY(y);
         });
 
         // Cancel the drawing if we click on the void
@@ -159,7 +182,7 @@ public class ConnectionManager {
     }
 
     /**
-     * Plug the second end of a cable
+     * Plug the second end of a cable. This method also makes the model connection between the input and the output
      */
     private static void plugEndCable(final Node node) {
         if (!isNodeFree(node)) {
@@ -189,6 +212,10 @@ public class ConnectionManager {
         resetDrawingSystem();
     }
 
+    /**
+     * Move an end of a cable
+     * @param node The end of the cable to move
+     */
     private static void moveCable(final Node node) {
         final CurveCable cable = nodeToCableBinding.get(node);
         final Node toKeepPlugged = cable.getStartNode() != node ? cable.getStartNode() : cable.getEndNode();
@@ -209,6 +236,9 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Properly cancel the drawing of a cable
+     */
     private static void cancelCable() {
         if (currentlyDrawnCable != null) {
             deleteCable(currentlyDrawnCable);
@@ -216,6 +246,10 @@ public class ConnectionManager {
         }
     }
 
+    /**
+     * Delete a cable and end the model connection
+     * @param cable The cable to delete
+     */
     private static void deleteCable(final CurveCable cable) {
         nodeToCableBinding.remove(cable.getStartNode());
         nodeToCableBinding.remove(cable.getEndNode());
@@ -253,11 +287,19 @@ public class ConnectionManager {
         coreController.getAnchorPane().getChildren().remove(cable);
     }
 
+    /**
+     * Properly delete a component and all its connections
+     * @param component The model of the component to delete
+     * @param anchorPane The view of the component to delete
+     */
     public static void deleteComponent(final IComponent component, final AnchorPane anchorPane) {
         cancelCable();
 
         coreController.getAnchorPane().getChildren().remove(anchorPane);
-        componentToCablesBinding.get(component).forEach(ConnectionManager::deleteCable);
+        final List<CurveCable> cablesToDelete = componentToCablesBinding.get(component);
+        if (cablesToDelete != null) {
+            cablesToDelete.forEach(ConnectionManager::deleteCable);
+        }
         componentToCablesBinding.remove(component);
     }
 
