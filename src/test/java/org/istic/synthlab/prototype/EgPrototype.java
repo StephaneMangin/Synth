@@ -32,7 +32,7 @@ public class EgPrototype {
         eg.getReleasePotentiometer().setValue(2.0);
         eg.getSustainPotentiometer().setValue(0.4);
 
-        vcoa.setExponentialFrequency(200);
+        vcoa.setExponentialFrequency(0.4);
         vcoa.setAmplitudeSine(1.0);
 
         out.getAmModulator().setValue(1.0);

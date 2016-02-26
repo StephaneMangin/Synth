@@ -75,15 +75,15 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeWhiteNoise(1);
-        vcoa.setExponentialFrequency(440);
+        vcoa.setExponentialFrequency(0.0);
 
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setExponentialFrequency((Double) newValue);
+            vcoa.setExponentialFrequency((Double)newValue);
             updateScreen();
             groupShortcut.selectToggle(null);
-            linFrequency.setMinValue(String.valueOf((int)vcoa.getLinearFrequencyMin()*10));
-            linFrequency.setMaxValue(String.valueOf((int)vcoa.getLinearFrequencyMax()*10));
+            linFrequency.setMinValue(String.valueOf((int)vcoa.getLinearFrequencyMin()));
+            linFrequency.setMaxValue(String.valueOf((int)vcoa.getLinearFrequencyMax()));
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);

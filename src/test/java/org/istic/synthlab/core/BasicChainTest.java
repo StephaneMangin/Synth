@@ -2,7 +2,12 @@ package org.istic.synthlab.core;
 
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
+import com.jsyn.ports.UnitInputPort;
 import com.jsyn.scope.AudioScope;
+import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SquareOscillator;
+import com.jsyn.unitgen.TriangleOscillator;
+import com.jsyn.unitgen.UnitGate;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
 import org.istic.synthlab.components.out.Out;
@@ -350,5 +355,4 @@ public class BasicChainTest {
 
         ((SynthesisEngine) synth).printConnections();
     }
-
 }

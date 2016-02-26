@@ -44,14 +44,16 @@ public class Potentiometer extends GenericsParam<Double> {
     /**
      * Set the value of the potentiometer
      *
-     * @param value double between 0 to 1
+     * @param val double between 0 to 1
      */
-    public void setValue(double value) {
-        this.value = value;
-        value = calculateStep(value);
-        if (value <= getMax() && value >= getMin()) {
-            super.setValue(value);
-            this.port.set(value);
+    public void setValue(double val) {
+        double rangeVal = calculateStep(val);
+        if (rangeVal <= getMax() && rangeVal >= getMin()) {
+            super.setValue(val);
+            this.port.set(rangeVal);
+            System.out.println("WOOT "+val);
+            System.out.println("RAW "+super.getValue());
+            System.out.println("VAL "+rangeVal);
         }
     }
 
@@ -61,7 +63,7 @@ public class Potentiometer extends GenericsParam<Double> {
      * @return Double
      */
     public Double getRawValue() {
-        return value;
+        return super.getValue();
     }
     /**
      * Get the calculated value of the potentiometer
@@ -119,9 +121,7 @@ public class Potentiometer extends GenericsParam<Double> {
         if (type == PotentiometerType.LINEAR) {
             result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
-            //result = (getMax() - getMin())*Math.pow(value, POWER_SCALE) + getMin();
             result = Math.pow(2,(getMax()-getMin())*value) + getMin();
-            //result = Math.log(value)/(Math.log(getMax()) - Math.log(getMin()));
         } else {
             throw new TypeNotPresentException("Type unmanaged !", new Throwable("This type is not managed by this instance " + type));
         }
