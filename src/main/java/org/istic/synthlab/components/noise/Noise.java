@@ -6,7 +6,7 @@ import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
 
 /**
- * Created by paola on 22/02/16.
+ * @author paola
  */
 public class Noise extends AbstractComponent  {
 

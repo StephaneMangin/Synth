@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.controls.Potentiometer;
 
