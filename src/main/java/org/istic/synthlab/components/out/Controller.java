@@ -60,14 +60,20 @@ public class Controller extends AbstractController {
                 fileChooser.setInitialFileName("record.wav");
                 fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
                 fileChooser.setTitle("Save File");
+
                 final File fileToWrite = fileChooser.showSaveDialog(button.getScene().getWindow());
-                componentOut.getLineOut().setFileToWrite(fileToWrite);
-                componentOut.getLineOut().startRecord();
-                button.setSelected(true);
-                button.setText("Stop");
-            } else {
+                // fileToWrite can be null if the user closes the file chooser
+                if (fileToWrite != null) {
+                    componentOut.getLineOut().setFileToWrite(fileToWrite);
+                    componentOut.getLineOut().startRecord();
+                    button.setText("Stop");
+                }
+                else {
+                    button.setSelected(false);
+                }
+            }
+            else {
                 componentOut.getLineOut().stopRecord();
-                button.setSelected(false);
                 button.setText("Record");
             }
             event.consume();
