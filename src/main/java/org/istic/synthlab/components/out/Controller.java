@@ -81,7 +81,7 @@ public class Controller extends AbstractController {
     }
 
     /**
-     * Start / Stop recording
+     * Mute/unmute the sound of a line out
      */
     private class MuteEventHandler implements EventHandler<MouseEvent> {
         @Override
@@ -89,11 +89,10 @@ public class Controller extends AbstractController {
             final ToggleButton button = (ToggleButton) event.getSource();
             if (button.isSelected()) {
                 componentOut.deactivate();
-                button.setSelected(true);
-                button.setText("Un-Mute");
-            } else {
+                button.setText("Unmute");
+            }
+            else {
                 componentOut.activate();
-                button.setSelected(false);
                 button.setText("Mute");
             }
             event.consume();
