@@ -1,9 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import com.jsyn.unitgen.Add;
+import com.jsyn.unitgen.Multiply;
 import org.istic.synthlab.components.IComponent;
-import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
@@ -15,14 +13,14 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class FrequencyModulator extends AbstractModulator {
-    private Add addFunction;
+    private Multiply multiplyFunction;
 
     public FrequencyModulator(String name, IComponent component, PotentiometerType potentiometerType) {
         super(name, component);
-        addFunction = new Add();
+        multiplyFunction = new Multiply();
         setPotentiometer(new Potentiometer(
                 "Frequency",
-                addFunction.inputB,
+                multiplyFunction.inputB,
                 potentiometerType,
                 20000.0D,
                 0.0D,
@@ -30,24 +28,24 @@ public class FrequencyModulator extends AbstractModulator {
         ));
 
         // Declare the relation to the mapping
-        Register.declare(component, this.addFunction);
-        input = Factory.createInput(name + "::freqIn", component, addFunction.inputA);
-        output = Factory.createOutput(name + "::freqOut", component, addFunction.output);
+        Register.declare(component, this.multiplyFunction);
+        input = Factory.createInput(name + "::freqIn", component, multiplyFunction.inputA);
+        output = Factory.createOutput(name + "::freqOut", component, multiplyFunction.output);
     }
 
     @Override
     public void activate() {
-        addFunction.setEnabled(true);
+        multiplyFunction.setEnabled(true);
     }
 
     @Override
     public void deactivate() {
-        addFunction.setEnabled(false);
+        multiplyFunction.setEnabled(false);
     }
 
     @Override
     public boolean isActivated() {
-        return addFunction.isEnabled();
+        return multiplyFunction.isEnabled();
     }
 
 }
