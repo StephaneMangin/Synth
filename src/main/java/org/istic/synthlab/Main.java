@@ -21,7 +21,6 @@ public final class Main extends Application {
         ConnectionManager manager = new ConnectionManager();
         scene.getStylesheets().add("/ui/stylesheets/global.css");
         scene.getStylesheets().add("/ui/stylesheets/" + DEFAULT_SKIN.toLowerCase() + ".css");
-        manager.setStage(primaryStage);
         primaryStage.setTitle("Synth");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);

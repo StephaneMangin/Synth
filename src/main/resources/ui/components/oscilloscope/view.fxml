@@ -34,6 +34,9 @@
                         minorTickVisible="false" side="LEFT" upperBound="10"/>
         </yAxis>
     </LineChart>
+
+    <Potentiometer fx:id="yScale" layoutX="280.0" layoutY="275.0"/>
+
     <Label layoutX="11.0" layoutY="290.0" text="Input"/>
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="310.0" onMouseClicked="#connectInput"
                pickOnBounds="true" preserveRatio="true">
@@ -51,5 +54,4 @@
         </effect>
         <Image url="@../../images/redSocket.png"/>
     </ImageView>
-    <Potentiometer fx:id="yScale" layoutX="280.0" layoutY="275.0"/>
 </ComponentPane>

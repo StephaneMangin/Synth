@@ -7,7 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.io.File;
@@ -62,7 +62,7 @@ public class Controller extends AbstractController {
                 fileChooser.setInitialFileName("record.wav");
                 fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
                 fileChooser.setTitle("Save File");
-                final File fileToWrite = fileChooser.showSaveDialog(manager.getStage());
+                final File fileToWrite = fileChooser.showSaveDialog(CoreController.getStage());
                 componentOut.getLineOut().setFileToWrite(fileToWrite);
                 componentOut.getLineOut().startRecord();
                 button.setSelected(true);

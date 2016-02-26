@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author  Group1
  * The class Channel.
  */
 public class Channel {
