@@ -82,12 +82,12 @@ public class Controller extends AbstractController {
             vcoa.setExponentialFrequency((Double)newValue);
             updateScreen();
             groupShortcut.selectToggle(null);
-            linFrequency.setMinValue(String.valueOf((int)vcoa.getLinearFrequencyMin()));
-            linFrequency.setMaxValue(String.valueOf((int)vcoa.getLinearFrequencyMax()));
+            linFrequency.setMinValue((int)vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency());
+            linFrequency.setMaxValue((int)vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency());
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
-        expFrequency.setMaxValue(20);
+        expFrequency.setMaxValue(10);
 
         // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -133,7 +133,6 @@ public class Controller extends AbstractController {
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
-                // FIXME: add sawtoothWave.png
                 final Image image = new Image(getClass().getResourceAsStream("/ui/images/" + groupRadio.getSelectedToggle().getUserData() + ".png"));
                 oscillatorImage.setImage(image);
 
