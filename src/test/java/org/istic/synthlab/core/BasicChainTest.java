@@ -229,7 +229,7 @@ public class BasicChainTest {
         Replicator repl = new Replicator("REPL");
 
         vcoa.getOutput().connect(repl.getInput());
-        repl.getOutputReplicated1().connect(out.getInput());
+        repl.getOutput2().connect(out.getInput());
 
         out.start();
         synth.start();

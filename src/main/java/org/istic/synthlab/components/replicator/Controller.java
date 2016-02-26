@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.plugins.cable.OutputPlug;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,6 +17,11 @@ import java.util.ResourceBundle;
  */
 public class Controller extends AbstractController implements Initializable {
 
+    @FXML
+    private OutputPlug output2;
+    @FXML
+    private OutputPlug output3;
+
     private Replicator replicator = new Replicator("Replicator");
 
     @Override
@@ -25,12 +31,12 @@ public class Controller extends AbstractController implements Initializable {
     }
 
     @FXML
-    public void connectOutput1(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), replicator.getOutputReplicated1());
+    public void connectOutput2(final MouseEvent event) {
+        manager.plug((Node) event.getSource(), replicator.getOutput2());
     }
 
     @FXML
-    public void connectOutput2(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), replicator.getOutputReplicated2());
+    public void connectOutput3(final MouseEvent event) {
+        manager.plug((Node) event.getSource(), replicator.getOutput3());
     }
 }

@@ -47,14 +47,14 @@ public class ReplicatorTest {
 
     @Test
     public void testGetOutputReplicated1() throws Exception {
-        assertNotNull(replicator.getOutputReplicated1());
-        assertEquals(replicator, Register.getComponent(replicator.getOutputReplicated1()));
+        assertNotNull(replicator.getOutput2());
+        assertEquals(replicator, Register.getComponent(replicator.getOutput2()));
     }
 
     @Test
     public void testGetOutputReplicated2() throws Exception {
-        assertNotNull(replicator.getOutputReplicated2());
-        assertEquals(replicator, Register.getComponent(replicator.getOutputReplicated2()));
+        assertNotNull(replicator.getOutput3());
+        assertEquals(replicator, Register.getComponent(replicator.getOutput3()));
     }
 
     @Test

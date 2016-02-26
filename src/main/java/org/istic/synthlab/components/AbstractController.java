@@ -7,6 +7,8 @@ import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.ComponentPane;
+import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.cable.OutputPlug;
 import org.istic.synthlab.ui.plugins.history.StateType;
 
 import java.net.URL;
@@ -26,6 +28,18 @@ public abstract class AbstractController implements IController {
     protected Label title;
     @FXML
     protected ComponentPane componentPane;
+    @FXML
+    protected InputPlug input;
+    @FXML
+    protected InputPlug inputAm;
+    @FXML
+    protected InputPlug inputFm;
+    @FXML
+    protected InputPlug inputGate;
+    @FXML
+    protected OutputPlug output;
+    @FXML
+    protected OutputPlug outputGate;
 
     private static int numInstance = 0;
 
@@ -44,13 +58,28 @@ public abstract class AbstractController implements IController {
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        // Need to test null beforesetting the text. In case of a module that does not use any of these plugs
+        if (input != null) {
+            input.setText("Input");
+        }
+        if (inputAm != null) {
+            inputAm.setText("AM");
+        }
+        if (inputFm != null) {
+            inputFm.setText("FM.");
+        }
+        if (inputGate != null) {
+            inputGate.setText("Gate in");
+        }
+        if (output != null) {
+            output.setText("Output");
+        }
+        if (outputGate != null) {
+            outputGate.setText("Gate out");
+        }
     }
 
-    /**
-     * Gets component.
-     *
-     * @return the component
-     */
+    @Override
     public IComponent getComponent() {
         return component;
     }
@@ -60,8 +89,7 @@ public abstract class AbstractController implements IController {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     public void close() {
-        manager.deleteComponent(component, componentPane);
-        manager.getHistory().add(componentPane, StateType.DELETED);
+        manager.deleteComponent(componentPane);
     }
 
     public void connectInput(final MouseEvent event) {

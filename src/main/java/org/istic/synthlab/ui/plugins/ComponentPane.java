@@ -4,16 +4,28 @@ import javafx.scene.layout.AnchorPane;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.istic.synthlab.components.IController;
+import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.history.Origin;
 import org.istic.synthlab.ui.plugins.history.State;
+import org.istic.synthlab.ui.plugins.history.StateType;
 
 /**
- * Created by blacknight on 25/02/16.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class ComponentPane extends AnchorPane implements Origin {
 
     private String name;
     private IController controller;
+
+    public ComponentPane() {
+        super();
+        layoutXProperty().addListener((observable, oldValue, newValue) -> {
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
+        });
+        layoutYProperty().addListener((observable, oldValue, newValue) -> {
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
+        });
+    }
 
     @Override
     public String getName() {
@@ -68,10 +80,15 @@ public class ComponentPane extends AnchorPane implements Origin {
     @Override
     public void restoreState(State state) {
         setJson(state.getContent());
-        notifyAll();
+    }
+
+    public IController getController() {
+        return controller;
     }
 
     public void setController(IController controller) {
         this.controller = controller;
     }
+
+
 }

@@ -62,4 +62,11 @@ public interface IController extends Initializable {
     void init();
 
     void run();
+
+    /**
+     * Gets component.
+     *
+     * @return the component
+     */
+    IComponent getComponent();
 }

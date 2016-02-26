@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -299,12 +300,11 @@ public class CoreController implements Initializable {
             content.putString(view.getId());
             System.out.println(pane.getChildren().get(0).getId().toLowerCase());
             final ComponentPane componentPane = loadComponent(pane.getChildren().get(0).getId().toLowerCase());
+            componentPane.applyCss();
             final WritableImage w  = componentPane.snapshot(null,null);
-            //workspace.getChildren().remove(componentPane);
             content.putImage(w);
             db.setContent(content);
             event.consume();
-            manager.getHistory().add(componentPane, StateType.CREATED);
         }
     }
 
@@ -359,36 +359,28 @@ public class CoreController implements Initializable {
      * Load a configuration
      */
     @FXML
-    public boolean cancelConfiguration() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Modification detected");
-        alert.setHeaderText("The workspace needs to be cleaned !");
-        alert.setContentText("Are your sure ?");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            try {
-                workspace.getChildrenUnmodifiable().forEach(node -> workspace.getChildren().remove(node));
-            } catch (Exception e) {
-                // Do nothing
-            }
-            return true;
-        } else {
-            // ... user chose CANCEL or closed the dialog
-            return false;
-        }
+    public void cancelConfiguration(Event event) {
+        workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
     }
 
     /**
      * Load a configuration
      */
     @FXML
-    public void loadConfiguration() {
-        boolean okToProcess = true;
+    public void loadConfiguration(Event event) {
         if (workspace.getChildrenUnmodifiable().size() > 0) {
-            okToProcess = cancelConfiguration();
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Modification detected");
+            alert.setHeaderText("The workspace needs to be cleaned !");
+            alert.setContentText("Are your sure ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                cancelConfiguration(event);
+            }
         }
-        if (okToProcess) {
+        if (workspace.getChildrenUnmodifiable().size() == 0) {
             final FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
             fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
@@ -406,17 +398,18 @@ public class CoreController implements Initializable {
      * Return to the previous state
      */
     @FXML
-    public void previousConfiguration() {
-        manager.getHistory().previous();;
+    public void previousConfiguration(Event event) {
+        manager.getHistory().previous();
     }
 
     /**
      * Go to the next state
      */
     @FXML
-    public void nextConfiguration() {
+    public void nextConfiguration(Event event) {
         manager.getHistory().next();
     }
+
     /**
      * Helper class to load a specific component
      *
@@ -428,7 +421,6 @@ public class CoreController implements Initializable {
         ComponentPane componentPane = null;
         try {
             FXMLLoader loader = new FXMLLoader(CoreController.class.getResource("/ui/components/" + name + "/view.fxml"));
-
             componentPane = loader.load();
             componentPane.setName(name);
             componentPane.setController(loader.<IController>getController());
@@ -436,5 +428,28 @@ public class CoreController implements Initializable {
             e.printStackTrace();
         }
         return componentPane;
+    }
+
+    /**
+     * This method is needed by the #SAVE function !!!
+     *
+     * @param startX
+     * @param startY
+     * @param endX
+     * @param endY
+     * @return
+     */
+    public CurveCable createCable(double startX, double startY, double endX, double endY) {
+        workspace.getChildrenUnmodifiable().forEach(node -> {
+            if (node instanceof ComponentPane && node.contains(startX, startY)) {
+                ComponentPane componentPane = (ComponentPane) node;
+                componentPane.getChildren().forEach(port -> {
+                    if (port instanceof ImageView && port.contains(startX, startY)) {
+                        // TODO
+                    }
+                });
+            }
+        });
+        return null;
     }
 }

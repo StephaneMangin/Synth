@@ -8,6 +8,7 @@ import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.WorkspacePane;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -31,13 +32,15 @@ public class HistoryImpl extends Observable implements History {
         JSONArray list = new JSONArray();
         FileWriter writer = new FileWriter(file);
         previousStates.forEach(state -> {
-            JSONObject localContent = state.getContent();
-            System.out.println(localContent);
-            localContent.put("id", state.getOrigin().getId());
-            list.add(localContent);
+            JSONObject values = new JSONObject();
+            values.put("type", state.getType());
+            values.put("time", state.getTime());
+            JSONObject stateContent = state.getContent();
+            stateContent.put("id", state.getOrigin().getId());
+            values.put("content", stateContent);
+            list.add(values);
         });
         content.put(String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)), list);
-        System.out.println(content.toJSONString(JSONStyle.MAX_COMPRESS));
         writer.write(content.toJSONString(JSONStyle.NO_COMPRESS));
         writer.flush();
         writer.close();
@@ -48,23 +51,84 @@ public class HistoryImpl extends Observable implements History {
     public void load(File file, WorkspacePane workspacePane) throws Exception {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(file);
-        // TODO: create the algorythm to recreate all objects from json content
+        // Cut content in the different functional types of states time ordered with a TreeMap
+        TreeMap<Long, JSONObject> components = new TreeMap<>();
+        TreeMap<Long, JSONObject> cables = new TreeMap<>();
+        TreeMap<Long, JSONObject> workspace = new TreeMap<>();
         ((JSONObject) parser.parse(reader)).forEach((s, o) -> {
             if (o instanceof JSONArray) {
                 JSONArray array = (JSONArray) o;
                 array.forEach(o1 -> {
+                    // Get global vars
                     JSONObject obj = (JSONObject) o1;
-                    if (obj.get("type").equals("component")) {
-                        //TODO: maybe it would be better to pas sthrought events to regenerate component
-                        System.out.println(obj.toJSONString(JSONStyle.NO_COMPRESS));
-                        ComponentPane componentPane = CoreController.loadComponent((String) obj.get("component"));
-                        componentPane.setJson(obj);
-                        componentPane.setId((String) obj.get("id"));
-                        workspacePane.addWithDragging(componentPane);
+                    long time = Long.getLong((String) obj.get("type"));
+                    JSONObject content = (JSONObject) obj.get("content");
+                    String type = (String) content.get("type");
+
+                    switch(type) {
+                        case "component":
+                            components.put(time, content);
+                        case "cable":
+                            components.put(time, content);
+                        case "workspace":
+                            components.put(time, content);
                     }
                 });
             }
-        });;
+        });
+        // Check for each functionnal types and act dependently state types
+        components.forEach((aLong, jsonObject) -> {
+            // Get local vars
+            StateType type = StateType.valueOf((String) jsonObject.get("type"));
+            String id = (String) jsonObject.get("id");
+            String component = (String) jsonObject.get("component");
+            ComponentPane componentPane = workspacePane.getComponent(id);
+            switch (type) {
+                case CREATED:
+                    if (componentPane != null) {
+                        throw new ExceptionInInitializerError();
+                    }
+                    //TODO: maybe it would be better to pas sthrought events to regenerate component
+                    componentPane = CoreController.loadComponent(component);
+                    componentPane.setJson(jsonObject);
+                    workspacePane.addWithDragging(componentPane);
+                    break;
+                case DELETED:
+                    if (componentPane != null) {
+                        CoreController.getConnectionManager().deleteComponent(componentPane);
+                    }
+                case CHANGED:
+                    if (componentPane != null) {
+                        componentPane.setJson(jsonObject);
+                    }
+            }
+        });
+        cables.forEach((aLong, jsonObject) -> {
+            // Get local vars
+            StateType type = StateType.valueOf((String) jsonObject.get("type"));
+            String id = (String) jsonObject.get("id");
+            switch (type) {
+                case CREATED:
+                    break;
+                case DELETED:
+                    break;
+                case CHANGED:
+                    break;
+            }
+        });
+        workspace.forEach((aLong, jsonObject) -> {
+            // Get local vars
+            StateType type = StateType.valueOf((String) jsonObject.get("type"));
+            String id = (String) jsonObject.get("id");
+            switch (type) {
+                case CREATED:
+                    break;
+                case DELETED:
+                    break;
+                case CHANGED:
+                    break;
+            }
+        });
     }
 
     @Override
@@ -98,9 +162,7 @@ public class HistoryImpl extends Observable implements History {
 
     @Override
     public void add(Origin origin, StateType type) {
-        System.out.println("HISTORY: " + origin + " with " + type + " type");
         State state = origin.getState();
-        state.setTime(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         state.setType(type);
         // Add the current state to previous ones
         if (currentState != null) {

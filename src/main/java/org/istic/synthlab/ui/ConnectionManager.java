@@ -122,7 +122,6 @@ public class ConnectionManager {
         if (input != null) {
             coreController.getWorkspace().getChildren().remove(currentlyDrawnCable);
         }
-
         input = new Pair<>(node, futureConnectionDestination);
 
         plugCable(node);
@@ -296,18 +295,17 @@ public class ConnectionManager {
 
     /**
      * Properly delete a component and all its connections
-     * @param component The model of the component to delete
      * @param node The view of the component to delete
      */
-    public void deleteComponent(final IComponent component, final ComponentPane node) {
+    public void deleteComponent(final ComponentPane node) {
         cancelCable();
 
         coreController.getWorkspace().getChildren().remove(node);
-        final List<CurveCable> cablesToDelete = componentToCablesBinding.get(component);
+        final List<CurveCable> cablesToDelete = componentToCablesBinding.get(node.getController().getComponent());
         if (cablesToDelete != null) {
             cablesToDelete.forEach(this::deleteCable);
         }
-        componentToCablesBinding.remove(component);
+        componentToCablesBinding.remove(node.getController().getComponent());
 
         history.add(node, StateType.DELETED);
     }

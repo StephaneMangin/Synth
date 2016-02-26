@@ -2,6 +2,9 @@ package org.istic.synthlab.ui.plugins.history;
 
 import net.minidev.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+
 /**
  * Manages a state from ab origin object, memento class from memento pattern
  *
@@ -15,8 +18,9 @@ public class State {
     private long time;
 
     public State(Origin origin) {
-        content = origin.getJson();
+        this.content = origin.getJson();
         this.origin = origin;
+        this.time = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
     }
 
     public JSONObject getContent() {
@@ -31,8 +35,8 @@ public class State {
         this.type = type;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public long getTime() {
+        return time;
     }
 
     public StateType getType() {

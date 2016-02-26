@@ -19,7 +19,7 @@ import org.istic.synthlab.ui.plugins.history.StateType;
 import java.io.IOException;
 
 /**
- * Created by blacknight on 25/02/16.
+ * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class WorkspacePane extends AnchorPane implements Origin {
 
@@ -131,7 +131,6 @@ public class WorkspacePane extends AnchorPane implements Origin {
             content.putString(DRAG_N_DROP_MOVE_GUARD);
             db.setContent(content);
             event.consume();
-            CoreController.getConnectionManager().getHistory().add(component, StateType.CHANGED);
         });
         getChildren().add(component);
         CoreController.getConnectionManager().getHistory().add(component, StateType.CREATED);
@@ -221,5 +220,14 @@ public class WorkspacePane extends AnchorPane implements Origin {
                 getMinWidth(),
                 getMinHeight()
         );
+    }
+
+    public ComponentPane getComponent(String id) {
+        for (Node node : getChildrenUnmodifiable()) {
+            if (node.getId().equals(id)) {
+                return (ComponentPane) node;
+            }
+        }
+        return null;
     }
 }

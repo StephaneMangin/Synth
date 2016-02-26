@@ -66,10 +66,12 @@
             </ToolBar-->
             <MenuBar>
                 <Menu mnemonicParsing="false" text="File">
+                    <MenuItem accelerator="Ctrl + N" mnemonicParsing="false" onAction="#cancelConfiguration"
+                              text="New project"/>
                     <MenuItem accelerator="Ctrl + S" mnemonicParsing="false" onAction="#saveConfiguration"
-                              text="Save"/>
+                              text="Save As"/>
                     <MenuItem accelerator="Ctrl + O" mnemonicParsing="false" onAction="#loadConfiguration"
-                              text="Load"/>
+                              text="Open a project"/>
                     <SeparatorMenuItem/>
                     <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
                 </Menu>

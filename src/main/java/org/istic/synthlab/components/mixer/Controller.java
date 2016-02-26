@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
+import org.istic.synthlab.ui.plugins.cable.InputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
@@ -27,6 +28,14 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     private Potentiometer inputPotentiometer4;
 
+    @FXML
+    private InputPlug input1;
+    @FXML
+    private InputPlug input2;
+    @FXML
+    private InputPlug input3;
+    @FXML
+    private InputPlug input4;
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.

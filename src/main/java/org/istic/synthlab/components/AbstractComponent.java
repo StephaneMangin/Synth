@@ -102,7 +102,7 @@ public abstract class AbstractComponent implements IComponent {
         this.gainModulator = Factory.createModulator(
                 "Gain", this,
                 ModulatorType.GAIN,
-                PotentiometerType.LINEAR);
+                PotentiometerType.EXPONENTIAL);
     }
 
     /**

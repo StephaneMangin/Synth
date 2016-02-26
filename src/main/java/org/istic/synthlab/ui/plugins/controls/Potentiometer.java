@@ -22,7 +22,7 @@ import java.io.IOException;
  * Allow direct insertion into a fxml file
  *
  * Example :
- *      <Potentiometer fx-id:="my potentiometer" />
+ *      <Potentiometer fx-id:="potentiometer" />
  *
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
