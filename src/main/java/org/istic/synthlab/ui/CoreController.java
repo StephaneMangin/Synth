@@ -189,6 +189,7 @@ public class CoreController implements Initializable {
                 component.setLayoutX(x);
                 component.setLayoutY(y);
 
+                // FIXME: weird placement when there are cables and a component is moved
                 layoutComponents();
 
                 event.setDropCompleted(true);
@@ -210,12 +211,15 @@ public class CoreController implements Initializable {
             for (int i = 1; i < components.size(); i++) {
                 final Node currentNode = components.get(i);
                 if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    // FIXME: maybe find a better heuristic
                     //if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
                     if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
-                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() + 1);
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
+                        currentNode.setLayoutY(fixedNode.getLayoutY());
                     }
                     else {
-                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() + 1);
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
+                        currentNode.setLayoutX(fixedNode.getLayoutX());
                     }
                 }
             }
