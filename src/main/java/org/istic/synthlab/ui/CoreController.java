@@ -74,6 +74,8 @@ public class CoreController implements Initializable {
     @FXML
     private WorkspacePane workspace;
 
+    private static WorkspacePane workspaceStatic;
+
     public static Stage getStage() {
         return stage;
     }
@@ -82,8 +84,11 @@ public class CoreController implements Initializable {
         CoreController.stage = stage;
     }
 
-    public WorkspacePane getWorkspace() {
-        return workspace;
+    public static WorkspacePane getWorkspace() {
+        return workspaceStatic;
+    }
+    public void setWorkspace(WorkspacePane workspacePane) {
+        workspaceStatic = workspacePane;
     }
 
     /**
@@ -100,6 +105,8 @@ public class CoreController implements Initializable {
         initializeMainPane();
         initializeFunctions();
         manager.setCoreController(this);
+        setWorkspace(workspace);
+
     }
 
     // Skin related stuff

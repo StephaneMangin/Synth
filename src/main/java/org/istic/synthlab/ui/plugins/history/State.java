@@ -4,6 +4,7 @@ import net.minidev.json.JSONObject;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Manages a state from ab origin object, memento class from memento pattern
@@ -15,12 +16,12 @@ public class State {
     private JSONObject content;
     private Origin origin;
     private StateType type;
-    private long time;
+    private LocalDateTime time;
 
     public State(Origin origin) {
         this.content = origin.getJson();
         this.origin = origin;
-        this.time = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        this.time = LocalDateTime.now();
     }
 
     public JSONObject getContent() {
@@ -35,7 +36,7 @@ public class State {
         this.type = type;
     }
 
-    public long getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.history.Origin;
 import org.istic.synthlab.ui.plugins.history.State;
 import org.istic.synthlab.ui.plugins.history.StateType;
@@ -28,6 +29,8 @@ import java.io.IOException;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Potentiometer extends Pane implements Origin {
+
+    private ComponentPane component;
 
     @Override
     public String getName() {
@@ -101,6 +104,12 @@ public class Potentiometer extends Pane implements Origin {
                 case "value":
                     valueProperty().set((double) o);
                     break;
+                case "id":
+                    setId((String) o);
+                    break;
+                case "name":
+                    setName((String) o);
+                    break;
                 default:
                     // Do nothing yet
             }
@@ -112,7 +121,11 @@ public class Potentiometer extends Pane implements Origin {
         StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         obj.put("value", getValue());
-        obj.put("component", "Potentiometer");
+        obj.put("id", getId());
+        obj.put("name", getName());
+        obj.put("componentId", getParent().getId());
+        obj.put("type", "potentiometer");
+        System.out.println(obj);
         return obj;
     }
 
@@ -124,6 +137,10 @@ public class Potentiometer extends Pane implements Origin {
     @Override
     public void restoreState(State state) {
         setJson(state.getContent());
+    }
+
+    public void setComponent(ComponentPane component) {
+        this.component = component;
     }
 
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {

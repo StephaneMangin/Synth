@@ -1,18 +1,22 @@
 package org.istic.synthlab.ui.plugins.history;
 
+import javafx.event.EventType;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
-import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -33,11 +37,9 @@ public class HistoryImpl extends Observable implements History {
         FileWriter writer = new FileWriter(file);
         previousStates.forEach(state -> {
             JSONObject values = new JSONObject();
-            values.put("type", state.getType());
-            values.put("time", state.getTime());
-            JSONObject stateContent = state.getContent();
-            stateContent.put("id", state.getOrigin().getId());
-            values.put("content", stateContent);
+            values.put("state", state.getType());
+            values.put("time", state.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            values.put("content", state.getContent());
             list.add(values);
         });
         content.put(String.valueOf(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)), list);
@@ -46,69 +48,161 @@ public class HistoryImpl extends Observable implements History {
         writer.close();
     }
 
+    /**
+     * TODO
+     *
+     * This treatment should be inserted in each Origin setJson method in the future
+     *
+     * @param file
+     * @param workspacePane
+     * @throws Exception
+     */
     @Override
-    @SuppressWarnings("deprecated")
     public void load(File file, WorkspacePane workspacePane) throws Exception {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(file);
         // Cut content in the different functional types of states time ordered with a TreeMap
-        TreeMap<Long, JSONObject> components = new TreeMap<>();
-        TreeMap<Long, JSONObject> cables = new TreeMap<>();
-        TreeMap<Long, JSONObject> workspace = new TreeMap<>();
+        TreeMap<LocalDateTime, JSONObject> components = new TreeMap<>();
+        TreeMap<LocalDateTime, JSONObject> cables = new TreeMap<>();
+        TreeMap<LocalDateTime, JSONObject> workspace = new TreeMap<>();
+        TreeMap<LocalDateTime, JSONObject> potentiometers = new TreeMap<>();
         ((JSONObject) parser.parse(reader)).forEach((s, o) -> {
             if (o instanceof JSONArray) {
                 JSONArray array = (JSONArray) o;
                 array.forEach(o1 -> {
                     // Get global vars
                     JSONObject obj = (JSONObject) o1;
-                    long time = Long.getLong((String) obj.get("type"));
+                    LocalDateTime time = LocalDateTime.parse((String)obj.get("time"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                     JSONObject content = (JSONObject) obj.get("content");
-                    String type = (String) content.get("type");
+                    String originType = (String) content.get("type");
 
-                    switch(type) {
+                    switch(originType) {
                         case "component":
-                            components.put(time, content);
+                            System.out.println("component saved => " + obj);
+                            components.put(time, obj);
+                            break;
                         case "cable":
-                            components.put(time, content);
+                            System.out.println("cable saved => " + obj);
+                            cables.put(time, obj);
+                            break;
                         case "workspace":
-                            components.put(time, content);
+                            System.out.println("workspace saved => " + obj);
+                            workspace.put(time, obj);
+                            break;
+                        case "potentiometer":
+                            System.out.println("potentiometer saved => " + obj);
+                            potentiometers.put(time, obj);
+                            break;
                     }
                 });
             }
         });
         // Check for each functionnal types and act dependently state types
-        components.forEach((aLong, jsonObject) -> {
+        components.forEach((aLong, value) -> {
             // Get local vars
-            StateType type = StateType.valueOf((String) jsonObject.get("type"));
+            JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
             String component = (String) jsonObject.get("component");
             ComponentPane componentPane = workspacePane.getComponent(id);
-            switch (type) {
+            switch (StateType.valueOf((String) jsonObject.get("state"))) {
                 case CREATED:
                     if (componentPane != null) {
-                        throw new ExceptionInInitializerError();
+                        throw new ExceptionInInitializerError("Componant Pane found ?!");
                     }
                     //TODO: maybe it would be better to pas sthrought events to regenerate component
                     componentPane = CoreController.loadComponent(component);
                     componentPane.setJson(jsonObject);
                     workspacePane.addWithDragging(componentPane);
+                    System.out.println(componentPane + " CREATED");
                     break;
                 case DELETED:
                     if (componentPane != null) {
                         CoreController.getConnectionManager().deleteComponent(componentPane);
+                        System.out.println(componentPane + " DELETED");
                     }
+                    System.out.println(componentPane + " ERROR DELETED");
+                    break;
                 case CHANGED:
-                    if (componentPane != null) {
-                        componentPane.setJson(jsonObject);
+                    if (componentPane == null) {
+                        throw new ExceptionInInitializerError("Componant Pane not found for changes !");
                     }
+                    //workspacePane.getChildren().remove(componentPane);
+                    componentPane.setJson(jsonObject);
+                    //workspacePane.getChildren().add(componentPane);
+                    System.out.println(componentPane + " CHANGED");
+                    break;
             }
         });
         cables.forEach((aLong, jsonObject) -> {
             // Get local vars
-            StateType type = StateType.valueOf((String) jsonObject.get("type"));
             String id = (String) jsonObject.get("id");
-            switch (type) {
+            String startNodeId = (String) jsonObject.get("startNodeId");
+            String endNodeId = (String) jsonObject.get("endNodeId");
+            double startX = (double) jsonObject.get("startX");
+            double startY = (double) jsonObject.get("startY");
+            double endX = (double) jsonObject.get("endX");
+            double endY = (double) jsonObject.get("endY");
+            switch (StateType.valueOf((String) jsonObject.get("state"))) {
                 case CREATED:
+                    String startComponentId = (String) jsonObject.get("startComponentId");
+                    String endComponentId = (String) jsonObject.get("startComponentId");
+                    ComponentPane startComponentPane = workspacePane.getComponent(startComponentId);
+                    ComponentPane endComponentPane = workspacePane.getComponent(startComponentId);
+                    if (startComponentPane == null) {
+                        if (endComponentId != null) {
+                            MouseEvent mouseEvent = new MouseEvent(
+                                    endComponentPane.lookup(endNodeId), // source the source of the event. Can be null.
+                                    endComponentPane.lookup(endNodeId), // target the target of the event. Can be null.
+                                    MouseEvent.MOUSE_CLICKED, // eventType The type of the event.
+                                    startX, // x The x with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
+                                    startY, // y The y with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
+                                    0, // screenX The x coordinate relative to screen.
+                                    0, // screenY The y coordinate relative to screen.
+                                    MouseButton.PRIMARY, // button the mouse button used
+                                    1, // clickCount number of click counts
+                                    false, // shiftDown true if shift modifier was pressed.
+                                    false, // controlDown true if control modifier was pressed.
+                                    false, // altDown true if alt modifier was pressed.
+                                    false, // metaDown true if meta modifier was pressed.
+                                    true, // primaryButtonDown true if primary button was pressed.
+                                    false, // middleButtonDown true if middle button was pressed.
+                                    false, // secondaryButtonDown true if secondary button was pressed.
+                                    false, // synthesized if this event was synthesized
+                                    false, // popupTrigger whether this event denotes a popup trigger for current platform
+                                    false, // stillSincePress see {@link #isStillSincePress() }
+                                    null // pickResult pick result. Can be null, in this case a 2D pick result
+                            );
+
+                            endComponentPane.getOnMouseClicked().handle(mouseEvent);
+                        } else {
+                            throw new ExceptionInInitializerError("Componant Pane not found for potentiometer changes !");
+                        }
+                    } else {
+                        MouseEvent mouseEvent = new MouseEvent(
+                                startComponentPane.lookup(startNodeId), // source the source of the event. Can be null.
+                                startComponentPane.lookup(startNodeId), // target the target of the event. Can be null.
+                                MouseEvent.MOUSE_CLICKED, // eventType The type of the event.
+                                startX, // x The x with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
+                                startY, // y The y with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
+                                0, // screenX The x coordinate relative to screen.
+                                0, // screenY The y coordinate relative to screen.
+                                MouseButton.PRIMARY, // button the mouse button used
+                                1, // clickCount number of click counts
+                                false, // shiftDown true if shift modifier was pressed.
+                                false, // controlDown true if control modifier was pressed.
+                                false, // altDown true if alt modifier was pressed.
+                                false, // metaDown true if meta modifier was pressed.
+                                true, // primaryButtonDown true if primary button was pressed.
+                                false, // middleButtonDown true if middle button was pressed.
+                                false, // secondaryButtonDown true if secondary button was pressed.
+                                false, // synthesized if this event was synthesized
+                                false, // popupTrigger whether this event denotes a popup trigger for current platform
+                                false, // stillSincePress see {@link #isStillSincePress() }
+                                null // pickResult pick result. Can be null, in this case a 2D pick result
+                        );
+                        startComponentPane.getOnMouseClicked().handle(mouseEvent);
+                    }
+                    ;
                     break;
                 case DELETED:
                     break;
@@ -118,14 +212,37 @@ public class HistoryImpl extends Observable implements History {
         });
         workspace.forEach((aLong, jsonObject) -> {
             // Get local vars
-            StateType type = StateType.valueOf((String) jsonObject.get("type"));
             String id = (String) jsonObject.get("id");
-            switch (type) {
+            switch (StateType.valueOf((String) jsonObject.get("state"))) {
                 case CREATED:
+                    // TODO: need a multiple workspace manageùment
                     break;
                 case DELETED:
+                    // TODO: need a multiple workspace manageùment
                     break;
                 case CHANGED:
+                    workspacePane.setJson(jsonObject);
+                    break;
+            }
+        });
+        potentiometers.forEach((aLong, jsonObject) -> {
+            // Get local vars
+            String id = (String) jsonObject.get("id");
+            String component = (String) jsonObject.get("componentId");
+            ComponentPane componentPane = workspacePane.getComponent(component);
+            switch (StateType.valueOf((String) jsonObject.get("state"))) {
+                case CHANGED:
+                    if (componentPane == null) {
+                        throw new ExceptionInInitializerError("Componant Pane not found for potentiometer changes !");
+                    }
+                    componentPane.getChildren().forEach(node -> {
+                        if (node instanceof Potentiometer && node.getId().equals(id)) {
+                            Potentiometer potentiometer = (Potentiometer) node;
+                            potentiometer.setJson(jsonObject);
+                            System.out.println(potentiometer + " CHANGED");
+                        }
+                    });
+                    workspacePane.setJson(jsonObject);
                     break;
             }
         });
@@ -168,6 +285,9 @@ public class HistoryImpl extends Observable implements History {
         if (currentState != null) {
             previousStates.add(currentState);
         }
+        // Remove previous state and origin identically elements
+        previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
+
         // And redifine current state
         currentState = state;
         // purge next states became invalid

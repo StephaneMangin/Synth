@@ -43,12 +43,16 @@ public class ComponentPane extends AnchorPane implements Origin {
         state.forEach((s, o) -> {
             switch(s) {
                 case "layoutX":
-                    System.out.println("x set");
                     setLayoutX((double)o);
                     break;
                 case "layoutY":
-                    System.out.println("y set");
                     setLayoutY((double)o);
+                    break;
+                case "id":
+                    setId((String)o);
+                    break;
+                case "name":
+                    setName((String)o);
                     break;
                 default:
                     // Do nothing yet
@@ -61,13 +65,14 @@ public class ComponentPane extends AnchorPane implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         System.out.println(getLayoutX());
         System.out.println(getLayoutY());
         obj.put("layoutX", getLayoutX());
         obj.put("layoutY", getLayoutY());
         obj.put("type", "component");
+        obj.put("id", getId());
+        obj.put("name", getName());
         obj.put("component", getName());
         return obj;
     }

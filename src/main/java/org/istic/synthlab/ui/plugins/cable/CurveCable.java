@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import net.minidev.json.JSONObject;
+import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.history.State;
 import org.istic.synthlab.ui.plugins.history.Origin;
 
@@ -157,7 +159,9 @@ public class CurveCable extends CubicCurve implements Origin {
 
     @Override
     public void setJson(JSONObject state) {
+
         state.forEach((s, o) -> {
+            ComponentPane componentPane;
             switch(s) {
                 case "startX":
                     setStartX((double)o);
@@ -171,6 +175,18 @@ public class CurveCable extends CubicCurve implements Origin {
                 case "endY":
                     setStartX((double)o);
                     break;
+                case "id":
+                    setId((String)o);
+                    break;
+                case "name":
+                    setName((String)o);
+                    break;
+                case "fill":
+                    setFill(Color.valueOf((String)o));
+                    break;
+                case "stroke":
+                    setStroke(Color.valueOf((String)o));
+                    break;
                 default:
                     // Do nothing yet
             }
@@ -179,7 +195,6 @@ public class CurveCable extends CubicCurve implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         obj.put("startX", getStartX());
         obj.put("startY", getEndX());
@@ -188,6 +203,12 @@ public class CurveCable extends CubicCurve implements Origin {
         obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
+//        obj.put("startMethod", startNode != null ? startNode.getProperties().get("onMouseClicked") : null);
+//        obj.put("endMethod", endNode != null ? endNode.getProperties().get("onMouseClicked") : null);
+//        obj.put("startComponantId", startNode != null ? startNode.getParent().getId() : endNode.getParent().getId());
+//        obj.put("endComponantId", endNode != null ? endNode.getParent().getId() : endNode.getParent().getId());
+//        obj.put("name", startNode != null ? startNode.getId() : endNode.getId());
+        obj.put("id", getId());
         return obj;
     }
 
