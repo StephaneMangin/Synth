@@ -92,7 +92,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
             }
             event.consume();
         });
-        setName(getId());
+        setName("Workspace-1");
     }
 
     /**
@@ -151,11 +151,17 @@ public class WorkspacePane extends AnchorPane implements Origin {
 
         state.forEach((s, o) -> {
             switch(s) {
-                case "zoom":
-                    ;
+                case "scaleX":
+                    setScaleX((double)o);
                     break;
-                case "layoutY":
-                    setLayoutY((double)o);
+                case "scaleY":
+                    setScaleY((double)o);
+                    break;
+                case "id":
+                    setId((String)o);
+                    break;
+                case "name":
+                    setName((String)o);
                     break;
                 default:
                     // Do nothing yet
@@ -165,11 +171,12 @@ public class WorkspacePane extends AnchorPane implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
-        obj.put("layoutX", getLayoutX());
-        obj.put("layoutY", getLayoutY());
+        obj.put("scaleX", getScaleX());
+        obj.put("scaleY", getScaleY());
         obj.put("type", "workspace");
+        obj.put("id", getId());
+        obj.put("name", getName());
         return obj;
     }
 
@@ -195,6 +202,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
             resize(newWidth, newHeight);
             //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
             //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
         }
     }
 
@@ -210,6 +218,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
             resize(newWidth, newHeight);
             //scrollpane.setVvalue(scrollpane.getVvalue() + (1 - (oldHeight / newHeight)));
             //scrollpane.setHvalue(scrollpane.getHvalue() + (1 - (oldWidth / newWidth)));
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
         }
     }
 
@@ -220,10 +229,11 @@ public class WorkspacePane extends AnchorPane implements Origin {
                 getMinWidth(),
                 getMinHeight()
         );
+        CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
     }
 
     public ComponentPane getComponent(String id) {
-        for (Node node : getChildrenUnmodifiable()) {
+        for (Node node : getChildren()) {
             if (node.getId().equals(id)) {
                 return (ComponentPane) node;
             }

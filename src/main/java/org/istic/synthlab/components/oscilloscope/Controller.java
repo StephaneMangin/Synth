@@ -34,6 +34,9 @@ public class Controller extends AbstractController {
 
     private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope");
 
+    public Controller() {
+        configure(oscilloscope);
+    }
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -42,7 +45,6 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(oscilloscope);
 
         yScale.setTitle("Y Scale");
         yScale.setMinValue(0.1);

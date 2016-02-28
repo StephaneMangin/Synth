@@ -44,4 +44,10 @@ public interface History {
      *
      */
     void add(Origin origin, StateType type);
+
+    /**
+     * Clean all the history
+     *
+     */
+    void purge();
 }

@@ -23,6 +23,10 @@ public class Controller extends AbstractController {
 
     private Eg eg = new Eg("Envelope Generator");
 
+    public Controller() {
+        configure(eg);
+    }
+
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -34,7 +38,6 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(eg);
 
         release.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Release time changed from " + oldValue + " to " + newValue);
