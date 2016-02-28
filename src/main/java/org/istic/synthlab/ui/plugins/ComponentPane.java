@@ -8,6 +8,7 @@ import org.istic.synthlab.components.IController;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.cable.InputPlug;
 import org.istic.synthlab.ui.plugins.cable.OutputPlug;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 import org.istic.synthlab.ui.plugins.history.Origin;
 import org.istic.synthlab.ui.plugins.history.State;
 import org.istic.synthlab.ui.plugins.history.StateType;
@@ -98,7 +99,6 @@ public class ComponentPane extends AnchorPane implements Origin {
     }
 
     public InputPlug getinInputPlugFromId(String id) {
-        System.out.println("ID: " + id);
         for (Node node: getChildren()) {
             if (node instanceof InputPlug && node.getId().equals(id)) {
                 return (InputPlug) node;
@@ -108,10 +108,19 @@ public class ComponentPane extends AnchorPane implements Origin {
     }
 
     public OutputPlug getinOutputPlugFromId(String id) {
-        System.out.println("ID: " + id);
         for (Node node: getChildren()) {
             if (node instanceof OutputPlug && node.getId().equals(id)) {
                 return (OutputPlug) node;
+            }
+        }
+        return null;
+    }
+
+    public Potentiometer getinPotentiometerFromId(String id) {
+        System.out.println("ID: " + id);
+        for (Node node: getChildren()) {
+            if (node instanceof Potentiometer && node.getId().equals(id)) {
+                return (Potentiometer) node;
             }
         }
         return null;
