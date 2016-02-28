@@ -7,6 +7,8 @@ import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
+import java.util.UUID;
+
 /**
  * The abstract class component.
  *
@@ -66,9 +68,7 @@ public abstract class AbstractComponent implements IComponent {
     private IModulator outputModulator;
     private IModulator outputGateModulator;
     private IModulator gainModulator;
-
-    private int id = 0;
-
+    private String id;
     /**
      * Instantiates a new component.
      *
@@ -76,6 +76,7 @@ public abstract class AbstractComponent implements IComponent {
      */
     public AbstractComponent(String name) {
         setName(name);
+        setId(UUID.randomUUID().toString());
 
         // Define all modulators
         inputByPass = Factory.createModulator(
@@ -285,12 +286,12 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public void setId(int num) {
+    public void setId(String num) {
         id = num;
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 }

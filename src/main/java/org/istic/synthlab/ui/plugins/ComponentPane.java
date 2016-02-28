@@ -73,7 +73,6 @@ public class ComponentPane extends AnchorPane implements Origin {
         obj.put("type", "component");
         obj.put("id", getId());
         obj.put("name", getName());
-        obj.put("component", getName());
         return obj;
     }
 

@@ -14,6 +14,7 @@ import org.istic.synthlab.ui.plugins.history.StateType;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 /**
  * The Abstract controller which abstracts components connections
@@ -42,8 +43,6 @@ public abstract class AbstractController implements IController {
     @FXML
     protected OutputPlug outputGate;
 
-    private static int numInstance = 0;
-
     /**
      * Controller main module configuration
      *
@@ -52,15 +51,13 @@ public abstract class AbstractController implements IController {
     public void configure(IComponent component) {
         this.component = component;
         this.manager = CoreController.getConnectionManager();
-        numInstance++;
-        component.setId(numInstance);
     }
 
     public void initialize(URL location, ResourceBundle resources) {
         // Declare Input and output into plugs
         // Need to test null beforesetting the text. In case of a module that does not use any of these plugs
         title.setText(component.getName());
-        componentPane.setId(String.valueOf(numInstance));
+        componentPane.setId(component.getId());
         if (input != null) {
             input.setText("Input");
             input.setInput(component.getInput());

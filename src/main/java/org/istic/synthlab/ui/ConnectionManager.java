@@ -33,13 +33,13 @@ public class ConnectionManager {
 
     private void finished() {
         Register.connect(
-            currentCable.getInputPlug().getInput(),
-            currentCable.getOutputPlug().getOutput()
+            currentCable.getInput().getInput(),
+            currentCable.getOutput().getOutput()
         );
 
         // Add the cable to the mapping only if not yet present
         // because the linking has been done byth cable itself
-        ComponentPane componentPane = currentCable.getOutputPlug().getComponentPane();
+        ComponentPane componentPane = currentCable.getOutput().getComponentPane();
         if (!plugComponentMapping.containsKey(componentPane)) {
             plugComponentMapping.put(componentPane, new TreeSet<>());
         }
@@ -47,8 +47,6 @@ public class ConnectionManager {
         if (!nodes.contains(currentCable)) {
             nodes.add(currentCable);
         }
-        // Then save to history
-        history.add(currentCable, StateType.CHANGED);
 
         // Reset the current cable to allow a next one
         currentCable = null;
@@ -72,8 +70,10 @@ public class ConnectionManager {
         // Connect the node and the cable
         currentCable.connectOutputPlug(plug);
 
+        // Then save to history
+        history.add(currentCable, StateType.CHANGED);
         // Use of the curvecable internal state to know if connection is done
-        if (currentCable.isFullyConnected()) {
+        if (currentCable.isPlugged()) {
             finished();
         }
     }
@@ -96,8 +96,10 @@ public class ConnectionManager {
         // Connect the node and the cable
         currentCable.connectInputPlug(plug);
 
+        // Then save to history
+        history.add(currentCable, StateType.CHANGED);
         // Use of the curvecable internal state to know if connection is done
-        if (currentCable.isFullyConnected()) {
+        if (currentCable.isPlugged()) {
             finished();
         }
     }
@@ -122,7 +124,7 @@ public class ConnectionManager {
      * @param cable The cable to delete
      */
     private void removeCable(final CurveCable cable) {
-        Register.disconnect(cable.getInputPlug().getInput());
+        Register.disconnect(cable.getInput().getInput());
         cable.deconnectInputPlug();
         cable.deconnectOutputPlug();
         CoreController.getWorkspace().getChildren().remove(cable);

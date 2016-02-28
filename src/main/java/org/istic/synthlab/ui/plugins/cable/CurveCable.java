@@ -21,8 +21,7 @@ import org.istic.synthlab.ui.plugins.WorkspacePane;
 import org.istic.synthlab.ui.plugins.history.State;
 import org.istic.synthlab.ui.plugins.history.Origin;
 
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.UUID;
 
 /**
  * Manage cable insertion and linking.
@@ -40,9 +39,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     // Keep the color to override setter
     private Color color;
 
-    private InputPlug inputPlug = null;
-    private OutputPlug outputPlug = null;
-    private InternalState internalState = InternalState.NOT_CONNECTED; // Default is not connected right :D
+    private InputPlug input = null;
+    private OutputPlug output = null;
+    private PlugState plugState = PlugState.UNPLUGGED; // Default is not connected right :D
 
     @Override
     public int compareTo(Object o) {
@@ -54,10 +53,10 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      * @return
      *
-     * @implSpec CONNECTED state
+     * @implSpec PLUGGED state
      */
-    public boolean isFullyConnected() {
-        return internalState == InternalState.CONNECTED;
+    public boolean isPlugged() {
+        return plugState == PlugState.PLUGGED;
     }
 
     /**
@@ -65,308 +64,15 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      * @return true if any of the input plug or output plug is null
      *
-     * @implSpec any states but CONNECTED or NOT_CONNECTED ones
+     * @implSpec any states but PLUGGED or UNPLUGGED ones
      */
-    public boolean isBeingConnected() {
-        return internalState != InternalState.CONNECTED && internalState != InternalState.NOT_CONNECTED;
-    }
-
-    /**
-     * Manage the different internal connection related states of this cable
-     *
-     * LEGEND :
-     *      input = true when connected, false otherwize
-     *      output = true when connected, false otherwize
-     *                                                                                                                       !input & !ouput
-     *              +-----------------------------------------------------------------------------------------------------------------------+
-     *              |                                                                                                                       |
-     *              |                      !input & !ouput              output                                                              |
-     *              |  +----------------------------------+            +------------------------------------------------------------+       |
-     *              |  |                                  |            |                                                            |       |
-     *              |  |                               +--+------------+---+    +-------------------+                               |       |
-     *              |  |               input & !output |                   |    |                   | !input & ouput                |       |
-     *              |  | +-----------------------------> INPUT CONNECTED   |    | INPUT CHANGING    +-------------------------+     |       |
-     *              |  | |                             |                   |    |                   |                         |     |       |
-     *              |  | |                             +-------------------+    +-----+---^---------+                         |     |       |
-     *         +----v--v-+---------+                                 !input & !output |   |           !input & output+--------v-----v----+  |
-     *         |                   <--------------------------------------------------+   +--------------------------+                   |  |
-     * O-------> NOT_CONNECTED     |                                                                                 | CONNECTED         +--+
-     *         |                   <--------------------------------------------------+   +--------------------------+                   |
-     *         +-------^-+---------+                                 !input & !output |   |           !output & input+--------+-----^----+
-     *                 | |                             +-------------------+    +-----+---v---------+                         ^     |
-     *                 | |             output & !input |                   |    |                   |                         |     |
-     *                 | +-----------------------------> OUTPUT CONNECTED  |    | OUTPUT CHANGING   +-------------------------+     |
-     *                 |                               |                   |    |                   | !output & input               |
-     *                 |                               +--+------------+---+    +-------------------+                               |
-     *                 |                  !input & !ouput |            | output & input                                             |
-     *                 +----------------------------------+            +------------------------------------------------------------+
-     *
-     *                                                                                                   made with : http://www.asciiflow.com
-     */
-    public enum InternalState {
-
-        NOT_CONNECTED {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // input connected
-                if (cable.inputPlug != null && cable.outputPlug != null) {
-                    return CONNECTED;
-                    // output connected
-                } else if (cable.inputPlug == null && cable.outputPlug != null) {
-                    return OUTPUT_CONNECTED;
-                    // no connections
-                } else if (cable.inputPlug != null) { // && cable.outputPlug == null
-                    return INPUT_CONNECTED;
-                }
-                // default, stay in the state
-                return NOT_CONNECTED;
-            }
-            @Override
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, OUTPUT_CONNECTED, INPUT_CONNECTED, NOT_CONNECTED);
-            }
-        },
-
-        INPUT_CONNECTED {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // output is connected and intput still connected
-                if (cable.outputPlug != null && cable.inputPlug != null) {
-                    return CONNECTED;
-                    // if input is deconnected
-                } else if (cable.inputPlug == null) {
-                    return NOT_CONNECTED;
-                }
-                // default, stay in the state
-                return INPUT_CONNECTED;
-            }
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, INPUT_CONNECTED, NOT_CONNECTED);
-            }
-        },
-
-        INPUT_CHANGING {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // input reconnected
-                if (cable.inputPlug != null && cable.outputPlug != null) {
-                    return CONNECTED;
-                    // output deconnected
-                } else if (cable.outputPlug == null) {
-                    return NOT_CONNECTED;
-                }
-                // default, stay in the state
-                return INPUT_CHANGING;
-            }
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, INPUT_CHANGING, NOT_CONNECTED);
-            }
-        },
-
-        OUTPUT_CONNECTED {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // intput is connected and output still connected
-                if (cable.inputPlug != null && cable.outputPlug != null) {
-                    return CONNECTED;
-                    // if output is deconnected
-                } else if (cable.outputPlug == null) {
-                    return NOT_CONNECTED;
-                }
-                // default, stay in the state
-                return OUTPUT_CONNECTED;
-            }
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, OUTPUT_CONNECTED, NOT_CONNECTED);
-            }
-        },
-
-        OUTPUT_CHANGING {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // output reconnected
-                if (cable.outputPlug != null && cable.inputPlug != null) {
-                    return CONNECTED;
-                    // output deconnected
-                } else if (cable.inputPlug == null) {
-                    return NOT_CONNECTED;
-                }
-                // default, stay in the state
-                return OUTPUT_CHANGING;
-            }
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, OUTPUT_CHANGING, NOT_CONNECTED);
-            }
-        },
-
-        CONNECTED {
-            @Override
-            public InternalState nextState(CurveCable cable) {
-                // fully deconnected
-                if (cable.inputPlug == null && cable.outputPlug == null) {
-                    return NOT_CONNECTED;
-                    // only input is deconnected
-                } else if (cable.inputPlug == null) { // && cable.outputPlug != null
-                    return INPUT_CHANGING;
-                    // only output is deconnected
-                } else if (cable.outputPlug == null) { // && cable.inputPlug != null
-                    return OUTPUT_CHANGING;
-                }
-                // default, stay in the state
-                return CONNECTED;
-            }
-            public Set<InternalState> availableStates(CurveCable cable) {
-                return EnumSet.of(CONNECTED, INPUT_CHANGING, OUTPUT_CHANGING, NOT_CONNECTED);
-            }
-        };
-
-        public InternalState nextState(CurveCable cable) {
-            return NOT_CONNECTED;
-        }
-
-        public Set<InternalState> availableStates(CurveCable cable) {
-            return EnumSet.of(CONNECTED, INPUT_CONNECTED, OUTPUT_CONNECTED, INPUT_CHANGING, OUTPUT_CHANGING, NOT_CONNECTED);
-        }
-
-    }
-
-    /**
-     * Helper method to call next state
-     *
-     */
-    private void nextState() {
-        System.out.println(this + "\tLeaving => " + internalState);
-        internalState = internalState.nextState(this);
-        System.out.println(this + "\tEntering => " + internalState);
-    }
-
-    /**
-     * Return the current input plug
-     *
-     * @return
-     *
-     * @implSpec previously in NOT_CONNECTED or INPUT_CHANGING states only
-     */
-    public InputPlug getInputPlug() {
-        return inputPlug;
-    }
-
-    public void connectInputPlug(final InputPlug inputPlug) {
-        deactivateControls();
-        if (internalState == InternalState.CONNECTED) {
-            deconnectInputPlug();
-        }
-        if (internalState == InternalState.NOT_CONNECTED || internalState == InternalState.OUTPUT_CONNECTED) {
-            this.inputPlug = inputPlug;
-            inputPlug.setCable(this);
-
-            // Modify the coordinates of the curve as the node moves
-            inputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setStartX(computeCoordinates(inputPlug).getX());
-            });
-
-            inputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setStartY(computeCoordinates(inputPlug).getY());
-            });
-            nextState();
-        }
-
-        if (internalState == InternalState.INPUT_CONNECTED) {
-            setStartX(computeCoordinates(inputPlug).getX());
-            setStartY(computeCoordinates(inputPlug).getY());
-            activateMouseTrackingHandlers();
-        }
-    }
-
-    /**
-     * Deconnect the input plug and activates mouse traking handlers if changing
-     *
-     * @implSpec previously in CONNECTED state only
-     *
-     */
-    public void deconnectInputPlug() {
-        System.out.println(this + "::deconnectInputPlug");
-        inputPlug.setCable(null);
-        inputPlug = null;
-        nextState();
-        if (internalState == InternalState.INPUT_CHANGING) {
-            activateMouseTrackingHandlers();
-        }
-    }
-
-    /**
-     * Returns the output plug
-     *
-     * @return
-     *
-     * @implSpec previously in NOT_CONNECTED or OUTPUT_CHANGING states only
-     */
-    public OutputPlug getOutputPlug() {
-        return outputPlug;
-    }
-
-    public void connectOutputPlug(OutputPlug outputPlug) {
-        System.out.println(this + "::connectOutputPlug");
-        deactivateControls();
-        if (internalState == InternalState.CONNECTED) {
-            deconnectOutputPlug();
-        }
-        if (internalState == InternalState.NOT_CONNECTED || internalState == InternalState.INPUT_CONNECTED) {
-            this.outputPlug = outputPlug;
-            outputPlug.setCable(this);
-
-            // Modify the coordinates of the curve as the node moves
-            outputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setEndX(computeCoordinates(inputPlug).getX());
-            });
-
-            outputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setEndY(computeCoordinates(inputPlug).getY());
-            });
-            nextState();
-        }
-
-        if (internalState == InternalState.OUTPUT_CONNECTED) {
-            setEndX(computeCoordinates(outputPlug).getX());
-            setEndY(computeCoordinates(outputPlug).getY());
-            activateMouseTrackingHandlers();
-        }
-    }
-
-    /**
-     * Deconnect the output plug and activates mouse traking handlers if changing
-     *
-     * @implSpec previously in CONNECTED state only
-     */
-    public void deconnectOutputPlug() {
-        System.out.println(this + "::deconnectOutputPlug");
-        outputPlug.setCable(null);
-        outputPlug = null;
-        nextState();
-        if (internalState == InternalState.OUTPUT_CHANGING) {
-            activateMouseTrackingHandlers();
-        }
-    }
-
-    /**
-     * Helper method to retrieve coordinates of a node
-     *
-     * @param node
-     * @return
-     */
-    private static Point2D computeCoordinates(final Node node) {
-        double x = node.getParent().getBoundsInParent().getMinX() + node.getBoundsInParent().getMinX(),
-               y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
-
-        x += node.getBoundsInParent().getWidth()/2;
-        y += node.getBoundsInParent().getHeight()/2;
-
-        return new Point2D(x, y);
+    public boolean isBeingPlugged() {
+        return plugState != PlugState.PLUGGED && plugState != PlugState.UNPLUGGED;
     }
 
     public CurveCable() {
         super();
-
+        setId(UUID.randomUUID().toString());
         // Modify the control points as the coordinate of the curve change
         startXProperty().addListener((observable, oldValue, newValue) -> {
             setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
@@ -393,6 +99,246 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+    }
+
+     /**
+     * Manage the different internal connection related states of this cable
+     *
+     * LEGEND :
+     *      input = true when connected, false otherwize
+     *      output = true when connected, false otherwize
+     *                                                                                      !input & !ouput
+     *              +--------------------------------------------------------------------------------------+
+     *              |                                                                                      |
+     *              |                        !input & !ouput         output                                |
+     *              |    +----------------------------------+       +------------------------------+       |
+     *              |    |                                  |       |                              |       |
+     *              |    |                            +-----+-------+-----+                        |       |
+     *              |    |            input & !output |State              | !input & ouput         |       |
+     *              |    |    +----------------------->        IN_PLUGGED +--------------------+   |       |
+     *              |    |    |                       |                   |                    |   |       |
+     *              |    |    |                       +-----+-------^-----+                    |   |       |
+     *         +----v----v----+---+       !input & !output  |       | !input & output +--------v---v----+  |
+     *         |State             <-------------------------+       +-----------------+ State           |  |
+     * O+------>        UNPLUGGED |                                                   |         PLUGGED +--+
+     *         |                  <-------------------------+       +-----------------+                 |
+     *         +---------^----+---+       !input & !output  |       | !output & input +--------^---^----+
+     *                   |    |                       +-----+-------v-----+                    |   |
+     *                   |    |       output & !input |State              |                    |   |
+     *                   |    +----------------------->       OUT_PLUGGED +--------------------+   |
+     *                   |                            |                   | !output & input        |
+     *                   |                            +-----+-------+-----+                        |
+     *                   |                  !input & !ouput |       | output & input               |
+     *                   +----------------------------------+       +------------------------------+
+     *
+     *                                                                  made with : http://www.asciiflow.com
+     */
+    public enum PlugState {
+
+        UNPLUGGED {
+            @Override
+            public PlugState nextState(CurveCable cable) {
+                // input connected
+                if (cable.input != null && cable.output != null) {
+                    return PLUGGED;
+                    // output connected
+                } else if (cable.input == null && cable.output != null) {
+                    return OUT_PLUGGED;
+                    // no connections
+                } else if (cable.input != null) { // && cable.output == null
+                    return IN_PLUGGED;
+                }
+                // default, stay in the state
+                return UNPLUGGED;
+            }
+        },
+
+        IN_PLUGGED {
+            @Override
+            public PlugState nextState(CurveCable cable) {
+                // output is connected and intput still connected
+                if (cable.output != null && cable.input != null) {
+                    return PLUGGED;
+                    // if input is deconnected
+                } else if (cable.input == null) {
+                    return UNPLUGGED;
+                }
+                // default, stay in the state
+                return IN_PLUGGED;
+            }
+        },
+
+        OUT_PLUGGED {
+            @Override
+            public PlugState nextState(CurveCable cable) {
+                // intput is connected and output still connected
+                if (cable.input != null && cable.output != null) {
+                    return PLUGGED;
+                    // if output is deconnected
+                } else if (cable.output == null) {
+                    return UNPLUGGED;
+                }
+                // default, stay in the state
+                return OUT_PLUGGED;
+            }
+        },
+
+        PLUGGED {
+            @Override
+            public PlugState nextState(CurveCable cable) {
+                // fully deconnected
+                if (cable.input == null && cable.output == null) {
+                    return UNPLUGGED;
+                    // only input is deconnected
+                } else if (cable.input == null) { // && cable.output != null
+                    return OUT_PLUGGED;
+                    // only output is deconnected
+                } else if (cable.output == null) { // && cable.input != null
+                    return IN_PLUGGED;
+                }
+                // default, stay in the state
+                return PLUGGED;
+            }
+        };
+
+        public PlugState nextState(CurveCable cable) {
+            return UNPLUGGED;
+        }
+    }
+
+    /**
+     * Helper method to call next state
+     *
+     */
+    private void nextState() {
+        //System.out.println(this + "\tLeaving => " + plugState);
+        plugState = plugState.nextState(this);
+        //System.out.println(this + "\tEntering => " + plugState);
+    }
+
+    /**
+     * Return the current input plug
+     *
+     * @return
+     *
+     * @implSpec previously in UNPLUGGED or INPUT_CHANGING states only
+     */
+    public InputPlug getInput() {
+        return input;
+    }
+
+    public void connectInputPlug(final InputPlug inputPlug) {
+        //System.out.println(this + "::connectInputPlug");
+        deactivateMouseTrackingHandlers();
+        if (plugState == PlugState.PLUGGED) {
+            deconnectInputPlug();
+        }
+        if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
+            this.input = inputPlug;
+            inputPlug.setCable(this);
+
+            // Modify the coordinates of the curve as the node moves
+            inputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
+                setStartX(computeCoordinates(inputPlug).getX());
+            });
+
+            inputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
+                setStartY(computeCoordinates(inputPlug).getY());
+            });
+            nextState();
+        }
+
+        if (plugState == PlugState.IN_PLUGGED) {
+            setStartX(computeCoordinates(inputPlug).getX());
+            setStartY(computeCoordinates(inputPlug).getY());
+            activateMouseTrackingHandlers();
+        }
+    }
+
+    /**
+     * Deconnect the input plug and activates mouse traking handlers if changing
+     *
+     * @implSpec previously in PLUGGED state only
+     *
+     */
+    public void deconnectInputPlug() {
+        //System.out.println(this + "::deconnectInputPlug");
+        input.setCable(null);
+        input = null;
+        nextState();
+        if (plugState == PlugState.OUT_PLUGGED) {
+            activateMouseTrackingHandlers();
+        }
+    }
+
+    /**
+     * Returns the output plug
+     *
+     * @return
+     *
+     * @implSpec previously in UNPLUGGED or OUTPUT_CHANGING states only
+     */
+    public OutputPlug getOutput() {
+        return output;
+    }
+
+    public void connectOutputPlug(OutputPlug outputPlug) {
+        //System.out.println(this + "::connectOutputPlug");
+        deactivateMouseTrackingHandlers();
+        if (plugState == PlugState.PLUGGED) {
+            deconnectOutputPlug();
+        }
+        if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
+            this.output = outputPlug;
+            outputPlug.setCable(this);
+
+            // Modify the coordinates of the curve as the node moves
+            outputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
+                setEndX(computeCoordinates(input).getX());
+            });
+
+            outputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
+                setEndY(computeCoordinates(input).getY());
+            });
+            nextState();
+        }
+
+        if (plugState == PlugState.OUT_PLUGGED) {
+            setEndX(computeCoordinates(outputPlug).getX());
+            setEndY(computeCoordinates(outputPlug).getY());
+            activateMouseTrackingHandlers();
+        }
+    }
+
+    /**
+     * Deconnect the output plug and activates mouse traking handlers if changing
+     *
+     * @implSpec previously in PLUGGED state only
+     */
+    public void deconnectOutputPlug() {
+        //System.out.println(this + "::deconnectOutputPlug");
+        output.setCable(null);
+        output = null;
+        nextState();
+        if (plugState == PlugState.IN_PLUGGED) {
+            activateMouseTrackingHandlers();
+        }
+    }
+
+    /**
+     * Helper method to retrieve coordinates of a node
+     *
+     * @param node
+     * @return
+     */
+    private static Point2D computeCoordinates(final Node node) {
+        double x = node.getParent().getBoundsInParent().getMinX() + node.getBoundsInParent().getMinX(),
+               y = node.getParent().getBoundsInParent().getMinY() + node.getBoundsInParent().getMinY();
+
+        x += node.getBoundsInParent().getWidth()/2;
+        y += node.getBoundsInParent().getHeight()/2;
+
+        return new Point2D(x, y);
     }
 
     public Color getColor(){
@@ -485,10 +431,10 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 y = pane.getHeight();
             }
 
-            if (internalState == InternalState.OUTPUT_CHANGING || internalState == InternalState.INPUT_CONNECTED) {
+            if (plugState == PlugState.IN_PLUGGED) {
                 setEndX(x);
                 setEndY(y);
-            } else if (internalState == InternalState.INPUT_CHANGING || internalState == InternalState.OUTPUT_CONNECTED) {
+            } else if (plugState == PlugState.OUT_PLUGGED) {
                 setStartX(x);
                 setStartY(y);
             }
@@ -520,7 +466,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * Unset mouse transparent
      *
      */
-    private void deactivateControls() {
+    private void deactivateMouseTrackingHandlers() {
         // Make the cable follow the cursor
         setMouseTransparent(false);
         CoreController.getWorkspace().setOnMouseMoved(null);
@@ -544,18 +490,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         state.forEach((s, o) -> {
             ComponentPane componentPane;
             switch(s) {
-                case "startX":
-                    setStartX((double)o);
-                    break;
-                case "startY":
-                    setStartX((double)o);
-                    break;
-                case "endX":
-                    setStartX((double)o);
-                    break;
-                case "endY":
-                    setStartX((double)o);
-                    break;
                 case "id":
                     setId((String)o);
                     break;
@@ -578,18 +512,26 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
-        obj.put("startX", getStartX());
-        obj.put("startY", getEndX());
-        obj.put("endX", getStartY());
-        obj.put("endY", getEndY());
         obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
-//        obj.put("startMethod", inputPlug != null ? inputPlug.getProperties().get("onMouseClicked") : null);
-//        obj.put("endMethod", outputPlug != null ? outputPlug.getProperties().get("onMouseClicked") : null);
-//        obj.put("startComponantId", inputPlug != null ? inputPlug.getParent().getId() : outputPlug.getParent().getId());
-//        obj.put("endComponantId", outputPlug != null ? outputPlug.getParent().getId() : outputPlug.getParent().getId());
-//        obj.put("name", inputPlug != null ? inputPlug.getId() : outputPlug.getId());
+        obj.put("state", plugState.name());
+        obj.put("name", Math.random() );
+        if (plugState == PlugState.PLUGGED || plugState == PlugState.IN_PLUGGED) {
+            obj.put("inComponantId", input.getParent().getId());
+            obj.put("inputPlug", input.getId());
+            obj.put("name", input.getParent().getId() + "-" + input.getId());
+        }
+        if (plugState == PlugState.PLUGGED || plugState == PlugState.OUT_PLUGGED) {
+            obj.put("outComponantId", output.getParent().getId());
+            obj.put("outputPlug", output.getId());
+            obj.put("name", output.getParent().getId() + "-" + output.getId());
+        }
+        if (plugState == PlugState.PLUGGED) {
+            obj.put("name",
+                    input.getParent().getId() + "-" + input.getId() +
+                            "|" + output.getParent().getId() + "-" + output.getId());
+        }
         obj.put("id", getId());
         return obj;
     }

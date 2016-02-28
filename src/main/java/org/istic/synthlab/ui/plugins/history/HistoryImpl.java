@@ -10,7 +10,9 @@ import net.minidev.json.parser.JSONParser;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.ComponentPane;
 import org.istic.synthlab.ui.plugins.WorkspacePane;
+import org.istic.synthlab.ui.plugins.cable.CurveCable;
 import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.cable.OutputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.io.*;
@@ -102,15 +104,15 @@ public class HistoryImpl extends Observable implements History {
             // Get local vars
             JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
-            String component = (String) jsonObject.get("component");
+            String name = (String) jsonObject.get("name");
             ComponentPane componentPane = workspacePane.getComponent(id);
-            switch (StateType.valueOf((String) jsonObject.get("state"))) {
+            switch (StateType.valueOf((String) value.get("state"))) {
                 case CREATED:
                     if (componentPane != null) {
                         throw new ExceptionInInitializerError("Componant Pane found ?!");
                     }
                     //TODO: maybe it would be better to pas sthrought events to regenerate component
-                    componentPane = CoreController.loadComponent(component);
+                    componentPane = CoreController.loadComponent(name);
                     componentPane.setJson(jsonObject);
                     workspacePane.addWithDragging(componentPane);
                     System.out.println(componentPane + " CREATED");
@@ -133,87 +135,68 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
-        cables.forEach((aLong, jsonObject) -> {
+        cables.forEach((aLong, value) -> {
             // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
-            String startNodeId = (String) jsonObject.get("startNodeId");
-            String endNodeId = (String) jsonObject.get("endNodeId");
-            double startX = (double) jsonObject.get("startX");
-            double startY = (double) jsonObject.get("startY");
-            double endX = (double) jsonObject.get("endX");
-            double endY = (double) jsonObject.get("endY");
-            switch (StateType.valueOf((String) jsonObject.get("state"))) {
-                case CREATED:
-                    String startComponentId = (String) jsonObject.get("startComponentId");
-                    String endComponentId = (String) jsonObject.get("startComponentId");
-                    ComponentPane startComponentPane = workspacePane.getComponent(startComponentId);
-                    ComponentPane endComponentPane = workspacePane.getComponent(startComponentId);
-                    if (startComponentPane == null) {
-                        if (endComponentId != null) {
-                            MouseEvent mouseEvent = new MouseEvent(
-                                    endComponentPane.lookup(endNodeId), // source the source of the event. Can be null.
-                                    endComponentPane.lookup(endNodeId), // target the target of the event. Can be null.
-                                    MouseEvent.MOUSE_CLICKED, // eventType The type of the event.
-                                    startX, // x The x with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
-                                    startY, // y The y with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
-                                    0, // screenX The x coordinate relative to screen.
-                                    0, // screenY The y coordinate relative to screen.
-                                    MouseButton.PRIMARY, // button the mouse button used
-                                    1, // clickCount number of click counts
-                                    false, // shiftDown true if shift modifier was pressed.
-                                    false, // controlDown true if control modifier was pressed.
-                                    false, // altDown true if alt modifier was pressed.
-                                    false, // metaDown true if meta modifier was pressed.
-                                    true, // primaryButtonDown true if primary button was pressed.
-                                    false, // middleButtonDown true if middle button was pressed.
-                                    false, // secondaryButtonDown true if secondary button was pressed.
-                                    false, // synthesized if this event was synthesized
-                                    false, // popupTrigger whether this event denotes a popup trigger for current platform
-                                    false, // stillSincePress see {@link #isStillSincePress() }
-                                    null // pickResult pick result. Can be null, in this case a 2D pick result
-                            );
+            CurveCable cable = null;
+            CurveCable.PlugState state = CurveCable.PlugState.valueOf((String) jsonObject.get("state"));
 
-                            endComponentPane.getOnMouseClicked().handle(mouseEvent);
-                        } else {
-                            throw new ExceptionInInitializerError("Componant Pane not found for potentiometer changes !");
-                        }
-                    } else {
-                        MouseEvent mouseEvent = new MouseEvent(
-                                startComponentPane.lookup(startNodeId), // source the source of the event. Can be null.
-                                startComponentPane.lookup(startNodeId), // target the target of the event. Can be null.
-                                MouseEvent.MOUSE_CLICKED, // eventType The type of the event.
-                                startX, // x The x with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
-                                startY, // y The y with respect to the source. Should be in scene coordinates if source == null or source is not a Node.
-                                0, // screenX The x coordinate relative to screen.
-                                0, // screenY The y coordinate relative to screen.
-                                MouseButton.PRIMARY, // button the mouse button used
-                                1, // clickCount number of click counts
-                                false, // shiftDown true if shift modifier was pressed.
-                                false, // controlDown true if control modifier was pressed.
-                                false, // altDown true if alt modifier was pressed.
-                                false, // metaDown true if meta modifier was pressed.
-                                true, // primaryButtonDown true if primary button was pressed.
-                                false, // middleButtonDown true if middle button was pressed.
-                                false, // secondaryButtonDown true if secondary button was pressed.
-                                false, // synthesized if this event was synthesized
-                                false, // popupTrigger whether this event denotes a popup trigger for current platform
-                                false, // stillSincePress see {@link #isStillSincePress() }
-                                null // pickResult pick result. Can be null, in this case a 2D pick result
-                        );
-                        startComponentPane.getOnMouseClicked().handle(mouseEvent);
+            InputPlug inputPlug = null;
+            OutputPlug outputPlug = null;
+
+            if (state == CurveCable.PlugState.PLUGGED || state == CurveCable.PlugState.IN_PLUGGED) {
+                final String inComponentId = (String) jsonObject.get("inComponentId");
+                final String inputPlugId = (String) jsonObject.get("inputPlug");
+                ComponentPane inComponentPane = workspacePane.getComponent(inComponentId);
+                inputPlug = (InputPlug) inComponentPane.getChildren().filtered(node -> node.getId().equals(inputPlugId)).get(0);
+            }
+            if (state == CurveCable.PlugState.PLUGGED || state == CurveCable.PlugState.OUT_PLUGGED) {
+                final String outComponentId = (String) jsonObject.get("outComponentId");
+                final String outputPlugId = (String) jsonObject.get("outputPlug");
+                ComponentPane outComponentPane = workspacePane.getComponent(outComponentId);
+                outputPlug = (OutputPlug) outComponentPane.getChildren().filtered(node -> node.getId().equals(outputPlugId)).get(0);
+            }
+            switch (StateType.valueOf((String) value.get("state"))) {
+                case CREATED:
+                    if (state == CurveCable.PlugState.IN_PLUGGED) {
+                        CoreController.getConnectionManager().plugInput(inputPlug);
+                    } else if (state == CurveCable.PlugState.OUT_PLUGGED) {
+                        CoreController.getConnectionManager().plugOutput(outputPlug);
                     }
-                    ;
                     break;
                 case DELETED:
+                    cable = (CurveCable) workspacePane.lookup(id);
+                    CoreController.getConnectionManager().deleteCable(cable);
                     break;
                 case CHANGED:
+                    cable = (CurveCable) workspacePane.lookup(id);
+                    cable.setJson(jsonObject);
+                    if (state == CurveCable.PlugState.PLUGGED) {
+                        cable.deconnectInputPlug();
+                        cable.deconnectOutputPlug();
+                        cable.connectInputPlug(inputPlug);
+                        cable.connectOutputPlug(outputPlug);
+                    } else if (state == CurveCable.PlugState.UNPLUGGED) {
+                        cable.deconnectInputPlug();
+                        cable.deconnectOutputPlug();
+                    } else if (state == CurveCable.PlugState.IN_PLUGGED) {
+                        cable.deconnectInputPlug();
+                        cable.deconnectOutputPlug();
+                        cable.connectInputPlug(inputPlug);
+                    } else if (state == CurveCable.PlugState.OUT_PLUGGED) {
+                        cable.deconnectInputPlug();
+                        cable.deconnectOutputPlug();
+                        cable.connectOutputPlug(outputPlug);
+                    }
                     break;
             }
         });
-        workspace.forEach((aLong, jsonObject) -> {
+        workspace.forEach((aLong, value) -> {
             // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
-            switch (StateType.valueOf((String) jsonObject.get("state"))) {
+            switch (StateType.valueOf((String) value.get("state"))) {
                 case CREATED:
                     // TODO: need a multiple workspace manageùment
                     break;
@@ -225,12 +208,13 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
-        potentiometers.forEach((aLong, jsonObject) -> {
+        potentiometers.forEach((aLong, value) -> {
             // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
             String component = (String) jsonObject.get("componentId");
             ComponentPane componentPane = workspacePane.getComponent(component);
-            switch (StateType.valueOf((String) jsonObject.get("state"))) {
+            switch (StateType.valueOf((String) value.get("state"))) {
                 case CHANGED:
                     if (componentPane == null) {
                         throw new ExceptionInInitializerError("Componant Pane not found for potentiometer changes !");
@@ -279,20 +263,19 @@ public class HistoryImpl extends Observable implements History {
 
     @Override
     public void add(Origin origin, StateType type) {
-        return;
-//        State state = origin.getState();
-//        state.setType(type);
-//        // Add the current state to previous ones
-//        if (currentState != null) {
-//            previousStates.add(currentState);
-//        }
-//        // Remove previous state and origin identically elements
-//        previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
-//
-//        // And redifine current state
-//        currentState = state;
-//        // purge next states became invalid
-//        nextStates.clear();
-//        System.out.println(previousStates);
+        State state = origin.getState();
+        state.setType(type);
+        System.out.println(state.getContent());
+        // Add the current state to previous ones
+        if (currentState != null) {
+            previousStates.add(currentState);
+        }
+        // Remove previous state and origin identically elements
+        //previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
+
+        // And redefine current state
+        currentState = state;
+        // purge next states became invalid
+        nextStates.clear();
     }
 }

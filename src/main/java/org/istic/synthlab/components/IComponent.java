@@ -92,9 +92,9 @@ public interface IComponent {
     /**
      * Set the id of this current component
      *
-     * @param numInstance
+     * @param uuid
      */
-    void setId(int numInstance);
+    void setId(String uuid);
 
     /**
      * Set the component name
@@ -113,7 +113,7 @@ public interface IComponent {
     /**
      * Returns component identifier
      *
-     * @return int
+     * @return String
      */
-    int getId();
+    String getId();
 }
