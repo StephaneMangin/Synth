@@ -23,7 +23,7 @@ public class VcoaFrequencyModulator extends AbstractModulator {
                 "Frequency",
                 algorithm.potentiometer,
                 potentiometerType,
-                10.0D,
+                15.0D,
                 0.0D,
                 0.0D
         ));

@@ -87,7 +87,7 @@ public class Controller extends AbstractController {
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
-        expFrequency.setMaxValue(10);
+        expFrequency.setMaxValue(16);
 
         // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {

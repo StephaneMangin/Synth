@@ -51,9 +51,6 @@ public class Potentiometer extends GenericsParam<Double> {
         if (rangeVal <= getMax() && rangeVal >= getMin()) {
             super.setValue(val);
             this.port.set(rangeVal);
-            System.out.println("WOOT "+val);
-            System.out.println("RAW "+super.getValue());
-            System.out.println("VAL "+rangeVal);
         }
     }
 
