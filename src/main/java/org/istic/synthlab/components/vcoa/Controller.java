@@ -57,14 +57,7 @@ public class Controller extends AbstractController {
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
-    /**
-     * When the component is created, it initialize the component representation and adding listener and MouseEvent
-     * @param location type URL
-     * @param resources type ResourceBundle
-     */
-    @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
-        super.initialize(location, resources);
+    public Controller() {
         configure(vcoa);
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
@@ -76,6 +69,16 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeWhiteNoise(1);
         vcoa.setExponentialFrequency(0.0);
+    }
+
+    /**
+     * When the component is created, it initialize the component representation and adding listener and MouseEvent
+     * @param location type URL
+     * @param resources type ResourceBundle
+     */
+    @Override
+    public void initialize(final URL location, final ResourceBundle resources) {
+        super.initialize(location, resources);
 
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {

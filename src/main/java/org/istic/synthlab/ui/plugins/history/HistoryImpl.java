@@ -279,19 +279,20 @@ public class HistoryImpl extends Observable implements History {
 
     @Override
     public void add(Origin origin, StateType type) {
-        State state = origin.getState();
-        state.setType(type);
-        // Add the current state to previous ones
-        if (currentState != null) {
-            previousStates.add(currentState);
-        }
-        // Remove previous state and origin identically elements
-        previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
-
-        // And redifine current state
-        currentState = state;
-        // purge next states became invalid
-        nextStates.clear();
-        System.out.println(previousStates);
+        return;
+//        State state = origin.getState();
+//        state.setType(type);
+//        // Add the current state to previous ones
+//        if (currentState != null) {
+//            previousStates.add(currentState);
+//        }
+//        // Remove previous state and origin identically elements
+//        previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
+//
+//        // And redifine current state
+//        currentState = state;
+//        // purge next states became invalid
+//        nextStates.clear();
+//        System.out.println(previousStates);
     }
 }

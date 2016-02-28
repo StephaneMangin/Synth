@@ -18,10 +18,12 @@ public class Controller extends AbstractController implements Initializable {
 
     private Vca vca = new Vca("Voltage Controlled\n Amplifier");
 
+    public Controller() {
+        configure(vca);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(vca);
 
         gain.valueProperty().addListener((observable, oldValue, newValue) -> {
             vca.getGainModulator().setValue((Double) newValue);

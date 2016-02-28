@@ -368,6 +368,7 @@ public class CoreController implements Initializable {
     @FXML
     public void cancelConfiguration(Event event) {
         workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
+        onPause();
     }
 
     /**

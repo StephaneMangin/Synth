@@ -16,6 +16,10 @@ public class Controller extends AbstractController {
 
     private Noise noise = new Noise("White Noise");
 
+    public Controller() {
+        configure(noise);
+    }
+
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -27,6 +31,5 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(noise);
     }
 }

@@ -6,7 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.ui.plugins.ComponentPane;
 
 import java.io.IOException;
 
@@ -21,6 +23,9 @@ public class OutputPlug extends Pane {
     private Label title;
 
     private IOutput output;
+
+    private CurveCable cable;
+    private ComponentPane componentPane;
 
     /**
      * This constructor loads the FXML associated to the potentiometer, binds the event handlers and initializes the view
@@ -61,5 +66,26 @@ public class OutputPlug extends Pane {
 
     public void setOutput(IOutput output) {
         this.output = output;
+    }
+
+    public CurveCable getCable() {
+        return cable;
+    }
+
+    public void setCable(CurveCable cable) {
+        this.cable = cable;
+    }
+
+    /**
+     * Returns true if a cable is connected
+     *
+     * @return
+     */
+    public boolean hasCable() {
+        return cable != null;
+    }
+
+    public ComponentPane getComponentPane() {
+        return (ComponentPane) getParent();
     }
 }
