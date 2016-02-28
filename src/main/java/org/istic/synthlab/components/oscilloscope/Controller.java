@@ -5,9 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class Controller extends AbstractController {
     @FXML
-    private LineChart chart;
+    private LineChart<Number, Number> chart;
     @FXML
     private NumberAxis timeAxis;
     @FXML
@@ -35,6 +34,9 @@ public class Controller extends AbstractController {
 
     private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope");
 
+    public Controller() {
+        configure(oscilloscope);
+    }
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -43,13 +45,12 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(oscilloscope);
 
         yScale.setTitle("Y Scale");
         yScale.setMinValue(0.1);
         yScale.setMaxValue(10);
 
-        chart.getData().addAll(samples);
+        chart.getData().add(samples);
 
         scaleAxis.setUpperBound(1.0);
         scaleAxis.setLowerBound(-1.0);

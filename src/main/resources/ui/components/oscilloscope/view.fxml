@@ -1,62 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<?import org.istic.synthlab.ui.controls.Potentiometer?>
-
 <?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
+<ComponentPane fx:id="componentPane" prefHeight="350.0" prefWidth="610.0" styleClass="componentPane"
+               xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
 
-<AnchorPane fx:id="anchorPane" prefHeight="350.0" prefWidth="610.0" styleClass="component" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.oscilloscope.Controller">
-   <children>
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
-          <image>
-              <Image url="@../../images/closeIcon.png" />
-          </image>
-       </ImageView>
-       <Label fx:id="title" layoutX="35.0" layoutY="4.0" prefHeight="25.0" prefWidth="260.0" styleClass="title">
-           <font>
-               <Font name="System" size="20.0" />
-           </font>
-       </Label>
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 
-       <LineChart fx:id="chart" animated="false" createSymbols="false" layoutX="-10.0" layoutY="20.0" legendVisible="false" prefHeight="269.0" prefWidth="610.0" verticalGridLinesVisible="false">
-           <xAxis>
-               <NumberAxis fx:id="timeAxis" autoRanging="false" forceZeroInRange="false" lowerBound="0" minorTickVisible="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" tickUnit="50" upperBound="500" />
-           </xAxis>
-           <yAxis>
-               <NumberAxis fx:id="scaleAxis" autoRanging="false" forceZeroInRange="false" lowerBound="-10" minorTickVisible="false" side="LEFT" upperBound="10" />
-           </yAxis>
-       </LineChart>
-       <Label layoutX="11.0" layoutY="290.0" text="Input" />
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="310.0" onMouseClicked="#connectInput" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@../../images/blueSocket.png" />
-          </image>
-           <effect>
-               <InnerShadow />
-           </effect>
-       </ImageView>
-   
-       <Label layoutX="560.0" layoutY="290.0" text="Output" />
-       <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="570.0" layoutY="310.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
-          <image>
-              <Image url="@../../images/redSocket.png" />
-          </image>
-           <effect>
-               <InnerShadow />
-           </effect>
-       </ImageView>
-       <Potentiometer fx:id="yScale" layoutX="280.0" layoutY="275.0"/>
-   </children>
-</AnchorPane>
+    <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
+
+    <LineChart fx:id="chart" animated="false" createSymbols="false" layoutX="0.0" layoutY="20.0" legendVisible="false"
+               prefHeight="269.0" prefWidth="600.0" verticalGridLinesVisible="false">
+        <xAxis>
+            <NumberAxis fx:id="timeAxis" autoRanging="false" forceZeroInRange="false" lowerBound="0"
+                        minorTickVisible="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false"
+                        tickUnit="50" upperBound="500"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="scaleAxis" autoRanging="false" forceZeroInRange="false" lowerBound="-10"
+                        minorTickVisible="false" side="LEFT" upperBound="10"/>
+        </yAxis>
+    </LineChart>
+
+    <Potentiometer fx:id="yScale" layoutX="280.0" layoutY="275.0"/>
+    <InputPlug fx:id="input" ComponentPane.leftAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Input" onMouseClicked="#connectInput"/>
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+</ComponentPane>

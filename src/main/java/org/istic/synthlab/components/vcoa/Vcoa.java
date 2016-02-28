@@ -391,8 +391,8 @@ public class Vcoa extends AbstractComponent {
      */
     private void setDefaultOscillator(IOscillator defaultOscillator) {
         if (this.defaultOscillator != null) {
-            this.defaultOscillator.getOutput().deconnect();
-            linearModulator.getOutput().deconnect();
+            this.defaultOscillator.getOutput().disconnect();
+            linearModulator.getOutput().disconnect();
         }
         this.defaultOscillator = defaultOscillator;
         this.defaultOscillator.getOutput().connect(getSink());

@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author  Group1
  * The class Channel.
  */
 public class Channel {
@@ -56,7 +55,7 @@ public class Channel {
     /**
      * Method Contains .
      *
-     * @param pair the pair input,ouput
+     * @param pair the pair input, output
      * @return the boolean
      */
     public static boolean contains(Pair<IInput, IOutput> pair) {

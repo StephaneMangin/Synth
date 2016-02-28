@@ -1,75 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" prefHeight="150.0" prefWidth="360.0" styleClass="componentPane"
+               xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="org.istic.synthlab.components.mixer.Controller">
 
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="450.0" styleClass="component" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.mixer.Controller">
 
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">
-        <Image url="@../../images/closeIcon.png" />
-    </ImageView>
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 
-    <Label fx:id="title" layoutX="35.0" layoutY="4.0" styleClass="title">
+    <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
         <font>
-            <Font name="System" size="20.0" />
+            <Font name="System" size="20.0"/>
         </font>
     </Label>
 
-    <Potentiometer fx:id="inputPotentiometer1" layoutX="20.0" layoutY="40.0" />
-    <Potentiometer fx:id="inputPotentiometer2" layoutX="108.0" layoutY="40.0" />
-    <Potentiometer fx:id="inputPotentiometer3" layoutX="195.0" layoutY="40.0" />
-    <Potentiometer fx:id="inputPotentiometer4" layoutX="290.0" layoutY="40.0" />
+    <Potentiometer fx:id="inputPotentiometer1" ComponentPane.leftAnchor="10.0" ComponentPane.bottomAnchor="75.0"/>
+    <Potentiometer fx:id="inputPotentiometer2" ComponentPane.leftAnchor="80.0" ComponentPane.bottomAnchor="75.0"/>
+    <Potentiometer fx:id="inputPotentiometer3" ComponentPane.leftAnchor="150" ComponentPane.bottomAnchor="75.0"/>
+    <Potentiometer fx:id="inputPotentiometer4" ComponentPane.leftAnchor="220.0" ComponentPane.bottomAnchor="75.0"/>
 
-    <Label layoutX="382.0" layoutY="119.0" text="Output" />
+    <InputPlug fx:id="input1" ComponentPane.leftAnchor="22.0" ComponentPane.bottomAnchor="10.0" text="Input 1"
+               onMouseClicked="#connectInput1"/>
+    <InputPlug fx:id="input2" ComponentPane.leftAnchor="92.0" ComponentPane.bottomAnchor="10.0" text="Input 2"
+               onMouseClicked="#connectInput2"/>
+    <InputPlug fx:id="input3" ComponentPane.leftAnchor="162.0" ComponentPane.bottomAnchor="10.0" text="Input 3"
+               onMouseClicked="#connectInput3"/>
+    <InputPlug fx:id="input4" ComponentPane.leftAnchor="232.0" ComponentPane.bottomAnchor="10.0" text="Input 4"
+               onMouseClicked="#connectInput4"/>
 
-    <Label layoutX="35.0" layoutY="119.0" text="Input 1" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="392.0" layoutY="143.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../images/redSocket.png" />
-        <effect>
-            <InnerShadow />
-        </effect>
-    </ImageView>
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="10.0" ComponentPane.bottomAnchor="10.0" text="Output"
+                onMouseClicked="#connectOutput"/>
 
-    <Label layoutX="125.0" layoutY="119.0" text="Input 2" />
-
-    <Label layoutX="211.0" layoutY="119.0" text="Input 3" />
-   <Label layoutX="297.0" layoutY="119.0" text="Input 4" />
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="305.0" layoutY="143.0" onMouseClicked="#connectInput1" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="46.0" layoutY="143.0" onMouseClicked="#connectInput2" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="138.0" layoutY="143.0" onMouseClicked="#connectInput3" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-   <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="224.0" layoutY="143.0" onMouseClicked="#connectInput4" pickOnBounds="true" preserveRatio="true">
-      <effect>
-         <InnerShadow />
-      </effect>
-      <image>
-         <Image url="@../../images/blueSocket.png" />
-      </image>
-   </ImageView>
-</AnchorPane>
+</ComponentPane>

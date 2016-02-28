@@ -81,7 +81,7 @@ public interface IModulator extends IModule, Resource {
     void setMin(double value);
 
     /**
-     * Bypass the convertion when setting a value
+     * Bypass the conversion when setting a value
      *
      * @param value
      */

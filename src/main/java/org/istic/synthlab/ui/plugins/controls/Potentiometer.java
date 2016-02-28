@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.controls;
+package org.istic.synthlab.ui.plugins.controls;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -10,6 +10,12 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import net.minidev.json.JSONObject;
+import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.ComponentPane;
+import org.istic.synthlab.ui.plugins.history.Origin;
+import org.istic.synthlab.ui.plugins.history.State;
+import org.istic.synthlab.ui.plugins.history.StateType;
 
 import java.io.IOException;
 
@@ -17,12 +23,24 @@ import java.io.IOException;
  * Allow direct insertion into a fxml file
  *
  * Example :
- *      <Potentiometer fx-id:="my potentiometer" />
+ *      <Potentiometer fx-id:="potentiometer" />
  *
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class Potentiometer extends Pane {
+public class Potentiometer extends Pane implements Origin {
+
+    private ComponentPane component;
+
+    @Override
+    public String getName() {
+        return title.getText();
+    }
+
+    @Override
+    public void setName(String name) {
+        title.setText(name);
+    }
 
     @FXML
     private Label title;
@@ -67,11 +85,62 @@ public class Potentiometer extends Pane {
             throw new RuntimeException(exception);
         }
 
+        valueProperty().addListener((observable, oldValue, newValue) -> {
+            rotateHandle(convertFromValue(newValue.doubleValue()));
+            CoreController.getConnectionManager().getHistory().add(this, StateType.CHANGED);
+        });
         setPrefHeight(HEIGHT);
         setPrefWidth(WIDTH);
         rotatorDial.setOnMouseDragged(new DragKnobEventHandler());
         rotatorDial.setOnScroll(new ScrollKnobEventHandler());
         rotateHandle(MIN);
+    }
+
+    @Override
+    public void setJson(JSONObject state) {
+
+        state.forEach((s, o) -> {
+            switch(s) {
+                case "value":
+                    valueProperty().set((double) o);
+                    break;
+                case "id":
+                    setId((String) o);
+                    break;
+                case "name":
+                    setName((String) o);
+                    break;
+                default:
+                    // Do nothing yet
+            }
+        });
+    }
+
+    @Override
+    public JSONObject getJson() {
+        StringBuffer buffer = new StringBuffer();
+        JSONObject obj = new JSONObject();
+        obj.put("value", getValue());
+        obj.put("id", getId());
+        obj.put("name", getName());
+        obj.put("componentId", getParent().getId());
+        obj.put("type", "potentiometer");
+        System.out.println(obj);
+        return obj;
+    }
+
+    @Override
+    public State getState() {
+        return new State(this);
+    }
+
+    @Override
+    public void restoreState(State state) {
+        setJson(state.getContent());
+    }
+
+    public void setComponent(ComponentPane component) {
+        this.component = component;
     }
 
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
@@ -131,27 +200,41 @@ public class Potentiometer extends Pane {
     private void rotateHandle(final double degrees) {
         if (degrees >= MIN && degrees <= MAX) {
             rotatorHandle.setRotate(degrees);
-            setValue((degrees-(MIN)) / (MAX-MIN));
+            setValue(convertFromDegrees(degrees));
         }
     }
 
-    public void setTitle(String value) {
+    public void setTitle(final String value) {
         title.setText(value);
     }
 
-    public void setMaxValue(double value) {
-        maxValue.setText(Integer.toString((int)value));
+    public void setMaxValue(final double value) {
+        maxValue.setText(Double.toString(value));
     }
 
-    public void setMinValue(double value) {
-        minValue.setText(Integer.toString((int)value));
+    public void setMinValue(final double value) {
+        minValue.setText(Double.toString(value));
     }
 
-    public void setMaxValue(String value) {
+    public void setMaxValue(final String value) {
         maxValue.setText(value);
     }
 
-    public void setMinValue(String value) {
+    public void setMinValue(final String value) {
         minValue.setText(value);
+    }
+
+    /**
+     * Return the related value from potentiometer angle
+     */
+    private double convertFromDegrees(final double degrees) {
+        return (degrees - MIN) / (MAX - MIN);
+    }
+
+    /**
+     * Return the related angle from potentiometer value
+     */
+    private double convertFromValue(final double value) {
+        return (value * (MAX-MIN)) + MIN;
     }
 }

@@ -22,7 +22,7 @@ public interface IOutput extends IModule {
      * Disconnects the output port to an input port
      *
      */
-    void deconnect();
+    void disconnect();
 
     /**
      * Returns the name of the output port.

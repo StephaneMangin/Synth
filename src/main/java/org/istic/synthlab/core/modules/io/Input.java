@@ -40,7 +40,7 @@ public class Input implements IInput {
     }
 
     @Override
-    public void deconnect() {
+    public void disconnect() {
         Register.disconnect(this);
     }
 

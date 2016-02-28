@@ -6,7 +6,7 @@ package org.istic.synthlab.core.modules.functions;
  */
 public enum FunctionType {
     ADD,
-    SUBSTRACT,
+    SUBTRACT,
     MULTIPLY,
     DIVIDE
 }

@@ -13,7 +13,7 @@ import static junit.framework.TestCase.assertEquals;*/
 /**
  * Created by cyprien on 08/02/16.
  */
-public class EnveloppeGeneratorTest {
+public class EnvelopeGeneratorTest {
 
     private Synthesizer synth;
     private SquareOscillator squareOsc;

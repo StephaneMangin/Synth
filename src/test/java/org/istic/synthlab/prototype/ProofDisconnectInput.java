@@ -34,7 +34,7 @@ public class ProofDisconnectInput {
 
         synth.sleepFor(2.0);
 
-        out.getInput().deconnect();
+        out.getInput().disconnect();
 
         System.out.println("VCOA HAS BEEN DISCONNECTED !");
 
