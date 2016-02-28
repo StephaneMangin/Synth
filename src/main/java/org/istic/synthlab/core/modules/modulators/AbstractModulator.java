@@ -6,7 +6,7 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
- * Create an abstraction to manage a potentiometer throught an internal logic
+ * Create an abstraction to manage a potentiometer through an internal logic
  *
  * 'Abstract Modulator' representation
  * -----------------------------------

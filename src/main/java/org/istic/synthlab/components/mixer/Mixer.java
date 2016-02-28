@@ -55,84 +55,59 @@ public class Mixer extends AbstractComponent {
         inputGainMixer2.getOutput().connect(mixer.getInput2());
         inputGainMixer3.getOutput().connect(mixer.getInput3());
         inputGainMixer4.getOutput().connect(mixer.getInput4());
-        getOutputMixer().connect(this.getSink());
+        getOutput().connect(getSink());
     }
 
-    public IOutput getOutputMixer(){ return this.mixer.getOutput(); }
+    public IInput getInput1(){ return inputGainMixer1.getInput(); }
 
-    public IInput getInput1(){ return this.inputGainMixer1.getInput(); }
+    public IInput getInput2(){ return inputGainMixer2.getInput(); }
 
-    public IInput getInput2(){ return this.inputGainMixer2.getInput(); }
+    public IInput getInput3(){ return inputGainMixer3.getInput(); }
 
-    public IInput getInput3(){ return this.inputGainMixer3.getInput(); }
-
-    public IInput getInput4(){ return this.inputGainMixer4.getInput(); }
+    public IInput getInput4(){ return inputGainMixer4.getInput(); }
 
     public IInput getInputPortByIndex(int i){
-        return this.mixer.getInputPortByIndex(i);
+        return mixer.getInputPortByIndex(i);
     }
 
     public double getGainValueInput1() {
-        return this.inputGainMixer1.getValue();
+        return inputGainMixer1.getValue();
     }
 
     public double getGainValueInput2() {
-        return this.inputGainMixer2.getValue();
+        return inputGainMixer2.getValue();
     }
 
     public double getGainValueInput3() {
-        return this.inputGainMixer3.getValue();
+        return inputGainMixer3.getValue();
     }
 
     public double getGainValueInput4() {
-        return this.inputGainMixer4.getValue();
+        return inputGainMixer4.getValue();
     }
 
     public void setGainValueInput1(double valueInput1) {
-        this.inputGainMixer1.setValue(valueInput1);
+        inputGainMixer1.setValue(valueInput1);
     }
 
     public void setGainValueInput2(double valueInput2) {
-        this.inputGainMixer2.setValue(valueInput2);
+        inputGainMixer2.setValue(valueInput2);
     }
 
     public void setGainValueInput3(double valueInput3) {
-        this.inputGainMixer3.setValue(valueInput3);
+        inputGainMixer3.setValue(valueInput3);
     }
 
     public void setGainValueInput4(double valueInput4) {
-        this.inputGainMixer4.setValue(valueInput4);
+        inputGainMixer4.setValue(valueInput4);
     }
 
     public double getMaxValue(){
-       return this.inputGainMixer1.getMax();
+       return inputGainMixer1.getMax();
     }
 
     public double getMinValue(){
-        return this.inputGainMixer1.getMin();
-    }
-
-    @Override
-    public void activate() {
-        this.mixer.activate();
-    }
-
-    @Override
-    public void deactivate() {
-        this.mixer.deactivate();
-    }
-
-    @Override
-    public boolean isActivated() {
-        return this.mixer.isActivated();
-    }
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void run() {
+        return inputGainMixer1.getMin();
     }
 
 }

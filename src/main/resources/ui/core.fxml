@@ -1,111 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.shape.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.Group?>
-
+<?import javafx.scene.layout.*?>
+<?import org.istic.synthlab.ui.plugins.WorkspacePane?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
-            <children>
-                <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" focusTraversable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                        <Group>
-                            <children>
-                                <AnchorPane fx:id="anchorPane" minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0" prefWidth="3000.0" styleClass="main" />
-                            </children>
-                        </Group>
-                    </content>
-                </ScrollPane>
-                <TitledPane fx:id="componentList" blendMode="SRC_ATOP" cache="true" collapsible="true" focusTraversable="false" layoutX="30.0" layoutY="30.0" mnemonicParsing="true" prefWidth="140" snapToPixel="false" text="Components">
-                    <effect>
-                        <DropShadow />
-                    </effect>
-                    <content>
-                        <ScrollPane fitToHeight="true" fitToWidth="true">
-                            <content>
-                                <ListView fx:id="listView" focusTraversable="false" />
-                            </content>
-                        </ScrollPane>
-                    </content>
-                </TitledPane>
+            <ScrollPane fx:id="scrollpane" fitToHeight="true" fitToWidth="true" focusTraversable="false"
+                        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                        AnchorPane.topAnchor="0.0">
+                <Group>
+                    <WorkspacePane fx:id="workspace" minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0"
+                                   prefWidth="3000.0" styleClass="workspace"/>
+                </Group>
+            </ScrollPane>
+            <TitledPane fx:id="componentList" blendMode="SRC_ATOP" cache="true" collapsible="true"
+                        focusTraversable="false" layoutX="30.0" layoutY="30.0" mnemonicParsing="true" prefWidth="140"
+                        snapToPixel="false" text="Components">
+                <effect>
+                    <DropShadow/>
+                </effect>
+                <ListView fx:id="listView" focusTraversable="false" />
+            </TitledPane>
 
-                <TitledPane fx:id="actionList" blendMode="SRC_ATOP" cache="true" collapsible="true" focusTraversable="false" mnemonicParsing="true" snapToPixel="false" text="Controls" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0">
-                    <effect>
-                        <DropShadow />
-                    </effect>
-               <content>
-                  <GridPane prefHeight="110.0" prefWidth="31.0">
+            <TitledPane blendMode="SRC_ATOP" cache="true" collapsible="true"
+                        focusTraversable="false" mnemonicParsing="true" snapToPixel="false" text="Controls"
+                        AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="30.0">
+                <effect>
+                    <DropShadow/>
+                </effect>
+                <GridPane prefHeight="110.0" prefWidth="31.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                     </rowConstraints>
-                     <children>
-                         <Button fx:id="playButton" defaultButton="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPlay" prefHeight="54.0" prefWidth="50.0" text="Play">
-                             <padding>
-                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                             </padding>
-                         </Button>
-                         <Button fx:id="pauseButton" defaultButton="true" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPause" text="Pause" GridPane.rowIndex="1">
-                             <padding>
-                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                             </padding>
-                         </Button>
-                     </children>
-                  </GridPane>
-               </content>
-                </TitledPane>
-            </children>
+                    <Button fx:id="playButton" defaultButton="true" maxHeight="1.7976931348623157E308"
+                            maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPlay"
+                            prefHeight="54.0" prefWidth="50.0" text="Play">
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </padding>
+                    </Button>
+                    <Button fx:id="pauseButton" defaultButton="true" disable="true"
+                            maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+                            mnemonicParsing="false" onAction="#onPause" text="Pause" GridPane.rowIndex="1">
+                        <padding>
+                            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                        </padding>
+                    </Button>
+                </GridPane>
+            </TitledPane>
         </AnchorPane>
     </center>
     <top>
         <VBox>
-            <children>
-                <MenuBar>
-                    <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="View">
-                            <items>
-                                <Menu fx:id="skinMenu" mnemonicParsing="false" text="Skin" />
-                                <Menu mnemonicParsing="false" text="Zoom">
-                                    <items>
-                                        <MenuItem accelerator="Alt + Page Up" mnemonicParsing="false" onAction="#zoomIn" text="Zoom In" />
-                                        <MenuItem accelerator="Alt + Page Down" mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out" />
-                                        <SeparatorMenuItem />
-                                        <MenuItem mnemonicParsing="false" onAction="#defaultZoom" text="Normal" />
-                                    </items>
-                                </Menu>
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
-            </children>
             <!--ToolBar prefHeight="40.0" prefWidth="200.0">
             </ToolBar-->
+            <MenuBar>
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem accelerator="Ctrl + N" mnemonicParsing="false" onAction="#cancelConfiguration"
+                              text="New project"/>
+                    <MenuItem accelerator="Ctrl + S" mnemonicParsing="false" onAction="#saveConfiguration"
+                              text="Save As"/>
+                    <MenuItem accelerator="Ctrl + O" mnemonicParsing="false" onAction="#loadConfiguration"
+                              text="Open a project"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <MenuItem accelerator="Ctrl + Z" mnemonicParsing="false" onAction="#previousConfiguration"
+                              text="Undo"/>
+                    <MenuItem accelerator="Ctrl + Y" mnemonicParsing="false" onAction="#nextConfiguration"
+                              text="Redo"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                    <Menu fx:id="skinMenu" mnemonicParsing="false" text="Skin"/>
+                    <Menu mnemonicParsing="false" text="Zoom">
+                        <!-- We can't use the standard Ctrl + + / Ctrl + - because of this issue: https://bugs.openjdk.java.net/browse/JDK-8087572 -->
+                        <MenuItem accelerator="Alt + Page Up" mnemonicParsing="false" onAction="#zoomIn"
+                                  text="Zoom In"/>
+                        <MenuItem accelerator="Alt + Page Down" mnemonicParsing="false" onAction="#zoomOut"
+                                  text="Zoom Out"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem mnemonicParsing="false" onAction="#defaultZoom" text="Normal"/>
+                    </Menu>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <MenuItem mnemonicParsing="false" text="About"/>
+                </Menu>
+            </MenuBar>
         </VBox>
     </top>
 </BorderPane>

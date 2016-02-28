@@ -7,6 +7,8 @@ import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
+import java.util.UUID;
+
 /**
  * The abstract class component.
  *
@@ -43,10 +45,10 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *           +-----------------------------------------------------------------------------------------------+
  *                                                                                    Made with : http://asciiflow.com/
  * Abstraction by getter (see code):
- *  Component's inputs linked to IModulator's inputs by getter
- *  Component's outputs linked to IModulator's outputs by getter
- *  Component's sources linked to IModulator's outputs by getter
- *  Component's sinks linked to IModulator's inputs by getter
+ *  ComponentPane's inputs linked to IModulator's inputs by getter
+ *  ComponentPane's outputs linked to IModulator's outputs by getter
+ *  ComponentPane's sources linked to IModulator's outputs by getter
+ *  ComponentPane's sinks linked to IModulator's inputs by getter
  *
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
@@ -66,9 +68,7 @@ public abstract class AbstractComponent implements IComponent {
     private IModulator outputModulator;
     private IModulator outputGateModulator;
     private IModulator gainModulator;
-
-    private int id = 0;
-
+    private String id;
     /**
      * Instantiates a new component.
      *
@@ -76,6 +76,7 @@ public abstract class AbstractComponent implements IComponent {
      */
     public AbstractComponent(String name) {
         setName(name);
+        setId(UUID.randomUUID().toString());
 
         // Define all modulators
         inputByPass = Factory.createModulator(
@@ -285,12 +286,22 @@ public abstract class AbstractComponent implements IComponent {
     }
 
     @Override
-    public void setId(int num) {
+    public void setId(String num) {
         id = num;
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    @Override
+    public void close() {
+        getSource().disconnect();
+        getSourceAm().disconnect();
+        getSourceFm().disconnect();
+        getSourceGate().disconnect();
+        getSink().disconnect();
+        getSinkGate().disconnect();
     }
 }

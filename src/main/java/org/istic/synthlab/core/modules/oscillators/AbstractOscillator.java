@@ -55,7 +55,7 @@ public abstract class AbstractOscillator implements IOscillator {
         this.unitOscillator = unitOscillator;
         // Declare the generator to the register
         Register.declare(component, unitOscillator);
-        // Link differents ports
+        // Link different ports
         fm = Factory.createInput("Fm", component, unitOscillator.frequency);
         am = Factory.createInput("Am", component, unitOscillator.amplitude);
         output = Factory.createOutput("Out", component, unitOscillator.output);

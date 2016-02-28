@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import org.istic.synthlab.ui.controls.Potentiometer?>
+<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
+<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+               prefHeight="200.0" prefWidth="176.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
+               xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcfa.Controller">
 
-<?import javafx.scene.effect.InnerShadow?>
-<AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="200.0" prefWidth="176.0" styleClass="component" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcfa.Controller">
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close"
-               pickOnBounds="true" preserveRatio="true" smooth="true">
-        <Image url="@../../images/closeIcon.png"/>
-    </ImageView>
-
-    <Label fx:id="title" layoutX="35.0" layoutY="4.0" prefHeight="25.0" prefWidth="260.0" styleClass="title">
+    <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
         <font>
             <Font name="System" size="20.0"/>
         </font>
@@ -24,30 +21,7 @@
 
     <Potentiometer fx:id="cutoffFrequency" layoutX="100.0" layoutY="50.0"/>
 
-    <Label layoutX="17.0" layoutY="90.0" text="FM"/>
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="110.0" onMouseClicked="#connectInputFm"
-               pickOnBounds="true" preserveRatio="true">
-        <effect>
-            <InnerShadow/>
-        </effect>
-        <Image url="@../../images/blueSocket.png"/>
-    </ImageView>
-
-    <Label layoutX="11.0" layoutY="140.0" text="Input"/>
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" onMouseClicked="#connectInput"
-               pickOnBounds="true" preserveRatio="true">
-        <effect>
-            <InnerShadow/>
-        </effect>
-        <Image url="@../../images/blueSocket.png"/>
-    </ImageView>
-
-    <Label layoutX="120.0" layoutY="140.0" text="Output"/>
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="130.0" layoutY="160.0" onMouseClicked="#connectOutput"
-               pickOnBounds="true" preserveRatio="true">
-        <effect>
-            <InnerShadow/>
-        </effect>
-        <Image url="@../../images/redSocket.png"/>
-    </ImageView>
-</AnchorPane>
+    <InputPlug fx:id="input"  ComponentPane.leftAnchor="10.0" layoutY="90.0" text="Input" onMouseClicked="#connectInput"/>
+    <InputPlug fx:id="inputFm" ComponentPane.leftAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="FM" onMouseClicked="#connectInputFm"/>
+    <OutputPlug fx:id="output" layoutX="120.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+</ComponentPane>

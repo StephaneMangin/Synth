@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String args[]) throws Exception {
 
-        //EnveloppeGeneratorTest egt = new EnveloppeGeneratorTest();
+        //EnvelopeGeneratorTest egt = new EnvelopeGeneratorTest();
         //egt.setUp();
         //egt.envelopeLongTiming();
 

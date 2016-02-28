@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -57,14 +57,7 @@ public class Controller extends AbstractController {
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
-    /**
-     * When the component is created, it initialize the component representation and adding listener and MouseEvent
-     * @param location type URL
-     * @param resources type ResourceBundle
-     */
-    @Override
-    public void initialize(final URL location, final ResourceBundle resources) {
-        super.initialize(location, resources);
+    public Controller() {
         configure(vcoa);
         vcoa.setAmplitudeSquare(1);
         vcoa.setAmplitudeSine(1);
@@ -76,14 +69,24 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeWhiteNoise(1);
         vcoa.setExponentialFrequency(0.0);
+    }
+
+    /**
+     * When the component is created, it initialize the component representation and adding listener and MouseEvent
+     * @param location type URL
+     * @param resources type ResourceBundle
+     */
+    @Override
+    public void initialize(final URL location, final ResourceBundle resources) {
+        super.initialize(location, resources);
 
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((Double)newValue);
             updateScreen();
             groupShortcut.selectToggle(null);
-            linFrequency.setMinValue((int)vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency());
-            linFrequency.setMaxValue((int)vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency());
+            linFrequency.setMinValue(String.valueOf((int) (vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency())));
+            linFrequency.setMaxValue(String.valueOf((int) (vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency())));
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
@@ -116,8 +119,8 @@ public class Controller extends AbstractController {
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
         sawtoothRadio.setUserData("sawtoothWave");
-        redNoiseRadio.setUserData("rednoiseWave");
-        whiteNoiseRadio.setUserData("whitenoiseWave");
+        redNoiseRadio.setUserData("redNoiseWave");
+        whiteNoiseRadio.setUserData("whiteNoiseWave");
 
         shortcut1Hz.setToggleGroup(groupShortcut);
         shortcut10Hz.setToggleGroup(groupShortcut);
@@ -127,7 +130,7 @@ public class Controller extends AbstractController {
 
         shortcut1Hz.setUserData("1Hz");
         shortcut10Hz.setUserData("10Hz");
-        shortcut100Hz.setUserData("10Hz");
+        shortcut100Hz.setUserData("100Hz");
         shortcut1KHz.setUserData("1KHz");
         shortcut10KHz.setUserData("10KHz");
 
@@ -149,10 +152,10 @@ public class Controller extends AbstractController {
                     case "sawtoothWave":
                         vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
                         break;
-                    case "rednoiseWave":
+                    case "redNoiseWave":
                         vcoa.setOscillatorType(OscillatorType.REDNOISE);
                         break;
-                    case "whitenoiseWave":
+                    case "whiteNoiseWave":
                         vcoa.setOscillatorType(OscillatorType.WHITENOISE);
                         break;
                     default:
@@ -161,27 +164,29 @@ public class Controller extends AbstractController {
             }
         });
 
+        // TODO: not finished. Find a way to calculate exponential based on hertz
         groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupShortcut.getSelectedToggle() != null) {
                 switch (groupShortcut.getSelectedToggle().getUserData().toString()) {
                     case "1Hz":
-                        vcoa.setExponentialRawFrequency(1);
+                        expFrequency.valueProperty().setValue(0.05);
                         break;
                     case "10Hz":
-                        vcoa.setExponentialRawFrequency(10);
+                        expFrequency.valueProperty().setValue(0.2161);
                         break;
                     case "100Hz":
-                        vcoa.setExponentialRawFrequency(100);
+                        expFrequency.valueProperty().setValue(0.78);
                         break;
                     case "1KHz":
-                        vcoa.setExponentialRawFrequency(1000);
+                        expFrequency.valueProperty().setValue(1);
                         break;
                     case "10KHz":
-                        vcoa.setExponentialRawFrequency(10000);
+                        expFrequency.valueProperty().setValue(1);
                         break;
                     default:
                         break;
                 }
+                linFrequency.valueProperty().setValue(0);
                 updateScreen();
             }
         });

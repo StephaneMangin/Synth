@@ -1,29 +1,16 @@
 package org.istic.synthlab.components.out;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,6 +29,9 @@ public class Controller extends AbstractController {
 
     private Out componentOut = new Out("Line Out");
 
+    public Controller() {
+        configure(componentOut);
+    }
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -50,7 +40,6 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(componentOut);
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
@@ -75,7 +64,7 @@ public class Controller extends AbstractController {
                 fileChooser.setInitialFileName("record.wav");
                 fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
                 fileChooser.setTitle("Save File");
-                final File fileToWrite = fileChooser.showSaveDialog(ConnectionManager.getStage());
+                final File fileToWrite = fileChooser.showSaveDialog(CoreController.getStage());
                 componentOut.getLineOut().setFileToWrite(fileToWrite);
                 componentOut.getLineOut().startRecord();
                 button.setSelected(true);

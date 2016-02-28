@@ -1,13 +1,8 @@
 package org.istic.synthlab.components.eg;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +23,10 @@ public class Controller extends AbstractController {
 
     private Eg eg = new Eg("Envelope Generator");
 
+    public Controller() {
+        configure(eg);
+    }
+
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -39,7 +38,6 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(eg);
 
         release.valueProperty().addListener((observable, oldValue, newValue) -> {
             System.out.println("Release time changed from " + oldValue + " to " + newValue);

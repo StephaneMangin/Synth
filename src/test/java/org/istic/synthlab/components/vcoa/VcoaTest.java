@@ -1,11 +1,14 @@
 package org.istic.synthlab.components.vcoa;
 
-import junit.framework.TestCase;
 import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.oscillators.*;
+import org.istic.synthlab.core.modules.oscillators.AbstractOscillator;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Module VCOA Tester.
@@ -13,17 +16,17 @@ import org.istic.synthlab.core.modules.oscillators.IOscillator;
  * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
  * @since <pre>Feb 8, 2016</pre>
  */
-public class VcoaTest extends TestCase{
+public class VcoaTest {
 
     private Vcoa vcoa;
 
-    @org.junit.Before
-    public void setUp() throws Exception {
+    @Before
+    public void setUp() {
         vcoa = new Vcoa("VCOA");
     }
 
-    @org.junit.Test
-    public void testVCOAModule(){
+    @Test
+    public void testVCOAModule() {
         assertNotNull(vcoa.getSineOscillator());
         assertNotNull(vcoa.getPulseOscillator());
         assertNotNull(vcoa.getSquareOscillator());
@@ -35,8 +38,8 @@ public class VcoaTest extends TestCase{
     }
 
 
-    @org.junit.Test
-    public void testActivate() throws Exception {
+    @Test
+    public void testActivate() {
         vcoa.activate();
         IOscillator sineOscillator= vcoa.getSineOscillator();
         IOscillator pulseOscillator= vcoa.getPulseOscillator();
@@ -46,8 +49,8 @@ public class VcoaTest extends TestCase{
         assertTrue(squareOscillator.isActivated());
     }
 
-    @org.junit.Test
-    public void testDesactivate() throws Exception {
+    @Test
+    public void testDeactivate() {
         vcoa.activate();
         vcoa.deactivate();
         IOscillator sineOscillator= vcoa.getSineOscillator();
@@ -66,24 +69,24 @@ public class VcoaTest extends TestCase{
         assertEquals(30.0D, vcoa.getExponentialFrequency(), 1e-15);
     }
 
-    @org.junit.Test
-    public void testSetAmplitudeSine() throws Exception {
+    @Test
+    public void testSetAmplitudeSine() {
         vcoa.setAmplitudeSine(1);
         AbstractOscillator sineOscillator= (AbstractOscillator) vcoa.getSineOscillator();
         Double value = sineOscillator.getFrequencyPotentiometer().getValue();
         assertEquals(value, sineOscillator.getFrequencyPotentiometer().getValue());
     }
 
-    @org.junit.Test
-    public void testSetAmplitudePulse() throws Exception {
+    @Test
+    public void testSetAmplitudePulse() {
        vcoa.setAmplitudePulse(0.8);
         AbstractOscillator pulseOscillatorOscillator= (AbstractOscillator) vcoa.getPulseOscillator();
         Double value = pulseOscillatorOscillator.getFrequencyPotentiometer().getValue();
         assertEquals(value, pulseOscillatorOscillator.getFrequencyPotentiometer().getValue());
     }
 
-    @org.junit.Test
-    public void testSetAmplitudeSquare() throws Exception {
+    @Test
+    public void testSetAmplitudeSquare() {
         vcoa.setAmplitudePulse(0.5);
         AbstractOscillator squareOscillatorOscillator= (AbstractOscillator) vcoa.getSquareOscillator();
         Double value = squareOscillatorOscillator.getFrequencyPotentiometer().getValue();
@@ -93,35 +96,31 @@ public class VcoaTest extends TestCase{
 
     //    Testing method of Abstract Component
 
-   @org.junit.Test
-   public void testAbstractComponentConstruct(){
-       assertTrue(vcoa.getName() == "VCOA");
+   @Test
+   public void testAbstractComponentConstruct() {
+       assertEquals("VCOA", vcoa.getName());
        assertNotNull(vcoa.getFmModulator());
-       assertTrue(vcoa.getFmModulator().getName() == "modFreq");
+       assertEquals("modFreq", vcoa.getFmModulator().getName());
        assertNotNull(vcoa.getAmModulator());
-       assertTrue(vcoa.getAmModulator().getName() == "modAmp");
+       assertEquals("modAmp", vcoa.getAmModulator().getName());
        assertNotNull(vcoa.getInputGate());
        assertNotNull(vcoa.getOutputModulator());
-       assertTrue(vcoa.getOutputModulator().getName() == "modOut");
+       assertEquals("modOut", vcoa.getOutputModulator().getName());
    }
 
-    @org.junit.Test
-    public void testGetFm() throws Exception {
+    @Test
+    public void testGetFm() {
         IInput input = vcoa.getFm();
         assertEquals(vcoa.getFmModulator().getInput(), input);
     }
-    @org.junit.Test
-    public void testGetAm() throws Exception {
+    @Test
+    public void testGetAm() {
         IInput input = vcoa.getAm();
         assertEquals(vcoa.getAmModulator().getInput(), input);
     }
-    @org.junit.Test
-    public void testGetOutput() throws Exception {
+    @Test
+    public void testGetOutput() {
         IOutput output =  vcoa.getOutput();
         assertEquals(vcoa.getOutputModulator().getOutput(), output);
-    }
-    @org.junit.After
-    public void tearDown() throws Exception {
-        super.tearDown();
     }
 }

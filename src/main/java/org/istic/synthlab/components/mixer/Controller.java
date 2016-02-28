@@ -6,7 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.controls.Potentiometer;
+import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -27,6 +28,20 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     private Potentiometer inputPotentiometer4;
 
+    @FXML
+    private InputPlug input1;
+    @FXML
+    private InputPlug input2;
+    @FXML
+    private InputPlug input3;
+    @FXML
+    private InputPlug input4;
+
+
+    public Controller() {
+        configure(mixer);
+    }
+
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -38,60 +53,63 @@ public class Controller extends AbstractController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(mixer);
 
-        this.inputPotentiometer1.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.mixer.setGainValueInput1((Double) newValue);
+        inputPotentiometer1.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mixer.setGainValueInput1((Double) newValue);
         });
-        this.inputPotentiometer2.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.mixer.setGainValueInput2((Double) newValue);
+        inputPotentiometer2.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mixer.setGainValueInput2((Double) newValue);
         });
-        this.inputPotentiometer3.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.mixer.setGainValueInput3((Double) newValue);
+        inputPotentiometer3.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mixer.setGainValueInput3((Double) newValue);
         });
-        this.inputPotentiometer4.valueProperty().addListener((observable, oldValue, newValue) -> {
-            this.mixer.setGainValueInput4((Double) newValue);
+        inputPotentiometer4.valueProperty().addListener((observable, oldValue, newValue) -> {
+            mixer.setGainValueInput4((Double) newValue);
         });
 
-        this.inputPotentiometer1.setTitle("Gain 1");
-        this.inputPotentiometer2.setTitle("Gain 2");
-        this.inputPotentiometer3.setTitle("Gain 3");
-        this.inputPotentiometer4.setTitle("Gain 4");
+        inputPotentiometer1.setTitle("Gain 1");
+        inputPotentiometer2.setTitle("Gain 2");
+        inputPotentiometer3.setTitle("Gain 3");
+        inputPotentiometer4.setTitle("Gain 4");
 
-        this.inputPotentiometer1.setMinValue(mixer.getMinValue());
-        this.inputPotentiometer2.setMinValue(mixer.getMinValue());
-        this.inputPotentiometer3.setMinValue(mixer.getMinValue());
-        this.inputPotentiometer4.setMinValue(mixer.getMinValue());
+        inputPotentiometer1.setMinValue(mixer.getMinValue());
+        inputPotentiometer2.setMinValue(mixer.getMinValue());
+        inputPotentiometer3.setMinValue(mixer.getMinValue());
+        inputPotentiometer4.setMinValue(mixer.getMinValue());
 
-        this.inputPotentiometer1.setMaxValue(mixer.getMaxValue());
-        this.inputPotentiometer2.setMaxValue(mixer.getMaxValue());
-        this.inputPotentiometer3.setMaxValue(mixer.getMaxValue());
-        this.inputPotentiometer4.setMaxValue(mixer.getMaxValue());
-    }
+        inputPotentiometer1.setMaxValue(mixer.getMaxValue());
+        inputPotentiometer2.setMaxValue(mixer.getMaxValue());
+        inputPotentiometer3.setMaxValue(mixer.getMaxValue());
+        inputPotentiometer4.setMaxValue(mixer.getMaxValue());
 
-    @FXML
-    public void connectOutput(final MouseEvent event) {
-        ConnectionManager.makeOrigin(this.mixer, (Node) event.getSource(), this.mixer.getOutputMixer());
+        input1.setText("Input 1");
+        input1.setInput(mixer.getInput1());
+        input2.setText("Input 2");
+        input2.setInput(mixer.getInput2());
+        input3.setText("Input 3");
+        input3.setInput(mixer.getInput3());
+        input4.setText("Input 4");
+        input4.setInput(mixer.getInput4());
     }
 
     @FXML
     public void connectInput1(final MouseEvent event) {
-        ConnectionManager.makeDestination(this.mixer, (Node) event.getSource(), this.mixer.getInput1());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput2(final MouseEvent event) {
-        ConnectionManager.makeDestination(this.mixer, (Node) event.getSource(), this.mixer.getInput2());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput3(final MouseEvent event) {
-        ConnectionManager.makeDestination(this.mixer, (Node) event.getSource(), this.mixer.getInput3());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput4(final MouseEvent event) {
-        ConnectionManager.makeDestination(this.mixer, (Node) event.getSource(), this.mixer.getInput4());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
 }
