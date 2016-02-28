@@ -194,10 +194,20 @@ public class CoreController implements Initializable {
         @Override
         public int compare(final Node node1, final Node node2) {
             // Sort according to the distance to anchorPane (0, 0)
-            //final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
-            //final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
-            //return posNode1.compareTo(posNode2);
-            if (node1.getLayoutY() > node2.getLayoutY()) {
+            /*final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            return posNode1.compareTo(posNode2);*/
+
+            // Sort according to y only
+            //return ((Double) node1.getLayoutY()).compareTo(node2.getLayoutY());
+
+            // Sort according to the position of the center of the components
+            final Double posNode1 = Math.hypot(node1.getLayoutX() + node1.getBoundsInParent().getWidth()/2, node1.getLayoutY() + node1.getBoundsInParent().getHeight()/2);
+            final Double posNode2 = Math.hypot(node2.getLayoutX() + node2.getBoundsInParent().getWidth()/2, node2.getLayoutY() + node2.getBoundsInParent().getHeight()/2);
+            return posNode1.compareTo(posNode2);
+
+            // Sort according to y, then to x
+            /*if (node1.getLayoutY() > node2.getLayoutY()) {
                 return 1;
             }
             else if (node1.getLayoutY() < node2.getLayoutY()) {
@@ -205,7 +215,7 @@ public class CoreController implements Initializable {
             }
             else {
                 return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
-            }
+            }*/
         }
     }
 

@@ -22,8 +22,8 @@
         </font>
     </Label>
 
-    <LineChart fx:id="chart" animated="false" createSymbols="false" layoutX="-10.0" layoutY="20.0" legendVisible="false"
-               prefHeight="269.0" prefWidth="610.0" verticalGridLinesVisible="false">
+    <LineChart fx:id="chart" animated="false" createSymbols="false" layoutX="0.0" layoutY="20.0" legendVisible="false"
+               prefHeight="269.0" prefWidth="600.0" verticalGridLinesVisible="false">
         <xAxis>
             <NumberAxis fx:id="timeAxis" autoRanging="false" forceZeroInRange="false" lowerBound="0"
                         minorTickVisible="false" side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false"
