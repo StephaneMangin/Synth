@@ -233,9 +233,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
     }
 
     public ComponentPane getComponent(String id) {
-        System.out.println("ID : " + id);
         for (Node node : getChildren()) {
-            System.out.println(node.getId());
             if (node.getId().equals(id)) {
                 return (ComponentPane) node;
             }

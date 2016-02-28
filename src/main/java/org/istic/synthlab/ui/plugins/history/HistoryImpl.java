@@ -137,24 +137,26 @@ public class HistoryImpl extends Observable implements History {
             InputPlug inputPlug = null;
             OutputPlug outputPlug = null;
             System.out.println("cable value => " + value);
-
-            if (state == CurveCable.PlugState.PLUGGED) {
-                // Get all components for component ids
-                final String inComponentId = (String) jsonObject.get("inComponentId");
-                final String inputPlugId = (String) jsonObject.get("inputPlug");
-                ComponentPane inComponentPane = workspacePane.getComponent(inComponentId);
-                final String outComponentId = (String) jsonObject.get("outComponentId");
-                final String outputPlugId = (String) jsonObject.get("outputPlug");
-                ComponentPane outComponentPane = workspacePane.getComponent(outComponentId);
-                // Get plugs
-                inputPlug = inComponentPane.getinInputPlugFromId(inputPlugId);
-                outputPlug = outComponentPane.getinOutputPlugFromId(outputPlugId);
-            }
             switch (StateType.valueOf((String) value.get("state"))) {
                 case DELETED:
                     break;
                 case CHANGED:
                     if (state == CurveCable.PlugState.PLUGGED) {
+                        // Get all components for component ids
+                        final String inComponentId = (String) jsonObject.get("inComponentId");
+                        final String inputPlugId = (String) jsonObject.get("inputPlug");
+                        ComponentPane inComponentPane = workspacePane.getComponent(inComponentId);
+                        final String outComponentId = (String) jsonObject.get("outComponentId");
+                        final String outputPlugId = (String) jsonObject.get("outputPlug");
+                        ComponentPane outComponentPane = workspacePane.getComponent(outComponentId);
+                        if (inComponentPane == null || outComponentPane == null) {
+                            throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for cable !");
+                        }
+                        // Get plugs
+                        inputPlug = inComponentPane.getinInputPlugFromId(inputPlugId);
+                        outputPlug = outComponentPane.getinOutputPlugFromId(outputPlugId);
+
+                        // Finally plug cables
                         CoreController.getConnectionManager().plugInput(inputPlug);
                         CoreController.getConnectionManager().plugOutput(outputPlug);
                     }
@@ -177,28 +179,28 @@ public class HistoryImpl extends Observable implements History {
 //                    break;
 //            }
 //        });
-//        potentiometers.forEach((aLong, value) -> {
-//            // Get local vars
-//            JSONObject jsonObject = (JSONObject) value.get("content");
-//            String id = (String) jsonObject.get("id");
-//            String component = (String) jsonObject.get("componentId");
-//            ComponentPane componentPane = workspacePane.getComponent(component);
-//            switch (StateType.valueOf((String) value.get("state"))) {
-//                case CHANGED:
-//                    if (componentPane == null) {
-//                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer changes !");
-//                    }
-//                    componentPane.getChildren().forEach(node -> {
-//                        if (node instanceof Potentiometer && node.getId().equals(id)) {
-//                            Potentiometer potentiometer = (Potentiometer) node;
-//                            potentiometer.setJson(jsonObject);
-//                            System.out.println(potentiometer + " CHANGED");
-//                        }
-//                    });
-//                    workspacePane.setJson(jsonObject);
-//                    break;
-//            }
-//        });
+        potentiometers.forEach((aLong, value) -> {
+            // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
+            String id = (String) jsonObject.get("id");
+            String component = (String) jsonObject.get("componentId");
+            ComponentPane componentPane = workspacePane.getComponent(component);
+            if (componentPane == null) {
+                throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer !");
+            }
+            switch (StateType.valueOf((String) value.get("state"))) {
+                case CHANGED:
+                    componentPane.getChildren().forEach(node -> {
+                        if (node instanceof Potentiometer && node.getId().equals(id)) {
+                            Potentiometer potentiometer = (Potentiometer) node;
+                            potentiometer.setJson(jsonObject);
+                            System.out.println(potentiometer + " CHANGED");
+                        }
+                    });
+                    workspacePane.setJson(jsonObject);
+                    break;
+            }
+        });
     }
 
     @Override

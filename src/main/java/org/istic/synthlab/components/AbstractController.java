@@ -94,6 +94,7 @@ public abstract class AbstractController implements IController {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     public void close() {
+        component.close();
         manager.deleteComponent(componentPane);
     }
 

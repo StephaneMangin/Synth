@@ -294,4 +294,14 @@ public abstract class AbstractComponent implements IComponent {
     public String getId() {
         return id;
     }
+
+    @Override
+    public void close() {
+        getSource().disconnect();
+        getSourceAm().disconnect();
+        getSourceFm().disconnect();
+        getSourceGate().disconnect();
+        getSink().disconnect();
+        getSinkGate().disconnect();
+    }
 }

@@ -116,4 +116,10 @@ public interface IComponent {
      * @return String
      */
     String getId();
+
+    /**
+     * Close all connections
+     *
+     */
+    void close();
 }
