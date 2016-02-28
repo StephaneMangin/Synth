@@ -14,6 +14,8 @@ import org.istic.synthlab.ui.CoreController;
 public final class Main extends Application {
 
     public static final String DEFAULT_SKIN = "Metal";
+    public static final String DEFAULT_PATH = System.getProperty("user.home");
+    public static final String DEFAULT_FILENAME = "My_Save.synthlab";
 
     @Override
     public void start(final Stage primaryStage) throws Exception {
