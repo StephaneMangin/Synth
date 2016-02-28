@@ -110,7 +110,7 @@ public class ConnectionManager {
      * @param cable
      */
     public void deleteCable(CurveCable cable) {
-        if (cable != null) {
+        if (cable != null && cable.isPlugged()) {
             removeCable(cable);
             currentCable = null;
             // Then save to history

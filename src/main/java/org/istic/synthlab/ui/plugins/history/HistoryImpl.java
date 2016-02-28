@@ -19,6 +19,7 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.*;
 
 /**
@@ -28,7 +29,6 @@ import java.util.*;
  */
 public class HistoryImpl extends Observable implements History {
 
-    private State currentState;
     private Queue<State> previousStates = new ArrayDeque<>();
     private Queue<State> nextStates = new ArrayDeque<>();
 
@@ -40,7 +40,7 @@ public class HistoryImpl extends Observable implements History {
         previousStates.forEach(state -> {
             JSONObject values = new JSONObject();
             values.put("state", state.getType());
-            values.put("time", state.getTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            values.put("time", state.getTime());
             values.put("content", state.getContent());
             list.add(values);
         });
@@ -64,17 +64,17 @@ public class HistoryImpl extends Observable implements History {
         JSONParser parser = new JSONParser();
         Reader reader = new FileReader(file);
         // Cut content in the different functional types of states time ordered with a TreeMap
-        TreeMap<LocalDateTime, JSONObject> components = new TreeMap<>();
-        TreeMap<LocalDateTime, JSONObject> cables = new TreeMap<>();
-        TreeMap<LocalDateTime, JSONObject> workspace = new TreeMap<>();
-        TreeMap<LocalDateTime, JSONObject> potentiometers = new TreeMap<>();
+        TreeMap<Long, JSONObject> components = new TreeMap<>();
+        TreeMap<Long, JSONObject> cables = new TreeMap<>();
+        TreeMap<Long, JSONObject> workspace = new TreeMap<>();
+        TreeMap<Long, JSONObject> potentiometers = new TreeMap<>();
         ((JSONObject) parser.parse(reader)).forEach((s, o) -> {
             if (o instanceof JSONArray) {
                 JSONArray array = (JSONArray) o;
                 array.forEach(o1 -> {
                     // Get global vars
                     JSONObject obj = (JSONObject) o1;
-                    LocalDateTime time = LocalDateTime.parse((String)obj.get("time"), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                    Long time = (Long) obj.get("time");
                     JSONObject content = (JSONObject) obj.get("content");
                     String originType = (String) content.get("type");
 
@@ -108,33 +108,22 @@ public class HistoryImpl extends Observable implements History {
             ComponentPane componentPane = workspacePane.getComponent(id);
             switch (StateType.valueOf((String) value.get("state"))) {
                 case CREATED:
-                    System.out.println("ComponentPane CREATION");
-                    if (componentPane != null) {
-                        throw new ExceptionInInitializerError("HISTORY: Componant Pane found ?!");
-                    }
                     //TODO: maybe it would be better to pas sthrought events to regenerate component
                     componentPane = CoreController.loadComponent(name);
                     componentPane.setJson(jsonObject);
                     workspacePane.addWithDragging(componentPane);
-                    System.out.println(componentPane + " CREATED");
                     break;
                 case DELETED:
-                    System.out.println(componentPane + " DELETION");
                     if (componentPane == null) {
-                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for deletion !");
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane (id:" + id + ") not found !");
                     }
                     CoreController.getConnectionManager().deleteComponent(componentPane);
-                    System.out.println(componentPane + " DELETED");
                     break;
                 case CHANGED:
-                    System.out.println(componentPane + " CHANGES");
                     if (componentPane == null) {
-                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for changes !");
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane (id:" + id + ") not found !");
                     }
-                    //workspacePane.getChildren().remove(componentPane);
                     componentPane.setJson(jsonObject);
-                    //workspacePane.getChildren().add(componentPane);
-                    System.out.println(componentPane + " CHANGED");
                     break;
             }
         });
@@ -147,137 +136,106 @@ public class HistoryImpl extends Observable implements History {
 
             InputPlug inputPlug = null;
             OutputPlug outputPlug = null;
+            System.out.println("cable value => " + value);
 
-            if (state == CurveCable.PlugState.PLUGGED || state == CurveCable.PlugState.IN_PLUGGED) {
+            if (state == CurveCable.PlugState.PLUGGED) {
+                // Get all components for component ids
                 final String inComponentId = (String) jsonObject.get("inComponentId");
                 final String inputPlugId = (String) jsonObject.get("inputPlug");
                 ComponentPane inComponentPane = workspacePane.getComponent(inComponentId);
-                inputPlug = (InputPlug) inComponentPane.getChildren().filtered(node -> node.getId().equals(inputPlugId)).get(0);
-            }
-            if (state == CurveCable.PlugState.PLUGGED || state == CurveCable.PlugState.OUT_PLUGGED) {
                 final String outComponentId = (String) jsonObject.get("outComponentId");
                 final String outputPlugId = (String) jsonObject.get("outputPlug");
                 ComponentPane outComponentPane = workspacePane.getComponent(outComponentId);
-                outputPlug = (OutputPlug) outComponentPane.getChildren().filtered(node -> node.getId().equals(outputPlugId)).get(0);
+                // Get plugs
+                inputPlug = inComponentPane.getinInputPlugFromId(inputPlugId);
+                outputPlug = outComponentPane.getinOutputPlugFromId(outputPlugId);
             }
             switch (StateType.valueOf((String) value.get("state"))) {
-                case CREATED:
-                    if (state == CurveCable.PlugState.IN_PLUGGED) {
+                case DELETED:
+                    break;
+                case CHANGED:
+                    if (state == CurveCable.PlugState.PLUGGED) {
                         CoreController.getConnectionManager().plugInput(inputPlug);
-                    } else if (state == CurveCable.PlugState.OUT_PLUGGED) {
                         CoreController.getConnectionManager().plugOutput(outputPlug);
                     }
                     break;
-                case DELETED:
-                    cable = (CurveCable) workspacePane.lookup(id);
-                    CoreController.getConnectionManager().deleteCable(cable);
-                    break;
-                case CHANGED:
-                    cable = (CurveCable) workspacePane.lookup(id);
-                    cable.setJson(jsonObject);
-                    if (state == CurveCable.PlugState.PLUGGED) {
-                        cable.deconnectInputPlug();
-                        cable.deconnectOutputPlug();
-                        cable.connectInputPlug(inputPlug);
-                        cable.connectOutputPlug(outputPlug);
-                    } else if (state == CurveCable.PlugState.UNPLUGGED) {
-                        cable.deconnectInputPlug();
-                        cable.deconnectOutputPlug();
-                    } else if (state == CurveCable.PlugState.IN_PLUGGED) {
-                        cable.deconnectInputPlug();
-                        cable.deconnectOutputPlug();
-                        cable.connectInputPlug(inputPlug);
-                    } else if (state == CurveCable.PlugState.OUT_PLUGGED) {
-                        cable.deconnectInputPlug();
-                        cable.deconnectOutputPlug();
-                        cable.connectOutputPlug(outputPlug);
-                    }
-                    break;
             }
         });
-        workspace.forEach((aLong, value) -> {
-            // Get local vars
-            JSONObject jsonObject = (JSONObject) value.get("content");
-            String id = (String) jsonObject.get("id");
-            switch (StateType.valueOf((String) value.get("state"))) {
-                case CREATED:
-                    // TODO: need a multiple workspace manageùment
-                    break;
-                case DELETED:
-                    // TODO: need a multiple workspace manageùment
-                    break;
-                case CHANGED:
-                    workspacePane.setJson(jsonObject);
-                    break;
-            }
-        });
-        potentiometers.forEach((aLong, value) -> {
-            // Get local vars
-            JSONObject jsonObject = (JSONObject) value.get("content");
-            String id = (String) jsonObject.get("id");
-            String component = (String) jsonObject.get("componentId");
-            ComponentPane componentPane = workspacePane.getComponent(component);
-            switch (StateType.valueOf((String) value.get("state"))) {
-                case CHANGED:
-                    if (componentPane == null) {
-                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer changes !");
-                    }
-                    componentPane.getChildren().forEach(node -> {
-                        if (node instanceof Potentiometer && node.getId().equals(id)) {
-                            Potentiometer potentiometer = (Potentiometer) node;
-                            potentiometer.setJson(jsonObject);
-                            System.out.println(potentiometer + " CHANGED");
-                        }
-                    });
-                    workspacePane.setJson(jsonObject);
-                    break;
-            }
-        });
+//        workspace.forEach((aLong, value) -> {
+//            // Get local vars
+//            JSONObject jsonObject = (JSONObject) value.get("content");
+//            String id = (String) jsonObject.get("id");
+//            switch (StateType.valueOf((String) value.get("state"))) {
+//                case CREATED:
+//                    // TODO: need a multiple workspace manageùment
+//                    break;
+//                case DELETED:
+//                    // TODO: need a multiple workspace manageùment
+//                    break;
+//                case CHANGED:
+//                    workspacePane.setJson(jsonObject);
+//                    break;
+//            }
+//        });
+//        potentiometers.forEach((aLong, value) -> {
+//            // Get local vars
+//            JSONObject jsonObject = (JSONObject) value.get("content");
+//            String id = (String) jsonObject.get("id");
+//            String component = (String) jsonObject.get("componentId");
+//            ComponentPane componentPane = workspacePane.getComponent(component);
+//            switch (StateType.valueOf((String) value.get("state"))) {
+//                case CHANGED:
+//                    if (componentPane == null) {
+//                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer changes !");
+//                    }
+//                    componentPane.getChildren().forEach(node -> {
+//                        if (node instanceof Potentiometer && node.getId().equals(id)) {
+//                            Potentiometer potentiometer = (Potentiometer) node;
+//                            potentiometer.setJson(jsonObject);
+//                            System.out.println(potentiometer + " CHANGED");
+//                        }
+//                    });
+//                    workspacePane.setJson(jsonObject);
+//                    break;
+//            }
+//        });
     }
 
     @Override
     public State next() {
         if (!nextStates.isEmpty()) {
             // Save the current state into previous states
-            previousStates.add(currentState);
-            // Change curretn state for the first next one
-            currentState = nextStates.poll();
+            previousStates.add(nextStates.poll());
             restoreOrigin();
         }
-        return currentState;
+        return previousStates.peek();
     }
 
     @Override
     public State previous() {
         if (!previousStates.isEmpty()) {
             // Save the current state into next states
-            nextStates.add(currentState);
-            // Change current state for the first previous one
-            currentState = previousStates.peek();
+            nextStates.add(previousStates.poll());
             restoreOrigin();
         }
-        return currentState;
+        return previousStates.peek();
     }
 
     private void restoreOrigin() {
-        if (currentState.getType().equals(StateType.CREATED))
-        currentState.getOrigin().restoreState(currentState);
+        previousStates.peek().getOrigin().restoreState(previousStates.peek());
     }
 
     @Override
     public void add(Origin origin, StateType type) {
         State state = origin.getState();
         state.setType(type);
-        // Add the current state to previous ones
-        if (currentState != null) {
-            previousStates.add(currentState);
-        }
         // Remove previous state and origin identically elements
-        //previousStates.removeIf(oldState -> oldState.getType().equals(state.getType()) && oldState.getOrigin().getId().equals(state.getOrigin().getId()));
-
-        // And redefine current state
-        currentState = state;
-        System.out.println(currentState.getType() + " [" + state.getTime() + "]=> " + currentState.getContent());
+        previousStates.removeIf(oldState ->
+                oldState.getOrigin().getId().equals(state.getOrigin().getId())
+                && oldState.getType() == state.getType()
+        );
+        // Add the current state to previous ones
+        previousStates.add(state);
         // purge next states became invalid
         nextStates.clear();
     }
@@ -285,6 +243,5 @@ public class HistoryImpl extends Observable implements History {
     public void purge() {
         previousStates.clear();
         nextStates.clear();
-        currentState = null;
     }
 }

@@ -36,6 +36,11 @@ public class InputPlug extends Pane {
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }
+        setOnMouseClicked(event -> {
+            if (hasCable()) {
+                cable.deconnectInputPlug();
+            }
+        });
     }
     /***************************************************************************
      *                                                                         *

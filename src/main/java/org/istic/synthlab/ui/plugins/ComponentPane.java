@@ -1,10 +1,13 @@
 package org.istic.synthlab.ui.plugins;
 
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.ui.CoreController;
+import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.cable.OutputPlug;
 import org.istic.synthlab.ui.plugins.history.Origin;
 import org.istic.synthlab.ui.plugins.history.State;
 import org.istic.synthlab.ui.plugins.history.StateType;
@@ -94,5 +97,23 @@ public class ComponentPane extends AnchorPane implements Origin {
         this.controller = controller;
     }
 
+    public InputPlug getinInputPlugFromId(String id) {
+        System.out.println("ID: " + id);
+        for (Node node: getChildren()) {
+            if (node instanceof InputPlug && node.getId().equals(id)) {
+                return (InputPlug) node;
+            }
+        }
+        return null;
+    }
 
+    public OutputPlug getinOutputPlugFromId(String id) {
+        System.out.println("ID: " + id);
+        for (Node node: getChildren()) {
+            if (node instanceof OutputPlug && node.getId().equals(id)) {
+                return (OutputPlug) node;
+            }
+        }
+        return null;
+    }
 }

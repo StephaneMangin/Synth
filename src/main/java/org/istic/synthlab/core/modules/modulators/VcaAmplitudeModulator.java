@@ -17,7 +17,7 @@ public class VcaAmplitudeModulator extends AbstractModulator {
                 "Amplitude",
                 function.inputB,
                 type,
-                2.0D,
+                1.0D,
                 0.0D,
                 0.0D
         ));

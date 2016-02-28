@@ -234,23 +234,23 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             deconnectInputPlug();
         }
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
-            this.input = inputPlug;
+            input = inputPlug;
             inputPlug.setCable(this);
+            setStartX(computeCoordinates(input).getX());
+            setStartY(computeCoordinates(input).getY());
 
             // Modify the coordinates of the curve as the node moves
             inputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setStartX(computeCoordinates(inputPlug).getX());
+                setStartX(computeCoordinates(input).getX());
             });
 
             inputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setStartY(computeCoordinates(inputPlug).getY());
+                setStartY(computeCoordinates(input).getY());
             });
             nextState();
         }
 
         if (plugState == PlugState.IN_PLUGGED) {
-            setStartX(computeCoordinates(inputPlug).getX());
-            setStartY(computeCoordinates(inputPlug).getY());
             activateMouseTrackingHandlers();
         }
     }
@@ -289,23 +289,23 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             deconnectOutputPlug();
         }
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
-            this.output = outputPlug;
+            output = outputPlug;
             outputPlug.setCable(this);
+            setEndX(computeCoordinates(outputPlug).getX());
+            setEndY(computeCoordinates(outputPlug).getY());
 
             // Modify the coordinates of the curve as the node moves
             outputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setEndX(computeCoordinates(input).getX());
+                setEndX(computeCoordinates(output).getX());
             });
 
             outputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setEndY(computeCoordinates(input).getY());
+                setEndY(computeCoordinates(output).getY());
             });
             nextState();
         }
 
         if (plugState == PlugState.OUT_PLUGGED) {
-            setEndX(computeCoordinates(outputPlug).getX());
-            setEndY(computeCoordinates(outputPlug).getY());
             activateMouseTrackingHandlers();
         }
     }
@@ -455,9 +455,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         CoreController.getWorkspace().setOnMouseMoved(new FollowCursor());
         // Cancel the drawing if we click on the void
         CoreController.getWorkspace().setOnMouseClicked(event -> {
-            if (event.getSource() instanceof WorkspacePane) {
-                CoreController.getConnectionManager().deleteCable(this);
-            }
+            CoreController.getConnectionManager().deleteCable(this);
         });
     }
 
@@ -518,12 +516,12 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         obj.put("state", plugState.name());
         obj.put("name", Math.random() );
         if (plugState == PlugState.PLUGGED || plugState == PlugState.IN_PLUGGED) {
-            obj.put("inComponantId", input.getParent().getId());
+            obj.put("inComponentId", input.getParent().getId());
             obj.put("inputPlug", input.getId());
             obj.put("name", input.getParent().getId() + "-" + input.getId());
         }
         if (plugState == PlugState.PLUGGED || plugState == PlugState.OUT_PLUGGED) {
-            obj.put("outComponantId", output.getParent().getId());
+            obj.put("outComponentId", output.getParent().getId());
             obj.put("outputPlug", output.getId());
             obj.put("name", output.getParent().getId() + "-" + output.getId());
         }
