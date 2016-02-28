@@ -177,7 +177,6 @@ public class WorkspacePane extends AnchorPane implements Origin {
         obj.put("type", "workspace");
         obj.put("id", getId());
         obj.put("name", getName());
-        System.out.println(obj);
         return obj;
     }
 
@@ -234,7 +233,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
     }
 
     public ComponentPane getComponent(String id) {
-        for (Node node : getChildrenUnmodifiable()) {
+        for (Node node : getChildren()) {
             if (node.getId().equals(id)) {
                 return (ComponentPane) node;
             }
