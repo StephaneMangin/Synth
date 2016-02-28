@@ -108,8 +108,9 @@ public class HistoryImpl extends Observable implements History {
             ComponentPane componentPane = workspacePane.getComponent(id);
             switch (StateType.valueOf((String) value.get("state"))) {
                 case CREATED:
+                    System.out.println("ComponentPane CREATION");
                     if (componentPane != null) {
-                        throw new ExceptionInInitializerError("Componant Pane found ?!");
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane found ?!");
                     }
                     //TODO: maybe it would be better to pas sthrought events to regenerate component
                     componentPane = CoreController.loadComponent(name);
@@ -118,15 +119,17 @@ public class HistoryImpl extends Observable implements History {
                     System.out.println(componentPane + " CREATED");
                     break;
                 case DELETED:
-                    if (componentPane != null) {
-                        CoreController.getConnectionManager().deleteComponent(componentPane);
-                        System.out.println(componentPane + " DELETED");
+                    System.out.println(componentPane + " DELETION");
+                    if (componentPane == null) {
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for deletion !");
                     }
-                    System.out.println(componentPane + " ERROR DELETED");
+                    CoreController.getConnectionManager().deleteComponent(componentPane);
+                    System.out.println(componentPane + " DELETED");
                     break;
                 case CHANGED:
+                    System.out.println(componentPane + " CHANGES");
                     if (componentPane == null) {
-                        throw new ExceptionInInitializerError("Componant Pane not found for changes !");
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for changes !");
                     }
                     //workspacePane.getChildren().remove(componentPane);
                     componentPane.setJson(jsonObject);
@@ -217,7 +220,7 @@ public class HistoryImpl extends Observable implements History {
             switch (StateType.valueOf((String) value.get("state"))) {
                 case CHANGED:
                     if (componentPane == null) {
-                        throw new ExceptionInInitializerError("Componant Pane not found for potentiometer changes !");
+                        throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer changes !");
                     }
                     componentPane.getChildren().forEach(node -> {
                         if (node instanceof Potentiometer && node.getId().equals(id)) {
@@ -265,7 +268,6 @@ public class HistoryImpl extends Observable implements History {
     public void add(Origin origin, StateType type) {
         State state = origin.getState();
         state.setType(type);
-        System.out.println(state.getContent());
         // Add the current state to previous ones
         if (currentState != null) {
             previousStates.add(currentState);
@@ -275,7 +277,14 @@ public class HistoryImpl extends Observable implements History {
 
         // And redefine current state
         currentState = state;
+        System.out.println(currentState.getType() + " [" + state.getTime() + "]=> " + currentState.getContent());
         // purge next states became invalid
         nextStates.clear();
+    }
+
+    public void purge() {
+        previousStates.clear();
+        nextStates.clear();
+        currentState = null;
     }
 }
