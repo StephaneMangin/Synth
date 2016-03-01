@@ -6,8 +6,8 @@ import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
-import org.istic.synthlab.ui.plugins.cable.OutputPlug;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.net.URL;
 import java.util.ResourceBundle;

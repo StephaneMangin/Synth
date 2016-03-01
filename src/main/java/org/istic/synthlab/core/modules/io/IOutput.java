@@ -37,5 +37,12 @@ public interface IOutput extends IModule {
      * @return IComponent
      */
     IComponent getComponent();
+
+    /**
+     * Return the Jsyn port
+     *
+     * @return
+     */
+    // FIXME: we can't do that, retreiving a jsyn inside an adapter !!!
     UnitOutputPort getUnitOutputPort();
 }

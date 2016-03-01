@@ -12,10 +12,10 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.history.Origin;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
+import org.istic.synthlab.ui.history.StateType;
 
 import java.io.IOException;
 
