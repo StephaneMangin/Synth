@@ -2,13 +2,13 @@ package org.istic.synthlab.ui;
 
 
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
-import org.istic.synthlab.ui.plugins.cable.OutputPlug;
-import org.istic.synthlab.ui.plugins.history.HistoryImpl;
-import org.istic.synthlab.ui.plugins.history.History;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.history.History;
+import org.istic.synthlab.ui.history.HistoryImpl;
+import org.istic.synthlab.ui.history.StateType;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -48,7 +48,9 @@ public class ConnectionManager {
             nodes.add(currentCable);
         }
 
-        // Reset the current cable to allow a next one
+        // Save to history
+        history.add(currentCable, StateType.CHANGED);
+        // Then reset the current cable to allow a next one
         currentCable = null;
     }
 
@@ -70,11 +72,16 @@ public class ConnectionManager {
         // Connect the node and the cable
         currentCable.connectOutputPlug(plug);
 
-        // Then save to history
-        history.add(currentCable, StateType.CHANGED);
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
             finished();
+        } else {
+            // When clicked on the workspace while creating a cable, delet the cable
+            CoreController.getWorkspace().setOnMouseClicked(event -> {
+                if (currentCable != null) {
+                    deleteCable(currentCable);
+                }
+            });
         }
     }
 
@@ -96,11 +103,16 @@ public class ConnectionManager {
         // Connect the node and the cable
         currentCable.connectInputPlug(plug);
 
-        // Then save to history
-        history.add(currentCable, StateType.CHANGED);
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
             finished();
+        } else {
+            // When clicked on the workspace while creating a cable, delet the cable
+            CoreController.getWorkspace().setOnMouseClicked(event -> {
+                if (currentCable != null) {
+                    deleteCable(currentCable);
+                }
+            });
         }
     }
 

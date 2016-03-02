@@ -1,20 +1,16 @@
 package org.istic.synthlab.components;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import org.istic.synthlab.core.modules.io.Input;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
-import org.istic.synthlab.ui.plugins.cable.OutputPlug;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.UUID;
 
 /**
  * The Abstract controller which abstracts components connections

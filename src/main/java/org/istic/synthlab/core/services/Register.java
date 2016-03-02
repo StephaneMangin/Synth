@@ -170,12 +170,16 @@ public class Register {
                 in = in1;
             }
         }
+        if (in == null) {
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
+        } else if (out == null) {
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
+        }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
-        }
-        if (unitOut == null) {
+        } else if (unitOut == null) {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);

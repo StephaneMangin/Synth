@@ -44,10 +44,6 @@ public class Output implements IOutput {
         Register.disconnect(this);
     }
 
-    public UnitOutputPort getUnitOutputPort() {
-        return this.unitOutputPort;
-    }
-
     @Override
     public String getName() {
         return this.name;
@@ -56,6 +52,11 @@ public class Output implements IOutput {
     @Override
     public IComponent getComponent() {
         return this.component;
+    }
+
+    @Override
+    public UnitOutputPort getUnitOutputPort() {
+        return unitOutputPort;
     }
 
     @Override
