@@ -9,8 +9,12 @@ import java.util.ResourceBundle;
  * @author  Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/25/16.
  */
 public class Controller extends AbstractController {
+
+
+    private Sequencer seq = new Sequencer("Sequencer");
+
     public Controller() {
-        configure(null);
+        configure(seq);
     }
 
     public void initialize(URL location, ResourceBundle resources) {

@@ -9,6 +9,8 @@ import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.io.Input;
+import org.istic.synthlab.core.modules.io.Output;
 
 import java.util.*;
 
@@ -135,9 +137,12 @@ public class Register {
      * @see UnitInputPort
      */
     public static void disconnect(IInput in) {
-        assert in != null;
         UnitInputPort unitIn = retrieve(in);
         IOutput out = associations.get(in);
+        // If there is no link, forget
+        if (out == null) {
+            return;
+        }
         UnitOutputPort unitOut = retrieve(out);
 
         if (unitIn == null) {
@@ -170,12 +175,15 @@ public class Register {
                 in = in1;
             }
         }
+        // If there is no link, forget
+        if (in == null) {
+            return;
+        }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
-        }
-        if (unitOut == null) {
+        } else if (unitOut == null) {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
@@ -320,4 +328,21 @@ public class Register {
         return sb.toString();
     }
 
+    /**
+     * Check if this input has been connected already
+     * @param input
+     * @return
+     */
+    public static boolean isConnected(IInput input) {
+        return associations.keySet().contains(input) && associations.get(input) != null;
+    }
+
+    /**
+     * Check if this output has been connected already
+     * @param output
+     * @return
+     */
+    public static boolean isConnected(IOutput output) {
+        return associations.values().contains(output);
+    }
 }

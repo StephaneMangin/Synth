@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.plugins.cable;
+package org.istic.synthlab.ui.plugins.plug;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -6,44 +6,35 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.ui.plugins.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 
 import java.io.IOException;
 
 /**
- * Allow direct insertion of a output plug inside a node
- *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class OutputPlug extends Pane {
+public abstract class AbstractPlug extends Pane implements Plug {
 
     @FXML
-    private Label title;
+    protected Label title;
 
-    private IOutput output;
-
-    private CurveCable cable;
-    private ComponentPane componentPane;
+    protected CurveCable cable;
+    protected ComponentPane componentPane;
 
     /**
      * This constructor loads the FXML associated to the potentiometer, binds the event handlers and initializes the view
      */
-    public OutputPlug() {
+    public AbstractPlug(String type) {
+        assert type.equals("output") || type.equals("input");
         try {
-            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ui/plugs/output.fxml"));
+            final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ui/plugs/" + type + ".fxml"));
             fxmlLoader.setRoot(this);
             fxmlLoader.setController(this);
             fxmlLoader.load();
         } catch (final IOException exception) {
             throw new RuntimeException(exception);
         }
-        setOnMouseClicked(event -> {
-            if (hasCable()) {
-                cable.deconnectOutputPlug();
-            }
-        });
     }
     /***************************************************************************
      *                                                                         *
@@ -60,36 +51,31 @@ public class OutputPlug extends Pane {
         return text;
     }
     private StringProperty text;
+
+    @Override
     public final void setText(String value) {
         textProperty().setValue(value);
         title.setText(value);
     }
+    @Override
     public final String getText() { return text == null ? "" : text.getValue(); }
-    public IOutput getOutput() {
-        return output;
-    }
 
-    public void setOutput(IOutput output) {
-        this.output = output;
-    }
-
+    @Override
     public CurveCable getCable() {
         return cable;
     }
 
+    @Override
     public void setCable(CurveCable cable) {
         this.cable = cable;
     }
 
-    /**
-     * Returns true if a cable is connected
-     *
-     * @return
-     */
+    @Override
     public boolean hasCable() {
         return cable != null;
     }
 
+    @Override
     public ComponentPane getComponentPane() {
         return (ComponentPane) getParent();
     }

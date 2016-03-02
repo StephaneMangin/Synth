@@ -43,26 +43,10 @@ public interface IMix extends IModule, Resource{
     IInput getInput4();
 
     /**
-     * Return the i-th input port
-     *
-     * @param i
-     * @return IInput
-     */
-    IInput getInputPortByIndex(int i);
-
-    /**
      * Return the output of the mixer
      *
      * @return IOutput
      */
     IOutput getOutput();
-
-
-    /**
-     * Add a new input port
-     *
-     * @param input
-     */
-    void addInputPort(IInput input);
 
 }

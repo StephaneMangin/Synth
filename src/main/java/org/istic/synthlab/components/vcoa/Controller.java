@@ -33,27 +33,11 @@ public class Controller extends AbstractController {
     @FXML
     public RadioButton sawtoothRadio;
     @FXML
-    public RadioButton redNoiseRadio;
-    @FXML
-    public RadioButton whiteNoiseRadio;
-    @FXML
     private ImageView oscillatorImage;
     @FXML
     private Label frequency;
 
-    @FXML
-    private RadioButton shortcut1Hz;
-    @FXML
-    private RadioButton shortcut10Hz;
-    @FXML
-    private RadioButton shortcut100Hz;
-    @FXML
-    private RadioButton shortcut1KHz;
-    @FXML
-    private RadioButton shortcut10KHz;
-
     private final ToggleGroup groupRadio = new ToggleGroup();
-    private final ToggleGroup groupShortcut = new ToggleGroup();
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
@@ -64,10 +48,7 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudePulse(1);
         vcoa.setAmplitudeImpulse(1);
-        vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
-        vcoa.setAmplitudeRedNoise(1);
-        vcoa.setAmplitudeWhiteNoise(1);
         vcoa.setExponentialFrequency(0.0);
     }
 
@@ -82,21 +63,19 @@ public class Controller extends AbstractController {
 
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setExponentialFrequency((Double)newValue);
+            vcoa.setExponentialFrequency((double)newValue);
             updateScreen();
-            groupShortcut.selectToggle(null);
             linFrequency.setMinValue(String.valueOf((int) (vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency())));
             linFrequency.setMaxValue(String.valueOf((int) (vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency())));
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
-        expFrequency.setMaxValue(10);
+        expFrequency.setMaxValue(16);
 
         // Configure linear potentiometer
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((Double) newValue);
             updateScreen();
-            groupShortcut.selectToggle(null);
         });
         linFrequency.setTitle("Linear Freq.");
 
@@ -112,27 +91,11 @@ public class Controller extends AbstractController {
         squareRadio.setToggleGroup(groupRadio);
         triangleRadio.setToggleGroup(groupRadio);
         sawtoothRadio.setToggleGroup(groupRadio);
-        redNoiseRadio.setToggleGroup(groupRadio);
-        whiteNoiseRadio.setToggleGroup(groupRadio);
 
         sineRadio.setUserData("sineWave");
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
         sawtoothRadio.setUserData("sawtoothWave");
-        redNoiseRadio.setUserData("redNoiseWave");
-        whiteNoiseRadio.setUserData("whiteNoiseWave");
-
-        shortcut1Hz.setToggleGroup(groupShortcut);
-        shortcut10Hz.setToggleGroup(groupShortcut);
-        shortcut100Hz.setToggleGroup(groupShortcut);
-        shortcut1KHz.setToggleGroup(groupShortcut);
-        shortcut10KHz.setToggleGroup(groupShortcut);
-
-        shortcut1Hz.setUserData("1Hz");
-        shortcut10Hz.setUserData("10Hz");
-        shortcut100Hz.setUserData("100Hz");
-        shortcut1KHz.setUserData("1KHz");
-        shortcut10KHz.setUserData("10KHz");
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
@@ -152,42 +115,9 @@ public class Controller extends AbstractController {
                     case "sawtoothWave":
                         vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
                         break;
-                    case "redNoiseWave":
-                        vcoa.setOscillatorType(OscillatorType.REDNOISE);
-                        break;
-                    case "whiteNoiseWave":
-                        vcoa.setOscillatorType(OscillatorType.WHITENOISE);
-                        break;
                     default:
                         break;
                 }
-            }
-        });
-
-        // TODO: not finished. Find a way to calculate exponential based on hertz
-        groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (groupShortcut.getSelectedToggle() != null) {
-                switch (groupShortcut.getSelectedToggle().getUserData().toString()) {
-                    case "1Hz":
-                        expFrequency.valueProperty().setValue(0.05);
-                        break;
-                    case "10Hz":
-                        expFrequency.valueProperty().setValue(0.2161);
-                        break;
-                    case "100Hz":
-                        expFrequency.valueProperty().setValue(0.78);
-                        break;
-                    case "1KHz":
-                        expFrequency.valueProperty().setValue(1);
-                        break;
-                    case "10KHz":
-                        expFrequency.valueProperty().setValue(1);
-                        break;
-                    default:
-                        break;
-                }
-                linFrequency.valueProperty().setValue(0);
-                updateScreen();
             }
         });
 

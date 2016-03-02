@@ -7,7 +7,7 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
-import org.istic.synthlab.components.noise.Noise;
+import org.istic.synthlab.components.whitenoise.WhiteNoise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.seq.Sequencer;
@@ -102,7 +102,6 @@ public class BasicChainTest {
 
     @Test
     public void TestVcoaSwitch() throws InterruptedException {
-        vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSquare(1);
         vcoa.setExponentialFrequency(0.75);
         vcoa.setLinearFrequency(0.5);
@@ -142,7 +141,7 @@ public class BasicChainTest {
         //Connection
         vcoa.getOutput().connect(vca.getInput());
         vcoa2.getOutput().connect(vca.getAm());
-        //vcoa2.getOutput().connect(this.out.getInput());
+        //vcoa2.getOutputPlug().connect(this.out.getInputPlug());
         vca.getOutput().connect(this.out.getInput());
 
         out.start();
@@ -198,7 +197,7 @@ public class BasicChainTest {
                     out.getAmModulator().setValue(1.0);
                 }
 
-/*                if (out.getLineOut().getInput().getUnitInputPort() > 0.0){
+/*                if (out.getLineOut().getInputPlug().getUnitInputPort() > 0.0){
                     out.getLineOut().setVolume(0.0);
                 } else {
                     out.getLineOut().setVolume(1.0);
@@ -212,13 +211,13 @@ public class BasicChainTest {
 
             }
 
-            System.out.println("Vcoa.getOutput().getValue() : " + vcoa.getOutput().getUnitOutputPort().getValue());
-            //System.out.println("out.getLineOut().getInput().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            System.out.println("Vcoa.getOutputPlug().getValue() : " + vcoa.getOutput().getUnitOutputPort().getValue());
+            //System.out.println("out.getLineOut().getInputPlug().getValue() : " + out.getLineOut().getInputPlug().getUnitInputPort().getValue());
             //System.out.println("AmplitudeModulator : " + out.getAmModulator().getValue());
             System.out.println("out.getAmModulator().getValue() : " + out.getAmModulator().getValue());
-            System.out.println("out.getAmModulator().getInput().getUnitInputPort().getValue() : " + out.getAmModulator().getInput().getUnitInputPort().getValue());
-            System.out.println("out.getAmModulator().getOutput().getUnitOutputPort().getValue() : " + out.getAmModulator().getOutput().getUnitOutputPort().getValue());
-            System.out.println("out.getLineOut().getInput().getUnitInputPort().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
+            System.out.println("out.getAmModulator().getInputPlug().getUnitInputPort().getValue() : " + out.getAmModulator().getInput().getUnitInputPort().getValue());
+            System.out.println("out.getAmModulator().getOutputPlug().getUnitOutputPort().getValue() : " + out.getAmModulator().getOutput().getUnitOutputPort().getValue());
+            System.out.println("out.getLineOut().getInputPlug().getUnitInputPort().getValue() : " + out.getLineOut().getInput().getUnitInputPort().getValue());
             //out.getLineOut().getVolume();
 
             synth.sleepFor(0.1);
@@ -357,10 +356,10 @@ public class BasicChainTest {
     }
     @Test
     public void testWhiteNoise() throws InterruptedException {
-        Noise noise = new Noise("WHITE NOISE");
-        noise.activate();
+        WhiteNoise whiteNoise = new WhiteNoise("WHITE NOISE");
+        whiteNoise.activate();
         out.start();
-        out.getInput().connect(noise.getOutput());
+        out.getInput().connect(whiteNoise.getOutput());
         synth.start();
         synth.sleepFor(10);
 

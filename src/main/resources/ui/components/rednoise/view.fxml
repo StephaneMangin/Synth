@@ -3,13 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
-<?import org.istic.synthlab.ui.plugins.ComponentPane?>
-<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" styleClass="componentPane"
                xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
-               fx:controller="org.istic.synthlab.components.noise.Controller">
+               fx:controller="org.istic.synthlab.components.rednoise.Controller">
     <children>
 
         <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
@@ -23,7 +23,7 @@
         <OutputPlug layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
         <ImageView fitHeight="100.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@../../images/noise.png"/>
+                <Image url="@../../images/redNoise.png"/>
             </image>
         </ImageView>
     </children>

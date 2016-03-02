@@ -26,10 +26,9 @@ import org.istic.synthlab.Main;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.history.StateType;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -40,8 +39,6 @@ import org.reflections.util.FilterBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -102,8 +99,6 @@ public class CoreController implements Initializable {
         onPause();
         initializeSkinMenu();
         initializeListView();
-        initializeMainPane();
-        initializeFunctions();
         manager.setCoreController(this);
         setWorkspace(workspace);
 
@@ -162,82 +157,6 @@ public class CoreController implements Initializable {
         listView.setItems(data);
     }
 
-    private void initializeMainPane() {
-    }
-
-    /**
-     * Move the components so that there is no overlapping
-     */
-    private void layoutComponents() {
-        final List<Node> components = new ArrayList<>(workspace.getChildren().filtered(node -> !(node instanceof CurveCable)));
-        Collections.reverse(components);
-
-        while (components.size() > 0) {
-            components.sort(new NodeComparator());
-
-            final Node fixedNode = components.get(0);
-            for (int i = 1; i < components.size(); i++) {
-                final Node currentNode = components.get(i);
-                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
-                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
-                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
-                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
-                        //currentNode.setLayoutY(fixedNode.getLayoutY());
-                    }
-                    else {
-                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
-                        //currentNode.setLayoutX(fixedNode.getLayoutX());
-                    }
-                }
-            }
-            components.remove(0);
-        }
-    }
-
-    /**
-     * Allow to compare two nodes according to the distance from the coordinate (0, 0) of their parent to their top left corner
-     */
-    private class NodeComparator implements Comparator<Node> {
-        @Override
-        public int compare(final Node node1, final Node node2) {
-            // Sort according to the distance to anchorPane (0, 0)
-            /*final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
-            final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
-            return posNode1.compareTo(posNode2);*/
-
-            // Sort according to y only
-            //return ((Double) node1.getLayoutY()).compareTo(node2.getLayoutY());
-
-            // Sort according to the position of the center of the components
-            final Double posNode1 = Math.hypot(node1.getLayoutX() + node1.getBoundsInParent().getWidth()/2, node1.getLayoutY() + node1.getBoundsInParent().getHeight()/2);
-            final Double posNode2 = Math.hypot(node2.getLayoutX() + node2.getBoundsInParent().getWidth()/2, node2.getLayoutY() + node2.getBoundsInParent().getHeight()/2);
-            return posNode1.compareTo(posNode2);
-
-            // Sort according to y, then to x
-            /*if (node1.getLayoutY() > node2.getLayoutY()) {
-                return 1;
-            }
-            else if (node1.getLayoutY() < node2.getLayoutY()) {
-                return -1;
-            }
-            else {
-                return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
-            }*/
-        }
-    }
-
-    private void initializeFunctions() {
-        // We set this event so that when we click somewhere random when in cable remove mode
-        // it goes back to normal mode
-        workspace.setOnMouseClicked(event -> {
-            if (cableRemoveMode) {
-                cableRemoveMode = false;
-                borderPane.setCursor(Cursor.DEFAULT);
-            }
-            event.consume();
-        });
-    }
-
     /**
      * Close the application
      */
@@ -256,20 +175,6 @@ public class CoreController implements Initializable {
         playButton.setDisable(false);
 
         Factory.createSynthesizer().stop();
-    }
-
-    // Cable deletion stuff
-    private boolean cableRemoveMode = false;
-
-    @FXML
-    public void onCut() {
-        cableRemoveMode = !cableRemoveMode;
-        if (cableRemoveMode) {
-            borderPane.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true)));
-        }
-        else {
-            borderPane.setCursor(Cursor.DEFAULT);
-        }
     }
 
     /**

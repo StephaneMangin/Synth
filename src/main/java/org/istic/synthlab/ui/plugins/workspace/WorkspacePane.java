@@ -1,6 +1,5 @@
-package org.istic.synthlab.ui.plugins;
+package org.istic.synthlab.ui.plugins.workspace;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
@@ -12,11 +11,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.history.Origin;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
+import org.istic.synthlab.ui.history.StateType;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
@@ -79,20 +81,45 @@ public class WorkspacePane extends AnchorPane implements Origin {
                 component.setLayoutY(y);
 
                 // Detect collisions
-                // TODO: modify x and y so that there's no collision
-                for (final Node otherComponent : getChildren()) {
-                    if (component != otherComponent) {
-                        if (component.getBoundsInParent().intersects(otherComponent.getBoundsInParent())) {
-                            System.out.println("Collision");
-                        }
-                    }
-                }
+                layoutComponents();
 
                 event.setDropCompleted(true);
             }
             event.consume();
         });
         setName("Workspace-1");
+    }
+
+    /**
+     * Allow to compare two nodes according to the distance from the coordinate (0, 0) of their parent to their top left corner
+     */
+    private class NodeComparator implements Comparator<Node> {
+        @Override
+        public int compare(final Node node1, final Node node2) {
+            // Sort according to the distance to anchorPane (0, 0)
+            /*final Double posNode1 = Math.hypot(node1.getLayoutX(), node1.getLayoutY());
+            final Double posNode2 = Math.hypot(node2.getLayoutX(), node2.getLayoutY());
+            return posNode1.compareTo(posNode2);*/
+
+            // Sort according to y only
+            //return ((Double) node1.getLayoutY()).compareTo(node2.getLayoutY());
+
+            // Sort according to the position of the center of the components
+            final Double posNode1 = Math.hypot(node1.getLayoutX() + node1.getBoundsInParent().getWidth()/2, node1.getLayoutY() + node1.getBoundsInParent().getHeight()/2);
+            final Double posNode2 = Math.hypot(node2.getLayoutX() + node2.getBoundsInParent().getWidth()/2, node2.getLayoutY() + node2.getBoundsInParent().getHeight()/2);
+            return posNode1.compareTo(posNode2);
+
+            // Sort according to y, then to x
+            /*if (node1.getLayoutY() > node2.getLayoutY()) {
+                return 1;
+            }
+            else if (node1.getLayoutY() < node2.getLayoutY()) {
+                return -1;
+            }
+            else {
+                return ((Double) node1.getLayoutX()).compareTo(node2.getLayoutX());
+            }*/
+        }
     }
 
     /**
@@ -239,5 +266,34 @@ public class WorkspacePane extends AnchorPane implements Origin {
             }
         }
         return null;
+    }
+
+    /**
+     * Move the components so that there is no overlapping
+     */
+    private void layoutComponents() {
+        final List<Node> components = new ArrayList<>(this.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        Collections.reverse(components);
+
+        while (components.size() > 0) {
+            components.sort(new NodeComparator());
+
+            final Node fixedNode = components.get(0);
+            for (int i = 1; i < components.size(); i++) {
+                final Node currentNode = components.get(i);
+                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                        //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
+                        //currentNode.setLayoutY(fixedNode.getLayoutY());
+                    }
+                    else {
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
+                        //currentNode.setLayoutX(fixedNode.getLayoutX());
+                    }
+                }
+            }
+            components.remove(0);
+        }
     }
 }

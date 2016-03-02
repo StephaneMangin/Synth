@@ -2,7 +2,6 @@ package org.istic.synthlab.components.mixer;
 
 import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IInput;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
@@ -34,80 +33,77 @@ public class Mixer extends AbstractComponent {
         super(name);
         this.mixer = Factory.createMixer(this);
 
-        inputGainMixer1 = Factory.createModulator(
+        this.inputGainMixer1 = Factory.createModulator(
                 "mixerModIn1", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-        inputGainMixer2 = Factory.createModulator(
+        this.inputGainMixer2 = Factory.createModulator(
                 "mixerModIn2", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-        inputGainMixer3 = Factory.createModulator(
+        this.inputGainMixer3 = Factory.createModulator(
                 "mixerModIn3", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
-        inputGainMixer4 = Factory.createModulator(
+        this.inputGainMixer4 = Factory.createModulator(
                 "mixerModIn4", this,
                 ModulatorType.GAIN,
                 PotentiometerType.LINEAR);
 
-        inputGainMixer1.getOutput().connect(mixer.getInput1());
-        inputGainMixer2.getOutput().connect(mixer.getInput2());
-        inputGainMixer3.getOutput().connect(mixer.getInput3());
-        inputGainMixer4.getOutput().connect(mixer.getInput4());
-        getOutput().connect(getSink());
+        this.inputGainMixer1.getOutput().connect(this.mixer.getInput1());
+        this.inputGainMixer2.getOutput().connect(this.mixer.getInput2());
+        this.inputGainMixer3.getOutput().connect(this.mixer.getInput3());
+        this.inputGainMixer4.getOutput().connect(this.mixer.getInput4());
+
+        this.mixer.getOutput().connect(getSink());
     }
 
-    public IInput getInput1(){ return inputGainMixer1.getInput(); }
+    public IInput getInput1(){ return this.inputGainMixer1.getInput(); }
 
-    public IInput getInput2(){ return inputGainMixer2.getInput(); }
+    public IInput getInput2(){ return this.inputGainMixer2.getInput(); }
 
-    public IInput getInput3(){ return inputGainMixer3.getInput(); }
+    public IInput getInput3(){ return this.inputGainMixer3.getInput(); }
 
-    public IInput getInput4(){ return inputGainMixer4.getInput(); }
-
-    public IInput getInputPortByIndex(int i){
-        return mixer.getInputPortByIndex(i);
-    }
+    public IInput getInput4(){ return this.inputGainMixer4.getInput(); }
 
     public double getGainValueInput1() {
-        return inputGainMixer1.getValue();
+        return this.inputGainMixer1.getValue();
     }
 
     public double getGainValueInput2() {
-        return inputGainMixer2.getValue();
+        return this.inputGainMixer2.getValue();
     }
 
     public double getGainValueInput3() {
-        return inputGainMixer3.getValue();
+        return this.inputGainMixer3.getValue();
     }
 
     public double getGainValueInput4() {
-        return inputGainMixer4.getValue();
+        return this.inputGainMixer4.getValue();
     }
 
     public void setGainValueInput1(double valueInput1) {
-        inputGainMixer1.setValue(valueInput1);
+        this.inputGainMixer1.setValue(valueInput1);
     }
 
     public void setGainValueInput2(double valueInput2) {
-        inputGainMixer2.setValue(valueInput2);
+        this.inputGainMixer2.setValue(valueInput2);
     }
 
     public void setGainValueInput3(double valueInput3) {
-        inputGainMixer3.setValue(valueInput3);
+        this.inputGainMixer3.setValue(valueInput3);
     }
 
     public void setGainValueInput4(double valueInput4) {
-        inputGainMixer4.setValue(valueInput4);
+        this.inputGainMixer4.setValue(valueInput4);
     }
 
     public double getMaxValue(){
-       return inputGainMixer1.getMax();
+       return this.inputGainMixer1.getMax();
     }
 
     public double getMinValue(){
-        return inputGainMixer1.getMin();
+        return this.inputGainMixer1.getMin();
     }
 
 }

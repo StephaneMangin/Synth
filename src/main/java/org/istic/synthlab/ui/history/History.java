@@ -1,8 +1,6 @@
-package org.istic.synthlab.ui.plugins.history;
+package org.istic.synthlab.ui.history;
 
-import net.minidev.json.JSONObject;
-import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
 
 import java.io.File;
 import java.io.IOException;
