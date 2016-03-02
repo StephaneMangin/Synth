@@ -8,6 +8,7 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
+import org.istic.synthlab.core.utils.jsyn.VoltageProducer;
 
 /**
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/22/16.

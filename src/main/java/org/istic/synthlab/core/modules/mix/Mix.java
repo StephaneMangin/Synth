@@ -151,9 +151,7 @@ public class Mix implements IMix {
      */
     @Override
     public boolean isActivated() {
-        return this.passThroughIn1.isEnabled()
-                || this.passThroughIn2.isEnabled()
-                || this.passThroughIn3.isEnabled()
-                || this.passThroughIn4.isEnabled();
+        return ( this.passThroughIn1.isEnabled() || this.passThroughIn2.isEnabled()
+                || this.passThroughIn3.isEnabled() || this.passThroughIn4.isEnabled());
     }
 }
