@@ -69,8 +69,11 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectOutputPlug(plug);
+
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectOutputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
@@ -100,8 +103,11 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectInputPlug(plug);
+
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectInputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
