@@ -183,10 +183,10 @@ public class SequencerModule extends UnitGate implements ISequencer {
 
     @Override
     public boolean isActivated() {
-        if (this.input.isOff())
+
+        if(this.input.isOff())
             return false;
         else
             return true;
     }
-
 }

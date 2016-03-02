@@ -20,11 +20,13 @@
             </font>
         </Label>
 
-        <OutputPlug layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <OutputPlug fx:id="output" text="Output" onMouseClicked="#connectOutput" ComponentPane.bottomAnchor="10.0"  ComponentPane.RightAnchor="10.0"/>
         <ImageView fitHeight="100.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../images/noise.png"/>
             </image>
         </ImageView>
+
+
     </children>
 </ComponentPane>

@@ -56,6 +56,7 @@ public class LineOutTest {
         // JSyn provides no tool to check on the recording state of a waveRecorder
     }
 
+    // FIXME : this test expect the file /tmp/chazam.wav,actual /tmp/SynthLab_Wed Mar 02 14:54:42 CET 2016.wav
     @Test
     public void testSetAndGetFileToWrite() {
         File file = new File("/tmp/chazam.wav");

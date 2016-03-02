@@ -15,7 +15,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by paola on 02/02/16.
+ * Module Channel Tester.
+ *
+ * @author <Ngassam Noumi Paola> npaolita.[ât]yahoo.fr
+ * @since <pre>Feb 10, 2016</pre>
  */
 public class ChannelTest {
 

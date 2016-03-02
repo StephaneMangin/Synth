@@ -106,4 +106,19 @@ public class Mixer extends AbstractComponent {
         return this.inputGainMixer1.getMin();
     }
 
+    @Override
+    public void activate() {
+        mixer.activate();
+    }
+
+    @Override
+    public void deactivate() {
+        mixer.deactivate();
+    }
+
+    @Override
+    public boolean isActivated(){
+        return mixer.isActivated();
+    }
+
 }
