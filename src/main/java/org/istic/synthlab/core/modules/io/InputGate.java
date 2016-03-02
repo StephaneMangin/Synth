@@ -2,10 +2,12 @@ package org.istic.synthlab.core.modules.io;
 
 import com.jsyn.ports.UnitGatePort;
 import com.jsyn.ports.UnitInputPort;
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.services.Register;
 
 /**
+ *
+ * FIXME : c'est quoi cette classe ???
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/24/16.
  */
 public class InputGate implements IInput{

@@ -4,6 +4,7 @@ import org.istic.synthlab.core.Resource;
 import org.istic.synthlab.core.modules.IModule;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 
 /**
  *
@@ -86,4 +87,11 @@ public interface IModulator extends IModule, Resource {
      * @param value
      */
     void setRawValue(double value);
+
+    /**
+     * Returns the potentiometer used by the modulator
+     *
+     * @return Potentiometer
+     */
+    Potentiometer getPotentiometer();
 }

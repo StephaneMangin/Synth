@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.seq;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.sequencer.ISequencer;
@@ -21,9 +21,9 @@ public class Sequencer extends AbstractComponent {
     public Sequencer(String name) {
         super(name);
         this.iSequencer = Factory.createSequencer(this);
-        getSourceGate().connect(this.iSequencer.getInputGatePort());
-        this.iSequencer.getOutputPort().connect(getSinkGate());
-        //this.activate();
+        getSource().connect(this.iSequencer.getInputGatePort());
+        this.iSequencer.getOutputPort().connect(getSink());
+        this.activate();
     }
 
     public IInput getInputgate(){

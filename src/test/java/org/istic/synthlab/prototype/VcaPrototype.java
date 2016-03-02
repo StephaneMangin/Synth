@@ -1,10 +1,10 @@
 package org.istic.synthlab.prototype;
 
 import com.jsyn.Synthesizer;
-import org.istic.synthlab.components.noise.Noise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.istic.synthlab.components.whitenoise.WhiteNoise;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.services.Factory;
 
@@ -16,7 +16,7 @@ public class VcaPrototype {
     private Vca vca;
     private Out out;
     private Vcoa vcoa;
-    private Noise wn;
+    private WhiteNoise wn;
     private Synthesizer synth;
 
     public VcaPrototype() throws InterruptedException {

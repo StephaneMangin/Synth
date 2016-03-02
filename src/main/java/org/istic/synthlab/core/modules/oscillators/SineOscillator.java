@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.oscillators;
 
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 
 
 /**

@@ -1,20 +1,29 @@
-package org.istic.synthlab.components.noise;
+package org.istic.synthlab.components.rednoise;
 
+import javafx.fxml.FXML;
+import org.istic.synthlab.core.components.AbstractController;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
-
-import org.istic.synthlab.components.AbstractController;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Noise component, the noise generated is a white noise.
+ *
  * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
  */
 public class Controller extends AbstractController {
 
-    private Noise noise = new Noise("White Noise");
+    @FXML
+    private Potentiometer frequency;
 
+    private RedNoise redNoise = new RedNoise("Red Noise");
+
+    /**
+     * Constructor of the Noise controller component.
+     */
     public Controller() {
-        configure(noise);
+        configure(redNoise);
     }
 
     /**
@@ -28,5 +37,11 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
+
+        // Configure exponential potentiometer
+        frequency.valueProperty().addListener((observable, oldValue, newValue) -> {
+            redNoise.setFrequency((double)newValue);
+        });
+        frequency.setTitle("Frequency");
     }
 }

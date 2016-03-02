@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.vcoa;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
@@ -19,6 +19,18 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * the shape of the signal (SINE,PULSE,SQUARE,IMPULSE,SAWTOOTH,TRIANGLE,REDNOISE)
  * can be selected and its frequency is managed by another signal
  *
+ * A Vcoa is composed of the following input and output :
+ * - a frequency signal input
+ * - a frequency signal output
+ *
+ * A Vcoa is composed of the following potentiometer :
+ * - A linear frequency potentiometer to tune the frequency produced
+ * - An exponential frequency potentiometer to finely tune the frequency produced
+ * - An amplitude potentiometer to set the weight of the signal produced
+ *
+ * Note : The linear and exponential potentiometer are combined to process the frequency
+ * value to produce.
+ *
  */
 public class Vcoa extends AbstractComponent {
 
@@ -28,13 +40,16 @@ public class Vcoa extends AbstractComponent {
     private IOscillator impulseOscillator = Factory.createOscillator(this, OscillatorType.IMPULSE);
     private IOscillator sawToothOscillator = Factory.createOscillator(this, OscillatorType.SAWTOOTH);
     private IOscillator triangleOscillator = Factory.createOscillator(this, OscillatorType.TRIANGLE);
-    private IOscillator redNoiseOscillator = Factory.createOscillator(this, OscillatorType.REDNOISE);
-    private IOscillator whiteNoiseOscillator = Factory.createOscillator(this, OscillatorType.WHITENOISE);
     private IOscillator defaultOscillator;
     private IModulator exponentialModulator = Factory.createModulator("Expl. Freq.", this, ModulatorType.VCOA, PotentiometerType.EXPONENTIAL);
     private IModulator linearModulator = Factory.createModulator("Linear Freq.", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
     private double amplitudeValue;
 
+    /**
+     * Constructor of the Vcoa component.
+     *
+     * @param name :String
+     */
     public Vcoa(String name) {
         super(name);
         getSourceFm().connect(exponentialModulator.getInput());
@@ -50,8 +65,6 @@ public class Vcoa extends AbstractComponent {
         impulseOscillator.activate();
         sawToothOscillator.activate();
         triangleOscillator.activate();
-        redNoiseOscillator.activate();
-        whiteNoiseOscillator.activate();
     }
 
     @Override
@@ -62,8 +75,6 @@ public class Vcoa extends AbstractComponent {
         impulseOscillator.deactivate();
         sawToothOscillator.deactivate();
         triangleOscillator.deactivate();
-        redNoiseOscillator.deactivate();
-        whiteNoiseOscillator.deactivate();
     }
 
     @Override
@@ -73,17 +84,7 @@ public class Vcoa extends AbstractComponent {
         squareOscillator.isActivated() ||
         impulseOscillator.isActivated() ||
         sawToothOscillator.isActivated() ||
-        triangleOscillator.isActivated() ||
-        redNoiseOscillator.isActivated() ||
-        whiteNoiseOscillator.isActivated();
-    }
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void run() {
+        triangleOscillator.isActivated();
     }
 
     /**
@@ -248,8 +249,6 @@ public class Vcoa extends AbstractComponent {
         return pulseOscillator.getAmplitudePotentiometer().getMin();
     }
 
-
-
     /**
      * Set the amplitude of the square oscillator
      *
@@ -312,24 +311,6 @@ public class Vcoa extends AbstractComponent {
         triangleOscillator.getAmplitudePotentiometer().setValue(value);
     }
 
-    /**
-     * Set the amplitude of the red noise oscillator
-     *
-     * @param value
-     */
-    public void setAmplitudeRedNoise(double value) {
-        redNoiseOscillator.getAmplitudePotentiometer().setValue(value);
-    }
-
-    /**
-     * Set the amplitude of the white noise oscillator
-     *
-     * @param value
-     */
-    public void setAmplitudeWhiteNoise(double value) {
-        whiteNoiseOscillator.getAmplitudePotentiometer().setValue(value);
-    }
-
     public void setAmplitudeOscillator(double value) {
         this.amplitudeValue = value;
         defaultOscillator.getAmplitudePotentiometer().setValue(value);
@@ -343,7 +324,6 @@ public class Vcoa extends AbstractComponent {
      *
      * @param type
      */
-
     public void setOscillatorType(OscillatorType type) {
         switch (type) {
             case SINE:
@@ -360,9 +340,6 @@ public class Vcoa extends AbstractComponent {
                 break;
             case IMPULSE:
                 setDefaultOscillator(impulseOscillator);
-                break;
-            case REDNOISE:
-                setDefaultOscillator(redNoiseOscillator);
                 break;
             case SQUARE:
             default:
@@ -465,33 +442,5 @@ public class Vcoa extends AbstractComponent {
      */
     public IOutput getTriangleOutput() {
         return triangleOscillator.getOutput();
-    }
-
-    /**
-     * Returns the red noise oscillator output
-     *
-     * @return IOutput
-     */
-    public IOutput getRedNoiseOutput() {
-        return redNoiseOscillator.getOutput();
-    }
-
-    /**
-     * Returns the white noise oscillator output
-     *
-     * @return IOutput
-     */
-    public IOutput getWhiteNoiseOutput() {
-        return redNoiseOscillator.getOutput();
-    }
-
-    public double getAmplitudeOscillator() {
-        return this.defaultOscillator.getAmplitudePotentiometer().getValue();
-    }
-    public double getAmplitudeOscillatorMax() {
-        return this.defaultOscillator.getAmplitudePotentiometer().getMax();
-    }
-    public double getAmplitudeOscillatorMin() {
-        return this.defaultOscillator.getAmplitudePotentiometer().getMin();
     }
 }

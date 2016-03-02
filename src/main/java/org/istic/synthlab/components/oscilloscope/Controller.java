@@ -5,13 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Oscilloscope component.
+ *
  * @author Thibaud Hulin <<thibaud>dot<hulin>dot<cl>at<gmail>dot<com>>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -34,9 +36,13 @@ public class Controller extends AbstractController {
 
     private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope");
 
+    /**
+     * Constructor of the Oscilloscope component controller.
+     */
     public Controller() {
         configure(oscilloscope);
     }
+
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL

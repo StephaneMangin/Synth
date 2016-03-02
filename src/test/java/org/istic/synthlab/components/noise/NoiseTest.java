@@ -1,5 +1,6 @@
 package org.istic.synthlab.components.noise;
 
+import org.istic.synthlab.components.whitenoise.WhiteNoise;
 import org.istic.synthlab.core.services.Register;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,11 +15,11 @@ import static org.junit.Assert.*;
  */
 public class NoiseTest {
 
-    private Noise noise;
+    private WhiteNoise noise;
 
     @Before
     public void setUp() throws Exception {
-        noise = new Noise("NOISE");
+        noise = new WhiteNoise("NOISE");
     }
 
     @Test

@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.replicator;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
@@ -14,6 +14,11 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  *
  * It links an output port to 3 input ports (such as a power strip)
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ *
+ * A Replicator is composed of the following input and output :
+ * - 1 frequency signal input
+ * - 3 frequency signal output
+ *
  */
 public class Replicator extends AbstractComponent {
 

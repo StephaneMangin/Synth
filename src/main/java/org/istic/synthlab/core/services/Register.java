@@ -6,11 +6,9 @@ import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.components.oscilloscope.Oscilloscope;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.Channel;
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.io.Input;
-import org.istic.synthlab.core.modules.io.Output;
 
 import java.util.*;
 
@@ -137,9 +135,12 @@ public class Register {
      * @see UnitInputPort
      */
     public static void disconnect(IInput in) {
-        assert in != null;
         UnitInputPort unitIn = retrieve(in);
         IOutput out = associations.get(in);
+        // If there is no link, forget
+        if (out == null) {
+            return;
+        }
         UnitOutputPort unitOut = retrieve(out);
 
         if (unitIn == null) {
@@ -172,10 +173,9 @@ public class Register {
                 in = in1;
             }
         }
+        // If there is no link, forget
         if (in == null) {
-            throw new ExceptionInInitializerError(out + " has not been declared properly");
-        } else if (out == null) {
-            throw new ExceptionInInitializerError(in + " has not been declared properly");
+            return;
         }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
@@ -331,7 +331,7 @@ public class Register {
      * @param input
      * @return
      */
-    public static boolean isConnected(Input input) {
+    public static boolean isConnected(IInput input) {
         return associations.keySet().contains(input) && associations.get(input) != null;
     }
 
@@ -340,7 +340,7 @@ public class Register {
      * @param output
      * @return
      */
-    public static boolean isConnected(Output output) {
+    public static boolean isConnected(IOutput output) {
         return associations.values().contains(output);
     }
 }

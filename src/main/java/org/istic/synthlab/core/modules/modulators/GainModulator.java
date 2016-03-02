@@ -1,13 +1,11 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.jsyn.GainFunction;
+import org.istic.synthlab.core.utils.functions.GainFunction;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
-
-import java.util.Random;
 
 /**
  * Create an abstraction to manage a gain potentiometer through a function that compute a gain in decibel

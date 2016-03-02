@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.oscilloscope;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.visualizer.Visualizer;
 
 import javax.swing.*;
@@ -8,7 +8,14 @@ import javax.swing.*;
 /**
  *
  * This class represents the oscilloscope module
- * It displays a signal for analysis
+ * It displays a signal to help for visual analysis.
+ *
+ * An Oscilloscope is composed of the following input and output :
+ * - a frequency signal input
+ * - a frequency signal output
+ *
+ * An Oscilloscope is composed of the following potentiometer :
+ * - A scale potentiometer to set the size of the signal screen
  *
  * @author Sébastien François
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
@@ -49,10 +56,20 @@ public class Oscilloscope extends AbstractComponent {
         this.visualizer.deactivate();
     }
 
+    /**
+     * Returns the current value hold by the internal visualizer
+     *
+     * @return Number
+     */
     public Number getValue() {
         return this.visualizer.getValue();
     }
 
+    /**
+     * Returns the current width used by the internal visualizer to display the signal
+     *
+     * @return double
+     */
     public double getWidth() {
         return this.visualizer.getWidth();
     }

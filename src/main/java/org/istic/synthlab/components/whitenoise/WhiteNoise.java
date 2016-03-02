@@ -1,27 +1,30 @@
-package org.istic.synthlab.components.noise;
+package org.istic.synthlab.components.whitenoise;
 
-import org.istic.synthlab.components.AbstractComponent;
-import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
+import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.core.modules.whitenoise.IWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
-
-/**
- * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
- */
 
 /**
  * The model of White noise component
  * It creates a  white noise module to produce a signal conforming to the definition of white noise.
- * */
-public class Noise extends AbstractComponent  {
+ *
+ * A Noise component is composed of the following input and output :
+ * - 1 frequency output
+ *
+ * A Noise component has no potentiometer.
+ *
+ * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
+ **/
+public class WhiteNoise extends AbstractComponent  {
 
-    private IModelWhiteNoise noise;
+    private IWhiteNoise noise;
 
     /**
      * Instantiates a new component.
      *
      * @param name the name
      */
-    public Noise(String name) {
+    public WhiteNoise(String name) {
         super(name);
         noise = Factory.createWhiteNoise(this);
         noise.getOutput().connect(getSink());

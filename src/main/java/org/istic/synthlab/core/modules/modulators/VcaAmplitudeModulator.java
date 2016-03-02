@@ -1,9 +1,9 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.jsyn.VcaFunction;
+import org.istic.synthlab.core.utils.functions.VcaFunction;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 

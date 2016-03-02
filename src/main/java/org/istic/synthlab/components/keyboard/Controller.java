@@ -4,8 +4,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
+import org.istic.synthlab.core.components.AbstractController;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;

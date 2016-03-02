@@ -1,6 +1,6 @@
 package org.istic.synthlab.core.modules.modulators;
 
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
@@ -95,5 +95,10 @@ public abstract class AbstractModulator implements IModulator {
 
     protected void setPotentiometer(Potentiometer potentiometer) {
         this.potentiometer = potentiometer;
+    }
+
+    @Override
+    public Potentiometer getPotentiometer(){
+        return potentiometer;
     }
 }
