@@ -8,8 +8,6 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
-import java.util.List;
-
 /**
  * Class that define a mixer that able to mix multiple signals
  * from different modules and send the mixture on an output port
@@ -153,9 +151,7 @@ public class Mix implements IMix {
      */
     @Override
     public boolean isActivated() {
-        return this.passThroughIn1.isEnabled()
-                || this.passThroughIn2.isEnabled()
-                || this.passThroughIn3.isEnabled()
-                || this.passThroughIn4.isEnabled();
+        return ( this.passThroughIn1.isEnabled() || this.passThroughIn2.isEnabled()
+                || this.passThroughIn3.isEnabled() || this.passThroughIn4.isEnabled());
     }
 }

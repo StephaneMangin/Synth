@@ -10,9 +10,13 @@
 <?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
 <?import org.istic.synthlab.ui.plugins.plug.InputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
-<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-               prefHeight="200.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40"
-               xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.out.Controller">
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity"
+               maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity"
+               prefHeight="200.0" prefWidth="300.0"
+               styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40"
+               xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="org.istic.synthlab.components.out.Controller">
 
     <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 

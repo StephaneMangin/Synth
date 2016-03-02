@@ -93,7 +93,7 @@ public class LineOut implements ILineOut {
 
     @Override
     public File getFileToWrite(){
-        return file;
+        return this.file;
     }
 
     @Override

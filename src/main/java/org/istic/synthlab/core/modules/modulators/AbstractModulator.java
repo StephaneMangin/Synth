@@ -96,4 +96,9 @@ public abstract class AbstractModulator implements IModulator {
     protected void setPotentiometer(Potentiometer potentiometer) {
         this.potentiometer = potentiometer;
     }
+
+    @Override
+    public Potentiometer getPotentiometer(){
+        return potentiometer;
+    }
 }

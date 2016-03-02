@@ -1,8 +1,6 @@
 package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterHighPass;
-import com.jsyn.unitgen.FilterStateVariable;
-import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.components.IComponent;
 
 /**
@@ -10,12 +8,12 @@ import org.istic.synthlab.components.IComponent;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class HighPassFilter extends AbstractFilter {
+public class HighPassFilter extends AbstractFilterBiquad {
     /**
      * Instantiates a new High pass filter adapter.
      * @param component
      */
     public HighPassFilter(IComponent component) {
-        super(component, new FilterStateVariable(), FilterType.HIGHPASS);
+        super(component, new FilterHighPass());
     }
 }

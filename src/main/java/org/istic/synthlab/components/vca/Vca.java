@@ -6,12 +6,23 @@ import org.istic.synthlab.core.modules.functions.Multiply;
 import org.istic.synthlab.core.modules.modulators.IModulator;
 import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.services.Factory;
+import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
- * this class represents the VCA (Voltage Controlled Amplifier)  module
- *
+ * This class represents the VCA (Voltage Controlled Amplifier) component
  * It controls the amplitude of an incoming signal according to another modulating signal.
+ *
+ * Note : To make this component work, both input MUST be plugged otherwise it will not produce any signal.
+ *
+ * A Vca is composed of the following input and output :
+ * - a frequency signal input
+ * - an amplitude signal input
+ * - a frequency signal output
+ *
+ * A Vca is composed of the following potentiometer :
+ * - A Gain potentiometer to set the weight of the amplitude input on the output signal
+ *
  * @author Dechaud John Marc on 2/8/16.
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -29,7 +40,7 @@ public class Vca extends AbstractComponent {
         super(name);
 
         this.multiplyInAm = new Multiply(this);
-        this.vcaModulator = Factory.createModulator("VCA", this, ModulatorType.VCA, PotentiometerType.EXPONENTIAL);
+        this.vcaModulator = Factory.createModulator("VCA", this, ModulatorType.VCA, PotentiometerType.LINEAR);
 
         // Connect the source port with the input port modulator
         this.getSource().connect(this.multiplyInAm.getInput());
@@ -43,7 +54,6 @@ public class Vca extends AbstractComponent {
 
         // Connect the gain output port with the external output
         this.multiplyInAm.getOutput().connect(this.getSink());
-
     }
 
     @Override
@@ -61,8 +71,17 @@ public class Vca extends AbstractComponent {
         return vcaModulator.isActivated();
     }
 
-    public IModulator getGainModulator() {
+/*    public IModulator getGainModulator() {
         return vcaModulator;
-    }
+    }*/
+
+    /**
+     * Returns the potentiometer used to set the gain of the amplitude input
+     *
+     * @return Potentiometer
+     */
+    public Potentiometer getGainPotentiometer() { return vcaModulator.getPotentiometer(); }
+
+    public IFunction getFunction() { return multiplyInAm; }
 
 }

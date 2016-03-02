@@ -1,18 +1,21 @@
 package org.istic.synthlab.components.rednoise;
 
-
 import org.istic.synthlab.components.AbstractController;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Noise component, the noise generated is a white noise.
+ *
  * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
  */
 public class Controller extends AbstractController {
 
     private RedNoise redNoise = new RedNoise("Red Noise");
 
+    /**
+     * Constructor of the Noise controller component.
+     */
     public Controller() {
         configure(redNoise);
     }

@@ -19,7 +19,7 @@
     </Label>
 
     <InputPlug fx:id="input" ComponentPane.leftAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectInput"/>
-    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="output1" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
     <OutputPlug fx:id="output2" ComponentPane.rightAnchor="60.0"  ComponentPane.bottomAnchor="10.0" text="Output 2" onMouseClicked="#connectOutput2"/>
     <OutputPlug fx:id="output3" ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 3" onMouseClicked="#connectOutput3"/>
 
