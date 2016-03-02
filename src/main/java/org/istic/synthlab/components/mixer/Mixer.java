@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.mixer;
 
-import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.modulators.IModulator;

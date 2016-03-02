@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterLowPass;
-import org.istic.synthlab.core.components.IComponent;
+import org.istic.synthlab.components.IComponent;
 
 /**
  * The adapter of the low pass filter Jsyn

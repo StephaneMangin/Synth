@@ -3,7 +3,7 @@ package org.istic.synthlab.core.modules.oscillators;
 import com.jsyn.Synthesizer;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
-import org.istic.synthlab.core.components.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.services.Factory;
