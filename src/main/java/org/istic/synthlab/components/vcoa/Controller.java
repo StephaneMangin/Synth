@@ -15,6 +15,8 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Vcoa component.
+ *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController {
@@ -57,6 +59,9 @@ public class Controller extends AbstractController {
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
+    /**
+     * Constructor of the Vcoa component controller.
+     */
     public Controller() {
         configure(vcoa);
         vcoa.setAmplitudeSquare(1);
@@ -64,11 +69,13 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeTriangle(1);
         vcoa.setAmplitudePulse(1);
         vcoa.setAmplitudeImpulse(1);
-        vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSawTooth(1);
+
         vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeWhiteNoise(1);
+
         vcoa.setExponentialFrequency(0.0);
+
     }
 
     /**
@@ -83,10 +90,13 @@ public class Controller extends AbstractController {
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setExponentialFrequency((Double)newValue);
+
             updateScreen();
             groupShortcut.selectToggle(null);
+
             linFrequency.setMinValue(String.valueOf((int) (vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency())));
             linFrequency.setMaxValue(String.valueOf((int) (vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency())));
+
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);

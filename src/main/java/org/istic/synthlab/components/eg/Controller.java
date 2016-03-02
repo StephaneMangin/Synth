@@ -8,8 +8,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Envelope Generator component.
+ *
  * @author Paola
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
+ *
  */
 public class Controller extends AbstractController {
     @FXML
@@ -23,6 +26,10 @@ public class Controller extends AbstractController {
 
     private Eg eg = new Eg("Envelope Generator");
 
+    /**
+     * Constructor of the Envelope Generator component controller.
+     *
+     */
     public Controller() {
         configure(eg);
     }

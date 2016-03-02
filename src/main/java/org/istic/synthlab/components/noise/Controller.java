@@ -1,21 +1,23 @@
 package org.istic.synthlab.components.noise;
 
 
-import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import org.istic.synthlab.components.AbstractController;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Noise component, the noise generated is a white noise.
+ *
  * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
  */
 public class Controller extends AbstractController {
 
     private Noise noise = new Noise("White Noise");
 
+    /**
+     * Constructor of the Noise controller component.
+     */
     public Controller() {
         configure(noise);
     }
