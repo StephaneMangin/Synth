@@ -1,7 +1,6 @@
 package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterHighPass;
-import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.components.IComponent;
 
 /**
@@ -9,30 +8,12 @@ import org.istic.synthlab.components.IComponent;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class HighPassFilter implements IFilter {
-
-    private UnitFilter unitFilter;
-
+public class HighPassFilter extends AbstractFilterBiquad {
     /**
      * Instantiates a new High pass filter adapter.
      * @param component
      */
     public HighPassFilter(IComponent component) {
-        this.unitFilter = new FilterHighPass();
-    }
-
-    @Override
-    public void activate() {
-        unitFilter.setEnabled(true);
-    }
-
-    @Override
-    public void deactivate() {
-        unitFilter.setEnabled(false);
-    }
-
-    @Override
-    public boolean isActivated() {
-        return unitFilter.isEnabled();
+        super(component, new FilterHighPass());
     }
 }

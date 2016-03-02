@@ -4,7 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;

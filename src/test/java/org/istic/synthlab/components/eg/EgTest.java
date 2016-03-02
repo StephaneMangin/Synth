@@ -1,8 +1,5 @@
 package org.istic.synthlab.components.eg;
 
-import javafx.util.Pair;
-import junit.framework.TestCase;
-import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.core.services.Register;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +16,7 @@ import static org.junit.Assert.*;
 public class EgTest {
 
     private Eg envelope;
-    private static final double DELTA = 1e-15;
+    private static final double DELTA = 1e-2;
 
     @Before
     public void setUp() throws Exception {
@@ -29,8 +26,7 @@ public class EgTest {
     @Test
     public void testEGModule(){
         assertEquals("ENVELOPE", envelope.getName());
-        assertTrue(Channel.contains(new Pair<>(envelope.getOutputModulator().getInput(),envelope.getOutput())));
-    }
+     }
 
 
     @Test
@@ -41,6 +37,7 @@ public class EgTest {
 
     @Test
     public void testDeactivate() throws Exception {
+        envelope.activate();
         envelope.deactivate();
         assertFalse(envelope.isActivated());
     }
@@ -115,11 +112,9 @@ public class EgTest {
         assertEquals(0.8, envelope.getAttackPotentiometer().getValue(),DELTA);
     }
 
-    // FIXME: value is 0.809, should be 0.1 ??
-    // TODO: uncomment when done
-//    public void testGetAttack() throws Exception {
-//        assertEquals(0.1,envelope.getAttack(),DELTA);
-//    }
+    public void testGetAttack() throws Exception {
+        assertEquals(0.1,envelope.getAttackPotentiometer().getValue(),DELTA);
+    }
 
     @Test
     public void testGetAttackMax() throws Exception {
@@ -132,11 +127,9 @@ public class EgTest {
          assertEquals(0.6, envelope.getHoldPotentiometer().getValue(),DELTA);
     }
 
-    // FIXME: value is 0.6, should be 0.3 ??
-    // TODO: uncomment when done
-//    public void testGetHold() throws Exception {
-//        assertEquals(0.3,envelope.getHold(),DELTA);
-//    }
+    public void testGetHold() throws Exception {
+        assertEquals(0.3,envelope.getHoldPotentiometer().getValue(),DELTA);
+    }
 
     @Test
     public void testGetHoldMax() throws Exception {
@@ -154,11 +147,9 @@ public class EgTest {
         assertEquals(0.2, envelope.getDecayPotentiometer().getValue(),DELTA);
     }
 
-    // FIXME: value is 0.809, should be 0.1 ??
-    // TODO: uncomment when done
-//    public void testGetDecay() throws Exception {
-//        assertEquals(0.1,envelope.getDecay(),DELTA);
-//    }
+    public void testGetDecay() throws Exception {
+        assertEquals(0.1,envelope.getDecayPotentiometer().getValue(),DELTA);
+    }
 
     @Test
     public void testGetDecayMax() throws Exception {
@@ -178,7 +169,7 @@ public class EgTest {
 
     @Test
     public void testGetSustain() throws Exception {
-        assertEquals(0.0,envelope.getSustainPotentiometer().getValue(),DELTA);
+        assertEquals(0.5,envelope.getSustainPotentiometer().getValue(),DELTA);
     }
 
     @Test
@@ -197,11 +188,9 @@ public class EgTest {
         assertEquals(0.2, envelope.getReleasePotentiometer().getValue(),DELTA);
     }
 
-    // FIXME: value is 0.809, should be 0.1 ??
-    // TODO: uncomment when done
-//    public void testGetRelease() throws Exception {
-//        assertEquals(0.1,envelope.getRelease(),DELTA);
-//    }
+   public void testGetRelease() throws Exception {
+       assertEquals(0.1,envelope.getReleasePotentiometer().getValue(),DELTA);
+    }
 
     @Test
     public void testGetReleaseMax() throws Exception {

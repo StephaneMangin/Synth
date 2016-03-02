@@ -1,8 +1,8 @@
 package org.istic.synthlab.components.noise;
 
 
-import org.istic.synthlab.components.AbstractController;
 
+import org.istic.synthlab.components.AbstractController;
 import java.net.URL;
 import java.util.ResourceBundle;
 

@@ -26,10 +26,9 @@ import org.istic.synthlab.Main;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.history.StateType;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -40,8 +39,6 @@ import org.reflections.util.FilterBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -103,7 +100,6 @@ public class CoreController implements Initializable {
         initializeSkinMenu();
         initializeListView();
         initializeMainPane();
-        initializeFunctions();
         manager.setCoreController(this);
         setWorkspace(workspace);
 
@@ -180,7 +176,7 @@ public class CoreController implements Initializable {
                 final Node currentNode = components.get(i);
                 if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
                     if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
-                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
                         currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
                         //currentNode.setLayoutY(fixedNode.getLayoutY());
                     }
@@ -226,18 +222,6 @@ public class CoreController implements Initializable {
         }
     }
 
-    private void initializeFunctions() {
-        // We set this event so that when we click somewhere random when in cable remove mode
-        // it goes back to normal mode
-        workspace.setOnMouseClicked(event -> {
-            if (cableRemoveMode) {
-                cableRemoveMode = false;
-                borderPane.setCursor(Cursor.DEFAULT);
-            }
-            event.consume();
-        });
-    }
-
     /**
      * Close the application
      */
@@ -256,20 +240,6 @@ public class CoreController implements Initializable {
         playButton.setDisable(false);
 
         Factory.createSynthesizer().stop();
-    }
-
-    // Cable deletion stuff
-    private boolean cableRemoveMode = false;
-
-    @FXML
-    public void onCut() {
-        cableRemoveMode = !cableRemoveMode;
-        if (cableRemoveMode) {
-            borderPane.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true)));
-        }
-        else {
-            borderPane.setCursor(Cursor.DEFAULT);
-        }
     }
 
     /**

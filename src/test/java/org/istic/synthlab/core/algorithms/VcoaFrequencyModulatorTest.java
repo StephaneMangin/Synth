@@ -33,7 +33,7 @@ public class VcoaFrequencyModulatorTest {
         assertEquals(frequencyModulator.getInput().getName(), "Freq Mod::freqIn");
         assertNotNull(frequencyModulator.getOutput());
         assertEquals(frequencyModulator.getOutput().getName(), "Freq Mod::freqOut");
-        assertTrue(frequencyModulator.getMin() == 20.0);
+        assertEquals(0.0,frequencyModulator.getMin(),1e-2);
         assertTrue(frequencyModulator.getMax() == 20000.0);
     }
 

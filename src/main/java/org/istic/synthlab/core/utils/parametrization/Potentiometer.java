@@ -118,7 +118,7 @@ public class Potentiometer extends GenericsParam<Double> {
         if (type == PotentiometerType.LINEAR) {
             result = (getMax() - getMin()) * value + getMin();
         } else if (type == PotentiometerType.EXPONENTIAL) {
-            result = Math.pow(2,(getMax()-getMin())*value) + getMin();
+            result = Math.pow(2,Math.round(Math.log(getMax()-getMin())/Math.log(2)*value)) - 1 + getMin();
         } else {
             throw new TypeNotPresentException("Type unmanaged !", new Throwable("This type is not managed by this instance " + type));
         }

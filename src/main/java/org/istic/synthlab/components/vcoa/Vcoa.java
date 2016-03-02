@@ -101,24 +101,19 @@ public class Vcoa extends AbstractComponent {
      * @param value
      */
     public void setExponentialFrequency(double value) {
-        double octave = Math.floor((exponentialModulator.getMax()-exponentialModulator.getMin())*value);
-        linearModulator.setMax(Math.floor(Math.pow(2, octave+1)));
-        linearModulator.setMin(Math.floor(Math.pow(2, octave-1)));
-        linearModulator.setValue(linearModulator.getRawValue());
+        double range = Math.log(exponentialModulator.getMax()-exponentialModulator.getMin())/Math.log(2);
+        double octave = Math.round(range*value);
+        double roundedValue = octave/Math.round(range);
+        exponentialModulator.setValue(roundedValue);
     }
 
-
     /**
-     * Set the value of the exponential frequency parameter and update linear modulator
+     * Set the value of the linear frequency paremeter
      *
      * @param value
      */
-    public void setExponentialRawFrequency(double value) {
-        exponentialModulator.setRawValue(value);
-        double octave = (exponentialModulator.getMax()-exponentialModulator.getMin())*exponentialModulator.getRawValue();
-        linearModulator.setMax(Math.pow(2, octave+1));
-        linearModulator.setMin(Math.pow(2, octave-1));
-        linearModulator.setValue(linearModulator.getRawValue());
+    public void setLinearFrequency(double value) {
+        linearModulator.setValue(value);
     }
 
     /**
@@ -147,15 +142,6 @@ public class Vcoa extends AbstractComponent {
      */
     public double getExponentialFrequencyMin() {
         return exponentialModulator.getMin();
-    }
-
-    /**
-     * Set the value of the linear frequency paremeter
-     *
-     * @param value
-     */
-    public void setLinearFrequency(double value) {
-        linearModulator.setValue(value);
     }
 
     /**

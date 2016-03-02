@@ -1,12 +1,9 @@
 package org.istic.synthlab.components.vca;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author John Marc Dechaud on 8/02/2016
@@ -30,18 +27,9 @@ public class VcaTest {
 
     @Test
     public void testDeactivate() throws Exception {
+        vca.activate();
         vca.deactivate();
         assertFalse(vca.isActivated());
-    }
-
-    @Test
-    public void testGetAmplitudeModulatorValue() throws Exception {
-        Double v = 1.0;
-        this.vca.getGainModulator().setValue(v);
-
-        // FIXME: assertion error
-        // TODO: uncomment when done
-        //Assert.assertTrue(this.vca.getAmplitudeModulatorValue() > 1.999 && this.vca.getAmplitudeModulatorValue() < 2.001);
     }
 
     @Test
@@ -52,8 +40,8 @@ public class VcaTest {
 
     @Test
     public void testSetGainModulatorValue() throws Exception {
-        this.vca.getGainModulator().setValue(0.001);
-        assertEquals((long) 0.001, (long) (this.vca.getGainModulator().getValue()));
+        this.vca.getGainModulator().setValue(0.005);
+        assertEquals((long) 0.005, (long) (this.vca.getGainModulator().getValue()));
     }
 
 }

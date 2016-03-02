@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
-<?import org.istic.synthlab.ui.plugins.ComponentPane?>
-<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
                minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" styleClass="componentPane"
@@ -20,11 +20,13 @@
             </font>
         </Label>
 
-        <OutputPlug layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <OutputPlug fx:id="output" text="Output" onMouseClicked="#connectOutput" ComponentPane.bottomAnchor="10.0"  ComponentPane.RightAnchor="10.0"/>
         <ImageView fitHeight="100.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../images/noise.png"/>
             </image>
         </ImageView>
+
+
     </children>
 </ComponentPane>

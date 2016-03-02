@@ -43,19 +43,7 @@ public class Controller extends AbstractController {
     @FXML
     private Label frequency;
 
-    @FXML
-    private RadioButton shortcut1Hz;
-    @FXML
-    private RadioButton shortcut10Hz;
-    @FXML
-    private RadioButton shortcut100Hz;
-    @FXML
-    private RadioButton shortcut1KHz;
-    @FXML
-    private RadioButton shortcut10KHz;
-
     private final ToggleGroup groupRadio = new ToggleGroup();
-    private final ToggleGroup groupShortcut = new ToggleGroup();
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
@@ -89,14 +77,10 @@ public class Controller extends AbstractController {
 
         // Configure exponential potentiometer
         expFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
-            vcoa.setExponentialFrequency((Double)newValue);
-
+            vcoa.setExponentialFrequency((double)newValue);
             updateScreen();
-            groupShortcut.selectToggle(null);
-
             linFrequency.setMinValue(String.valueOf((int) (vcoa.getLinearFrequencyMin()*vcoa.getExponentialFrequency())));
             linFrequency.setMaxValue(String.valueOf((int) (vcoa.getLinearFrequencyMax()*vcoa.getExponentialFrequency())));
-
         });
         expFrequency.setTitle("Exp. Freq.");
         expFrequency.setMinValue(0);
@@ -106,7 +90,6 @@ public class Controller extends AbstractController {
         linFrequency.valueProperty().addListener((observable, oldValue, newValue) -> {
             vcoa.setLinearFrequency((Double) newValue);
             updateScreen();
-            groupShortcut.selectToggle(null);
         });
         linFrequency.setTitle("Linear Freq.");
 
@@ -131,18 +114,6 @@ public class Controller extends AbstractController {
         sawtoothRadio.setUserData("sawtoothWave");
         redNoiseRadio.setUserData("redNoiseWave");
         whiteNoiseRadio.setUserData("whiteNoiseWave");
-
-        shortcut1Hz.setToggleGroup(groupShortcut);
-        shortcut10Hz.setToggleGroup(groupShortcut);
-        shortcut100Hz.setToggleGroup(groupShortcut);
-        shortcut1KHz.setToggleGroup(groupShortcut);
-        shortcut10KHz.setToggleGroup(groupShortcut);
-
-        shortcut1Hz.setUserData("1Hz");
-        shortcut10Hz.setUserData("10Hz");
-        shortcut100Hz.setUserData("100Hz");
-        shortcut1KHz.setUserData("1KHz");
-        shortcut10KHz.setUserData("10KHz");
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
@@ -171,33 +142,6 @@ public class Controller extends AbstractController {
                     default:
                         break;
                 }
-            }
-        });
-
-        // TODO: not finished. Find a way to calculate exponential based on hertz
-        groupShortcut.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            if (groupShortcut.getSelectedToggle() != null) {
-                switch (groupShortcut.getSelectedToggle().getUserData().toString()) {
-                    case "1Hz":
-                        expFrequency.valueProperty().setValue(0.05);
-                        break;
-                    case "10Hz":
-                        expFrequency.valueProperty().setValue(0.2161);
-                        break;
-                    case "100Hz":
-                        expFrequency.valueProperty().setValue(0.78);
-                        break;
-                    case "1KHz":
-                        expFrequency.valueProperty().setValue(1);
-                        break;
-                    case "10KHz":
-                        expFrequency.valueProperty().setValue(1);
-                        break;
-                    default:
-                        break;
-                }
-                linFrequency.valueProperty().setValue(0);
-                updateScreen();
             }
         });
 
