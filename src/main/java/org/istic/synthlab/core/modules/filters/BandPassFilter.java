@@ -2,7 +2,6 @@ package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterBandPass;
 import com.jsyn.unitgen.FilterStateVariable;
-import com.jsyn.unitgen.UnitFilter;
 import org.istic.synthlab.components.IComponent;
 
 /**
@@ -11,13 +10,13 @@ import org.istic.synthlab.components.IComponent;
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  *
  */
-public class BandPassFilter extends AbstractFilter {
+public class BandPassFilter extends AbstractFilterBiquad {
     /**
      * Instantiates a new Band pass filter adapter.
      * @param component
      */
     public BandPassFilter(IComponent component) {
-        super(component, new FilterStateVariable(), FilterType.ALLPASS);
+        super(component, new FilterBandPass());
     }
 
 }
