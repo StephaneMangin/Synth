@@ -180,7 +180,7 @@ public class CoreController implements Initializable {
                 final Node currentNode = components.get(i);
                 if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
                     if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
-                    //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
                         currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
                         //currentNode.setLayoutY(fixedNode.getLayoutY());
                     }

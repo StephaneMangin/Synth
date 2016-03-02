@@ -12,87 +12,87 @@
 <?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" prefHeight="230.0" prefWidth="400.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
-   <children>
+    <children>
 
-       <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+        <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 
-       <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
-           <font>
-               <Font name="System" size="20.0"/>
-           </font>
-       </Label>
-       <Label fx:id="frequency" layoutX="310.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="160" styleClass="vcoaFrequency">
-           <font>
-               <Font name="System" size="25" />
-           </font>
-       </Label>
+        <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
+            <font>
+                <Font name="System" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="frequency" layoutX="310.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="160" styleClass="vcoaFrequency">
+            <font>
+                <Font name="System" size="25" />
+            </font>
+        </Label>
 
-       <InputPlug fx:id="inputFm"  ComponentPane.leftAnchor="10.0" ComponentPane.bottomAnchor="10.0" text="FM" onMouseClicked="#connectInputFm"/>
+        <InputPlug fx:id="inputFm"  ComponentPane.leftAnchor="10.0" ComponentPane.bottomAnchor="10.0" text="FM" onMouseClicked="#connectInputFm"/>
 
-       <Potentiometer fx:id="expFrequency" layoutX="100.0" layoutY="150.0"/>
-   
-       <Potentiometer fx:id="linFrequency" layoutX="200.0" layoutY="150.0"/>
-   
-       <Potentiometer fx:id="amplitude" layoutX="300.0" layoutY="150.0"/>
+        <Potentiometer fx:id="expFrequency" layoutX="100.0" layoutY="150.0"/>
 
-       <OutputPlug fx:id="output"  ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <Potentiometer fx:id="linFrequency" layoutX="200.0" layoutY="150.0"/>
 
-       <RadioButton fx:id="squareRadio" layoutX="36.0" layoutY="61.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Square">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-   
-       <RadioButton fx:id="sineRadio" layoutX="50.0" layoutY="81.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Sine">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="triangleRadio" layoutX="31.0" layoutY="102.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Triangle">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="sawtoothRadio" layoutX="158.0" layoutY="81.0" mnemonicParsing="false" text="Sawtooth">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="redNoiseRadio" layoutX="158.0" layoutY="102.0" mnemonicParsing="false" text="Red Noise">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <RadioButton fx:id="whiteNoiseRadio" layoutX="158.0" layoutY="61.0" mnemonicParsing="false" text="White Noise">
-           <font>
-               <Font name="System" size="10.0" />
-           </font>
-       </RadioButton>
-       <ImageView fx:id="oscillatorImage" fitHeight="55.0" fitWidth="55.0" layoutX="98.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
-          <RadioButton fx:id="shortcut10Hz" layoutX="335.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10Hz">
-              <font>
-                  <Font name="System" size="10.0" />
-              </font>
-          </RadioButton>
-          <RadioButton fx:id="shortcut1Hz" layoutX="341.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1Hz">
-              <font>
-                  <Font name="System" size="10.0" />
-              </font>
-          </RadioButton>
-          <RadioButton fx:id="shortcut100Hz" layoutX="329.0" layoutY="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="100Hz">
-              <font>
-                  <Font name="System" size="10.0" />
-              </font>
-          </RadioButton>
-          <RadioButton fx:id="shortcut1KHz" layoutX="400.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1KHz">
-              <font>
-                  <Font name="System" size="10.0" />
-              </font>
-          </RadioButton>
-          <RadioButton fx:id="shortcut10KHz" layoutX="393.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10KHz">
-              <font>
-                  <Font name="System" size="10.0" />
-              </font>
-          </RadioButton>
-   </children>
+        <Potentiometer fx:id="amplitude" layoutX="300.0" layoutY="150.0"/>
+
+        <OutputPlug fx:id="output"  ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+
+        <RadioButton fx:id="squareRadio" layoutX="36.0" layoutY="61.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Square">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+
+        <RadioButton fx:id="sineRadio" layoutX="50.0" layoutY="81.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Sine">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="triangleRadio" layoutX="31.0" layoutY="102.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Triangle">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="sawtoothRadio" layoutX="158.0" layoutY="81.0" mnemonicParsing="false" text="Sawtooth">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="redNoiseRadio" layoutX="158.0" layoutY="102.0" mnemonicParsing="false" text="Red Noise">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="whiteNoiseRadio" layoutX="158.0" layoutY="61.0" mnemonicParsing="false" text="White Noise">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <ImageView fx:id="oscillatorImage" fitHeight="55.0" fitWidth="55.0" layoutX="98.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
+        <RadioButton fx:id="shortcut10Hz" layoutX="335.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10Hz">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="shortcut1Hz" layoutX="341.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1Hz">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="shortcut100Hz" layoutX="329.0" layoutY="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="100Hz">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="shortcut1KHz" layoutX="400.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1KHz">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+        <RadioButton fx:id="shortcut10KHz" layoutX="393.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10KHz">
+            <font>
+                <Font name="System" size="10.0" />
+            </font>
+        </RadioButton>
+    </children>
 </ComponentPane>
