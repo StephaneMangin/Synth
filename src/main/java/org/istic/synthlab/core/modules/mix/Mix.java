@@ -8,7 +8,6 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +24,6 @@ public class Mix implements IMix {
     private PassThrough passThroughIn4;
     private PassThrough passThroughOut;
 
-    private List<IInput> inputList;
-
     private Add addInput12;
     private Add addInput34;
     private Add totalAddInput;
@@ -39,8 +36,6 @@ public class Mix implements IMix {
     private IOutput output;
 
     public Mix(IComponent component) {
-
-        inputList = new ArrayList<>();
 
         // Instantiate the PassThrough for the inputs ports
         passThroughIn1 = new PassThrough();
@@ -77,12 +72,6 @@ public class Mix implements IMix {
         totalAddInput.inputB.connect(this.addInput34.output);
 
         totalAddInput.output.connect(this.passThroughOut.input);
-
-        // Add the input int the list
-        inputList.add(input1);
-        inputList.add(input2);
-        inputList.add(input3);
-        inputList.add(input4);
     }
 
     /**
@@ -133,27 +122,6 @@ public class Mix implements IMix {
     @Override
     public IOutput getOutput() {
         return this.output;
-    }
-
-    /**
-     * Return the i-th input port
-     *
-     * @param i
-     * @return IInput
-     */
-    @Override
-    public IInput getInputPortByIndex(int i) {
-        return this.inputList.get(i);
-    }
-
-    /**
-     * Add a new input port
-     *
-     * @param input
-     */
-    @Override
-    public void addInputPort(IInput input) {
-        this.inputList.add(input);
     }
 
     /**
