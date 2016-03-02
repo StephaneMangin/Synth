@@ -152,7 +152,6 @@ public class ConnectionManager {
         if (toDelete != null) {
             toDelete.forEach(this::deleteCable);
         }
-        componentPane.getController().close();
         CoreController.getWorkspace().getChildren().remove(componentPane);
         // Then save to history
         history.add(componentPane, StateType.DELETED);
