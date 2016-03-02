@@ -3,12 +3,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller extends AbstractController implements Initializable {
+    public OutputPlug gate;
     @FXML
     private Button buttonQ;
     @FXML
@@ -100,5 +104,9 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     public void kPressed(final KeyEvent event) {
         System.out.println(event.getSource());
+    }
+    @FXML
+    public void connectGate(final MouseEvent event) {
+
     }
 }
