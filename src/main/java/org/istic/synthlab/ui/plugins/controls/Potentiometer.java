@@ -12,7 +12,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.history.Origin;
 import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.history.StateType;
@@ -23,14 +22,12 @@ import java.io.IOException;
  * Allow direct insertion into a fxml file
  *
  * Example :
- *      <Potentiometer fx-id:="potentiometer" />
+ *      <Potentiometer fx:id="potentiometer" />
  *
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Potentiometer extends Pane implements Origin {
-
-    private ComponentPane component;
 
     @Override
     public String getName() {
@@ -98,9 +95,8 @@ public class Potentiometer extends Pane implements Origin {
 
     @Override
     public void setJson(JSONObject state) {
-
         state.forEach((s, o) -> {
-            switch(s) {
+            switch (s) {
                 case "value":
                     valueProperty().set((double) o);
                     break;
@@ -118,7 +114,6 @@ public class Potentiometer extends Pane implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         obj.put("value", getValue());
         obj.put("id", getId());
@@ -137,10 +132,6 @@ public class Potentiometer extends Pane implements Origin {
     @Override
     public void restoreState(State state) {
         setJson(state.getContent());
-    }
-
-    public void setComponent(ComponentPane component) {
-        this.component = component;
     }
 
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {

@@ -76,19 +76,19 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         // Modify the control points as the coordinate of the curve change
         startXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         startYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         // Add a context menu to the plug
@@ -100,6 +100,33 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+    }
+
+    private void computeHangPoint() {
+        Point2D midPoint = null;
+        Point2D hangPoint = null;
+
+        if (plugState == PlugState.IN_PLUGGED || plugState == plugState.PLUGGED) {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPoint = initial.midpoint(mouse);
+        }
+        else if (plugState == PlugState.OUT_PLUGGED) {
+            Point2D initial = new Point2D(getEndX(), getEndY());
+            Point2D mouse = new Point2D(getStartX(), getStartY());
+            midPoint = initial.midpoint(mouse);
+        }
+        else {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPoint = initial.midpoint(mouse);
+        }
+
+        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX());
+        setControlX1(hangPoint.getX());
+        setControlY1(hangPoint.getY());
+        setControlX2(hangPoint.getX());
+        setControlY2(hangPoint.getY());
     }
 
     /**
