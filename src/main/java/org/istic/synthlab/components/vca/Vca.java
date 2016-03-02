@@ -65,4 +65,6 @@ public class Vca extends AbstractComponent {
         return vcaModulator;
     }
 
+    public IFunction getFunction() { return multiplyInAm; }
+
 }
