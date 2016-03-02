@@ -48,6 +48,10 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         return this.toString().compareTo(o.toString());
     }
 
+    public PlugState getPlugState() {
+        return plugState;
+    }
+
     /**
      * Return true if the plug is both input and ouput connected
      *
@@ -101,7 +105,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         autosize();
     }
 
-     /**
+    /**
      * Manage the different internal connection related states of this plug
      *
      * LEGEND :
@@ -238,7 +242,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //System.out.println(this + "::connectInputPlug");
         deactivateMouseTrackingHandlers();
         //if (plugState == PlugState.PLUGGED) {
-        //    deconnectInputPlug();
+        //    disconnectInputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
             input = inputPlug;
@@ -268,9 +272,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * @implSpec previously in PLUGGED state only
      *
      */
-    public void deconnectInputPlug() {
+    public void disconnectInputPlug() {
         System.out.println("DECONNECT INPUT PLUG");
-        //System.out.println(this + "::deconnectInputPlug");
+        //System.out.println(this + "::disconnectInputPlug");
         input.setCable(null);
         input = null;
         nextState();
@@ -301,7 +305,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //System.out.println(this + "::connectOutputPlug");
         deactivateMouseTrackingHandlers();
         //if (plugState == PlugState.PLUGGED) {
-        //    deconnectOutputPlug();
+        //    disconnectOutputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
             output = outputPlug;
@@ -330,9 +334,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      * @implSpec previously in PLUGGED state only
      */
-    public void deconnectOutputPlug() {
+    public void disconnectOutputPlug() {
         System.out.println("DECONNECT OUTPUT PLUG");
-        //System.out.println(this + "::deconnectOutputPlug");
+        //System.out.println(this + "::disconnectOutputPlug");
         output.setCable(null);
         output = null;
         nextState();
@@ -432,9 +436,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 //                    Point2D inputPoint = computeCoordinates(input);
 //                    Point2D outputPoint = computeCoordinates(output);
 //                    if (inputPoint.distance(clickPoint) < outputPoint.distance(clickPoint)) {
-//                        deconnectInputPlug();
+//                        disconnectInputPlug();
 //                    } else {
-//                        deconnectOutputPlug();
+//                        disconnectOutputPlug();
 //                    }
 //                    // Then call the connectionManager to give this plug
 //                    //CoreController.getConnectionManager().setCurrentCable((CurveCable) event.getSource());
