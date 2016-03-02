@@ -65,21 +65,23 @@ public class BasicChainTest {
     public void TestVcoaToVcoa() throws InterruptedException {
         out.getInput().connect(vcoa.getOutput());
         Vcoa vcoa1 = new Vcoa("VCOA1");
-        vcoa1.setAmplitudeSine(50);
-        vcoa1.getOutput().connect(vcoa.getInput());
-        vcoa.getSawToothOutput().connect(out.getInput());
+        vcoa1.setOscillatorType(OscillatorType.SINE);
+        vcoa1.setAmplitudeSine(1.0);
+        vcoa1.setExponentialFrequency(0.5);
+        vcoa1.setLinearFrequency(0.5);
+        vcoa1.getOutput().connect(vcoa.getFm());
 
         // to display curves
-        AudioScope scope = new AudioScope( synth );
-        scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
-        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
-        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
-        scope.getView().setControlsVisible(true);
-        scope.start();
-        JFrame frame = new JFrame();
-        frame.add(scope.getView());
-        frame.pack();
-        frame.setVisible(true);
+        //AudioScope scope = new AudioScope( synth );
+        //scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
+        //scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        //scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
+        //scope.getView().setControlsVisible(true);
+        //scope.start();
+        //JFrame frame = new JFrame();
+        //frame.add(scope.getView());
+        //frame.pack();
+        //frame.setVisible(true);
 
         out.start();
         synth.start();
