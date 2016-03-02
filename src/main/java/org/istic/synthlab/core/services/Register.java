@@ -331,7 +331,7 @@ public class Register {
      * @param input
      * @return
      */
-    public static boolean isConnected(Input input) {
+    public static boolean isConnected(IInput input) {
         return associations.keySet().contains(input) && associations.get(input) != null;
     }
 
@@ -340,7 +340,7 @@ public class Register {
      * @param output
      * @return
      */
-    public static boolean isConnected(Output output) {
+    public static boolean isConnected(IOutput output) {
         return associations.values().contains(output);
     }
 }
