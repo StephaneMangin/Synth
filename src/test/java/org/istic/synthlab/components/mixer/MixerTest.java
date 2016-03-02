@@ -27,6 +27,7 @@ public class MixerTest {
 
     @Test
     public void testDesactivate() throws Exception {
+        mixer.activate();
         mixer.deactivate();
         assertFalse(mixer.isActivated());
     }

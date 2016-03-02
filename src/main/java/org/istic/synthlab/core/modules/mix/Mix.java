@@ -8,8 +8,6 @@ import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
-import java.util.List;
-
 /**
  * Class that define a mixer that able to mix multiple signals
  * from different modules and send the mixture on an output port

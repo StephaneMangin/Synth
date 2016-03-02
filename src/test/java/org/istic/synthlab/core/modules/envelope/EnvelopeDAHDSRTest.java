@@ -77,7 +77,7 @@ public class EnvelopeDAHDSRTest extends TestCase {
 
         while ( n > 0 ){
             n--;
-            assertEquals(envelope.getOutput().getUnitOutputPort().getValue(), sin.getAm().getUnitInputPort().getValue());
+            assertEquals(envelope.getOutput().getUnitOutputPort().getValue(), sin.getAm().getUnitInputPort().getValue(),1e-2);
             synth.sleepFor(0.1);
         }
 

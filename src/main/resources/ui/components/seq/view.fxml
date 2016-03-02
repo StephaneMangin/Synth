@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<?import org.istic.synthlab.ui.controls.Potentiometer?>-->
-
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
-<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
-<?import org.istic.synthlab.ui.plugins.ComponentPane?>
 <?import org.istic.synthlab.ui.plugins.controls.*?>
+<?import org.istic.synthlab.ui.plugins.plug.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="530.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.seq.Controller">
 
     <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="5.0" layoutY="5.0" onMouseClicked="#close" pickOnBounds="true" preserveRatio="true" smooth="true">

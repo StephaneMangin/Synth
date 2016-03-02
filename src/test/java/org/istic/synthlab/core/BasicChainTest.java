@@ -167,7 +167,7 @@ public class BasicChainTest {
             n--;
         }
 
-       ((SynthesisEngine)synth).printConnections();
+        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test
