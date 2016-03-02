@@ -16,11 +16,12 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
+import java.awt.*;
 import java.util.UUID;
 
 /**
@@ -215,9 +216,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      */
     private void nextState() {
-        System.out.println(this + "\tLeaving => " + plugState);
+        //System.out.println(this + "\tLeaving => " + plugState);
         plugState = plugState.nextState(this);
-        System.out.println(this + "\tEntering => " + plugState);
+        //System.out.println(this + "\tEntering => " + plugState);
     }
 
     /**
@@ -372,23 +373,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Recalulates position relatively to custom coordinates
-     *
-     * @param x
-     * @param y
-     */
-    public void reCenter(double x, double y){
-        this.setStartX(this.getStartX() - x);
-        this.setEndX(this.getEndX() - x);
-        this.setStartY(this.getStartY() - y);
-        this.setEndY(this.getEndY() - y);
-        this.setControlX1(this.getControlX1() - x);
-        this.setControlX2(this.getControlX2() - x);
-        this.setControlY1(this.getControlY1() - y);
-        this.setControlY2(this.getControlY2() - y);
-    }
-
-    /**
      * Event handler when right clicking on a plug
      */
     private class ContextMenuHandler implements EventHandler<MouseEvent> {
@@ -491,6 +475,18 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         // Make the plug follow the cursor
         setMouseTransparent(true);
         CoreController.getWorkspace().setOnMouseMoved(new FollowCursor());
+
+        if (plugState == PlugState.IN_PLUGGED) {
+            final Point2D inputPosition = computeCoordinates(input);
+            setEndX(inputPosition.getX());
+            setEndY(inputPosition.getY());
+        }
+        else if (plugState == PlugState.OUT_PLUGGED) {
+            final Point2D outputPosition = computeCoordinates(output);
+            setStartX(outputPosition.getX());
+            setStartY(outputPosition.getY());
+        }
+
         // Cancel the drawing if we click on the void
         CoreController.getWorkspace().setOnMouseClicked(event -> {
             CoreController.getConnectionManager().deleteCable(this);

@@ -10,6 +10,7 @@ import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
