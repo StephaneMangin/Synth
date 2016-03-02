@@ -12,6 +12,7 @@ import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.seq.Sequencer;
 import org.istic.synthlab.components.vca.Vca;
+import org.istic.synthlab.components.vcfa.Vcfa;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
@@ -403,5 +404,39 @@ public class BasicChainTest {
         synthesis.sleepFor(5);
         sequencer.deactivate();
         synthesis.sleepFor(5);
+    }
+    @Test
+    public void TestVcfa() throws InterruptedException {
+        Vcfa vcfa = new Vcfa("VCFA");
+        Vcoa vcoa2 = new Vcoa("VCOA2");
+
+        //Configuration
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        vcoa2.setOscillatorType(OscillatorType.TRIANGLE);
+        vcoa2.setAmplitudeTriangle(1.0);
+        vcoa2.setExponentialFrequency(0.2);
+        vcoa2.setLinearFrequency(0.5);
+        vcfa.setCutoff(1.0);
+
+        //Connection
+        vcoa.getOutput().connect(vcfa.getInput());
+        vcoa2.getOutput().connect(vcfa.getFm());
+        vcfa.getOutput().connect(this.out.getInput());
+
+        out.start();
+        synth.start();
+
+        int n = 1000;
+        while (n >= 0) {
+            if (n % 50 == 0){
+                vcfa.setCutoff(((double) n) / 1000);
+            }
+
+            synth.sleepFor(0.01);
+            n--;
+        }
+
+        ((SynthesisEngine)synth).printConnections();
     }
 }

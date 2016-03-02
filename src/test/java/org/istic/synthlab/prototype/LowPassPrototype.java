@@ -45,8 +45,8 @@ public class LowPassPrototype {
 
         oscLow.output.connect(myFilter.input);
         oscHigh.output.connect(myFilter.input);
-        myFilter.output.connect(0, myOut.input, 0);
-        myFilter.output.connect(0, myOut.input, 1);
+        myFilter.lowPass.connect(0, myOut.input, 0);
+        myFilter.lowPass.connect(0, myOut.input, 1);
 
         myOut.start();
         synth.start();
@@ -58,8 +58,8 @@ public class LowPassPrototype {
                 System.out.println(myFilter.frequency.getValue());
             }
 
-            resonance.setValue((double) n / 1000);
-            //potentiometer.setValue((double) n / 1000);
+            //resonance.setValue((double) n / 1000);
+            potentiometer.setValue((double) n / 1000);
             //myFilter.frequency.set((double) n);
 
             n--;
