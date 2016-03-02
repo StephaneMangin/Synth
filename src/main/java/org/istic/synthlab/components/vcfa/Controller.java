@@ -21,8 +21,6 @@ public class Controller extends AbstractController implements Initializable {
 
     private Vcfa vcfa = new Vcfa("Voltage Controlled\n Filter");
 
-    private Vcfa vcfa = new Vcfa("Voltage Controlled\nFrequency Amplifier");
-
     public Controller() {
         configure(vcfa);
     }
