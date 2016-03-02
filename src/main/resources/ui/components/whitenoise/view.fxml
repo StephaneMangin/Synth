@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity" prefHeight="200.0" prefWidth="150.0" styleClass="componentPane"
+               xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="org.istic.synthlab.components.whitenoise.Controller">
+    <children>
+
+        <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+
+        <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
+            <font>
+                <Font name="System" size="20.0"/>
+            </font>
+        </Label>
+
+        <OutputPlug layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <ImageView fitHeight="100.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../images/whiteNoise.png"/>
+            </image>
+        </ImageView>
+    </children>
+</ComponentPane>

@@ -7,7 +7,7 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
-import org.istic.synthlab.components.noise.Noise;
+import org.istic.synthlab.components.whitenoise.WhiteNoise;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.seq.Sequencer;
@@ -102,7 +102,6 @@ public class BasicChainTest {
 
     @Test
     public void TestVcoaSwitch() throws InterruptedException {
-        vcoa.setAmplitudeRedNoise(1);
         vcoa.setAmplitudeSquare(1);
         vcoa.setExponentialFrequency(0.75);
         vcoa.setLinearFrequency(0.5);
@@ -357,10 +356,10 @@ public class BasicChainTest {
     }
     @Test
     public void testWhiteNoise() throws InterruptedException {
-        Noise noise = new Noise("WHITE NOISE");
-        noise.activate();
+        WhiteNoise whiteNoise = new WhiteNoise("WHITE NOISE");
+        whiteNoise.activate();
         out.start();
-        out.getInput().connect(noise.getOutput());
+        out.getInput().connect(whiteNoise.getOutput());
         synth.start();
         synth.sleepFor(10);
 

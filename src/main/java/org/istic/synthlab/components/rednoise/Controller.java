@@ -1,9 +1,6 @@
-package org.istic.synthlab.components.noise;
+package org.istic.synthlab.components.rednoise;
 
 
-import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import org.istic.synthlab.components.AbstractController;
 
 import java.net.URL;
@@ -14,10 +11,10 @@ import java.util.ResourceBundle;
  */
 public class Controller extends AbstractController {
 
-    private Noise noise = new Noise("White Noise");
+    private RedNoise redNoise = new RedNoise("Red Noise");
 
     public Controller() {
-        configure(noise);
+        configure(redNoise);
     }
 
     /**

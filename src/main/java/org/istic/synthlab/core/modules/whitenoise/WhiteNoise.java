@@ -1,18 +1,17 @@
-package org.istic.synthlab.core.modules.noise;
-import com.jsyn.unitgen.WhiteNoise;
+package org.istic.synthlab.core.modules.whitenoise;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 
-public class ModelWhiteNoise implements  IModelWhiteNoise{
+public class WhiteNoise implements IWhiteNoise {
 
-    private WhiteNoise whiteNoise;
+    private com.jsyn.unitgen.WhiteNoise whiteNoise;
     private IOutput output;
 
-    public ModelWhiteNoise(IComponent component) {
+    public WhiteNoise(IComponent component) {
         super();
-        whiteNoise = new WhiteNoise();
+        whiteNoise = new com.jsyn.unitgen.WhiteNoise();
         Register.declare(component, whiteNoise);
         whiteNoise.output.setName("noise_output");
         output = Factory.createOutput("Out", component, this.whiteNoise.output);
