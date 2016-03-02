@@ -39,8 +39,8 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     // Keep the color to override setter
     private Color color;
 
-    private InputPlug input = null;
-    private OutputPlug output = null;
+    private InputPlug inputPlug = null;
+    private OutputPlug outputPlug = null;
     private PlugState plugState = PlugState.UNPLUGGED; // Default is not connected right :D
 
     @Override
@@ -49,7 +49,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Return true if the plug is both input and ouput connected
+     * Return true if the plug is both inputPlug and ouput connected
      *
      * @return
      *
@@ -62,7 +62,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     /**
      * Indicates if this plug is currently being drawn by user
      *
-     * @return true if any of the input plug or output plug is null
+     * @return true if any of the inputPlug plug or outputPlug plug is null
      *
      * @implSpec any states but PLUGGED or UNPLUGGED ones
      */
@@ -105,30 +105,30 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * Manage the different internal connection related states of this plug
      *
      * LEGEND :
-     *      input = true when connected, false otherwize
-     *      output = true when connected, false otherwize
-     *                                                                                      !input & !ouput
+     *      inputPlug = true when connected, false otherwize
+     *      outputPlug = true when connected, false otherwize
+     *                                                                                      !inputPlug & !ouput
      *              +--------------------------------------------------------------------------------------+
      *              |                                                                                      |
-     *              |                        !input & !ouput         output                                |
+     *              |                        !inputPlug & !ouput         outputPlug                                |
      *              |    +----------------------------------+       +------------------------------+       |
      *              |    |                                  |       |                              |       |
      *              |    |                            +-----+-------+-----+                        |       |
-     *              |    |            input & !output |State              | !input & ouput         |       |
+     *              |    |            inputPlug & !outputPlug |State              | !inputPlug & ouput         |       |
      *              |    |    +----------------------->        IN_PLUGGED +--------------------+   |       |
      *              |    |    |                       |                   |                    |   |       |
      *              |    |    |                       +-----+-------^-----+                    |   |       |
-     *         +----v----v----+---+       !input & !output  |       | !input & output +--------v---v----+  |
+     *         +----v----v----+---+       !inputPlug & !outputPlug  |       | !inputPlug & outputPlug +--------v---v----+  |
      *         |State             <-------------------------+       +-----------------+ State           |  |
      * O+------>        UNPLUGGED |                                                   |         PLUGGED +--+
      *         |                  <-------------------------+       +-----------------+                 |
-     *         +---------^----+---+       !input & !output  |       | !output & input +--------^---^----+
+     *         +---------^----+---+       !inputPlug & !outputPlug  |       | !outputPlug & inputPlug +--------^---^----+
      *                   |    |                       +-----+-------v-----+                    |   |
-     *                   |    |       output & !input |State              |                    |   |
+     *                   |    |       outputPlug & !inputPlug |State              |                    |   |
      *                   |    +----------------------->       OUT_PLUGGED +--------------------+   |
-     *                   |                            |                   | !output & input        |
+     *                   |                            |                   | !outputPlug & inputPlug        |
      *                   |                            +-----+-------+-----+                        |
-     *                   |                  !input & !ouput |       | output & input               |
+     *                   |                  !inputPlug & !ouput |       | outputPlug & inputPlug               |
      *                   +----------------------------------+       +------------------------------+
      *
      *                                                                  made with : http://www.asciiflow.com
@@ -138,14 +138,14 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         UNPLUGGED {
             @Override
             public PlugState nextState(CurveCable cable) {
-                // input connected
-                if (cable.input != null && cable.output != null) {
+                // inputPlug connected
+                if (cable.inputPlug != null && cable.outputPlug != null) {
                     return PLUGGED;
-                    // output connected
-                } else if (cable.input == null && cable.output != null) {
+                    // outputPlug connected
+                } else if (cable.inputPlug == null && cable.outputPlug != null) {
                     return OUT_PLUGGED;
                     // no connections
-                } else if (cable.input != null) { // && plug.output == null
+                } else if (cable.inputPlug != null) { // && plug.outputPlug == null
                     return IN_PLUGGED;
                 }
                 // default, stay in the state
@@ -156,11 +156,11 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         IN_PLUGGED {
             @Override
             public PlugState nextState(CurveCable cable) {
-                // output is connected and intput still connected
-                if (cable.output != null && cable.input != null) {
+                // outputPlug is connected and intput still connected
+                if (cable.outputPlug != null && cable.inputPlug != null) {
                     return PLUGGED;
-                    // if input is deconnected
-                } else if (cable.input == null) {
+                    // if inputPlug is deconnected
+                } else if (cable.inputPlug == null) {
                     return UNPLUGGED;
                 }
                 // default, stay in the state
@@ -171,11 +171,11 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         OUT_PLUGGED {
             @Override
             public PlugState nextState(CurveCable cable) {
-                // intput is connected and output still connected
-                if (cable.input != null && cable.output != null) {
+                // intput is connected and outputPlug still connected
+                if (cable.inputPlug != null && cable.outputPlug != null) {
                     return PLUGGED;
-                    // if output is deconnected
-                } else if (cable.output == null) {
+                    // if outputPlug is deconnected
+                } else if (cable.outputPlug == null) {
                     return UNPLUGGED;
                 }
                 // default, stay in the state
@@ -187,13 +187,13 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             @Override
             public PlugState nextState(CurveCable cable) {
                 // fully deconnected
-                if (cable.input == null && cable.output == null) {
+                if (cable.inputPlug == null && cable.outputPlug == null) {
                     return UNPLUGGED;
-                    // only input is deconnected
-                } else if (cable.input == null) { // && plug.output != null
+                    // only inputPlug is deconnected
+                } else if (cable.inputPlug == null) { // && plug.outputPlug != null
                     return OUT_PLUGGED;
-                    // only output is deconnected
-                } else if (cable.output == null) { // && plug.input != null
+                    // only outputPlug is deconnected
+                } else if (cable.outputPlug == null) { // && plug.inputPlug != null
                     return IN_PLUGGED;
                 }
                 // default, stay in the state
@@ -211,24 +211,24 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      */
     private void nextState() {
-        System.out.println(this + "\tLeaving => " + plugState);
+        System.out.println(this.getId() + "\tLeaving => " + plugState);
         plugState = plugState.nextState(this);
-        System.out.println(this + "\tEntering => " + plugState);
+        System.out.println(this.getId() + "\tEntering => " + plugState);
     }
 
     /**
-     * Return the current input plug
+     * Return the current inputPlug plug
      *
      * @return
      *
      * @implSpec previously in UNPLUGGED or INPUT_CHANGING states only
      */
-    public InputPlug getInput() {
-        return input;
+    public InputPlug getInputPlug() {
+        return inputPlug;
     }
 
     /**
-     * Connect to an input
+     * Connect to an inputPlug
      * The plug manage itself its connections, so this method MUST be call without controls
      *
      * @param inputPlug
@@ -241,18 +241,18 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //    deconnectInputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
-            input = inputPlug;
+            this.inputPlug = inputPlug;
             inputPlug.setCable(this);
-            setStartX(computeCoordinates(input).getX());
-            setStartY(computeCoordinates(input).getY());
+            setStartX(computeCoordinates(this.inputPlug).getX());
+            setStartY(computeCoordinates(this.inputPlug).getY());
 
             // Modify the coordinates of the curve as the node moves
             inputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setStartX(computeCoordinates(input).getX());
+                setStartX(computeCoordinates(this.inputPlug).getX());
             });
 
             inputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setStartY(computeCoordinates(input).getY());
+                setStartY(computeCoordinates(this.inputPlug).getY());
             });
             nextState();
         }
@@ -263,7 +263,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Deconnect the input plug and activates mouse traking handlers if changing
+     * Deconnect the inputPlug plug and activates mouse traking handlers if changing
      *
      * @implSpec previously in PLUGGED state only
      *
@@ -271,28 +271,28 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     public void deconnectInputPlug() {
         System.out.println("DECONNECT INPUT PLUG");
         //System.out.println(this + "::deconnectInputPlug");
-        input.setCable(null);
-        input = null;
+        inputPlug.setCable(null);
+        inputPlug = null;
         nextState();
-        // If still output connected
+        // If still outputPlug connected
         if (plugState == PlugState.OUT_PLUGGED) {
             activateMouseTrackingHandlers();
         }
     }
 
     /**
-     * Returns the output plug
+     * Returns the outputPlug plug
      *
      * @return
      *
      * @implSpec previously in UNPLUGGED or OUTPUT_CHANGING states only
      */
-    public OutputPlug getOutput() {
-        return output;
+    public OutputPlug getOutputPlug() {
+        return outputPlug;
     }
 
     /**
-     * Connect to an output
+     * Connect to an outputPlug
      * The plug manage itself its connections, so this method MUST be call without controls
      *
      * @param outputPlug
@@ -304,18 +304,18 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //    deconnectOutputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
-            output = outputPlug;
+            this.outputPlug = outputPlug;
             outputPlug.setCable(this);
             setEndX(computeCoordinates(outputPlug).getX());
             setEndY(computeCoordinates(outputPlug).getY());
 
             // Modify the coordinates of the curve as the node moves
             outputPlug.getParent().layoutXProperty().addListener((observable, oldValue, newValue) -> {
-                setEndX(computeCoordinates(output).getX());
+                setEndX(computeCoordinates(this.outputPlug).getX());
             });
 
             outputPlug.getParent().layoutYProperty().addListener((observable, oldValue, newValue) -> {
-                setEndY(computeCoordinates(output).getY());
+                setEndY(computeCoordinates(this.outputPlug).getY());
             });
             nextState();
         }
@@ -326,17 +326,17 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Deconnect the output plug and activates mouse traking handlers if changing
+     * Deconnect the outputPlug plug and activates mouse traking handlers if changing
      *
      * @implSpec previously in PLUGGED state only
      */
     public void deconnectOutputPlug() {
         System.out.println("DECONNECT OUTPUT PLUG");
         //System.out.println(this + "::deconnectOutputPlug");
-        output.setCable(null);
-        output = null;
+        outputPlug.setCable(null);
+        outputPlug = null;
         nextState();
-        // If still input connected
+        // If still inputPlug connected
         if (plugState == PlugState.IN_PLUGGED) {
             activateMouseTrackingHandlers();
         }
@@ -429,8 +429,8 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 //            if (event.getButton() == MouseButton.PRIMARY) {
 //                if (plugState == PlugState.PLUGGED) {
 //                    Point2D clickPoint = new Point2D(event.getSceneX(), event.getSceneY());
-//                    Point2D inputPoint = computeCoordinates(input);
-//                    Point2D outputPoint = computeCoordinates(output);
+//                    Point2D inputPoint = computeCoordinates(inputPlug);
+//                    Point2D outputPoint = computeCoordinates(outputPlug);
 //                    if (inputPoint.distance(clickPoint) < outputPoint.distance(clickPoint)) {
 //                        deconnectInputPlug();
 //                    } else {
@@ -550,19 +550,19 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         obj.put("state", plugState.name());
         obj.put("name", Math.random() );
         if (plugState == PlugState.PLUGGED || plugState == PlugState.IN_PLUGGED) {
-            obj.put("inComponentId", input.getParent().getId());
-            obj.put("inputPlug", input.getId());
-            obj.put("name", input.getParent().getId() + "-" + input.getId());
+            obj.put("inComponentId", inputPlug.getParent().getId());
+            obj.put("inputPlug", inputPlug.getId());
+            obj.put("name", inputPlug.getParent().getId() + "-" + inputPlug.getId());
         }
         if (plugState == PlugState.PLUGGED || plugState == PlugState.OUT_PLUGGED) {
-            obj.put("outComponentId", output.getParent().getId());
-            obj.put("outputPlug", output.getId());
-            obj.put("name", output.getParent().getId() + "-" + output.getId());
+            obj.put("outComponentId", outputPlug.getParent().getId());
+            obj.put("outputPlug", outputPlug.getId());
+            obj.put("name", outputPlug.getParent().getId() + "-" + outputPlug.getId());
         }
         if (plugState == PlugState.PLUGGED) {
             obj.put("name",
-                    input.getParent().getId() + "-" + input.getId() +
-                            "|" + output.getParent().getId() + "-" + output.getId());
+                    inputPlug.getParent().getId() + "-" + inputPlug.getId() +
+                            "|" + outputPlug.getParent().getId() + "-" + outputPlug.getId());
         }
         obj.put("id", getId());
         return obj;
