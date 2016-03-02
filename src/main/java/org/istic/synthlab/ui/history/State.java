@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.plugins.history;
+package org.istic.synthlab.ui.history;
 
 import net.minidev.json.JSONObject;
 

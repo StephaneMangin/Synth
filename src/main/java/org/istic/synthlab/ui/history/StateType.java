@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.plugins.history;
+package org.istic.synthlab.ui.history;
 
 /**
  * Created by blacknight on 25/02/16.

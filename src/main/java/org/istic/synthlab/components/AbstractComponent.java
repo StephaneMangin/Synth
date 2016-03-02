@@ -297,11 +297,11 @@ public abstract class AbstractComponent implements IComponent {
 
     @Override
     public void close() {
-        getSource().disconnect();
-        getSourceAm().disconnect();
-        getSourceFm().disconnect();
-        getSourceGate().disconnect();
-        getSink().disconnect();
-        getSinkGate().disconnect();
+        getInput().disconnect();
+        getAm().disconnect();
+        getFm().disconnect();
+        getInputGate().disconnect();
+        getOutput().disconnect();
+        getOutputGate().disconnect();
     }
 }

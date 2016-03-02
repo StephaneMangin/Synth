@@ -1,20 +1,7 @@
 package org.istic.synthlab.ui.plugins.controls;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import net.minidev.json.JSONObject;
-import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.history.Origin;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.StateType;
 
 import java.io.IOException;
 

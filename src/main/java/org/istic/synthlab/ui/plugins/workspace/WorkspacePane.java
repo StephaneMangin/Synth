@@ -1,6 +1,5 @@
-package org.istic.synthlab.ui.plugins;
+package org.istic.synthlab.ui.plugins.workspace;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
@@ -12,11 +11,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.history.Origin;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.StateType;
-
-import java.io.IOException;
+import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
+import org.istic.synthlab.ui.history.StateType;
 
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>

@@ -6,9 +6,9 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import org.istic.synthlab.ui.plugins.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
 <?import org.istic.synthlab.ui.plugins.controls.Potentiometer?>
-<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.plug.InputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="200.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40"

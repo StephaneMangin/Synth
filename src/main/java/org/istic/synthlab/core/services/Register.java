@@ -9,6 +9,8 @@ import org.istic.synthlab.core.Channel;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.modules.io.Input;
+import org.istic.synthlab.core.modules.io.Output;
 
 import java.util.*;
 
@@ -170,12 +172,16 @@ public class Register {
                 in = in1;
             }
         }
+        if (in == null) {
+            throw new ExceptionInInitializerError(out + " has not been declared properly");
+        } else if (out == null) {
+            throw new ExceptionInInitializerError(in + " has not been declared properly");
+        }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);
         if (unitIn == null) {
             throw new ExceptionInInitializerError(out + " has not been declared properly");
-        }
-        if (unitOut == null) {
+        } else if (unitOut == null) {
             throw new ExceptionInInitializerError(in + " has not been declared properly");
         }
         Channel.disconnect(in, out);
@@ -320,4 +326,21 @@ public class Register {
         return sb.toString();
     }
 
+    /**
+     * Check if this input has been connected already
+     * @param input
+     * @return
+     */
+    public static boolean isConnected(Input input) {
+        return associations.keySet().contains(input) && associations.get(input) != null;
+    }
+
+    /**
+     * Check if this output has been connected already
+     * @param output
+     * @return
+     */
+    public static boolean isConnected(Output output) {
+        return associations.values().contains(output);
+    }
 }

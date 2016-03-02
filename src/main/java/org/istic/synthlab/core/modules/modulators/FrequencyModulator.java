@@ -22,9 +22,9 @@ public class FrequencyModulator extends AbstractModulator {
                 "Frequency",
                 multiplyFunction.inputB,
                 potentiometerType,
-                20000.0D,
-                0.0D,
-                0.0D
+                2.0D,
+                0.5D,
+                1.0D
         ));
 
         // Declare the relation to the mapping

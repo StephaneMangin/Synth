@@ -1,4 +1,4 @@
-package org.istic.synthlab.ui.plugins.cable;
+package org.istic.synthlab.ui.plugins.workspace;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -16,15 +16,15 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.Origin;
+import org.istic.synthlab.ui.history.State;
+import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.util.UUID;
 
 /**
- * Manage cable insertion and linking.
+ * Manage plug insertion and linking.
  *
  * This class uses a FSM to manage its connection states.
  *
@@ -49,7 +49,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Return true if the cable is both input and ouput connected
+     * Return true if the plug is both input and ouput connected
      *
      * @return
      *
@@ -60,7 +60,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Indicates if this cable is currently being drawn by user
+     * Indicates if this plug is currently being drawn by user
      *
      * @return true if any of the input plug or output plug is null
      *
@@ -90,7 +90,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
         });
 
-        // Add a context menu to the cable
+        // Add a context menu to the plug
         setOnMouseClicked(new ContextMenuHandler(this));
 
         setStrokeWidth(7.5);
@@ -102,7 +102,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
      /**
-     * Manage the different internal connection related states of this cable
+     * Manage the different internal connection related states of this plug
      *
      * LEGEND :
      *      input = true when connected, false otherwize
@@ -145,7 +145,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 } else if (cable.input == null && cable.output != null) {
                     return OUT_PLUGGED;
                     // no connections
-                } else if (cable.input != null) { // && cable.output == null
+                } else if (cable.input != null) { // && plug.output == null
                     return IN_PLUGGED;
                 }
                 // default, stay in the state
@@ -190,10 +190,10 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 if (cable.input == null && cable.output == null) {
                     return UNPLUGGED;
                     // only input is deconnected
-                } else if (cable.input == null) { // && cable.output != null
+                } else if (cable.input == null) { // && plug.output != null
                     return OUT_PLUGGED;
                     // only output is deconnected
-                } else if (cable.output == null) { // && cable.input != null
+                } else if (cable.output == null) { // && plug.input != null
                     return IN_PLUGGED;
                 }
                 // default, stay in the state
@@ -211,9 +211,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      */
     private void nextState() {
-        //System.out.println(this + "\tLeaving => " + plugState);
+        System.out.println(this + "\tLeaving => " + plugState);
         plugState = plugState.nextState(this);
-        //System.out.println(this + "\tEntering => " + plugState);
+        System.out.println(this + "\tEntering => " + plugState);
     }
 
     /**
@@ -227,12 +227,19 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         return input;
     }
 
+    /**
+     * Connect to an input
+     * The plug manage itself its connections, so this method MUST be call without controls
+     *
+     * @param inputPlug
+     */
     public void connectInputPlug(final InputPlug inputPlug) {
+        System.out.println("CONNECT INPUT PLUG");
         //System.out.println(this + "::connectInputPlug");
         deactivateMouseTrackingHandlers();
-        if (plugState == PlugState.PLUGGED) {
-            deconnectInputPlug();
-        }
+        //if (plugState == PlugState.PLUGGED) {
+        //    deconnectInputPlug();
+        //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
             input = inputPlug;
             inputPlug.setCable(this);
@@ -262,10 +269,12 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      */
     public void deconnectInputPlug() {
+        System.out.println("DECONNECT INPUT PLUG");
         //System.out.println(this + "::deconnectInputPlug");
         input.setCable(null);
         input = null;
         nextState();
+        // If still output connected
         if (plugState == PlugState.OUT_PLUGGED) {
             activateMouseTrackingHandlers();
         }
@@ -282,12 +291,18 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         return output;
     }
 
+    /**
+     * Connect to an output
+     * The plug manage itself its connections, so this method MUST be call without controls
+     *
+     * @param outputPlug
+     */
     public void connectOutputPlug(OutputPlug outputPlug) {
         //System.out.println(this + "::connectOutputPlug");
         deactivateMouseTrackingHandlers();
-        if (plugState == PlugState.PLUGGED) {
-            deconnectOutputPlug();
-        }
+        //if (plugState == PlugState.PLUGGED) {
+        //    deconnectOutputPlug();
+        //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
             output = outputPlug;
             outputPlug.setCable(this);
@@ -316,10 +331,12 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * @implSpec previously in PLUGGED state only
      */
     public void deconnectOutputPlug() {
+        System.out.println("DECONNECT OUTPUT PLUG");
         //System.out.println(this + "::deconnectOutputPlug");
         output.setCable(null);
         output = null;
         nextState();
+        // If still input connected
         if (plugState == PlugState.IN_PLUGGED) {
             activateMouseTrackingHandlers();
         }
@@ -368,7 +385,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Event handler when right clicking on a cable
+     * Event handler when right clicking on a plug
      */
     private class ContextMenuHandler implements EventHandler<MouseEvent> {
 
@@ -386,13 +403,13 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 // Create a context menu
                 final ContextMenu contextMenu = new ContextMenu();
 
-                // Entry to delete a cable
+                // Entry to delete a plug
                 final MenuItem deleteMenu = new MenuItem(null, new Label("Delete"));
                 deleteMenu.setOnAction(e -> {
                     CoreController.getConnectionManager().deleteCable(cable);
                 });
 
-                // Entry to change the color of a cable
+                // Entry to change the color of a plug
                 final ColorPicker colorPicker = new ColorPicker();
                 colorPicker.setValue(cable.getColor());
                 colorPicker.getStyleClass().add("button");
@@ -407,6 +424,23 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
                 event.consume();
             }
+            // FIXME: when managed inside the curvecable, the moving of a cable does not work properly, it creates a new cable after reconnection
+            // because of the connection manager which has finished the first connection, so no more current cable and no more cable attached to the plug yet !!!
+//            if (event.getButton() == MouseButton.PRIMARY) {
+//                if (plugState == PlugState.PLUGGED) {
+//                    Point2D clickPoint = new Point2D(event.getSceneX(), event.getSceneY());
+//                    Point2D inputPoint = computeCoordinates(input);
+//                    Point2D outputPoint = computeCoordinates(output);
+//                    if (inputPoint.distance(clickPoint) < outputPoint.distance(clickPoint)) {
+//                        deconnectInputPlug();
+//                    } else {
+//                        deconnectOutputPlug();
+//                    }
+//                    // Then call the connectionManager to give this plug
+//                    //CoreController.getConnectionManager().setCurrentCable((CurveCable) event.getSource());
+//                    event.consume();
+//                }
+//            }
         }
     }
 
@@ -444,13 +478,13 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
 
     /**
-     * Make the cable follow the pointer
+     * Make the plug follow the pointer
      * Set mouse transparent
-     * Invalidate the cable if clicked inside the workspacePane while changing or linking
+     * Invalidate the plug if clicked inside the workspacePane while changing or linking
      *
      */
     private void activateMouseTrackingHandlers() {
-        // Make the cable follow the cursor
+        // Make the plug follow the cursor
         setMouseTransparent(true);
         CoreController.getWorkspace().setOnMouseMoved(new FollowCursor());
         // Cancel the drawing if we click on the void
@@ -460,12 +494,12 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     }
 
     /**
-     * Make the cable unfollow the pointer
+     * Make the plug unfollow the pointer
      * Unset mouse transparent
      *
      */
     private void deactivateMouseTrackingHandlers() {
-        // Make the cable follow the cursor
+        // Make the plug follow the cursor
         setMouseTransparent(false);
         CoreController.getWorkspace().setOnMouseMoved(null);
         // Cancel the drawing if we click on the void
