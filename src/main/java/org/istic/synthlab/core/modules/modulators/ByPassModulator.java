@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.modulators;
 
 import com.jsyn.unitgen.PassThrough;
-import org.istic.synthlab.core.components.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;

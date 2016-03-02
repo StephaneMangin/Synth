@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.keyboard;
 
-import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 
 public class Keyboard extends AbstractComponent {
 

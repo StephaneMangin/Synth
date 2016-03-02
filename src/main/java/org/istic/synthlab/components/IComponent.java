@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.components;
+package org.istic.synthlab.components;
 
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;

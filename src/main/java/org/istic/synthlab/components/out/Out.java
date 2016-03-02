@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.out;
 
-import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.services.Factory;

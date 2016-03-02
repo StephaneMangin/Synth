@@ -23,7 +23,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.istic.synthlab.Main;
-import org.istic.synthlab.core.components.IController;
+import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
@@ -248,6 +248,7 @@ public class CoreController implements Initializable {
 
         final Set<String> packages = new HashSet<>();
         for (final Class classInstance : classes) {
+            System.out.println(classInstance.getPackage().getName());
             String packageName = classInstance.getPackage().getName();
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
             packages.add(packageName);

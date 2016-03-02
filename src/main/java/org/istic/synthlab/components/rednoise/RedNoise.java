@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.rednoise;
 
-import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.services.Factory;
