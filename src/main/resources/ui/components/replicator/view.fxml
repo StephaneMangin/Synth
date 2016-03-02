@@ -2,9 +2,9 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
-<?import org.istic.synthlab.ui.plugins.ComponentPane?>
-<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
-<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                prefHeight="112.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
@@ -19,7 +19,7 @@
     </Label>
 
     <InputPlug fx:id="input" ComponentPane.leftAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectInput"/>
-    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="output1" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
     <OutputPlug fx:id="output2" ComponentPane.rightAnchor="60.0"  ComponentPane.bottomAnchor="10.0" text="Output 2" onMouseClicked="#connectOutput2"/>
     <OutputPlug fx:id="output3" ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 3" onMouseClicked="#connectOutput3"/>
 

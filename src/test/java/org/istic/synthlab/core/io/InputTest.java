@@ -43,7 +43,6 @@ public class InputTest {
     @Test
     public void testInputConstruct(){
         // we test if the construction of the input port out is well designed
-        assertNotNull(input.getUnitInputPort());
         assertNotNull(input.getComponent());
         assertEquals("IN", input.getName());
         assertEquals(Register.getComponent(input), out);

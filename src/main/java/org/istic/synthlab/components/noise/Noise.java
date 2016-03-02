@@ -6,13 +6,16 @@ import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
 
 /**
- * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
- */
-
-/**
  * The model of White noise component
  * It creates a  white noise module to produce a signal conforming to the definition of white noise.
- * */
+ *
+ * A Noise component is composed of the following input and output :
+ * - 1 frequency output
+ *
+ * A Noise component has no potentiometer.
+ *
+ * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr
+ **/
 public class Noise extends AbstractComponent  {
 
     private IModelWhiteNoise noise;
@@ -43,8 +46,4 @@ public class Noise extends AbstractComponent  {
         noise.deactivate();
     }
 
-    @Override
-    public IOutput getOutput(){
-        return noise.getOutput();
-    }
 }
