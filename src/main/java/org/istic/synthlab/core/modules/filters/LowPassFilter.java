@@ -1,7 +1,6 @@
 package org.istic.synthlab.core.modules.filters;
 
-import com.jsyn.unitgen.FilterLowPass;
-import com.jsyn.unitgen.UnitFilter;
+import com.jsyn.unitgen.FilterStateVariable;
 import org.istic.synthlab.components.IComponent;
 
 /**
@@ -9,30 +8,12 @@ import org.istic.synthlab.components.IComponent;
  *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
-public class LowPassFilter implements IFilter {
-
-    private UnitFilter unitFilter;
-
+public class LowPassFilter extends AbstractFilter {
     /**
      * Instantiates a new Low pass filter adapter.
      * @param component
      */
     public LowPassFilter(IComponent component) {
-        this.unitFilter = new FilterLowPass();
-    }
-
-    @Override
-    public void activate() {
-        unitFilter.setEnabled(true);
-    }
-
-    @Override
-    public void deactivate() {
-        unitFilter.setEnabled(false);
-    }
-
-    @Override
-    public boolean isActivated() {
-        return unitFilter.isEnabled();
+        super(component, new FilterStateVariable(), FilterType.LOWPASS);
     }
 }
