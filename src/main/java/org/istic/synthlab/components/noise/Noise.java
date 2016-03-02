@@ -1,7 +1,6 @@
 package org.istic.synthlab.components.noise;
 
 import org.istic.synthlab.components.AbstractComponent;
-import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.noise.IModelWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
 
@@ -43,8 +42,4 @@ public class Noise extends AbstractComponent  {
         noise.deactivate();
     }
 
-    @Override
-    public IOutput getOutput(){
-        return noise.getOutput();
-    }
 }

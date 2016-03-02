@@ -42,18 +42,16 @@ public class PotentiometerTest {
 
     }
 
-    // FIXME : this test expect 1.0,actual 0.0
     @Test
     public void testSetValue() throws Exception {
         double oracle = 1.0D;
         potard.setValue(oracle);
-       // assertEquals(oracle, potard.getValue(), doublePrecision);
+       assertEquals(oracle, potard.getRawValue(), doublePrecision);
     }
 
-    // FIXME : this test expect 0.6146092166646465,actual 0.0
     @Test
     public void testGetValue() throws Exception {
-        //assertEquals(initialValueExp, potard.getValue(), doublePrecision);
+        assertEquals(initialValue, potard.getRawValue(), doublePrecision);
     }
 
     @Test
