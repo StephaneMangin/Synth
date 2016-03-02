@@ -29,25 +29,11 @@ public class ConnectionManager {
     }
     private CurveCable currentCable;
 
-    private HashMap<ComponentPane, Set<CurveCable>> plugComponentMapping = new HashMap<>();
-
-
     private void finished() {
         Register.connect(
-            currentCable.getInput().getInput(),
-            currentCable.getOutput().getOutput()
+            currentCable.getInputPlug().getInput(),
+            currentCable.getOutputPlug().getOutput()
         );
-
-        // Add the cable to the mapping only if not yet present
-        // because the linking has been done byth cable itself
-        ComponentPane componentPane = currentCable.getOutput().getComponentPane();
-        if (!plugComponentMapping.containsKey(componentPane)) {
-            plugComponentMapping.put(componentPane, new TreeSet<>());
-        }
-        Set<CurveCable> nodes = plugComponentMapping.get(componentPane);
-        if (!nodes.contains(currentCable)) {
-            nodes.add(currentCable);
-        }
 
         // Save to history
         history.add(currentCable, StateType.CHANGED);
@@ -70,7 +56,6 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-
         if (!plug.hasCable()) {
             // Connect the node and the cable
             currentCable.connectOutputPlug(plug);
@@ -104,7 +89,6 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-
         if (!plug.hasCable()) {
             // Connect the node and the cable
             currentCable.connectInputPlug(plug);
@@ -127,22 +111,34 @@ public class ConnectionManager {
      * @param cable
      */
     public void deleteCable(CurveCable cable) {
-        if (cable != null ) {
-            if (cable.isPlugged()) {
-                Register.disconnect(cable.getInput().getInput());
-            }
-
-            if (cable.getPlugState() == CurveCable.PlugState.IN_PLUGGED) {
-                cable.disconnectInputPlug();
-            }
-            if (cable.getPlugState() == CurveCable.PlugState.OUT_PLUGGED) {
-                cable.disconnectOutputPlug();
-            }
-
-            CoreController.getWorkspace().getChildren().remove(cable);
+        if (cable != null) {
+            // Remove the cable
+            removeCable(cable);
+            // And reset current cable
             currentCable = null;
-            // Then save to history
-            history.add(cable, StateType.DELETED);
+            if (cable.isPlugged()) {
+                // Save to history
+                history.add(cable, StateType.DELETED);
+            }
+        }
+    }
+
+    /**
+     * Delete a cable and end the model connection
+     *
+     * @param cable The cable to delete
+     */
+    private void removeCable(final CurveCable cable) {
+        CoreController.getWorkspace().getChildren().remove(cable);
+        if (cable.isPlugged() || cable.isBeingPlugged()) {
+            if (cable.getInputPlug() != null) {
+                Register.disconnect(cable.getInputPlug().getInput());
+                cable.deconnectInputPlug();
+            }
+            if (cable.getOutputPlug() != null) {
+                Register.disconnect(cable.getOutputPlug().getOutput());
+                cable.deconnectOutputPlug();
+            }
         }
     }
 
@@ -152,15 +148,19 @@ public class ConnectionManager {
      * @param componentPane The view of the component to delete
      */
     public void deleteComponent(final ComponentPane componentPane) {
-        final Set<CurveCable> toDelete = plugComponentMapping.get(componentPane);
-        if (toDelete != null) {
-            toDelete.forEach(this::deleteCable);
-        }
+        componentPane.getInputPlugs().forEach(inputPlug -> deleteCable(inputPlug.getCable()));
+        componentPane.getOutputPlugs().forEach(outputPlug -> deleteCable(outputPlug.getCable()));
+
         CoreController.getWorkspace().getChildren().remove(componentPane);
         // Then save to history
         history.add(componentPane, StateType.DELETED);
     }
 
+    /**
+     * Return the history object
+     *
+     * @return
+     */
     public History getHistory() {
         return history;
     }

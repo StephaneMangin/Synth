@@ -80,6 +80,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
                 component.setLayoutX(x);
                 component.setLayoutY(y);
 
+                // Detect collisions
                 layoutComponents();
 
                 event.setDropCompleted(true);
@@ -87,35 +88,6 @@ public class WorkspacePane extends AnchorPane implements Origin {
             event.consume();
         });
         setName("Workspace-1");
-    }
-
-    /**
-     * Move the components so that there is no overlapping
-     */
-    private void layoutComponents() {
-        final List<Node> components = new ArrayList<>(getChildren().filtered(node -> !(node instanceof CurveCable)));
-        Collections.reverse(components);
-
-        while (components.size() > 0) {
-            components.sort(new NodeComparator());
-
-            final Node fixedNode = components.get(0);
-            for (int i = 1; i < components.size(); i++) {
-                final Node currentNode = components.get(i);
-                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
-                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
-                        //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
-                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
-                        //currentNode.setLayoutY(fixedNode.getLayoutY());
-                    }
-                    else {
-                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
-                        //currentNode.setLayoutX(fixedNode.getLayoutX());
-                    }
-                }
-            }
-            components.remove(0);
-        }
     }
 
     /**
@@ -294,5 +266,34 @@ public class WorkspacePane extends AnchorPane implements Origin {
             }
         }
         return null;
+    }
+
+    /**
+     * Move the components so that there is no overlapping
+     */
+    private void layoutComponents() {
+        final List<Node> components = new ArrayList<>(this.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        Collections.reverse(components);
+
+        while (components.size() > 0) {
+            components.sort(new NodeComparator());
+
+            final Node fixedNode = components.get(0);
+            for (int i = 1; i < components.size(); i++) {
+                final Node currentNode = components.get(i);
+                if (currentNode.getBoundsInParent().intersects(fixedNode.getBoundsInParent())) {
+                    if (fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth() - currentNode.getLayoutX() < fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight() - currentNode.getLayoutY()) {
+                        //if (currentNode.getLayoutX() - fixedNode.getLayoutX() > currentNode.getLayoutY() - fixedNode.getLayoutY()) {
+                        currentNode.setLayoutX(fixedNode.getLayoutX() + fixedNode.getBoundsInParent().getWidth());
+                        //currentNode.setLayoutY(fixedNode.getLayoutY());
+                    }
+                    else {
+                        currentNode.setLayoutY(fixedNode.getLayoutY() + fixedNode.getBoundsInParent().getHeight());
+                        //currentNode.setLayoutX(fixedNode.getLayoutX());
+                    }
+                }
+            }
+            components.remove(0);
+        }
     }
 }

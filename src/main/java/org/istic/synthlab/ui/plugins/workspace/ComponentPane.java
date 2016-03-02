@@ -12,6 +12,9 @@ import org.istic.synthlab.ui.history.Origin;
 import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.history.StateType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -123,5 +126,35 @@ public class ComponentPane extends AnchorPane implements Origin {
             }
         }
         return null;
+    }
+
+    /**
+     * Returns all input plugs from this component
+     *
+     * @return
+     */
+    public Iterable<InputPlug> getInputPlugs() {
+        List<InputPlug> result = new ArrayList<>();
+        getChildrenUnmodifiable().forEach(node -> {
+            if (node instanceof InputPlug) {
+                result.add((InputPlug) node);
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Returns all output plugs from this component
+     *
+     * @return
+     */
+    public Iterable<OutputPlug> getOutputPlugs() {
+        List<OutputPlug> result = new ArrayList<>();
+        getChildrenUnmodifiable().forEach(node -> {
+            if (node instanceof OutputPlug) {
+                result.add((OutputPlug)node);
+            }
+        });
+        return result;
     }
 }
