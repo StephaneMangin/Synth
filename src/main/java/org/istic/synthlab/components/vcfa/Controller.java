@@ -19,7 +19,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Label frequency;
 
-    private Vcfa vcfa = new Vcfa("Voltage Controlled\n Filter");
+    private Vcfa vcfa = new Vcfa("Voltage Controlled Filter");
 
     public Controller() {
         configure(vcfa);
