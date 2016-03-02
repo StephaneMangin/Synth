@@ -137,9 +137,12 @@ public class Register {
      * @see UnitInputPort
      */
     public static void disconnect(IInput in) {
-        assert in != null;
         UnitInputPort unitIn = retrieve(in);
         IOutput out = associations.get(in);
+        // If there is no link, forget
+        if (out == null) {
+            return;
+        }
         UnitOutputPort unitOut = retrieve(out);
 
         if (unitIn == null) {
@@ -172,10 +175,9 @@ public class Register {
                 in = in1;
             }
         }
+        // If there is no link, forget
         if (in == null) {
-            throw new ExceptionInInitializerError(out + " has not been declared properly");
-        } else if (out == null) {
-            throw new ExceptionInInitializerError(in + " has not been declared properly");
+            return;
         }
         UnitInputPort unitIn = retrieve(in);
         UnitOutputPort unitOut = retrieve(out);

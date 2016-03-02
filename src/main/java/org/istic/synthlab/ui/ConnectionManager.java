@@ -55,8 +55,10 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectOutputPlug(plug);
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectOutputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
@@ -86,8 +88,10 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectInputPlug(plug);
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectInputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
@@ -108,13 +112,15 @@ public class ConnectionManager {
      * @param cable
      */
     public void deleteCable(CurveCable cable) {
-        if (cable != null && cable.isPlugged()) {
-            // Save to history
-            history.add(cable, StateType.DELETED);
+        if (cable != null) {
             // Remove the cable
             removeCable(cable);
             // And reset current cable
             currentCable = null;
+            if (cable.isPlugged()) {
+                // Save to history
+                history.add(cable, StateType.DELETED);
+            }
         }
     }
 
@@ -124,14 +130,15 @@ public class ConnectionManager {
      * @param cable The cable to delete
      */
     private void removeCable(final CurveCable cable) {
-        cable.deconnectInputPlug();
-        cable.deconnectOutputPlug();
         CoreController.getWorkspace().getChildren().remove(cable);
         if (cable.isPlugged() || cable.isBeingPlugged()) {
             if (cable.getInputPlug() != null) {
                 Register.disconnect(cable.getInputPlug().getInput());
-            } else if (cable.getOutputPlug() != null) {
+                cable.deconnectInputPlug();
+            }
+            if (cable.getOutputPlug() != null) {
                 Register.disconnect(cable.getOutputPlug().getOutput());
+                cable.deconnectOutputPlug();
             }
         }
     }
