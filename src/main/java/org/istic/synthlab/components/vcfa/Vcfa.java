@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.vcfa;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.filters.FilterType;
 import org.istic.synthlab.core.modules.filters.IFilter;
 import org.istic.synthlab.core.modules.modulators.IModulator;

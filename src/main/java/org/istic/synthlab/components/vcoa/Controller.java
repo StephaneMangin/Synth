@@ -6,7 +6,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 

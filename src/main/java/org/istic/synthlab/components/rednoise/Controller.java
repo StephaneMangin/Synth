@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.rednoise;
 
 import javafx.fxml.FXML;
-import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;

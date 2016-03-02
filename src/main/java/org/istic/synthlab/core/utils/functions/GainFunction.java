@@ -1,10 +1,8 @@
-package org.istic.synthlab.core.utils.jsyn;
+package org.istic.synthlab.core.utils.functions;
 
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.UnitGenerator;
-
-import java.util.Random;
 
 /**
  * @author Thibaud Hulin thibaud[dot]hulin[dot]cm[at]gmail[dot]com

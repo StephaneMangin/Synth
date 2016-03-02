@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterHighPass;
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 
 /**
  * The adapter of the high pass filter Jsyn

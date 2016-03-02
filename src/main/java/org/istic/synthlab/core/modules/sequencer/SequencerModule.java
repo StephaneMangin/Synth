@@ -3,12 +3,12 @@ package org.istic.synthlab.core.modules.sequencer;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.UnitGate;
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.jsyn.VoltageProducer;
+import org.istic.synthlab.core.utils.functions.VoltageProducer;
 
 /**
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/22/16.

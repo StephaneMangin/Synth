@@ -1,12 +1,9 @@
 package org.istic.synthlab.components.rednoise;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.modulators.IModulator;
-import org.istic.synthlab.core.modules.modulators.ModulatorType;
 import org.istic.synthlab.core.modules.oscillators.IOscillator;
 import org.istic.synthlab.core.services.Factory;
-import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
 
 /**
  * @author  Ngassam Noumi Paola npaolita[at]yahoo[dot]fr

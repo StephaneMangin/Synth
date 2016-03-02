@@ -3,7 +3,7 @@ package org.istic.synthlab.components.mixer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 

@@ -1,7 +1,6 @@
 package org.istic.synthlab.components.whitenoise;
 
-import org.istic.synthlab.components.AbstractComponent;
-import org.istic.synthlab.core.modules.io.IOutput;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.whitenoise.IWhiteNoise;
 import org.istic.synthlab.core.services.Factory;
 

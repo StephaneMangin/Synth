@@ -6,11 +6,9 @@ import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.components.oscilloscope.Oscilloscope;
 import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.core.Channel;
-import org.istic.synthlab.components.IComponent;
+import org.istic.synthlab.core.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
-import org.istic.synthlab.core.modules.io.Input;
-import org.istic.synthlab.core.modules.io.Output;
 
 import java.util.*;
 
