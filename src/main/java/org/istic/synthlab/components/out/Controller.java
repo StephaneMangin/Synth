@@ -15,6 +15,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Out component.
+ *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController {
@@ -29,9 +31,13 @@ public class Controller extends AbstractController {
 
     private Out componentOut = new Out("Line Out");
 
+    /**
+     * Constructor of the Out component controller.
+     */
     public Controller() {
         configure(componentOut);
     }
+
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL

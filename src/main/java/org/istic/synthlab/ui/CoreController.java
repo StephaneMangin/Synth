@@ -28,7 +28,6 @@ import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
-import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -137,6 +136,7 @@ public class CoreController implements Initializable {
         components.sort(String::compareTo);
 
         for (final String component: components) {
+            System.out.println(component);
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;

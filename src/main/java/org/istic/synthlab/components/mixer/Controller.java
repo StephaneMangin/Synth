@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Mixer component.
+ *
  * @author  Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/13/16.
  */
 public class Controller extends AbstractController implements Initializable{
@@ -35,7 +37,10 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     private InputPlug input4;
 
-
+    /**
+     * Constructor of the Mixer component controller.
+     *
+     */
     public Controller() {
         configure(mixer);
     }

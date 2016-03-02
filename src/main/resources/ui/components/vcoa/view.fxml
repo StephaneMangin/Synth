@@ -12,22 +12,22 @@
 <?import org.istic.synthlab.ui.plugins.plug.InputPlug?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <ComponentPane fx:id="componentPane" prefHeight="230.0" prefWidth="400.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.vcoa.Controller">
-   <children>
+    <children>
 
-       <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+        <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
 
-       <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
-           <font>
-               <Font name="System" size="20.0"/>
-           </font>
-       </Label>
-       <Label fx:id="frequency" layoutX="310.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="160" styleClass="vcoaFrequency">
-           <font>
-               <Font name="System" size="25" />
-           </font>
-       </Label>
+        <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
+            <font>
+                <Font name="System" size="20.0"/>
+            </font>
+        </Label>
+        <Label fx:id="frequency" layoutX="310.0" layoutY="5.0" nodeOrientation="RIGHT_TO_LEFT" prefWidth="160" styleClass="vcoaFrequency">
+            <font>
+                <Font name="System" size="25" />
+            </font>
+        </Label>
 
-       <InputPlug fx:id="inputFm"  ComponentPane.leftAnchor="10.0" ComponentPane.bottomAnchor="10.0" text="FM" onMouseClicked="#connectInputFm"/>
+        <InputPlug fx:id="inputFm"  ComponentPane.leftAnchor="10.0" ComponentPane.bottomAnchor="10.0" text="FM" onMouseClicked="#connectInputFm"/>
 
        <Potentiometer fx:id="expFrequency" layoutX="100.0" layoutY="150.0"/>
 
@@ -35,7 +35,7 @@
 
        <Potentiometer fx:id="amplitude" layoutX="300.0" layoutY="150.0"/>
 
-       <OutputPlug fx:id="output"  ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <OutputPlug fx:id="output"  ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
 
        <RadioButton fx:id="squareRadio" layoutX="39.0" layoutY="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="Square">
            <font>
@@ -60,4 +60,5 @@
        </RadioButton>
        <ImageView fx:id="oscillatorImage" fitHeight="55.0" fitWidth="55.0" layoutX="98.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
    </children>
+
 </ComponentPane>

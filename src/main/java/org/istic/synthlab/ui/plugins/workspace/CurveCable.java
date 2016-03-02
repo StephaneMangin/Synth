@@ -76,23 +76,23 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         // Modify the control points as the coordinate of the curve change
         startXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         startYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         // Add a context menu to the plug
-        //setOnMouseClicked(new ContextMenuHandler(this));
+        setOnMouseClicked(new ContextMenuHandler(this));
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
@@ -100,13 +100,33 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+    }
 
-        setOnMouseClicked(null);
-        setOnMousePressed(null);
-        setOnMouseEntered(null);
-        setMouseTransparent(true);
-        setFocusTraversable(true);
-        setFocused(false);
+    private void computeHangPoint() {
+        Point2D midPoint = null;
+        Point2D hangPoint = null;
+
+        if (plugState == PlugState.IN_PLUGGED || plugState == plugState.PLUGGED) {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPoint = initial.midpoint(mouse);
+        }
+        else if (plugState == PlugState.OUT_PLUGGED) {
+            Point2D initial = new Point2D(getEndX(), getEndY());
+            Point2D mouse = new Point2D(getStartX(), getStartY());
+            midPoint = initial.midpoint(mouse);
+        }
+        else {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPoint = initial.midpoint(mouse);
+        }
+
+        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX());
+        setControlX1(hangPoint.getX());
+        setControlY1(hangPoint.getY());
+        setControlX2(hangPoint.getX());
+        setControlY2(hangPoint.getY());
     }
 
     /**
@@ -115,31 +135,30 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * LEGEND :
      *      inputPlug = true when connected, false otherwize
      *      outputPlug = true when connected, false otherwize
-     *                                                                                      !inputPlug & !ouput
-     *              +--------------------------------------------------------------------------------------+
-     *              |                                                                                      |
-     *              |                        !inputPlug & !ouput         outputPlug                                |
-     *              |    +----------------------------------+       +------------------------------+       |
-     *              |    |                                  |       |                              |       |
-     *              |    |                            +-----+-------+-----+                        |       |
-     *              |    |            inputPlug & !outputPlug |State              | !inputPlug & ouput         |       |
-     *              |    |    +----------------------->        IN_PLUGGED +--------------------+   |       |
-     *              |    |    |                       |                   |                    |   |       |
-     *              |    |    |                       +-----+-------^-----+                    |   |       |
-     *         +----v----v----+---+       !inputPlug & !outputPlug  |       | !inputPlug & outputPlug +--------v---v----+  |
-     *         |State             <-------------------------+       +-----------------+ State           |  |
-     * O+------>        UNPLUGGED |                                                   |         PLUGGED +--+
-     *         |                  <-------------------------+       +-----------------+                 |
-     *         +---------^----+---+       !inputPlug & !outputPlug  |       | !outputPlug & inputPlug +--------^---^----+
-     *                   |    |                       +-----+-------v-----+                    |   |
-     *                   |    |       outputPlug & !inputPlug |State              |                    |   |
-     *                   |    +----------------------->       OUT_PLUGGED +--------------------+   |
-     *                   |                            |                   | !outputPlug & inputPlug        |
-     *                   |                            +-----+-------+-----+                        |
-     *                   |                  !inputPlug & !ouput |       | outputPlug & inputPlug               |
-     *                   +----------------------------------+       +------------------------------+
-     *
-     *                                                                  made with : http://www.asciiflow.com
+     *                                                                                              !inputPlug & !ouput
+     *        +--------------------------------------------------------------------------------------------------------+
+     *        |                                                                                                        |
+     *        |                          !inputPlug & !ouput       outputPlug                                          |
+     *        |    +---------------------------------------+       +-------------------------------------------+       |
+     *        |    |                                       |       |                                           |       |
+     *        |    |                                 +-----+-------+-----+                                     |       |
+     *        |    |         inputPlug & !outputPlug |State              | !inputPlug & ouput                  |       |
+     *        |    |    +---------------------------->        IN_PLUGGED +---------------------------------+   |       |
+     *        |    |    |                            |                   |                                 |   |       |
+     *        |    |    |                            +-----+-------^-----+                                 |   |       |
+     *    +---v----v----+---+      !inputPlug & !outputPlug|       |      !inputPlug & outputPlug +--------v---v----+  |
+     *    | State           <------------------------------+       +------------------------------+ State           |  |
+     *O--->       UNPLUGGED |                                                                     |         PLUGGED +--+
+     *    |                 <------------------------------+       +------------------------------+                 |
+     *    +--------^----+---+     !inputPlug & !outputPlug |       |      !outputPlug & inputPlug +--------^---^----+
+     *             |    |                            +-----+-------v-----+                                 |   |
+     *             |    |     outputPlug & !inputPlug|State              |                                 |   |
+     *             |    +---------------------------->       OUT_PLUGGED +---------------------------------+   |
+     *             |                                 |                   | !outputPlug & inputPlug             |
+     *             |                                 +-----+-------+-----+                                     |
+     *             |                   !inputPlug & !ouput |       | outputPlug & inputPlug                    |
+     *             +---------------------------------------+       +-------------------------------------------+
+     *                                                                              made with : http://www.asciiflow.com
      */
     public enum PlugState {
 

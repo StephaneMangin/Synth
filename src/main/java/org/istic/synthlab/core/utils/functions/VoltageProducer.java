@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.modules.sequencer;
+package org.istic.synthlab.core.utils.functions;
 
 import com.jsyn.unitgen.UnitFilter;
 

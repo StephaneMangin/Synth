@@ -1,6 +1,5 @@
 package org.istic.synthlab.components.out;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +25,7 @@ public class OutTest {
 
     @Test
     public void testDesactivate() throws Exception {
+        this.out.activate();
         this.out.deactivate();
         Assert.assertFalse(this.out.isActivated());
     }

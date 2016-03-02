@@ -10,7 +10,7 @@
                prefHeight="112.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
                xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.replicator.Controller">
 
-    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"/>
 
     <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
         <font>

@@ -4,6 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
@@ -12,6 +13,7 @@ import org.istic.synthlab.components.out.Out;
 import org.istic.synthlab.components.replicator.Replicator;
 import org.istic.synthlab.components.seq.Sequencer;
 import org.istic.synthlab.components.vca.Vca;
+import org.istic.synthlab.components.vcfa.Vcfa;
 import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
@@ -57,28 +59,29 @@ public class BasicChainTest {
         out.start();
         synth.start();
         synth.sleepUntil(5);
-        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test
     public void TestVcoaToVcoa() throws InterruptedException {
         out.getInput().connect(vcoa.getOutput());
         Vcoa vcoa1 = new Vcoa("VCOA1");
-        vcoa1.setAmplitudeSine(50);
-        vcoa1.getOutput().connect(vcoa.getInput());
-        vcoa.getSawToothOutput().connect(out.getInput());
+        vcoa1.setOscillatorType(OscillatorType.SINE);
+        vcoa1.setAmplitudeSine(1.0);
+        vcoa1.setExponentialFrequency(0.5);
+        vcoa1.setLinearFrequency(0.5);
+        vcoa1.getOutput().connect(vcoa.getFm());
 
         // to display curves
-        AudioScope scope = new AudioScope( synth );
-        scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
-        scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
-        scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
-        scope.getView().setControlsVisible(true);
-        scope.start();
-        JFrame frame = new JFrame();
-        frame.add(scope.getView());
-        frame.pack();
-        frame.setVisible(true);
+        //AudioScope scope = new AudioScope( synth );
+        //scope.addProbe(vcoa.getTriangleOutput().getUnitOutputPort());
+        //scope.setTriggerMode( AudioScope.TriggerMode.AUTO );
+        //scope.getModel().getTriggerModel().getLevelModel().setDoubleValue( 0.0001 );
+        //scope.getView().setControlsVisible(true);
+        //scope.start();
+        //JFrame frame = new JFrame();
+        //frame.add(scope.getView());
+        //frame.pack();
+        //frame.setVisible(true);
 
         out.start();
         synth.start();
@@ -165,7 +168,7 @@ public class BasicChainTest {
             n--;
         }
 
-       ((SynthesisEngine)synth).printConnections();
+        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test
@@ -182,9 +185,6 @@ public class BasicChainTest {
         synth.start();
 
         Assert.assertNotEquals(Register.retrieve(out.getInput()), Register.retrieve(out.getLineOut().getInput()));
-
-
-        ((SynthesisEngine)synth).printConnections();
 
         int n = 200;
         while (n >= 0) {
@@ -368,39 +368,55 @@ public class BasicChainTest {
 
     @Test
     public void testSequencer() throws InterruptedException {
-        TriangleOscillator oscillator = new TriangleOscillator();
-
-        oscillator.frequency.set(440.);
-        oscillator.amplitude.set(0.9);
+        vcoa.setOscillatorType(OscillatorType.SQUARE);
+        vcoa.setExponentialFrequency(0.1);
+        vcoa.setLinearFrequency(0.5);
         Sequencer sequencer = new Sequencer("SEQ");
-        Synthesizer synthesis = Factory.createSynthesizer();
-        LineOut lineOut = new LineOut();
 
-        oscillator.getOutput().connect(sequencer.getInputgate().getUnitInputPort());
-        lineOut.input.connect(sequencer.getOutputSeq().getUnitOutputPort());
+        sequencer.getInputgate().connect(vcoa.getOutput());
+        sequencer.getOutputSeq().connect(out.getInput());
 
-        // For the display of curves
-        AudioScope scope = new AudioScope(synth);
-        scope.addProbe(sequencer.getOutputSeq().getUnitOutputPort());
 
-        scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
-        scope.getModel().getTriggerModel().getLevelModel()
-                .setDoubleValue(0.0001);
-        scope.getView().setControlsVisible(true);
-        scope.start();
-        JFrame frame = new JFrame();
-        frame.add(scope.getView());
-        frame.pack();
-        frame.setVisible(true);
-
-        synthesis.add(lineOut);
-        synthesis.add(oscillator);
-        lineOut.start();
-        synthesis.start();
-        synthesis.sleepFor(3);
+        out.start();
+        synth.start();
+        synth.sleepFor(3);
         sequencer.activate();
-        synthesis.sleepFor(5);
+        synth.sleepFor(5);
         sequencer.deactivate();
-        synthesis.sleepFor(5);
+        synth.sleepFor(5);
+    }
+    @Test
+    public void TestVcfa() throws InterruptedException {
+        Vcfa vcfa = new Vcfa("VCFA");
+        Vcoa vcoa2 = new Vcoa("VCOA2");
+
+        //Configuration
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        vcoa2.setOscillatorType(OscillatorType.TRIANGLE);
+        vcoa2.setAmplitudeTriangle(1.0);
+        vcoa2.setExponentialFrequency(0.2);
+        vcoa2.setLinearFrequency(0.5);
+        vcfa.setCutoff(1.0);
+
+        //Connection
+        vcoa.getOutput().connect(vcfa.getInput());
+        vcoa2.getOutput().connect(vcfa.getFm());
+        vcfa.getOutput().connect(this.out.getInput());
+
+        out.start();
+        synth.start();
+
+        int n = 1000;
+        while (n >= 0) {
+            if (n % 50 == 0){
+                vcfa.setCutoff(((double) n) / 1000);
+            }
+
+            synth.sleepFor(0.01);
+            n--;
+        }
+
+        ((SynthesisEngine)synth).printConnections();
     }
 }

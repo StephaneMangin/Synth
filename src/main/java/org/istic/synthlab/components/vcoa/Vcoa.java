@@ -19,6 +19,18 @@ import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
  * the shape of the signal (SINE,PULSE,SQUARE,IMPULSE,SAWTOOTH,TRIANGLE,REDNOISE)
  * can be selected and its frequency is managed by another signal
  *
+ * A Vcoa is composed of the following input and output :
+ * - a frequency signal input
+ * - a frequency signal output
+ *
+ * A Vcoa is composed of the following potentiometer :
+ * - A linear frequency potentiometer to tune the frequency produced
+ * - An exponential frequency potentiometer to finely tune the frequency produced
+ * - An amplitude potentiometer to set the weight of the signal produced
+ *
+ * Note : The linear and exponential potentiometer are combined to process the frequency
+ * value to produce.
+ *
  */
 public class Vcoa extends AbstractComponent {
 
@@ -33,6 +45,11 @@ public class Vcoa extends AbstractComponent {
     private IModulator linearModulator = Factory.createModulator("Linear Freq.", this, ModulatorType.FREQUENCY, PotentiometerType.LINEAR);
     private double amplitudeValue;
 
+    /**
+     * Constructor of the Vcoa component.
+     *
+     * @param name :String
+     */
     public Vcoa(String name) {
         super(name);
         getSourceFm().connect(exponentialModulator.getInput());
@@ -68,14 +85,6 @@ public class Vcoa extends AbstractComponent {
         impulseOscillator.isActivated() ||
         sawToothOscillator.isActivated() ||
         triangleOscillator.isActivated();
-    }
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void run() {
     }
 
     /**
@@ -240,8 +249,6 @@ public class Vcoa extends AbstractComponent {
         return pulseOscillator.getAmplitudePotentiometer().getMin();
     }
 
-
-
     /**
      * Set the amplitude of the square oscillator
      *
@@ -317,7 +324,6 @@ public class Vcoa extends AbstractComponent {
      *
      * @param type
      */
-
     public void setOscillatorType(OscillatorType type) {
         switch (type) {
             case SINE:
@@ -437,5 +443,4 @@ public class Vcoa extends AbstractComponent {
     public IOutput getTriangleOutput() {
         return triangleOscillator.getOutput();
     }
-
 }

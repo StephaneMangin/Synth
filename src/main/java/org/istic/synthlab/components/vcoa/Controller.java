@@ -15,6 +15,8 @@ import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Vcoa component.
+ *
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Controller extends AbstractController {
@@ -41,6 +43,9 @@ public class Controller extends AbstractController {
 
     private Vcoa vcoa = new Vcoa("Voltage Controlled Oscillator type A");
 
+    /**
+     * Constructor of the Vcoa component controller.
+     */
     public Controller() {
         configure(vcoa);
         vcoa.setAmplitudeSquare(1);
@@ -50,6 +55,7 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudeImpulse(1);
         vcoa.setAmplitudeSawTooth(1);
         vcoa.setExponentialFrequency(0.0);
+
     }
 
     /**
