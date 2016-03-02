@@ -3,7 +3,7 @@ package org.istic.synthlab.components.mixer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import org.istic.synthlab.core.components.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
  *
  * @author  Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/13/16.
  */
-public class Controller extends AbstractController implements Initializable{
+public class Controller extends AbstractController implements Initializable {
 
     private Mixer mixer = new Mixer("Mixer");
 
@@ -98,21 +98,25 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     public void connectInput1(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput2(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput3(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput4(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
 }

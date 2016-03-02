@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.components;
+package org.istic.synthlab.components;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

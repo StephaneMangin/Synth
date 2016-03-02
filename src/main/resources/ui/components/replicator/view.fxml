@@ -10,7 +10,7 @@
                prefHeight="112.0" prefWidth="300.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
                xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.replicator.Controller">
 
-    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"/>
 
     <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
         <font>
@@ -19,7 +19,7 @@
     </Label>
 
     <InputPlug fx:id="input" ComponentPane.leftAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectInput"/>
-    <OutputPlug fx:id="output1" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output 1" onMouseClicked="#connectOutput"/>
     <OutputPlug fx:id="output2" ComponentPane.rightAnchor="60.0"  ComponentPane.bottomAnchor="10.0" text="Output 2" onMouseClicked="#connectOutput2"/>
     <OutputPlug fx:id="output3" ComponentPane.rightAnchor="10.0"  ComponentPane.bottomAnchor="10.0" text="Output 3" onMouseClicked="#connectOutput3"/>
 

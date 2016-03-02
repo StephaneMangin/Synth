@@ -3,7 +3,7 @@ package org.istic.synthlab.components.replicator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
-import org.istic.synthlab.core.components.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.net.URL;
@@ -35,19 +35,21 @@ public class Controller extends AbstractController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        output2.setText("Input 1");
+        output2.setText("Output 2");
         output2.setOutput(replicator.getOutput2());
-        output3.setText("Input 2");
+        output3.setText("Output 3");
         output3.setOutput(replicator.getOutput3());
     }
 
     @FXML
     public void connectOutput2(final MouseEvent event) {
         manager.plugOutput((OutputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectOutput3(final MouseEvent event) {
         manager.plugOutput((OutputPlug) event.getSource());
+        event.consume();
     }
 }

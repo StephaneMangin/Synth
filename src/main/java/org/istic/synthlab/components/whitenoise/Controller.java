@@ -1,7 +1,7 @@
 package org.istic.synthlab.components.whitenoise;
 
 
-import org.istic.synthlab.core.components.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 
 import java.net.URL;
 import java.util.ResourceBundle;

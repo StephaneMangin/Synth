@@ -3,7 +3,7 @@ package org.istic.synthlab.ui.plugins.workspace;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import net.minidev.json.JSONObject;
-import org.istic.synthlab.core.components.IController;
+import org.istic.synthlab.components.IController;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;

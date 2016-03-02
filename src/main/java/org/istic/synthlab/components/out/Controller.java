@@ -6,7 +6,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import org.istic.synthlab.core.components.AbstractController;
+import org.istic.synthlab.components.AbstractController;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 

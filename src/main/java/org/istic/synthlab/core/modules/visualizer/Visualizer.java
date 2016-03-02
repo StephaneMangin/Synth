@@ -3,7 +3,7 @@ package org.istic.synthlab.core.modules.visualizer;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.scope.WaveTraceModel;
 import com.jsyn.swing.ExponentialRangeModel;
-import org.istic.synthlab.core.components.IComponent;
+import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;

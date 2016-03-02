@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.eg;
 
-import org.istic.synthlab.core.components.AbstractComponent;
+import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
