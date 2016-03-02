@@ -2,11 +2,9 @@ package org.istic.synthlab.components.mixer;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.ui.ConnectionManager;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
@@ -36,6 +34,12 @@ public class Controller extends AbstractController implements Initializable{
     private InputPlug input3;
     @FXML
     private InputPlug input4;
+
+
+    public Controller() {
+        configure(mixer);
+    }
+
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -47,7 +51,6 @@ public class Controller extends AbstractController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(mixer);
 
         inputPotentiometer1.valueProperty().addListener((observable, oldValue, newValue) -> {
             mixer.setGainValueInput1((Double) newValue);
@@ -76,26 +79,35 @@ public class Controller extends AbstractController implements Initializable{
         inputPotentiometer2.setMaxValue(mixer.getMaxValue());
         inputPotentiometer3.setMaxValue(mixer.getMaxValue());
         inputPotentiometer4.setMaxValue(mixer.getMaxValue());
+
+        input1.setText("Input 1");
+        input1.setInput(mixer.getInput1());
+        input2.setText("Input 2");
+        input2.setInput(mixer.getInput2());
+        input3.setText("Input 3");
+        input3.setInput(mixer.getInput3());
+        input4.setText("Input 4");
+        input4.setInput(mixer.getInput4());
     }
 
     @FXML
     public void connectInput1(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), mixer.getInput1());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput2(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), mixer.getInput2());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput3(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), mixer.getInput3());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
     @FXML
     public void connectInput4(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), mixer.getInput4());
+        manager.plugInput((InputPlug) event.getSource());
     }
 
 }

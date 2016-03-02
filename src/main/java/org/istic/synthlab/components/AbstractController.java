@@ -1,15 +1,13 @@
 package org.istic.synthlab.components;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.ui.ConnectionManager;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
-import org.istic.synthlab.ui.plugins.cable.OutputPlug;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,41 +39,44 @@ public abstract class AbstractController implements IController {
     @FXML
     protected OutputPlug outputGate;
 
-    private static int numInstance = 0;
-
     /**
-     * Controller.
+     * Controller main module configuration
      *
      * @param component the component
      */
     public void configure(IComponent component) {
         this.component = component;
         this.manager = CoreController.getConnectionManager();
-        numInstance++;
-        component.setId(numInstance);
-        componentPane.setId(component.toString());
-        title.setText(component.getName());
     }
 
     public void initialize(URL location, ResourceBundle resources) {
+        // Declare Input and output into plugs
         // Need to test null beforesetting the text. In case of a module that does not use any of these plugs
+        title.setText(component.getName());
+        componentPane.setId(component.getId());
         if (input != null) {
             input.setText("Input");
+            input.setInput(component.getInput());
         }
         if (inputAm != null) {
             inputAm.setText("AM");
+            inputAm.setInput(component.getAm());
         }
         if (inputFm != null) {
             inputFm.setText("FM.");
+            inputFm.setInput(component.getFm());
         }
         if (inputGate != null) {
             inputGate.setText("Gate in");
+            inputGate.setInput(component.getInputGate());
         }
         if (output != null) {
             output.setText("Output");
+            output.setOutput(component.getOutput());
         }
         if (outputGate != null) {
             outputGate.setText("Gate out");
+            outputGate.setOutput(component.getOutputGate());
         }
     }
 
@@ -89,26 +90,27 @@ public abstract class AbstractController implements IController {
      * Send the instance and the main pane to the deleteComponent method of the ConnectionManager
      */
     public void close() {
+        component.close();
         manager.deleteComponent(componentPane);
     }
 
     public void connectInput(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getInput());
+        manager.plugInput((InputPlug) event.getSource());
         event.consume();
     }
 
     public void connectInputFm(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getFm());
+        manager.plugInput((InputPlug) event.getSource());
         event.consume();
     }
 
     public void connectInputAm(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getAm());
+        manager.plugInput((InputPlug) event.getSource());
         event.consume();
     }
 
     public void connectInputGate(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getInputGate());
+        manager.plugInput((InputPlug) event.getSource());
         event.consume();
     }
 
@@ -117,12 +119,12 @@ public abstract class AbstractController implements IController {
      * with the output variable
      */
     public void connectOutput(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getOutput());
+        manager.plugOutput((OutputPlug) event.getSource());
         event.consume();
     }
 
     public void connectOutputGate(final MouseEvent event) {
-        manager.plug((Node) event.getSource(), component.getOutputGate());
+        manager.plugOutput((OutputPlug) event.getSource());
         event.consume();
     }
 

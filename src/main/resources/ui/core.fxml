@@ -5,7 +5,7 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.layout.*?>
-<?import org.istic.synthlab.ui.plugins.WorkspacePane?>
+<?import org.istic.synthlab.ui.plugins.workspace.WorkspacePane?>
 <BorderPane fx:id="borderPane" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.ui.CoreController">
     <center>
         <AnchorPane BorderPane.alignment="CENTER">
@@ -14,7 +14,7 @@
                         AnchorPane.topAnchor="0.0">
                 <Group>
                     <WorkspacePane fx:id="workspace" minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0"
-                                   prefWidth="3000.0" styleClass="main"/>
+                                   prefWidth="3000.0" styleClass="workspace"/>
                 </Group>
             </ScrollPane>
             <TitledPane fx:id="componentList" blendMode="SRC_ATOP" cache="true" collapsible="true"
@@ -23,9 +23,7 @@
                 <effect>
                     <DropShadow/>
                 </effect>
-                <ScrollPane fitToHeight="true" fitToWidth="true">
-                    <ListView fx:id="listView" focusTraversable="false"/>
-                </ScrollPane>
+                <ListView fx:id="listView" focusTraversable="false" />
             </TitledPane>
 
             <TitledPane blendMode="SRC_ATOP" cache="true" collapsible="true"

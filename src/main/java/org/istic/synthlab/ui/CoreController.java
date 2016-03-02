@@ -26,10 +26,9 @@ import org.istic.synthlab.Main;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.history.StateType;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -40,8 +39,6 @@ import org.reflections.util.FilterBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -74,6 +71,8 @@ public class CoreController implements Initializable {
     @FXML
     private WorkspacePane workspace;
 
+    private static WorkspacePane workspaceStatic;
+
     public static Stage getStage() {
         return stage;
     }
@@ -82,8 +81,11 @@ public class CoreController implements Initializable {
         CoreController.stage = stage;
     }
 
-    public WorkspacePane getWorkspace() {
-        return workspace;
+    public static WorkspacePane getWorkspace() {
+        return workspaceStatic;
+    }
+    public void setWorkspace(WorkspacePane workspacePane) {
+        workspaceStatic = workspacePane;
     }
 
     /**
@@ -98,8 +100,9 @@ public class CoreController implements Initializable {
         initializeSkinMenu();
         initializeListView();
         initializeMainPane();
-        initializeFunctions();
         manager.setCoreController(this);
+        setWorkspace(workspace);
+
     }
 
     // Skin related stuff
@@ -219,18 +222,6 @@ public class CoreController implements Initializable {
         }
     }
 
-    private void initializeFunctions() {
-        // We set this event so that when we click somewhere random when in cable remove mode
-        // it goes back to normal mode
-        workspace.setOnMouseClicked(event -> {
-            if (cableRemoveMode) {
-                cableRemoveMode = false;
-                borderPane.setCursor(Cursor.DEFAULT);
-            }
-            event.consume();
-        });
-    }
-
     /**
      * Close the application
      */
@@ -249,20 +240,6 @@ public class CoreController implements Initializable {
         playButton.setDisable(false);
 
         Factory.createSynthesizer().stop();
-    }
-
-    // Cable deletion stuff
-    private boolean cableRemoveMode = false;
-
-    @FXML
-    public void onCut() {
-        cableRemoveMode = !cableRemoveMode;
-        if (cableRemoveMode) {
-            borderPane.setCursor(new ImageCursor(new Image(getClass().getResourceAsStream("/ui/images/scissors.png"), 150, 0, true, true)));
-        }
-        else {
-            borderPane.setCursor(Cursor.DEFAULT);
-        }
     }
 
     /**
@@ -308,10 +285,11 @@ public class CoreController implements Initializable {
             final Dragboard db = view.startDragAndDrop(TransferMode.COPY);
             final ClipboardContent content = new ClipboardContent();
             content.putString(view.getId());
-            System.out.println(pane.getChildren().get(0).getId().toLowerCase());
             final ComponentPane componentPane = loadComponent(pane.getChildren().get(0).getId().toLowerCase());
+            workspace.getChildren().add(componentPane);
             componentPane.applyCss();
             final WritableImage w  = componentPane.snapshot(null,null);
+            workspace.getChildren().remove(componentPane);
             content.putImage(w);
             db.setContent(content);
             event.consume();
@@ -354,8 +332,8 @@ public class CoreController implements Initializable {
     @FXML
     public void saveConfiguration() {
         final FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
-        fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
+        fileChooser.setInitialFileName(Main.DEFAULT_FILENAME);
+        fileChooser.setInitialDirectory(new File(Main.DEFAULT_PATH));
         fileChooser.setTitle("Save File");
         final File file = fileChooser.showSaveDialog(getStage());
         try {
@@ -370,7 +348,20 @@ public class CoreController implements Initializable {
      */
     @FXML
     public void cancelConfiguration(Event event) {
-        workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
+        if (workspace.getChildrenUnmodifiable().size() > 0) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("The workspace is not empty");
+            alert.setHeaderText("You will lost all your modifications");
+            alert.setContentText("Are your sure ?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
+                getConnectionManager().getHistory().purge();
+                onPause();
+            }
+        }
     }
 
     /**
@@ -378,23 +369,17 @@ public class CoreController implements Initializable {
      */
     @FXML
     public void loadConfiguration(Event event) {
-        if (workspace.getChildrenUnmodifiable().size() > 0) {
-
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Modification detected");
-            alert.setHeaderText("The workspace needs to be cleaned !");
-            alert.setContentText("Are your sure ?");
-
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                cancelConfiguration(event);
-            }
-        }
+        cancelConfiguration(event);
         if (workspace.getChildrenUnmodifiable().size() == 0) {
             final FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) + ".json");
-            fileChooser.setInitialDirectory(new File(System.getProperty("java.io.tmpdir")));
+            fileChooser.setInitialFileName(Main.DEFAULT_FILENAME);
+            fileChooser.setInitialDirectory(new File(Main.DEFAULT_PATH));
             fileChooser.setTitle("Load File");
+            // Set extension filter
+            FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("Synthlab files (*.json, *.synthlab)", "*.json", "*.synthlab");
+            fileChooser.getExtensionFilters().add(extFilter);
+
             final File file = fileChooser.showOpenDialog(stage);
             try {
                 manager.getHistory().load(file, workspace);
@@ -438,28 +423,5 @@ public class CoreController implements Initializable {
             e.printStackTrace();
         }
         return componentPane;
-    }
-
-    /**
-     * This method is needed by the #SAVE function !!!
-     *
-     * @param startX
-     * @param startY
-     * @param endX
-     * @param endY
-     * @return
-     */
-    public CurveCable createCable(double startX, double startY, double endX, double endY) {
-        workspace.getChildrenUnmodifiable().forEach(node -> {
-            if (node instanceof ComponentPane && node.contains(startX, startY)) {
-                ComponentPane componentPane = (ComponentPane) node;
-                componentPane.getChildren().forEach(port -> {
-                    if (port instanceof ImageView && port.contains(startX, startY)) {
-                        // TODO
-                    }
-                });
-            }
-        });
-        return null;
     }
 }

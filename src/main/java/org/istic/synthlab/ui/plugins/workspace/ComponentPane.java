@@ -1,13 +1,16 @@
-package org.istic.synthlab.ui.plugins;
+package org.istic.synthlab.ui.plugins.workspace;
 
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import net.minidev.json.JSONObject;
-import net.minidev.json.JSONValue;
 import org.istic.synthlab.components.IController;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.history.Origin;
-import org.istic.synthlab.ui.plugins.history.State;
-import org.istic.synthlab.ui.plugins.history.StateType;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
+import org.istic.synthlab.ui.plugins.controls.Potentiometer;
+import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
+import org.istic.synthlab.ui.history.StateType;
 
 /**
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
@@ -43,12 +46,16 @@ public class ComponentPane extends AnchorPane implements Origin {
         state.forEach((s, o) -> {
             switch(s) {
                 case "layoutX":
-                    System.out.println("x set");
                     setLayoutX((double)o);
                     break;
                 case "layoutY":
-                    System.out.println("y set");
                     setLayoutY((double)o);
+                    break;
+                case "id":
+                    setId((String)o);
+                    break;
+                case "name":
+                    setName((String)o);
                     break;
                 default:
                     // Do nothing yet
@@ -61,14 +68,14 @@ public class ComponentPane extends AnchorPane implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
         System.out.println(getLayoutX());
         System.out.println(getLayoutY());
         obj.put("layoutX", getLayoutX());
         obj.put("layoutY", getLayoutY());
         obj.put("type", "component");
-        obj.put("component", getName());
+        obj.put("id", getId());
+        obj.put("name", getName());
         return obj;
     }
 
@@ -90,5 +97,31 @@ public class ComponentPane extends AnchorPane implements Origin {
         this.controller = controller;
     }
 
+    public InputPlug getinInputPlugFromId(String id) {
+        for (Node node: getChildren()) {
+            if (node instanceof InputPlug && node.getId().equals(id)) {
+                return (InputPlug) node;
+            }
+        }
+        return null;
+    }
 
+    public OutputPlug getinOutputPlugFromId(String id) {
+        for (Node node: getChildren()) {
+            if (node instanceof OutputPlug && node.getId().equals(id)) {
+                return (OutputPlug) node;
+            }
+        }
+        return null;
+    }
+
+    public Potentiometer getinPotentiometerFromId(String id) {
+        System.out.println("ID: " + id);
+        for (Node node: getChildren()) {
+            if (node instanceof Potentiometer && node.getId().equals(id)) {
+                return (Potentiometer) node;
+            }
+        }
+        return null;
+    }
 }

@@ -29,6 +29,9 @@ public class Controller extends AbstractController {
 
     private Out componentOut = new Out("Line Out");
 
+    public Controller() {
+        configure(componentOut);
+    }
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -37,7 +40,6 @@ public class Controller extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
-        configure(componentOut);
 
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.istic.synthlab.ui.plugins.workspace.WorkspacePane?>
+<WorkspacePane minHeight="3000.0" minWidth="9000.0" prefHeight="3000.0" prefWidth="3000.0" styleClass="main"/>
