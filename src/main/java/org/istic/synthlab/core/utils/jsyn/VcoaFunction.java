@@ -9,6 +9,7 @@ import com.jsyn.unitgen.UnitGenerator;
  * @author Thibaud Hulin <thibaud[dot]hulin[dot]cl[at]gmail[dot]com>
  */
 public class VcoaFunction extends UnitGenerator {
+    private static final double VOLTAGE = 5;
     public UnitInputPort potentiometer;
     public UnitInputPort frequencyModulation;
     public UnitOutputPort output;
@@ -31,7 +32,7 @@ public class VcoaFunction extends UnitGenerator {
         double[] outputs = output.getValues();
 
         for (int i = start; i < limit; i++) {
-            outputs[i] =  wheelFrequencies[i]*Math.pow(2, inputFrequencies[i]);
+            outputs[i] =  wheelFrequencies[i]*Math.pow(2, inputFrequencies[i]*VOLTAGE);
         }
     }
 }

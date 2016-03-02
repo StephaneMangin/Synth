@@ -5,14 +5,15 @@
 <?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity"
                maxWidth="-Infinity" minHeight="-Infinity"
                minWidth="-Infinity"
-               prefHeight="230.0" prefWidth="400.0"
+               prefHeight="280.0" prefWidth="400.0"
                styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
                xmlns:fx="http://javafx.com/fxml/1"
                fx:controller="org.istic.synthlab.components.keyboard.Controller">
-    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"></CloseIcon>
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"/>
     <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
         <font>
             <Font name="System" size="20.0"/>
@@ -36,4 +37,7 @@
    <Button fx:id="buttonY" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="237.5" mnemonicParsing="false" onKeyPressed="#yPressed" prefHeight="125.0" prefWidth="25.0" style="-fx-background-color: BLACK;" text="Y" textFill="WHITE" />
    <Button fx:id="buttonU" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="287.5" mnemonicParsing="false" onKeyPressed="#uPressed" prefHeight="125.0" prefWidth="25.0" style="-fx-background-color: BLACK;" text="U" textFill="WHITE" />
    <Button fx:id="buttonK" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="350.0" mnemonicParsing="false" onKeyPressed="#kPressed" prefHeight="200.0" prefWidth="50.0" style="-fx-background-color: white;" text="(K)" />
+
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="gate" ComponentPane.rightAnchor="60.0" ComponentPane.bottomAnchor="10.0" text="Gate" onMouseClicked="#connectGate"/>
 </ComponentPane>

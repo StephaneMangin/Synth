@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
 /**
  * @author  Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/13/16.
  */
-public class Controller extends AbstractController implements Initializable{
+public class Controller extends AbstractController implements Initializable {
 
     private Mixer mixer = new Mixer("Mixer");
 
@@ -93,21 +93,25 @@ public class Controller extends AbstractController implements Initializable{
     @FXML
     public void connectInput1(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput2(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput3(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
     @FXML
     public void connectInput4(final MouseEvent event) {
         manager.plugInput((InputPlug) event.getSource());
+        event.consume();
     }
 
 }
