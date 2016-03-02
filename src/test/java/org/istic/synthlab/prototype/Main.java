@@ -28,7 +28,9 @@ public class Main {
         /*ProofWriteToFile pwtf = new ProofWriteToFile();
         pwtf.writeToFileWithComponent();*/
 
-        JsynMultiply jm = new JsynMultiply();
+        //JsynMultiply jm = new JsynMultiply();
+
+        VcaPrototype vp = new VcaPrototype();
 
     }
 
