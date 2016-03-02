@@ -29,7 +29,7 @@ public class Vca extends AbstractComponent {
         super(name);
 
         this.multiplyInAm = new Multiply(this);
-        this.vcaModulator = Factory.createModulator("VCA", this, ModulatorType.VCA, PotentiometerType.EXPONENTIAL);
+        this.vcaModulator = Factory.createModulator("VCA", this, ModulatorType.VCA, PotentiometerType.LINEAR);
 
         // Connect the source port with the input port modulator
         this.getSource().connect(this.multiplyInAm.getInput());
@@ -43,7 +43,6 @@ public class Vca extends AbstractComponent {
 
         // Connect the gain output port with the external output
         this.multiplyInAm.getOutput().connect(this.getSink());
-
     }
 
     @Override
@@ -64,5 +63,7 @@ public class Vca extends AbstractComponent {
     public IModulator getGainModulator() {
         return vcaModulator;
     }
+
+    public IFunction getFunction() { return multiplyInAm; }
 
 }

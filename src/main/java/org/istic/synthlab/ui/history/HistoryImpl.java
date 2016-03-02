@@ -1,25 +1,20 @@
-package org.istic.synthlab.ui.plugins.history;
+package org.istic.synthlab.ui.history;
 
-import javafx.event.EventType;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.ComponentPane;
-import org.istic.synthlab.ui.plugins.WorkspacePane;
-import org.istic.synthlab.ui.plugins.cable.CurveCable;
-import org.istic.synthlab.ui.plugins.cable.InputPlug;
-import org.istic.synthlab.ui.plugins.cable.OutputPlug;
+import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
+import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
+import org.istic.synthlab.ui.plugins.plug.InputPlug;
+import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalField;
 import java.util.*;
 
 /**
@@ -136,7 +131,7 @@ public class HistoryImpl extends Observable implements History {
 
             InputPlug inputPlug = null;
             OutputPlug outputPlug = null;
-            System.out.println("cable value => " + value);
+            System.out.println("plug value => " + value);
             switch (StateType.valueOf((String) value.get("state"))) {
                 case DELETED:
                     break;
@@ -150,7 +145,7 @@ public class HistoryImpl extends Observable implements History {
                         final String outputPlugId = (String) jsonObject.get("outputPlug");
                         ComponentPane outComponentPane = workspacePane.getComponent(outComponentId);
                         if (inComponentPane == null || outComponentPane == null) {
-                            throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for cable !");
+                            throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for plug !");
                         }
                         // Get plugs
                         inputPlug = inComponentPane.getinInputPlugFromId(inputPlugId);

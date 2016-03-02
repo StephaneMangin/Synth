@@ -12,7 +12,6 @@ import java.util.ResourceBundle;
  * @author  Ngassam Noumi paola Jovany npaolita[at]yahoo[dot]fr on 2/25/16.
  */
 public class Controller extends AbstractController {
-
         @FXML
         private Potentiometer step1;
         @FXML
