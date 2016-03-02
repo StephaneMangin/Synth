@@ -136,6 +136,7 @@ public class CoreController implements Initializable {
         components.sort(String::compareTo);
 
         for (final String component: components) {
+            System.out.println(component);
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -248,7 +249,6 @@ public class CoreController implements Initializable {
 
         final Set<String> packages = new HashSet<>();
         for (final Class classInstance : classes) {
-            System.out.println(classInstance.getPackage().getName());
             String packageName = classInstance.getPackage().getName();
             packageName = packageName.split("\\.")[packageName.split("\\.").length-1].toLowerCase();
             packages.add(packageName);
