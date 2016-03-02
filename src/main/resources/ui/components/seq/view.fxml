@@ -7,7 +7,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.*?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.plugins.cable.InputPlug?>
+<?import org.istic.synthlab.ui.plugins.cable.OutputPlug?>
 <?import org.istic.synthlab.ui.plugins.ComponentPane?>
 <?import org.istic.synthlab.ui.plugins.controls.*?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="530.0" styleClass="componentPane" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.istic.synthlab.components.seq.Controller">
@@ -31,21 +34,10 @@
     <Potentiometer fx:id="step7" layoutX="381.0" layoutY="50.0" />
     <Potentiometer fx:id="step8" layoutX="444.0" layoutY="50.0" />
 
-    <Label layoutX="11.0" layoutY="140.0" text="Gate" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="15.0" layoutY="160.0" onMouseClicked="#connectInputGate" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../images/blueSocket.png" />
-        <effect>
-            <InnerShadow />
-        </effect>
-    </ImageView>
 
-    <Label layoutX="470.0" layoutY="140.0" text="Output" />
-    <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="480.0" layoutY="160.0" onMouseClicked="#connectOutput" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../../images/redSocket.png" />
-        <effect>
-            <InnerShadow />
-        </effect>
-    </ImageView>
-   <Button layoutX="235.0" layoutY="147.0" mnemonicParsing="false" text="Reset" />
+    <InputPlug fx:id="input" text="Gate" onMouseClicked="#connectInputGate" ComponentPane.bottomAnchor="10.0"  ComponentPane.LeftAnchor="10.0" />
+    <OutputPlug fx:id="output" text="Output" onMouseClicked="#connectOutput" ComponentPane.bottomAnchor="10.0"  ComponentPane.RightAnchor="10.0"/>
+
+    <Button layoutX="235.0" layoutY="147.0" mnemonicParsing="false" text="Reset" />
 
 </ComponentPane>

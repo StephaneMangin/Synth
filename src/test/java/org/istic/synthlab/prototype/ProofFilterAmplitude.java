@@ -7,6 +7,7 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SineOscillator;
 import org.istic.synthlab.core.utils.parametrization.Potentiometer;
 import org.istic.synthlab.core.utils.parametrization.PotentiometerType;
+import org.junit.Test;
 
 /**
  * Created by cyprien on 11/02/16.
@@ -15,7 +16,8 @@ public class ProofFilterAmplitude {
 
     private Synthesizer synth;
 
-    public ProofFilterAmplitude() throws InterruptedException {
+    @Test
+    public void proofFilterAmplitude() throws InterruptedException {
         synth = JSyn.createSynthesizer();
 
         LineOut myOut = new LineOut();

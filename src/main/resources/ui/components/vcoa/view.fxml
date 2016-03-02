@@ -69,30 +69,5 @@
             </font>
         </RadioButton>
         <ImageView fx:id="oscillatorImage" fitHeight="55.0" fitWidth="55.0" layoutX="98.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true" />
-        <RadioButton fx:id="shortcut10Hz" layoutX="335.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10Hz">
-            <font>
-                <Font name="System" size="10.0" />
-            </font>
-        </RadioButton>
-        <RadioButton fx:id="shortcut1Hz" layoutX="341.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1Hz">
-            <font>
-                <Font name="System" size="10.0" />
-            </font>
-        </RadioButton>
-        <RadioButton fx:id="shortcut100Hz" layoutX="329.0" layoutY="100.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="100Hz">
-            <font>
-                <Font name="System" size="10.0" />
-            </font>
-        </RadioButton>
-        <RadioButton fx:id="shortcut1KHz" layoutX="400.0" layoutY="60.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="1KHz">
-            <font>
-                <Font name="System" size="10.0" />
-            </font>
-        </RadioButton>
-        <RadioButton fx:id="shortcut10KHz" layoutX="393.0" layoutY="80.0" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="10KHz">
-            <font>
-                <Font name="System" size="10.0" />
-            </font>
-        </RadioButton>
     </children>
 </ComponentPane>

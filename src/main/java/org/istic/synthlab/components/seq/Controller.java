@@ -51,7 +51,7 @@ public class Controller extends AbstractController {
 
             step1.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 1 changed from " + oldValue + " to " + newValue);
-               // sequencer.getReleasePotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(1, (Double) newValue);
             });
             step1.setTitle("Step 1");
             step1.setMinValue(-1);
@@ -59,7 +59,7 @@ public class Controller extends AbstractController {
 
             step2.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 2 changed from " + oldValue + " to " + newValue);
-               // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(2, (Double) newValue);
             });
             step2.setTitle("Step 2");
             step2.setMinValue(-1);
@@ -67,7 +67,7 @@ public class Controller extends AbstractController {
 
             step3.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 3 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(3, (Double) newValue);
             });
             step3.setTitle("Step 3");
             step3.setMinValue(-1);
@@ -75,7 +75,7 @@ public class Controller extends AbstractController {
 
             step4.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 4 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(4, (Double) newValue);
             });
             step4.setTitle("Step 4");
             step4.setMinValue(-1);
@@ -83,7 +83,7 @@ public class Controller extends AbstractController {
 
             step5.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 5 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(5, (Double) newValue);
             });
             step5.setTitle("Step 5");
             step5.setMinValue(-1);
@@ -91,7 +91,7 @@ public class Controller extends AbstractController {
 
             step6.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 6 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(6, (Double) newValue);
             });
             step6.setTitle("Step 6");
             step6.setMinValue(-1);
@@ -100,7 +100,7 @@ public class Controller extends AbstractController {
 
             step7.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 7 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(7, (Double) newValue);
             });
             step7.setTitle("Step 7");
             step7.setMinValue(-1);
@@ -109,11 +109,13 @@ public class Controller extends AbstractController {
 
             step8.valueProperty().addListener((observable, oldValue, newValue) -> {
                 System.out.println("Step 8 changed from " + oldValue + " to " + newValue);
-                // eg.getAttackPotentiometer().setValue((double) newValue);
+                this.sequencer.setStepValue(8, (Double) newValue);
             });
             step8.setTitle("Step 8");
             step8.setMinValue(-1);
             step8.setMaxValue(1);
+
+
         }
 
 }
