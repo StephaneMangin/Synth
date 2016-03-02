@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import javax.swing.*;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
 

@@ -10,11 +10,6 @@ import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.TreeSet;
-
 /**
  * This class manages the creation of cables
  * @author Sebastien
@@ -133,11 +128,11 @@ public class ConnectionManager {
         if (cable.isPlugged() || cable.isBeingPlugged()) {
             if (cable.getInputPlug() != null) {
                 Register.disconnect(cable.getInputPlug().getInput());
-                cable.deconnectInputPlug();
+                cable.disconnectInputPlug();
             }
             if (cable.getOutputPlug() != null) {
                 Register.disconnect(cable.getOutputPlug().getOutput());
-                cable.deconnectOutputPlug();
+                cable.disconnectOutputPlug();
             }
         }
     }
