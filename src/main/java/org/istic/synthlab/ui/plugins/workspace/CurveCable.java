@@ -92,7 +92,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         });
 
         // Add a context menu to the plug
-        //setOnMouseClicked(new ContextMenuHandler(this));
+        setOnMouseClicked(new ContextMenuHandler(this));
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
@@ -100,13 +100,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
-
-        setOnMouseClicked(null);
-        setOnMousePressed(null);
-        setOnMouseEntered(null);
-        setMouseTransparent(true);
-        setFocusTraversable(true);
-        setFocused(false);
     }
 
     /**

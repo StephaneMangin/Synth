@@ -20,7 +20,8 @@
             </font>
         </Label>
 
-        <OutputPlug layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+        <OutputPlug fx:id="output" layoutX="60.0"  ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+
         <ImageView fitHeight="100.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../images/whiteNoise.png"/>
