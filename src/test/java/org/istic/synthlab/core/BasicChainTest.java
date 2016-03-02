@@ -4,6 +4,7 @@ import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.scope.AudioScope;
 import com.jsyn.unitgen.LineOut;
+import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
 import org.istic.synthlab.components.mixer.Mixer;
@@ -372,40 +373,22 @@ public class BasicChainTest {
 
     @Test
     public void testSequencer() throws InterruptedException {
-        TriangleOscillator oscillator = new TriangleOscillator();
-
-        oscillator.frequency.set(440.);
-        oscillator.amplitude.set(0.9);
+        vcoa.setOscillatorType(OscillatorType.SQUARE);
+        vcoa.setExponentialFrequency(0.1);
+        vcoa.setLinearFrequency(0.5);
         Sequencer sequencer = new Sequencer("SEQ");
-        Synthesizer synthesis = Factory.createSynthesizer();
-        LineOut lineOut = new LineOut();
 
-        oscillator.getOutput().connect(sequencer.getInputgate().getUnitInputPort());
-        lineOut.input.connect(sequencer.getOutputSeq().getUnitOutputPort());
+        sequencer.getInputgate().connect(vcoa.getOutput());
+        sequencer.getOutputSeq().connect(out.getInput());
 
-        // For the display of curves
-        AudioScope scope = new AudioScope(synth);
-        scope.addProbe(sequencer.getOutputSeq().getUnitOutputPort());
 
-        scope.setTriggerMode(AudioScope.TriggerMode.AUTO);
-        scope.getModel().getTriggerModel().getLevelModel()
-                .setDoubleValue(0.0001);
-        scope.getView().setControlsVisible(true);
-        scope.start();
-        JFrame frame = new JFrame();
-        frame.add(scope.getView());
-        frame.pack();
-        frame.setVisible(true);
-
-        synthesis.add(lineOut);
-        synthesis.add(oscillator);
-        lineOut.start();
-        synthesis.start();
-        synthesis.sleepFor(3);
+        out.start();
+        synth.start();
+        synth.sleepFor(3);
         sequencer.activate();
-        synthesis.sleepFor(5);
+        synth.sleepFor(5);
         sequencer.deactivate();
-        synthesis.sleepFor(5);
+        synth.sleepFor(5);
     }
     @Test
     public void TestVcfa() throws InterruptedException {
