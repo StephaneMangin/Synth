@@ -108,31 +108,30 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * LEGEND :
      *      inputPlug = true when connected, false otherwize
      *      outputPlug = true when connected, false otherwize
-     *                                                                                      !inputPlug & !ouput
-     *              +--------------------------------------------------------------------------------------+
-     *              |                                                                                      |
-     *              |                        !inputPlug & !ouput         outputPlug                                |
-     *              |    +----------------------------------+       +------------------------------+       |
-     *              |    |                                  |       |                              |       |
-     *              |    |                            +-----+-------+-----+                        |       |
-     *              |    |            inputPlug & !outputPlug |State              | !inputPlug & ouput         |       |
-     *              |    |    +----------------------->        IN_PLUGGED +--------------------+   |       |
-     *              |    |    |                       |                   |                    |   |       |
-     *              |    |    |                       +-----+-------^-----+                    |   |       |
-     *         +----v----v----+---+       !inputPlug & !outputPlug  |       | !inputPlug & outputPlug +--------v---v----+  |
-     *         |State             <-------------------------+       +-----------------+ State           |  |
-     * O+------>        UNPLUGGED |                                                   |         PLUGGED +--+
-     *         |                  <-------------------------+       +-----------------+                 |
-     *         +---------^----+---+       !inputPlug & !outputPlug  |       | !outputPlug & inputPlug +--------^---^----+
-     *                   |    |                       +-----+-------v-----+                    |   |
-     *                   |    |       outputPlug & !inputPlug |State              |                    |   |
-     *                   |    +----------------------->       OUT_PLUGGED +--------------------+   |
-     *                   |                            |                   | !outputPlug & inputPlug        |
-     *                   |                            +-----+-------+-----+                        |
-     *                   |                  !inputPlug & !ouput |       | outputPlug & inputPlug               |
-     *                   +----------------------------------+       +------------------------------+
-     *
-     *                                                                  made with : http://www.asciiflow.com
+     *                                                                                              !inputPlug & !ouput
+     *        +--------------------------------------------------------------------------------------------------------+
+     *        |                                                                                                        |
+     *        |                          !inputPlug & !ouput       outputPlug                                          |
+     *        |    +---------------------------------------+       +-------------------------------------------+       |
+     *        |    |                                       |       |                                           |       |
+     *        |    |                                 +-----+-------+-----+                                     |       |
+     *        |    |         inputPlug & !outputPlug |State              | !inputPlug & ouput                  |       |
+     *        |    |    +---------------------------->        IN_PLUGGED +---------------------------------+   |       |
+     *        |    |    |                            |                   |                                 |   |       |
+     *        |    |    |                            +-----+-------^-----+                                 |   |       |
+     *    +---v----v----+---+      !inputPlug & !outputPlug|       |      !inputPlug & outputPlug +--------v---v----+  |
+     *    | State           <------------------------------+       +------------------------------+ State           |  |
+     *O--->       UNPLUGGED |                                                                     |         PLUGGED +--+
+     *    |                 <------------------------------+       +------------------------------+                 |
+     *    +--------^----+---+     !inputPlug & !outputPlug |       |      !outputPlug & inputPlug +--------^---^----+
+     *             |    |                            +-----+-------v-----+                                 |   |
+     *             |    |     outputPlug & !inputPlug|State              |                                 |   |
+     *             |    +---------------------------->       OUT_PLUGGED +---------------------------------+   |
+     *             |                                 |                   | !outputPlug & inputPlug             |
+     *             |                                 +-----+-------+-----+                                     |
+     *             |                   !inputPlug & !ouput |       | outputPlug & inputPlug                    |
+     *             +---------------------------------------+       +-------------------------------------------+
+     *                                                                              made with : http://www.asciiflow.com
      */
     public enum PlugState {
 
