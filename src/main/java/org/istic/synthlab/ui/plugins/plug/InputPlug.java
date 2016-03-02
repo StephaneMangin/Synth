@@ -15,7 +15,7 @@ public class InputPlug extends AbstractPlug {
         super("input");
 //        setOnMousePressed(event -> {
 //            if (hasCable()) {
-//                cable.deconnectInputPlug();
+//                cable.disconnectInputPlug();
 //                event.consume();
 //            }
 //        });

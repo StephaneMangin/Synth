@@ -10,6 +10,7 @@ import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
@@ -69,8 +70,11 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectOutputPlug(plug);
+
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectOutputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
@@ -100,18 +104,19 @@ public class ConnectionManager {
                 history.add(currentCable, StateType.CREATED);
             }
         }
-        // Connect the node and the cable
-        currentCable.connectInputPlug(plug);
+
+        if (!plug.hasCable()) {
+            // Connect the node and the cable
+            currentCable.connectInputPlug(plug);
+        }
 
         // Use of the curvecable internal state to know if connection is done
         if (currentCable.isPlugged()) {
             finished();
         } else {
-            // When clicked on the workspace while creating a cable, delet the cable
+            // When clicked on the workspace while creating a cable, delete the cable
             CoreController.getWorkspace().setOnMouseClicked(event -> {
-                if (currentCable != null) {
-                    deleteCable(currentCable);
-                }
+                deleteCable(currentCable);
             });
         }
     }
@@ -122,24 +127,23 @@ public class ConnectionManager {
      * @param cable
      */
     public void deleteCable(CurveCable cable) {
-        if (cable != null && cable.isPlugged()) {
-            removeCable(cable);
+        if (cable != null ) {
+            if (cable.isPlugged()) {
+                Register.disconnect(cable.getInput().getInput());
+            }
+
+            if (cable.getPlugState() == CurveCable.PlugState.IN_PLUGGED) {
+                cable.disconnectInputPlug();
+            }
+            if (cable.getPlugState() == CurveCable.PlugState.OUT_PLUGGED) {
+                cable.disconnectOutputPlug();
+            }
+
+            CoreController.getWorkspace().getChildren().remove(cable);
             currentCable = null;
             // Then save to history
             history.add(cable, StateType.DELETED);
         }
-    }
-
-    /**
-     * Delete a cable and end the model connection
-     *
-     * @param cable The cable to delete
-     */
-    private void removeCable(final CurveCable cable) {
-        Register.disconnect(cable.getInput().getInput());
-        cable.deconnectInputPlug();
-        cable.deconnectOutputPlug();
-        CoreController.getWorkspace().getChildren().remove(cable);
     }
 
     /**

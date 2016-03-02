@@ -16,11 +16,12 @@ import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.StrokeLineCap;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.history.Origin;
+import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
+import java.awt.*;
 import java.util.UUID;
 
 /**
@@ -46,6 +47,10 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public int compareTo(Object o) {
         return this.toString().compareTo(o.toString());
+    }
+
+    public PlugState getPlugState() {
+        return plugState;
     }
 
     /**
@@ -101,7 +106,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         autosize();
     }
 
-     /**
+    /**
      * Manage the different internal connection related states of this plug
      *
      * LEGEND :
@@ -211,9 +216,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      */
     private void nextState() {
-        System.out.println(this + "\tLeaving => " + plugState);
+        //System.out.println(this + "\tLeaving => " + plugState);
         plugState = plugState.nextState(this);
-        System.out.println(this + "\tEntering => " + plugState);
+        //System.out.println(this + "\tEntering => " + plugState);
     }
 
     /**
@@ -238,7 +243,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //System.out.println(this + "::connectInputPlug");
         deactivateMouseTrackingHandlers();
         //if (plugState == PlugState.PLUGGED) {
-        //    deconnectInputPlug();
+        //    disconnectInputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.OUT_PLUGGED) {
             input = inputPlug;
@@ -268,9 +273,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      * @implSpec previously in PLUGGED state only
      *
      */
-    public void deconnectInputPlug() {
+    public void disconnectInputPlug() {
         System.out.println("DECONNECT INPUT PLUG");
-        //System.out.println(this + "::deconnectInputPlug");
+        //System.out.println(this + "::disconnectInputPlug");
         input.setCable(null);
         input = null;
         nextState();
@@ -301,7 +306,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         //System.out.println(this + "::connectOutputPlug");
         deactivateMouseTrackingHandlers();
         //if (plugState == PlugState.PLUGGED) {
-        //    deconnectOutputPlug();
+        //    disconnectOutputPlug();
         //}
         if (plugState == PlugState.UNPLUGGED || plugState == PlugState.IN_PLUGGED) {
             output = outputPlug;
@@ -330,9 +335,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
      *
      * @implSpec previously in PLUGGED state only
      */
-    public void deconnectOutputPlug() {
+    public void disconnectOutputPlug() {
         System.out.println("DECONNECT OUTPUT PLUG");
-        //System.out.println(this + "::deconnectOutputPlug");
+        //System.out.println(this + "::disconnectOutputPlug");
         output.setCable(null);
         output = null;
         nextState();
@@ -365,23 +370,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     public void setColor(Color color) {
         this.color = color;
         strokeProperty().set(color);
-    }
-
-    /**
-     * Recalulates position relatively to custom coordinates
-     *
-     * @param x
-     * @param y
-     */
-    public void reCenter(double x, double y){
-        this.setStartX(this.getStartX() - x);
-        this.setEndX(this.getEndX() - x);
-        this.setStartY(this.getStartY() - y);
-        this.setEndY(this.getEndY() - y);
-        this.setControlX1(this.getControlX1() - x);
-        this.setControlX2(this.getControlX2() - x);
-        this.setControlY1(this.getControlY1() - y);
-        this.setControlY2(this.getControlY2() - y);
     }
 
     /**
@@ -432,9 +420,9 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 //                    Point2D inputPoint = computeCoordinates(input);
 //                    Point2D outputPoint = computeCoordinates(output);
 //                    if (inputPoint.distance(clickPoint) < outputPoint.distance(clickPoint)) {
-//                        deconnectInputPlug();
+//                        disconnectInputPlug();
 //                    } else {
-//                        deconnectOutputPlug();
+//                        disconnectOutputPlug();
 //                    }
 //                    // Then call the connectionManager to give this plug
 //                    //CoreController.getConnectionManager().setCurrentCable((CurveCable) event.getSource());
@@ -487,6 +475,18 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         // Make the plug follow the cursor
         setMouseTransparent(true);
         CoreController.getWorkspace().setOnMouseMoved(new FollowCursor());
+
+        if (plugState == PlugState.IN_PLUGGED) {
+            final Point2D inputPosition = computeCoordinates(input);
+            setEndX(inputPosition.getX());
+            setEndY(inputPosition.getY());
+        }
+        else if (plugState == PlugState.OUT_PLUGGED) {
+            final Point2D outputPosition = computeCoordinates(output);
+            setStartX(outputPosition.getX());
+            setStartY(outputPosition.getY());
+        }
+
         // Cancel the drawing if we click on the void
         CoreController.getWorkspace().setOnMouseClicked(event -> {
             CoreController.getConnectionManager().deleteCable(this);
