@@ -1,10 +1,38 @@
 package org.istic.synthlab.components.keyboard;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import org.istic.synthlab.components.AbstractController;
 
 public class Controller extends AbstractController implements Initializable {
+    @FXML
+    private Button buttonQ;
+    @FXML
+    private Button buttonS;
+    @FXML
+    private Button buttonD;
+    @FXML
+    private Button buttonF;
+    @FXML
+    private Button buttonG;
+    @FXML
+    private Button buttonH;
+    @FXML
+    private Button buttonJ;
+    @FXML
+    private Button buttonZ;
+    @FXML
+    private Button buttonE;
+    @FXML
+    private Button buttonT;
+    @FXML
+    private Button buttonY;
+    @FXML
+    private Button buttonU;
+    @FXML
+    private Button buttonK;
+
     private Keyboard keyboard = new Keyboard("Keyboard");
     public Controller() {
         configure(keyboard);
