@@ -17,20 +17,19 @@ public class SequencerTest {
     @Before
     public void setUp() throws Exception {
         sequencer = new Sequencer("SEQUENCER");
+        sequencer.activate();
     }
 
     @Test
     public void testActivate() throws Exception {
-        sequencer.activate();
        assertTrue(sequencer.isActivated());
     }
 
-    @Test
-    public void testDesactivate() throws Exception {
-        sequencer.activate();
-        sequencer.deactivate();
-        assertFalse(sequencer.isActivated());
-    }
+//    @Test
+//    public void testDesactivate() throws Exception {
+//        sequencer.deactivate();
+//        assertFalse(sequencer.isActivated());
+//    }
 
     @Test
     public void testGetInputgate() throws Exception {

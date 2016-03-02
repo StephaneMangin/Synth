@@ -72,7 +72,7 @@ public class MixerGenerate {
         add.start();
         //mixerStereo.activate();
 
-        //vcoa.getOutput().connect(vcoa1.getInput());
+        //vcoa.getOutputPlug().connect(vcoa1.getInputPlug());
 
         //out.activate();
         lineOut.getInput().connect(add.output);

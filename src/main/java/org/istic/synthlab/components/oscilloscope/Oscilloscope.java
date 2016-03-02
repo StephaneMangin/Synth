@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.oscilloscope;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.visualizer.Visualizer;
 
 import javax.swing.*;

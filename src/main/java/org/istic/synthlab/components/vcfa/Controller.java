@@ -3,8 +3,7 @@ package org.istic.synthlab.components.vcfa;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.components.vca.Vca;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;

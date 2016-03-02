@@ -6,7 +6,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.components.AbstractController;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
@@ -35,10 +35,6 @@ public class Controller extends AbstractController {
     @FXML
     public RadioButton sawtoothRadio;
     @FXML
-    public RadioButton redNoiseRadio;
-    @FXML
-    public RadioButton whiteNoiseRadio;
-    @FXML
     private ImageView oscillatorImage;
     @FXML
     private Label frequency;
@@ -58,10 +54,6 @@ public class Controller extends AbstractController {
         vcoa.setAmplitudePulse(1);
         vcoa.setAmplitudeImpulse(1);
         vcoa.setAmplitudeSawTooth(1);
-
-        vcoa.setAmplitudeRedNoise(1);
-        vcoa.setAmplitudeWhiteNoise(1);
-
         vcoa.setExponentialFrequency(0.0);
 
     }
@@ -105,15 +97,11 @@ public class Controller extends AbstractController {
         squareRadio.setToggleGroup(groupRadio);
         triangleRadio.setToggleGroup(groupRadio);
         sawtoothRadio.setToggleGroup(groupRadio);
-        redNoiseRadio.setToggleGroup(groupRadio);
-        whiteNoiseRadio.setToggleGroup(groupRadio);
 
         sineRadio.setUserData("sineWave");
         squareRadio.setUserData("squareWave");
         triangleRadio.setUserData("triangleWave");
         sawtoothRadio.setUserData("sawtoothWave");
-        redNoiseRadio.setUserData("redNoiseWave");
-        whiteNoiseRadio.setUserData("whiteNoiseWave");
 
         groupRadio.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (groupRadio.getSelectedToggle() != null) {
@@ -132,12 +120,6 @@ public class Controller extends AbstractController {
                         break;
                     case "sawtoothWave":
                         vcoa.setOscillatorType(OscillatorType.SAWTOOTH);
-                        break;
-                    case "redNoiseWave":
-                        vcoa.setOscillatorType(OscillatorType.REDNOISE);
-                        break;
-                    case "whiteNoiseWave":
-                        vcoa.setOscillatorType(OscillatorType.WHITENOISE);
                         break;
                     default:
                         break;

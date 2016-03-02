@@ -1,6 +1,6 @@
 package org.istic.synthlab.components.vca;
 
-import org.istic.synthlab.components.AbstractComponent;
+import org.istic.synthlab.core.components.AbstractComponent;
 import org.istic.synthlab.core.modules.functions.IFunction;
 import org.istic.synthlab.core.modules.functions.Multiply;
 import org.istic.synthlab.core.modules.modulators.IModulator;

@@ -33,7 +33,6 @@ public class VcoaTest {
         assertNotNull(vcoa.getImpulseOutput());
         assertNotNull(vcoa.getSawToothOutput());
         assertNotNull(vcoa.getTriangleOutput());
-        assertNotNull(vcoa.getRedNoiseOutput());
         assertFalse(Channel.isEmpty());
     }
 
