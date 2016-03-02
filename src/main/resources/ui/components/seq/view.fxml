@@ -35,6 +35,6 @@
     <InputPlug fx:id="input" text="Gate" onMouseClicked="#connectInputGate" ComponentPane.bottomAnchor="10.0"  ComponentPane.LeftAnchor="10.0" />
     <OutputPlug fx:id="output" text="Output" onMouseClicked="#connectOutput" ComponentPane.bottomAnchor="10.0"  ComponentPane.RightAnchor="10.0"/>
 
-    <Button layoutX="235.0" layoutY="147.0" mnemonicParsing="false" text="Reset" />
+    <Button layoutX="235.0" layoutY="147.0" mnemonicParsing="false" text="Reset"  />
 
 </ComponentPane>
