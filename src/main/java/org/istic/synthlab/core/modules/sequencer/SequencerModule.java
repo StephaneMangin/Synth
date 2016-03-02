@@ -41,6 +41,7 @@ public class SequencerModule extends UnitGate implements ISequencer {
 
         Register.declare(component, this);
         Register.declare(component, this.ioMultiply);
+
         this.output.connect(this.ioMultiply.inputC);
 
         this.iInput = Factory.createInput("InputGate", component, this.inputSignal);
@@ -68,9 +69,9 @@ public class SequencerModule extends UnitGate implements ISequencer {
         for (int i = start; i < limit; i++ ){
             boolean triggered = input.checkGate(i);
             if (triggered) {
-                outputs[i] = samples[i];
                 this.nextStep();
             }
+            outputs[i] = samples[i];
         }
     }
 

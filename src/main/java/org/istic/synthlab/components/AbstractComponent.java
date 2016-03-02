@@ -84,8 +84,8 @@ public abstract class AbstractComponent implements IComponent {
                 ModulatorType.BYPASS, null);
         frequencyModulator = Factory.createModulator(
                 "modFreq", this,
-                ModulatorType.FREQUENCY,
-                PotentiometerType.EXPONENTIAL);
+                ModulatorType.BYPASS,
+                null);
         amplitudeModulator = Factory.createModulator(
                 "modAmp", this,
                 ModulatorType.AMPLITUDE,
