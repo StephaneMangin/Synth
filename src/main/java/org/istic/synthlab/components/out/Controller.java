@@ -47,6 +47,7 @@ public class Controller extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        amplitude.setValue(componentOut.getAmModulator().getValue());
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
