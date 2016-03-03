@@ -91,9 +91,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#defaultZoom" text="Normal"/>
                     </Menu>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <MenuItem mnemonicParsing="false" text="About"/>
-                </Menu>
             </MenuBar>
         </VBox>
     </top>
