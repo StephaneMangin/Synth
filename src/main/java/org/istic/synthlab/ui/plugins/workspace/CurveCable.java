@@ -155,7 +155,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setControlY2(hangPointEnd.getY());
     }
 
-
     /**
      * Manage the different internal connection related states of this plug
      *
@@ -575,9 +574,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 case "name":
                     setName((String)o);
                     break;
-                case "fill":
-                    setFill(Color.valueOf((String)o));
-                    break;
                 case "stroke":
                     setStroke(Color.valueOf((String)o));
                     break;
@@ -626,8 +622,4 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         nextState();
     }
 
-
-    private void mouseEnteredCable(){
-        System.out.println("coucou");
-    }
 }
