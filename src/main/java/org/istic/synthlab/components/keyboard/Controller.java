@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import org.istic.synthlab.components.AbstractController;
+import org.istic.synthlab.core.modules.keyboard.Note;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
 
 import java.net.URL;
@@ -99,6 +100,12 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     public void hPressed(final KeyEvent event) {
         System.out.println(event.getSource());
+        keyboard.playNote(Note.LA);
+    }
+    @FXML
+    public void hReleased(final KeyEvent event) {
+        System.out.println(event.getSource());
+        keyboard.releaseNote();
     }
 
     /**
