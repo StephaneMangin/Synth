@@ -96,7 +96,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
-        setFill(Color.TRANSPARENT);
+        setFill(null);
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
@@ -122,7 +122,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             midPoint = initial.midpoint(mouse);
         }
 
-        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX());
+        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX()/2);
         setControlX1(hangPoint.getX());
         setControlY1(hangPoint.getY());
         setControlX2(hangPoint.getX());
@@ -564,7 +564,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
-        obj.put("fill", getFill().toString());
+        //obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
         obj.put("state", plugState.name());
