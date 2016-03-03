@@ -134,4 +134,8 @@ public class Controller extends AbstractController {
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         frequency.setText(String.valueOf(twoDForm.format(vcoa.getFrequency())) + "Hz");
     }
+
+    public ToggleGroup getRadioGroup() {
+        return groupRadio;
+    }
 }

@@ -56,6 +56,7 @@ public class Controller extends AbstractController {
 
         recordButton.setOnMouseClicked(new RecordEventHandler());
         muteButton.setOnMouseClicked(new MuteEventHandler());
+
     }
 
     /**

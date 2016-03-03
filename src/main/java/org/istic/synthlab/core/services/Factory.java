@@ -1,9 +1,11 @@
 package org.istic.synthlab.core.services;
 
+import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
@@ -13,12 +15,14 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.Input;
 import org.istic.synthlab.core.modules.io.Output;
+import org.istic.synthlab.core.modules.keyboard.IKeyboard;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
+import org.istic.synthlab.core.modules.keyboard.Keyboard;
 import org.istic.synthlab.core.modules.whitenoise.IWhiteNoise;
 import org.istic.synthlab.core.modules.whitenoise.WhiteNoise;
 import org.istic.synthlab.core.modules.oscillators.*;
@@ -143,6 +147,23 @@ public class Factory {
         return synthesizer;
     }
 
+    public static void uglyResetSynthesizer() {
+
+        for(IComponent c : Register.mappingGenerator.keySet()){
+            for(UnitGenerator ug : Register.mappingGenerator.get(c)){
+                synthesizer.remove(ug);
+            }
+        }
+
+        Register.mappingGenerator.clear();
+        Register.mappingInput.clear();
+        Register.mappingOutput.clear();
+
+        ((SynthesisEngine) synthesizer).printConnections();
+
+
+    }
+
     /**
      * Create modular based on potentiometer
      *
@@ -207,16 +228,44 @@ public class Factory {
         }
     }
 
+    /**
+     * Create a simple oscilloscope module for the Oscilloscope component
+     *
+     * @param component IComponent
+     * @return IOscilloscope
+     */
     public static IOscilloscope createOscilloscope(IComponent component) {
         return new Oscilloscope(component);
     }
 
+    /**
+     * Create a simple mixer module for the Mixer component
+     *
+     * @param component IComponent
+     * @return IMix
+     */
     public static IMix createMixer(IComponent component){
         return new Mix(component);
     }
 
+    /**
+     * Create a simple sequencer module for the Sequencer component
+     *
+     * @param component IComponent
+     * @return ISequencer
+     */
     public static ISequencer createSequencer(IComponent component){
         return new SequencerModule(component);
+    }
+
+    /**
+     * Create a simple keyboard module for the Keyboard component
+     *
+     * @param component IComponent
+     * @return IKeyboard
+     */
+    public static IKeyboard createKeyboard(IComponent component){
+        return new Keyboard(component);
     }
 
 }

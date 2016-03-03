@@ -76,19 +76,19 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         // Modify the control points as the coordinate of the curve change
         startXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         startYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY1(newValue.doubleValue() + newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endXProperty().addListener((observable, oldValue, newValue) -> {
-            setControlX2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         endYProperty().addListener((observable, oldValue, newValue) -> {
-            setControlY2(newValue.doubleValue() - newValue.doubleValue() % 100);
+            computeHangPoint();
         });
 
         // Add a context menu to the plug
@@ -96,10 +96,49 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
-        setFill(Color.TRANSPARENT);
+        setFill(null);
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+    }
+
+    private void computeHangPoint() {
+        Point2D midPointStart = null;
+        Point2D hangPointStart = null;
+        Point2D midPointEnd = null;
+        Point2D hangPointEnd = null;
+
+        if (plugState == PlugState.IN_PLUGGED || plugState == plugState.PLUGGED) {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
+        }
+        else if (plugState == PlugState.OUT_PLUGGED) {
+            Point2D initial = new Point2D(getEndX(), getEndY());
+            Point2D mouse = new Point2D(getStartX(), getStartY());
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
+        }
+        else {
+            Point2D initial = new Point2D(getStartX(), getStartY());
+            Point2D mouse = new Point2D(getEndX(), getEndY());
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
+        }
+
+        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/4);
+        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/4);
+        setControlX1(hangPointStart.getX());
+        setControlY1(hangPointStart.getY());
+        setControlX2(hangPointEnd.getX());
+        setControlY2(hangPointEnd.getY());
     }
 
     /**
@@ -521,9 +560,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 case "name":
                     setName((String)o);
                     break;
-                case "fill":
-                    setFill(Color.valueOf((String)o));
-                    break;
                 case "stroke":
                     setStroke(Color.valueOf((String)o));
                     break;
@@ -537,7 +573,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
-        obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
         obj.put("state", plugState.name());

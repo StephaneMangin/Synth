@@ -137,6 +137,7 @@ public class CoreController implements Initializable {
         components.sort(String::compareTo);
 
         for (final String component: components) {
+            System.out.println(component);
             final URL image = getClass().getResource("/ui/components/" + component.toLowerCase() + "/images/small.png");
             if (image == null) {
                 continue;
@@ -294,6 +295,7 @@ public class CoreController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
                 getConnectionManager().getHistory().purge();
+                defaultZoom();
                 onPause();
             }
         }

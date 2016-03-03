@@ -12,7 +12,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.ui.CoreController;
-import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.history.Origin;
 import org.istic.synthlab.ui.history.State;
 import org.istic.synthlab.ui.history.StateType;
@@ -23,14 +22,14 @@ import java.io.IOException;
  * Allow direct insertion into a fxml file
  *
  * Example :
- *      <Potentiometer fx-id:="potentiometer" />
+ *      <Potentiometer fx:id="potentiometer" />
  *
  * @author Thibaut Rousseau <thibaut.rousseau@outlook.com>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
 public class Potentiometer extends Pane implements Origin {
 
-    private ComponentPane component;
+    private static final double MINIMUM_STEP = 2;
 
     @Override
     public String getName() {
@@ -98,17 +97,14 @@ public class Potentiometer extends Pane implements Origin {
 
     @Override
     public void setJson(JSONObject state) {
-
         state.forEach((s, o) -> {
-            switch(s) {
-                case "value":
-                    valueProperty().set((double) o);
-                    break;
-                case "id":
-                    setId((String) o);
-                    break;
-                case "name":
-                    setName((String) o);
+            switch (s) {
+                case "rotation":
+                    if (o instanceof java.math.BigDecimal) {
+                        rotateHandle(((java.math.BigDecimal)o).doubleValue());
+                    } else if (o instanceof Double){
+                        rotateHandle((Double)o);
+                    }
                     break;
                 default:
                     // Do nothing yet
@@ -118,9 +114,8 @@ public class Potentiometer extends Pane implements Origin {
 
     @Override
     public JSONObject getJson() {
-        StringBuffer buffer = new StringBuffer();
         JSONObject obj = new JSONObject();
-        obj.put("value", getValue());
+        obj.put("rotation", getRotationAngle());
         obj.put("id", getId());
         obj.put("name", getName());
         obj.put("componentId", getParent().getId());
@@ -139,14 +134,10 @@ public class Potentiometer extends Pane implements Origin {
         setJson(state.getContent());
     }
 
-    public void setComponent(ComponentPane component) {
-        this.component = component;
-    }
-
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
         @Override
         public void handle(final ScrollEvent event) {
-            rotateHandle(rotatorHandle.getRotate() + 5 * Math.signum(event.getDeltaY()));
+            rotateHandle(rotatorHandle.getRotate() + MINIMUM_STEP * Math.signum(event.getDeltaY()));
             event.consume();
         }
     }
@@ -195,6 +186,7 @@ public class Potentiometer extends Pane implements Origin {
 
     /**
      * Rotate the handle by taking in consideration the MIN and MAX values
+     *
      * @param degrees The angle to which the handle will be rotated, relative to the activate position, not the current one
      */
     private void rotateHandle(final double degrees) {
@@ -202,6 +194,15 @@ public class Potentiometer extends Pane implements Origin {
             rotatorHandle.setRotate(degrees);
             setValue(convertFromDegrees(degrees));
         }
+    }
+
+    /**
+     * Return the angle of the circular rotation of this potentiometer
+     *
+     * @return
+     */
+    private double getRotationAngle() {
+        return rotatorHandle.getRotate();
     }
 
     public void setTitle(final String value) {

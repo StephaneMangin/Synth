@@ -4,6 +4,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
@@ -63,6 +64,9 @@ public class HistoryImpl extends Observable implements History {
         TreeMap<Long, JSONObject> cables = new TreeMap<>();
         TreeMap<Long, JSONObject> workspace = new TreeMap<>();
         TreeMap<Long, JSONObject> potentiometers = new TreeMap<>();
+
+        Factory.uglyResetSynthesizer();
+
         ((JSONObject) parser.parse(reader)).forEach((s, o) -> {
             if (o instanceof JSONArray) {
                 JSONArray array = (JSONArray) o;
@@ -75,25 +79,24 @@ public class HistoryImpl extends Observable implements History {
 
                     switch(originType) {
                         case "component":
-                            System.out.println("component saved => " + obj);
                             components.put(time, obj);
                             break;
                         case "cable":
-                            System.out.println("cable saved => " + obj);
                             cables.put(time, obj);
                             break;
                         case "workspace":
-                            System.out.println("workspace saved => " + obj);
                             workspace.put(time, obj);
                             break;
                         case "potentiometer":
-                            System.out.println("potentiometer saved => " + obj);
                             potentiometers.put(time, obj);
                             break;
                     }
                 });
             }
         });
+
+
+
         // Check for each functionnal types and act dependently state types
         components.forEach((aLong, value) -> {
             // Get local vars
@@ -131,7 +134,6 @@ public class HistoryImpl extends Observable implements History {
 
             InputPlug inputPlug = null;
             OutputPlug outputPlug = null;
-            System.out.println("plug value => " + value);
             switch (StateType.valueOf((String) value.get("state"))) {
                 case DELETED:
                     break;
@@ -158,28 +160,28 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
-//        workspace.forEach((aLong, value) -> {
-//            // Get local vars
-//            JSONObject jsonObject = (JSONObject) value.get("content");
-//            String id = (String) jsonObject.get("id");
-//            switch (StateType.valueOf((String) value.get("state"))) {
-//                case CREATED:
-//                    // TODO: need a multiple workspace manageùment
-//                    break;
-//                case DELETED:
-//                    // TODO: need a multiple workspace manageùment
-//                    break;
-//                case CHANGED:
-//                    workspacePane.setJson(jsonObject);
-//                    break;
-//            }
-//        });
+        workspace.forEach((aLong, value) -> {
+            // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
+            String id = (String) jsonObject.get("id");
+            switch (StateType.valueOf((String) value.get("state"))) {
+                case CREATED:
+                    // TODO: need a multiple workspace manageùment
+                    break;
+                case DELETED:
+                    // TODO: need a multiple workspace manageùment
+                    break;
+                case CHANGED:
+                    workspacePane.setJson(jsonObject);
+                    break;
+            }
+        });
         potentiometers.forEach((aLong, value) -> {
             // Get local vars
             JSONObject jsonObject = (JSONObject) value.get("content");
             String id = (String) jsonObject.get("id");
-            String component = (String) jsonObject.get("componentId");
-            ComponentPane componentPane = workspacePane.getComponent(component);
+            String componentId = (String) jsonObject.get("componentId");
+            ComponentPane componentPane = workspacePane.getComponent(componentId);
             if (componentPane == null) {
                 throw new ExceptionInInitializerError("HISTORY: Componant Pane not found for potentiometer !");
             }
@@ -196,6 +198,9 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
+
+
+
     }
 
     @Override
@@ -227,10 +232,17 @@ public class HistoryImpl extends Observable implements History {
         State state = origin.getState();
         state.setType(type);
         // Remove previous state and origin identically elements
-        previousStates.removeIf(oldState ->
-                oldState.getOrigin().getId().equals(state.getOrigin().getId())
-                && oldState.getType() == state.getType()
-        );
+//        previousStates.removeIf(oldState -> {
+//                    if (oldState.getOrigin() instanceof Potentiometer && state.getOrigin() instanceof Potentiometer) {
+//                        return oldState.getOrigin().getId().equals(state.getOrigin().getId())
+//                                && oldState.getType() == state.getType()
+//                                && oldState.getContent().get("componentId").equals(state.getContent().get("componentId"));
+//                    } else {
+//                        return oldState.getOrigin().getId().equals(state.getOrigin().getId())
+//                                && oldState.getType() == state.getType();
+//                    }
+//                }
+//        );
         // Add the current state to previous ones
         previousStates.add(state);
         // purge next states became invalid
