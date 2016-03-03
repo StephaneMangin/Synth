@@ -1,9 +1,11 @@
 package org.istic.synthlab.ui.plugins.workspace;
 
 import javafx.scene.Node;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
 import net.minidev.json.JSONObject;
 import org.istic.synthlab.components.IController;
+import org.istic.synthlab.components.vcoa.Vcoa;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.plug.InputPlug;
 import org.istic.synthlab.ui.plugins.plug.OutputPlug;
@@ -47,18 +49,30 @@ public class ComponentPane extends AnchorPane implements Origin {
     public void setJson(JSONObject state) {
 
         state.forEach((s, o) -> {
-            switch(s) {
+            switch (s) {
                 case "layoutX":
-                    setLayoutX((double)o);
+                    setLayoutX((double) o);
                     break;
                 case "layoutY":
-                    setLayoutY((double)o);
+                    setLayoutY((double) o);
                     break;
                 case "id":
-                    setId((String)o);
+                    setId((String) o);
                     break;
                 case "name":
-                    setName((String)o);
+                    setName((String) o);
+                    break;
+
+
+                case "squareRadio":
+                case "sawtoothRadio":
+                case "triangleRadio":
+                case "sineRadio":
+                    getChildren().forEach(node -> {
+                        if (node.getId() != null && node.getId().equals(s) && (boolean)o) {
+                            ((RadioButton) node).setSelected(true);
+                        }
+                    });
                     break;
                 default:
                     // Do nothing yet
@@ -79,6 +93,18 @@ public class ComponentPane extends AnchorPane implements Origin {
         obj.put("type", "component");
         obj.put("id", getId());
         obj.put("name", getName());
+        List<String> radioGroupNames = new ArrayList<>();
+        radioGroupNames.add("squareRadio");
+        radioGroupNames.add("sawtoothRadio");
+        radioGroupNames.add("triangleRadio");
+        radioGroupNames.add("sineRadio");
+        radioGroupNames.forEach(s -> {
+            getChildren().forEach(node -> {
+                if (node.getId() != null && node.getId().equals(s)) {
+                    obj.put(s, ((RadioButton) node).isSelected());
+                }
+            });
+        });
         return obj;
     }
 
