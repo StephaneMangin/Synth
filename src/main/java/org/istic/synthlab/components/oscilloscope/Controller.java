@@ -54,7 +54,7 @@ public class Controller extends AbstractController {
 
         yScale.setTitle("Y Scale");
         yScale.setMinValue(0.1);
-        yScale.setMaxValue(10);
+        yScale.setMaxValue(50);
 
         chart.getData().add(samples);
 
@@ -62,8 +62,8 @@ public class Controller extends AbstractController {
         scaleAxis.setLowerBound(-1.0);
 
         yScale.valueProperty().addListener((observable, oldValue, newValue) -> {
-            scaleAxis.setUpperBound(10*(double)newValue);
-            scaleAxis.setLowerBound(-10*(double)newValue);
+            scaleAxis.setUpperBound(50*(double)newValue);
+            scaleAxis.setLowerBound(-50*(double)newValue);
         });
 
         new AnimationTimer() {
