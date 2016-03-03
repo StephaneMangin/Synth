@@ -35,9 +35,9 @@ public class Controller extends AbstractController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
-        output2.setText("Output 1");
+        output2.setText("Output 2");
         output2.setOutput(replicator.getOutput2());
-        output3.setText("Output 2");
+        output3.setText("Output 3");
         output3.setOutput(replicator.getOutput3());
     }
 

@@ -28,6 +28,7 @@ import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
+import org.istic.synthlab.ui.plugins.workspace.CurveCable;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.SubTypesScanner;
@@ -294,6 +295,7 @@ public class CoreController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
                 getConnectionManager().getHistory().purge();
+                defaultZoom();
                 onPause();
             }
         }
