@@ -97,13 +97,12 @@ public class Keyboard implements IKeyboard {
                 break;
         }
         voltageCv.getInput().set((octave+noteVoltage)/5);
-        voltageGate.getInput().set(5.0);
+        voltageGate.getInput().set(1.0);
     }
 
     @Override
     public void noteOff() {
-        voltageGate.getInput().set(0.0);
-        voltageCv.getInput().set(0.0);
+        voltageGate.getInput().set(-1.0);
     }
 
     @Override
