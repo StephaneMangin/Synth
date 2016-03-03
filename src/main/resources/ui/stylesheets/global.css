@@ -31,3 +31,13 @@
     -fx-background-insets: 17 1 17 22;
     -fx-background-radius: 5;
 }
+
+.white-key {
+    -fx-background-color: white;
+    -fx-border-style: hidden solid hidden hidden;
+}
+
+.black-key {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
