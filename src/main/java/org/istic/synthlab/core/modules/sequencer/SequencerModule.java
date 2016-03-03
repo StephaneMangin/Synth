@@ -1,14 +1,14 @@
 package org.istic.synthlab.core.modules.sequencer;
 
 import com.jsyn.ports.UnitInputPort;
-import com.jsyn.unitgen.MultiplyAdd;
+import com.jsyn.unitgen.Multiply;
 import com.jsyn.unitgen.UnitGate;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.core.services.Register;
-import org.istic.synthlab.core.utils.jsyn.VoltageProducer;
+import org.istic.synthlab.core.utils.functions.VoltageProducer;
 
 /**
  * @author Dechaud John Marc johnmarcdechaud[at]gmail[dot]com on 2/22/16.
@@ -21,7 +21,7 @@ public class SequencerModule extends UnitGate implements ISequencer {
     // The iOutput port for the sequencer
     private IOutput iOutput;
     // The out signal
-    private MultiplyAdd ioMultiply;
+    private Multiply ioMultiply;
     // Current Step
     protected int currentStep;
     // A table of the different step (8 step)
@@ -34,7 +34,7 @@ public class SequencerModule extends UnitGate implements ISequencer {
 
 
     public SequencerModule(IComponent component) {
-        this.ioMultiply = new MultiplyAdd();
+        this.ioMultiply = new Multiply();
 
         this.inputSignal = new UnitInputPort("inputSignal");
         this.inputSignal.setDefault(0.0);
@@ -43,7 +43,7 @@ public class SequencerModule extends UnitGate implements ISequencer {
         Register.declare(component, this);
         Register.declare(component, this.ioMultiply);
 
-        this.output.connect(this.ioMultiply.inputC);
+        this.output.connect(this.ioMultiply.inputB);
 
         this.iInput = Factory.createInput("InputGate", component, this.inputSignal);
         this.iOutput = Factory.createOutput("OutputPort", component, this.ioMultiply.output);
@@ -185,10 +185,9 @@ public class SequencerModule extends UnitGate implements ISequencer {
 
     @Override
     public boolean isActivated() {
-
         if(this.input.isOff())
-            return false;
-        else
             return true;
+        else
+            return false;
     }
 }

@@ -1,4 +1,4 @@
-package org.istic.synthlab.core.utils.jsyn;
+package org.istic.synthlab.core.utils.functions;
 
 import com.jsyn.unitgen.UnitOscillator;
 import com.jsyn.util.PseudoRandom;

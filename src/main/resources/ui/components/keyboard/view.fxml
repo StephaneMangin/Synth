@@ -5,10 +5,11 @@
 <?import javafx.scene.text.Font?>
 <?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
 <?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
 <ComponentPane fx:id="componentPane" maxHeight="-Infinity"
                maxWidth="-Infinity" minHeight="-Infinity"
                minWidth="-Infinity"
-               prefHeight="230.0" prefWidth="400.0"
+               prefHeight="280.0" prefWidth="400.0"
                styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
                xmlns:fx="http://javafx.com/fxml/1"
                fx:controller="org.istic.synthlab.components.keyboard.Controller">
@@ -32,4 +33,8 @@
     <Button fx:id="buttonT" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="187.5" mnemonicParsing="false" onKeyPressed="#tPressed" prefHeight="125.0" prefWidth="25.0" text="T" />
     <Button fx:id="buttonY" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="237.5" mnemonicParsing="false" onKeyPressed="#yPressed" prefHeight="125.0" prefWidth="25.0" text="Y" />
     <Button fx:id="buttonU" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="287.5" mnemonicParsing="false" onKeyPressed="#uPressed" prefHeight="125.0" prefWidth="25.0" text="U" />
+
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0" ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="gate" ComponentPane.rightAnchor="60.0" ComponentPane.bottomAnchor="10.0" text="Gate" onMouseClicked="#connectGate"/>
+
 </ComponentPane>

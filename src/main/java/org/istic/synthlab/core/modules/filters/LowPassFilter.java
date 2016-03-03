@@ -1,7 +1,6 @@
 package org.istic.synthlab.core.modules.filters;
 
 import com.jsyn.unitgen.FilterLowPass;
-import com.jsyn.unitgen.FilterStateVariable;
 import org.istic.synthlab.components.IComponent;
 
 /**

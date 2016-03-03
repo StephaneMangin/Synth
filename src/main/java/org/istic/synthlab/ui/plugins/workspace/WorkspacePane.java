@@ -272,7 +272,7 @@ public class WorkspacePane extends AnchorPane implements Origin {
      * Move the components so that there is no overlapping
      */
     private void layoutComponents() {
-        final List<Node> components = new ArrayList<>(this.getChildren().filtered(node -> !(node instanceof CurveCable)));
+        final List<Node> components = new ArrayList<>(getChildren().filtered(node -> !(node instanceof CurveCable)));
         Collections.reverse(components);
 
         while (components.size() > 0) {

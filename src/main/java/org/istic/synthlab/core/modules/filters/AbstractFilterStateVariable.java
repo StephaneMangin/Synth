@@ -1,6 +1,5 @@
 package org.istic.synthlab.core.modules.filters;
 
-import com.jsyn.ports.UnitOutputPort;
 import com.jsyn.unitgen.FilterStateVariable;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.io.IInput;

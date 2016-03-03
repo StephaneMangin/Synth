@@ -21,9 +21,9 @@ public class Sequencer extends AbstractComponent {
     public Sequencer(String name) {
         super(name);
         this.iSequencer = Factory.createSequencer(this);
-        getSourceGate().connect(this.iSequencer.getInputGatePort());
-        this.iSequencer.getOutputPort().connect(getSinkGate());
-        //this.activate();
+        getSource().connect(this.iSequencer.getInputGatePort());
+        this.iSequencer.getOutputPort().connect(getSink());
+        this.activate();
     }
 
     public IInput getInputgate(){

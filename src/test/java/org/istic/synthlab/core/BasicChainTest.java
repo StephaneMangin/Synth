@@ -59,7 +59,6 @@ public class BasicChainTest {
         out.start();
         synth.start();
         synth.sleepUntil(5);
-        ((SynthesisEngine)synth).printConnections();
     }
 
     @Test
@@ -186,9 +185,6 @@ public class BasicChainTest {
         synth.start();
 
         Assert.assertNotEquals(Register.retrieve(out.getInput()), Register.retrieve(out.getLineOut().getInput()));
-
-
-        ((SynthesisEngine)synth).printConnections();
 
         int n = 200;
         while (n >= 0) {
