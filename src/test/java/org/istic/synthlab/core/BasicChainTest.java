@@ -7,6 +7,7 @@ import com.jsyn.unitgen.LineOut;
 import com.jsyn.unitgen.SquareOscillator;
 import com.jsyn.unitgen.TriangleOscillator;
 import org.istic.synthlab.components.eg.Eg;
+import org.istic.synthlab.components.keyboard.Keyboard;
 import org.istic.synthlab.components.mixer.Mixer;
 import org.istic.synthlab.components.whitenoise.WhiteNoise;
 import org.istic.synthlab.components.out.Out;
@@ -15,6 +16,7 @@ import org.istic.synthlab.components.seq.Sequencer;
 import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.components.vcfa.Vcfa;
 import org.istic.synthlab.components.vcoa.Vcoa;
+import org.istic.synthlab.core.modules.keyboard.Note;
 import org.istic.synthlab.core.modules.oscillators.OscillatorType;
 import org.istic.synthlab.core.modules.oscillators.SineOscillator;
 import org.istic.synthlab.core.services.Factory;
@@ -416,6 +418,60 @@ public class BasicChainTest {
             synth.sleepFor(0.01);
             n--;
         }
+
+        ((SynthesisEngine)synth).printConnections();
+    }
+    @Test
+    public void TestKeyboard() throws InterruptedException {
+        Keyboard keyboard = new Keyboard("Nord Electro");
+
+        //Configuration
+        vcoa.setOscillatorType(OscillatorType.SINE);
+        vcoa.setAmplitudeSine(1);
+        vcoa.setExponentialFrequency(0.4);
+        vcoa.setLinearFrequency(0.5);
+
+        //Connection
+        keyboard.getOutputCv().connect(vcoa.getFm());
+        vcoa.getOutput().connect(this.out.getInput());
+
+        out.start();
+        synth.start();
+
+        synth.sleepFor(1);
+        keyboard.playNote(Note.RE);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.MI);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.FA);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.SOL);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.LA);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.SI);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.DOs);
+        synth.sleepFor(1);
+        keyboard.releaseNote();
+        synth.sleepFor(1);
+        keyboard.playNote(Note.DO);
+        keyboard.playNote(Note.X);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.RE);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.MI);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.FA);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.SOL);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.LA);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.SI);
+        synth.sleepFor(1);
+        keyboard.playNote(Note.DOs);
+        synth.sleepFor(1);
 
         ((SynthesisEngine)synth).printConnections();
     }
