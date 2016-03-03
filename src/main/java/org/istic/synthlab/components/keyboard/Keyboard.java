@@ -3,7 +3,7 @@ package org.istic.synthlab.components.keyboard;
 import org.istic.synthlab.components.AbstractComponent;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.keyboard.IKeyboard;
-import org.istic.synthlab.core.modules.keyboard.NOTE;
+import org.istic.synthlab.core.modules.keyboard.Note;
 import org.istic.synthlab.core.services.Factory;
 
 public class Keyboard extends AbstractComponent {
@@ -22,8 +22,12 @@ public class Keyboard extends AbstractComponent {
         this.keyboard.getOutputCV().connect(getSink());
     }
 
-    public void playNote(NOTE note){
+    public void playNote(Note note) {
+        keyboard.noteOn(note);
+    }
 
+    public void releaseNote() {
+        keyboard.noteOff();
     }
 
     public IOutput getOutputGate(){

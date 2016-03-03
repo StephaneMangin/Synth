@@ -24,5 +24,9 @@ public interface IKeyboard extends IModule, Resource{
     /**
      * Play the note
      * */
-    void note(NOTE note);
+    void noteOn(Note note);
+    /**
+     * Release the note
+     * */
+    void noteOff();
 }
