@@ -96,7 +96,7 @@ public class Controller extends AbstractController {
             if (button.isSelected()) {
                 componentOut.deactivate();
                 button.setSelected(true);
-                button.setText("Un-Mute");
+                button.setText("Unmute");
             } else {
                 componentOut.activate();
                 button.setSelected(false);
