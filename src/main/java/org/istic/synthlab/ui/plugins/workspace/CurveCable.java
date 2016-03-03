@@ -147,8 +147,8 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             midPointEnd.multiply(2/3);
         }
 
-        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/4);
-        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/4);
+        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/2);
+        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/2);
         setControlX1(hangPointStart.getX());
         setControlY1(hangPointStart.getY());
         setControlX2(hangPointEnd.getX());
