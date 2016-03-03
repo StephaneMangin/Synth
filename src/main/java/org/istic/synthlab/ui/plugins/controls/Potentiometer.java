@@ -29,6 +29,8 @@ import java.io.IOException;
  */
 public class Potentiometer extends Pane implements Origin {
 
+    private static final double MINIMUM_STEP = 2;
+
     @Override
     public String getName() {
         return title.getText();
@@ -97,14 +99,12 @@ public class Potentiometer extends Pane implements Origin {
     public void setJson(JSONObject state) {
         state.forEach((s, o) -> {
             switch (s) {
-                case "value":
-                    setValue((double) o);
-                    break;
-                case "id":
-                    setId((String) o);
-                    break;
-                case "name":
-                    setName((String) o);
+                case "rotation":
+                    if (o instanceof java.math.BigDecimal) {
+                        rotateHandle(((java.math.BigDecimal)o).doubleValue());
+                    } else if (o instanceof Double){
+                        rotateHandle((Double)o);
+                    }
                     break;
                 default:
                     // Do nothing yet
@@ -115,7 +115,7 @@ public class Potentiometer extends Pane implements Origin {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
-        obj.put("value", getValue());
+        obj.put("rotation", getRotationAngle());
         obj.put("id", getId());
         obj.put("name", getName());
         obj.put("componentId", getParent().getId());
@@ -137,7 +137,7 @@ public class Potentiometer extends Pane implements Origin {
     private class ScrollKnobEventHandler implements EventHandler<ScrollEvent> {
         @Override
         public void handle(final ScrollEvent event) {
-            rotateHandle(rotatorHandle.getRotate() + 5 * Math.signum(event.getDeltaY()));
+            rotateHandle(rotatorHandle.getRotate() + MINIMUM_STEP * Math.signum(event.getDeltaY()));
             event.consume();
         }
     }
@@ -186,6 +186,7 @@ public class Potentiometer extends Pane implements Origin {
 
     /**
      * Rotate the handle by taking in consideration the MIN and MAX values
+     *
      * @param degrees The angle to which the handle will be rotated, relative to the activate position, not the current one
      */
     private void rotateHandle(final double degrees) {
@@ -193,6 +194,15 @@ public class Potentiometer extends Pane implements Origin {
             rotatorHandle.setRotate(degrees);
             setValue(convertFromDegrees(degrees));
         }
+    }
+
+    /**
+     * Return the angle of the circular rotation of this potentiometer
+     *
+     * @return
+     */
+    private double getRotationAngle() {
+        return rotatorHandle.getRotate();
     }
 
     public void setTitle(final String value) {
