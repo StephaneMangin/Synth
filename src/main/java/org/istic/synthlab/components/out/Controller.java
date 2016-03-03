@@ -47,6 +47,7 @@ public class Controller extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
         super.initialize(location, resources);
 
+        amplitude.setValue(componentOut.getAmModulator().getValue());
         amplitude.valueProperty().addListener((observable, oldValue, newValue) -> {
             componentOut.getAmModulator().setValue(newValue.doubleValue());
         });
@@ -95,7 +96,7 @@ public class Controller extends AbstractController {
             if (button.isSelected()) {
                 componentOut.deactivate();
                 button.setSelected(true);
-                button.setText("Un-Mute");
+                button.setText("Unmute");
             } else {
                 componentOut.activate();
                 button.setSelected(false);

@@ -13,12 +13,14 @@ import org.istic.synthlab.core.modules.io.IInput;
 import org.istic.synthlab.core.modules.io.IOutput;
 import org.istic.synthlab.core.modules.io.Input;
 import org.istic.synthlab.core.modules.io.Output;
+import org.istic.synthlab.core.modules.keyboard.IKeyboard;
 import org.istic.synthlab.core.modules.lineOuts.ILineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineOut;
 import org.istic.synthlab.core.modules.lineOuts.LineType;
 import org.istic.synthlab.core.modules.mix.IMix;
 import org.istic.synthlab.core.modules.mix.Mix;
 import org.istic.synthlab.core.modules.modulators.*;
+import org.istic.synthlab.core.modules.keyboard.Keyboard;
 import org.istic.synthlab.core.modules.whitenoise.IWhiteNoise;
 import org.istic.synthlab.core.modules.whitenoise.WhiteNoise;
 import org.istic.synthlab.core.modules.oscillators.*;
@@ -207,16 +209,44 @@ public class Factory {
         }
     }
 
+    /**
+     * Create a simple oscilloscope module for the Oscilloscope component
+     *
+     * @param component IComponent
+     * @return IOscilloscope
+     */
     public static IOscilloscope createOscilloscope(IComponent component) {
         return new Oscilloscope(component);
     }
 
+    /**
+     * Create a simple mixer module for the Mixer component
+     *
+     * @param component IComponent
+     * @return IMix
+     */
     public static IMix createMixer(IComponent component){
         return new Mix(component);
     }
 
+    /**
+     * Create a simple sequencer module for the Sequencer component
+     *
+     * @param component IComponent
+     * @return ISequencer
+     */
     public static ISequencer createSequencer(IComponent component){
         return new SequencerModule(component);
+    }
+
+    /**
+     * Create a simple keyboard module for the Keyboard component
+     *
+     * @param component IComponent
+     * @return IKeyboard
+     */
+    public static IKeyboard createKeyboard(IComponent component){
+        return new Keyboard(component);
     }
 
 }

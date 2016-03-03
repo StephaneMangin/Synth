@@ -100,6 +100,20 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+        addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> moveCable(mouseEvent));
+
+    }
+    private void moveCable(MouseEvent mouseEvent){
+        //Mouse before the control point
+        if(mouseEvent.getX() < getControlX1()){
+            setControlX1(mouseEvent.getX());
+            setControlY1(mouseEvent.getY());
+        }
+        //Mouse after the control point
+        if(mouseEvent.getX() > getControlX1()){
+            setControlX2(mouseEvent.getX());
+            setControlY2(mouseEvent.getY());
+        }
     }
 
     private void computeHangPoint() {
@@ -133,8 +147,8 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
             midPointEnd.multiply(2/3);
         }
 
-        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/4);
-        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/4);
+        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/2);
+        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/2);
         setControlX1(hangPointStart.getX());
         setControlY1(hangPointStart.getY());
         setControlX2(hangPointEnd.getX());
@@ -573,6 +587,7 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
+        //obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
         obj.put("state", plugState.name());
