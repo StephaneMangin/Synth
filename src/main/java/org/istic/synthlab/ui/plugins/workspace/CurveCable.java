@@ -560,9 +560,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
                 case "name":
                     setName((String)o);
                     break;
-                case "fill":
-                    setFill(Color.valueOf((String)o));
-                    break;
                 case "stroke":
                     setStroke(Color.valueOf((String)o));
                     break;
@@ -576,7 +573,6 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
     @Override
     public JSONObject getJson() {
         JSONObject obj = new JSONObject();
-        obj.put("fill", getFill().toString());
         obj.put("stroke", getStroke().toString());
         obj.put("type", "cable");
         obj.put("state", plugState.name());
