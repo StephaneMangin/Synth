@@ -171,7 +171,7 @@ public class Controller extends AbstractController implements Initializable {
                 buttonZ.setStyle("-fx-background-color: black;");
                 break;
             case Q:
-                buttonK.setStyle("-fx-background-color: white;");
+                buttonQ.setStyle("-fx-background-color: white;");
                 break;
             default:
                 break;
