@@ -1,9 +1,11 @@
 package org.istic.synthlab.core.services;
 
+import com.jsyn.JSyn;
 import com.jsyn.Synthesizer;
 import com.jsyn.engine.SynthesisEngine;
 import com.jsyn.ports.UnitInputPort;
 import com.jsyn.ports.UnitOutputPort;
+import com.jsyn.unitgen.UnitGenerator;
 import org.istic.synthlab.components.IComponent;
 import org.istic.synthlab.core.modules.envelope.EnvelopeDAHDSR;
 import org.istic.synthlab.core.modules.envelope.IEnvelopeDAHDSR;
@@ -143,6 +145,23 @@ public class Factory {
             // Parametrization of the synthesizer
         }
         return synthesizer;
+    }
+
+    public static void uglyResetSynthesizer() {
+
+        for(IComponent c : Register.mappingGenerator.keySet()){
+            for(UnitGenerator ug : Register.mappingGenerator.get(c)){
+                synthesizer.remove(ug);
+            }
+        }
+
+        Register.mappingGenerator.clear();
+        Register.mappingInput.clear();
+        Register.mappingOutput.clear();
+
+        ((SynthesisEngine) synthesizer).printConnections();
+
+
     }
 
     /**

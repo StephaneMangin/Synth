@@ -4,6 +4,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONStyle;
 import net.minidev.json.parser.JSONParser;
+import org.istic.synthlab.core.services.Factory;
 import org.istic.synthlab.ui.CoreController;
 import org.istic.synthlab.ui.plugins.workspace.ComponentPane;
 import org.istic.synthlab.ui.plugins.workspace.WorkspacePane;
@@ -63,6 +64,9 @@ public class HistoryImpl extends Observable implements History {
         TreeMap<Long, JSONObject> cables = new TreeMap<>();
         TreeMap<Long, JSONObject> workspace = new TreeMap<>();
         TreeMap<Long, JSONObject> potentiometers = new TreeMap<>();
+
+        Factory.uglyResetSynthesizer();
+
         ((JSONObject) parser.parse(reader)).forEach((s, o) -> {
             if (o instanceof JSONArray) {
                 JSONArray array = (JSONArray) o;
@@ -94,6 +98,9 @@ public class HistoryImpl extends Observable implements History {
                 });
             }
         });
+
+
+
         // Check for each functionnal types and act dependently state types
         components.forEach((aLong, value) -> {
             // Get local vars
@@ -196,6 +203,9 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
+
+
+
     }
 
     @Override
