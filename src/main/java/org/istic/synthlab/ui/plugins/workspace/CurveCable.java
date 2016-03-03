@@ -100,34 +100,61 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
+        addEventFilter(MouseEvent.MOUSE_DRAGGED, mouseEvent -> moveCable(mouseEvent));
+
+    }
+    private void moveCable(MouseEvent mouseEvent){
+        //Mouse before the control point
+        if(mouseEvent.getX() < getControlX1()){
+            setControlX1(mouseEvent.getX());
+            setControlY1(mouseEvent.getY());
+        }
+        //Mouse after the control point
+        if(mouseEvent.getX() > getControlX1()){
+            setControlX2(mouseEvent.getX());
+            setControlY2(mouseEvent.getY());
+        }
     }
 
     private void computeHangPoint() {
-        Point2D midPoint = null;
-        Point2D hangPoint = null;
+        Point2D midPointStart = null;
+        Point2D hangPointStart = null;
+        Point2D midPointEnd = null;
+        Point2D hangPointEnd = null;
 
         if (plugState == PlugState.IN_PLUGGED || plugState == plugState.PLUGGED) {
             Point2D initial = new Point2D(getStartX(), getStartY());
             Point2D mouse = new Point2D(getEndX(), getEndY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
         else if (plugState == PlugState.OUT_PLUGGED) {
             Point2D initial = new Point2D(getEndX(), getEndY());
             Point2D mouse = new Point2D(getStartX(), getStartY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
         else {
             Point2D initial = new Point2D(getStartX(), getStartY());
             Point2D mouse = new Point2D(getEndX(), getEndY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
 
-        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX()/2);
-        setControlX1(hangPoint.getX());
-        setControlY1(hangPoint.getY());
-        setControlX2(hangPoint.getX());
-        setControlY2(hangPoint.getY());
+        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/4);
+        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/4);
+        setControlX1(hangPointStart.getX());
+        setControlY1(hangPointStart.getY());
+        setControlX2(hangPointEnd.getX());
+        setControlY2(hangPointEnd.getY());
     }
+
 
     /**
      * Manage the different internal connection related states of this plug
@@ -599,4 +626,8 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
         nextState();
     }
 
+
+    private void mouseEnteredCable(){
+        System.out.println("coucou");
+    }
 }

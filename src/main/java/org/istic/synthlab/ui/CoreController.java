@@ -295,6 +295,7 @@ public class CoreController implements Initializable {
             if (result.get() == ButtonType.OK) {
                 workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
                 getConnectionManager().getHistory().purge();
+                defaultZoom();
                 onPause();
             }
         }
