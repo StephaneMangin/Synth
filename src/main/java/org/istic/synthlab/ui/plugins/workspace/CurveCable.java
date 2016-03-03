@@ -96,37 +96,49 @@ public class CurveCable extends CubicCurve implements Origin, Comparable {
 
         setStrokeWidth(7.5);
         setStrokeLineCap(StrokeLineCap.ROUND);
-        setFill(Color.TRANSPARENT);
+        setFill(null);
         setColor(Color.RED);
         setEffect(new InnerShadow());
         autosize();
     }
 
     private void computeHangPoint() {
-        Point2D midPoint = null;
-        Point2D hangPoint = null;
+        Point2D midPointStart = null;
+        Point2D hangPointStart = null;
+        Point2D midPointEnd = null;
+        Point2D hangPointEnd = null;
 
         if (plugState == PlugState.IN_PLUGGED || plugState == plugState.PLUGGED) {
             Point2D initial = new Point2D(getStartX(), getStartY());
             Point2D mouse = new Point2D(getEndX(), getEndY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
         else if (plugState == PlugState.OUT_PLUGGED) {
             Point2D initial = new Point2D(getEndX(), getEndY());
             Point2D mouse = new Point2D(getStartX(), getStartY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
         else {
             Point2D initial = new Point2D(getStartX(), getStartY());
             Point2D mouse = new Point2D(getEndX(), getEndY());
-            midPoint = initial.midpoint(mouse);
+            midPointStart = initial.midpoint(mouse);
+            midPointStart.multiply(2/3);
+            midPointEnd = initial.midpoint(mouse);
+            midPointEnd.multiply(2/3);
         }
 
-        hangPoint = new Point2D(midPoint.getX(), midPoint.getY() + midPoint.getX());
-        setControlX1(hangPoint.getX());
-        setControlY1(hangPoint.getY());
-        setControlX2(hangPoint.getX());
-        setControlY2(hangPoint.getY());
+        hangPointStart = new Point2D(midPointStart.getX(), midPointStart.getY() + midPointStart.getX()/4);
+        hangPointEnd = new Point2D(midPointEnd.getX(), midPointEnd.getY() + midPointEnd.getX()/4);
+        setControlX1(hangPointStart.getX());
+        setControlY1(hangPointStart.getY());
+        setControlX2(hangPointEnd.getX());
+        setControlY2(hangPointEnd.getY());
     }
 
     /**

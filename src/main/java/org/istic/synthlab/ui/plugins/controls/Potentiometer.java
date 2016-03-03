@@ -98,7 +98,7 @@ public class Potentiometer extends Pane implements Origin {
         state.forEach((s, o) -> {
             switch (s) {
                 case "value":
-                    valueProperty().set((double) o);
+                    setValue((double) o);
                     break;
                 case "id":
                     setId((String) o);
