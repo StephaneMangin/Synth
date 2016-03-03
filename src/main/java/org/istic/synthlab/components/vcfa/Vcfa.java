@@ -26,7 +26,8 @@ public class Vcfa extends AbstractComponent {
     public Vcfa(String name) {
         super(name);
         getSourceFm().connect(cutOffModulator.getInput());
-        cutOffModulator.getOutput().connect(filter.getInput());
+        cutOffModulator.getOutput().connect(filter.getFm());
+        filter.getInput().connect(getSource());
         filter.getOutput().connect(getSink());
     }
 

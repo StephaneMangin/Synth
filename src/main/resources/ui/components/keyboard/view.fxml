@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import org.istic.synthlab.ui.plugins.controls.CloseIcon?>
+<?import org.istic.synthlab.ui.plugins.workspace.ComponentPane?>
+<?import org.istic.synthlab.ui.plugins.plug.OutputPlug?>
+<ComponentPane fx:id="componentPane" maxHeight="-Infinity"
+               maxWidth="-Infinity" minHeight="-Infinity"
+               minWidth="-Infinity"
+               prefHeight="280.0" prefWidth="400.0"
+               styleClass="componentPane" xmlns="http://javafx.com/javafx/8"
+               xmlns:fx="http://javafx.com/fxml/1"
+               fx:controller="org.istic.synthlab.components.keyboard.Controller">
+    <CloseIcon layoutX="0.0" layoutY="0.0" onMouseClicked="#close"/>
+    <Label fx:id="title" ComponentPane.topAnchor="5.0" ComponentPane.leftAnchor="30.0" styleClass="title">
+        <font>
+            <Font name="System" size="20.0"/>
+        </font>
+    </Label>
+
+    <Button fx:id="buttonQ" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="-1.0" mnemonicParsing="false" onKeyPressed="#qPressed" prefHeight="200.0" prefWidth="50.0" text="(Q)"/>
+    <Button fx:id="buttonS" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="50.0" mnemonicParsing="false" onKeyPressed="#sPressed" prefHeight="200.0" prefWidth="50.0" text="(S)" />
+    <Button fx:id="buttonD" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="100.0" mnemonicParsing="false" onKeyPressed="#dPressed" prefHeight="200.0" prefWidth="50.0" text="(D)" />
+    <Button fx:id="buttonF" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="150.0" mnemonicParsing="false" onKeyPressed="#fPressed" prefHeight="200.0" prefWidth="50.0" text="(F)" />
+    <Button fx:id="buttonG" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="200.0" mnemonicParsing="false" onKeyPressed="#gPressed" prefHeight="200.0" prefWidth="50.0" text="(G)" />
+    <Button fx:id="buttonH" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="250.0" mnemonicParsing="false" onKeyPressed="#hPressed" prefHeight="200.0" prefWidth="50.0" text="(H)" />
+    <Button fx:id="buttonJ" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="300.0" mnemonicParsing="false" onKeyPressed="#jPressed" prefHeight="200.0" prefWidth="50.0" text="(J)" />
+    <Button fx:id="buttonK" styleClass="white-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="350.0" mnemonicParsing="false" onKeyPressed="#kPressed" prefHeight="200.0" prefWidth="50.0" text="(K)" />
+    <Button fx:id="buttonZ" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="37.5" mnemonicParsing="false" onKeyPressed="#zPressed" prefHeight="125.0" prefWidth="25.0" text="Z" />
+    <Button fx:id="buttonE" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="87.5" mnemonicParsing="false" onKeyPressed="#ePressed" prefHeight="125.0" prefWidth="25.0" text="E" />
+    <Button fx:id="buttonT" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="187.5" mnemonicParsing="false" onKeyPressed="#tPressed" prefHeight="125.0" prefWidth="25.0" text="T" />
+    <Button fx:id="buttonY" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="237.5" mnemonicParsing="false" onKeyPressed="#yPressed" prefHeight="125.0" prefWidth="25.0" text="Y" />
+    <Button fx:id="buttonU" styleClass="black-key" alignment="BOTTOM_CENTER" ComponentPane.topAnchor="30.0" layoutX="287.5" mnemonicParsing="false" onKeyPressed="#uPressed" prefHeight="125.0" prefWidth="25.0" text="U" />
+
+    <OutputPlug fx:id="output" ComponentPane.rightAnchor="110.0" ComponentPane.bottomAnchor="10.0" text="Output" onMouseClicked="#connectOutput"/>
+    <OutputPlug fx:id="gate" ComponentPane.rightAnchor="60.0" ComponentPane.bottomAnchor="10.0" text="Gate" onMouseClicked="#connectGate"/>
+
+</ComponentPane>

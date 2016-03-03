@@ -33,7 +33,6 @@ public class VcoaTest {
         assertNotNull(vcoa.getImpulseOutput());
         assertNotNull(vcoa.getSawToothOutput());
         assertNotNull(vcoa.getTriangleOutput());
-        assertNotNull(vcoa.getRedNoiseOutput());
         assertFalse(Channel.isEmpty());
     }
 
@@ -63,10 +62,9 @@ public class VcoaTest {
 
     @org.junit.Test
     @Deprecated
-    /** Value must be between 0 and 1*/
     public void testSetExponentialFrequency() throws Exception {
-        vcoa.setExponentialFrequency(30.0D);
-        assertEquals(30.0D, vcoa.getExponentialFrequency(), 1e-15);
+        vcoa.setExponentialFrequency(0.2);
+        assertEquals(7.0D, vcoa.getExponentialFrequency(), 1e-15);
     }
 
     @Test

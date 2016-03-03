@@ -158,22 +158,22 @@ public class HistoryImpl extends Observable implements History {
                     break;
             }
         });
-//        workspace.forEach((aLong, value) -> {
-//            // Get local vars
-//            JSONObject jsonObject = (JSONObject) value.get("content");
-//            String id = (String) jsonObject.get("id");
-//            switch (StateType.valueOf((String) value.get("state"))) {
-//                case CREATED:
-//                    // TODO: need a multiple workspace manageùment
-//                    break;
-//                case DELETED:
-//                    // TODO: need a multiple workspace manageùment
-//                    break;
-//                case CHANGED:
-//                    workspacePane.setJson(jsonObject);
-//                    break;
-//            }
-//        });
+        workspace.forEach((aLong, value) -> {
+            // Get local vars
+            JSONObject jsonObject = (JSONObject) value.get("content");
+            String id = (String) jsonObject.get("id");
+            switch (StateType.valueOf((String) value.get("state"))) {
+                case CREATED:
+                    // TODO: need a multiple workspace manageùment
+                    break;
+                case DELETED:
+                    // TODO: need a multiple workspace manageùment
+                    break;
+                case CHANGED:
+                    workspacePane.setJson(jsonObject);
+                    break;
+            }
+        });
         potentiometers.forEach((aLong, value) -> {
             // Get local vars
             JSONObject jsonObject = (JSONObject) value.get("content");

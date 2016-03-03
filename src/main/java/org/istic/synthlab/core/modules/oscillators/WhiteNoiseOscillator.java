@@ -1,7 +1,7 @@
 package org.istic.synthlab.core.modules.oscillators;
 
 import org.istic.synthlab.components.IComponent;
-import org.istic.synthlab.core.utils.jsyn.WhiteNoise;
+import org.istic.synthlab.core.utils.functions.WhiteNoise;
 
 /**
  * Created by blacknight on 14/02/16.

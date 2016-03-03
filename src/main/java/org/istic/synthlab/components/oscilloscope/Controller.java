@@ -12,6 +12,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * Controller of the Oscilloscope component.
+ *
  * @author Thibaud Hulin <<thibaud>dot<hulin>dot<cl>at<gmail>dot<com>>
  * @author Stephane Mangin <stephane[dot]mangin[at]freesbee[dot]fr>
  */
@@ -34,9 +36,13 @@ public class Controller extends AbstractController {
 
     private Oscilloscope oscilloscope = new Oscilloscope("Oscilloscope");
 
+    /**
+     * Constructor of the Oscilloscope component controller.
+     */
     public Controller() {
         configure(oscilloscope);
     }
+
     /**
      * When the component is created, it initialize the component representation adding listener and MouseEvent
      * @param location type URL
@@ -48,7 +54,7 @@ public class Controller extends AbstractController {
 
         yScale.setTitle("Y Scale");
         yScale.setMinValue(0.1);
-        yScale.setMaxValue(10);
+        yScale.setMaxValue(50);
 
         chart.getData().add(samples);
 
@@ -56,8 +62,8 @@ public class Controller extends AbstractController {
         scaleAxis.setLowerBound(-1.0);
 
         yScale.valueProperty().addListener((observable, oldValue, newValue) -> {
-            scaleAxis.setUpperBound(10*(double)newValue);
-            scaleAxis.setLowerBound(-10*(double)newValue);
+            scaleAxis.setUpperBound(50*(double)newValue);
+            scaleAxis.setLowerBound(-50*(double)newValue);
         });
 
         new AnimationTimer() {

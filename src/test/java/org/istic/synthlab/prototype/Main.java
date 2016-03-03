@@ -25,8 +25,12 @@ public class Main {
         //JSynSynchronizeTesting jst = new JSynSynchronizeTesting();
 
         //ProofFilterAmplitude pfa = new ProofFilterAmplitude();
-        ProofWriteToFile pwtf = new ProofWriteToFile();
-        pwtf.writeToFileWithComponent();
+        /*ProofWriteToFile pwtf = new ProofWriteToFile();
+        pwtf.writeToFileWithComponent();*/
+
+        //JsynMultiply jm = new JsynMultiply();
+
+        VcaPrototype vp = new VcaPrototype();
 
     }
 

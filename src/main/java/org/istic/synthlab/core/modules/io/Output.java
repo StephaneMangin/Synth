@@ -41,7 +41,9 @@ public class Output implements IOutput {
 
     @Override
     public void disconnect() {
-        Register.disconnect(this);
+        if (Register.isConnected(this)) {
+            Register.disconnect(this);
+        }
     }
 
     @Override

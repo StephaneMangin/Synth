@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import org.istic.synthlab.components.AbstractController;
-import org.istic.synthlab.components.vca.Vca;
 import org.istic.synthlab.ui.plugins.controls.Potentiometer;
 
 import java.net.URL;
@@ -19,7 +18,7 @@ public class Controller extends AbstractController implements Initializable {
     @FXML
     private Label frequency;
 
-    private Vcfa vcfa = new Vcfa("Voltage Controlled\n Filter");
+    private Vcfa vcfa = new Vcfa("Voltage Controlled Filter");
 
     public Controller() {
         configure(vcfa);
