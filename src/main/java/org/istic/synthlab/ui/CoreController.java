@@ -38,8 +38,13 @@ import org.reflections.util.FilterBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * FX controller of core.fxml
@@ -310,22 +315,26 @@ public class CoreController implements Initializable {
      */
     @FXML
     public void loadConfiguration(Event event) {
+        File file;
         cancelConfiguration(event);
         if (workspace.getChildrenUnmodifiable().size() == 0) {
-            final FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName(Main.DEFAULT_FILENAME);
-            fileChooser.setInitialDirectory(new File(Main.DEFAULT_PATH));
-            fileChooser.setTitle("Load File");
-            // Set extension filter
-            FileChooser.ExtensionFilter extFilter =
-                    new FileChooser.ExtensionFilter("Synthlab files (*.json, *.synthlab)", "*.json", "*.synthlab");
-            fileChooser.getExtensionFilters().add(extFilter);
+            if (event.getSource() instanceof MenuItem && ((MenuItem) event.getSource()).getText().contains(".synthlab")) {
+                file = new File(getClass().getResource("/setups/" + ((MenuItem) event.getSource()).getText()).getFile());
+            } else {
+                final FileChooser fileChooser = new FileChooser();
+                fileChooser.setInitialFileName(Main.DEFAULT_FILENAME);
+                fileChooser.setInitialDirectory(new File(Main.DEFAULT_PATH));
+                fileChooser.setTitle("Load File");
+                // Set extension filter
+                FileChooser.ExtensionFilter extFilter =
+                        new FileChooser.ExtensionFilter("Synthlab files (*.json, *.synthlab)", "*.json", "*.synthlab");
+                fileChooser.getExtensionFilters().add(extFilter);
 
-            final File file = fileChooser.showOpenDialog(stage);
-            if (file == null) {
-                return;
+                file = fileChooser.showOpenDialog(stage);
+                if (file == null) {
+                    return;
+                }
             }
-
             try {
                 manager.getHistory().load(file, workspace);
             } catch (Exception e) {

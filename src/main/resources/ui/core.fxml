@@ -70,6 +70,18 @@
                               text="Save As"/>
                     <MenuItem accelerator="Ctrl + O" mnemonicParsing="false" onAction="#loadConfiguration"
                               text="Open a project"/>
+
+                    <SeparatorMenuItem/>
+                        <Menu fx:id="setups" styleClass="setups" mnemonicParsing="false" text="Setups">
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Sprint1.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Sprint2.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Sprint3A.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Sprint3B.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Clavier.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="Enveloppe.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="PoumPoum.synthlab" />
+                            <MenuItem mnemonicParsing="false" onAction="#loadConfiguration" text="VCF_pilot.synthlab" />
+                        </Menu>
                     <SeparatorMenuItem/>
                     <MenuItem mnemonicParsing="false" onAction="#onActionClose" text="Close"/>
                 </Menu>
