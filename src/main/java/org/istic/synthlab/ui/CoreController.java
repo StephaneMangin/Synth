@@ -272,6 +272,10 @@ public class CoreController implements Initializable {
         fileChooser.setInitialDirectory(new File(Main.DEFAULT_PATH));
         fileChooser.setTitle("Save File");
         final File file = fileChooser.showSaveDialog(getStage());
+        if (file == null) {
+            return;
+        }
+
         try {
             manager.getHistory().save(file);
         } catch (IOException e) {
@@ -286,12 +290,12 @@ public class CoreController implements Initializable {
     public void cancelConfiguration(Event event) {
         if (workspace.getChildrenUnmodifiable().size() > 0) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("The workspace is not empty");
-            alert.setHeaderText("You will lost all your modifications");
-            alert.setContentText("Are your sure ?");
+            alert.setHeaderText("You will lose all your unsaved changes");
+            alert.setContentText("Are you sure?");
 
-            Optional<ButtonType> result = alert.showAndWait();
+            final Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 workspace.getChildren().removeAll(workspace.getChildrenUnmodifiable());
                 getConnectionManager().getHistory().purge();
@@ -318,6 +322,10 @@ public class CoreController implements Initializable {
             fileChooser.getExtensionFilters().add(extFilter);
 
             final File file = fileChooser.showOpenDialog(stage);
+            if (file == null) {
+                return;
+            }
+
             try {
                 manager.getHistory().load(file, workspace);
             } catch (Exception e) {
