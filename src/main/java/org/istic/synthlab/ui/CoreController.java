@@ -36,15 +36,16 @@ import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
 import java.util.*;
 import java.util.stream.Stream;
+import java.util.zip.ZipFile;
 
 /**
  * FX controller of core.fxml
@@ -314,12 +315,24 @@ public class CoreController implements Initializable {
      * Load a configuration
      */
     @FXML
-    public void loadConfiguration(Event event) {
+    public void loadConfiguration(Event event) throws IOException {
         File file;
         cancelConfiguration(event);
         if (workspace.getChildrenUnmodifiable().size() == 0) {
             if (event.getSource() instanceof MenuItem && ((MenuItem) event.getSource()).getText().contains(".synthlab")) {
-                file = new File(getClass().getResource("/setups/" + ((MenuItem) event.getSource()).getText()).getFile());
+                file = File.createTempFile(((MenuItem) event.getSource()).getText(), ".tmp");
+                file.createNewFile();
+                file.canWrite();
+                InputStream inputStream = getClass().getResourceAsStream("/setups/" + ((MenuItem) event.getSource()).getText());
+                OutputStream outputStream = new FileOutputStream(file);
+                byte buf[] = new byte[1024];
+                int len = inputStream.read(buf);
+                while(len > 0) {
+                    outputStream.write(buf, 0, len);
+                    len = inputStream.read(buf);
+                }
+                outputStream.write(buf, 0, buf.length);
+                outputStream.close();
             } else {
                 final FileChooser fileChooser = new FileChooser();
                 fileChooser.setInitialFileName(Main.DEFAULT_FILENAME);
